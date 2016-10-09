@@ -1,0 +1,381 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+ 
+
+
+   
+<!--  xhtml format, hw6 (tables) had to use transitional instead of strict dtd.  -->    
+<!--
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+the one below for strict html:
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+-->
+
+
+
+
+
+<!--  
+CSS Class - UCSCX - 2012.07 - Final Project 
+Also making it as part of my PSG page remake.
+Tin Ho 
+
+CSS validator: http://jigsaw.w3.org/css-validator/#validate_by_uri
+HTML validator: http://validator.w3.org/
+-->    
+    
+<head>
+	<title>Sys Admin Pocket Survival Guide</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" href="psg2.css"                type="text/css" media="screen">
+        <link rel="stylesheet" href="psg-table.css"           type="text/css">
+        <link rel="stylesheet" href="psg2-links-icons.css"    type="text/css">
+        <link rel="stylesheet" href="psg-positioning.css"     type="text/css">
+        <link rel="stylesheet" href="psg-print.css" type="text/css" media="print">
+</head>
+
+    
+<body>
+  <div id="fixie"> <!-- add a fixed position example for css final project.   potentially use to place ad, which will appear like a 3rd column on right -->
+          <div id="one"   class="skinny"><a href="plug/plug.html"><img src="plug/nema-5-20R-drawing.gif" alt="nema5pic" width="100" height="100"></a></div>
+          <div id="two"   class="skinny"><a href="fig/unixoid_hell.gif"><img src="fig/unixoid_hell.gif"  alt="vi-hell"   width="100" height="77" ></a></div>
+          <div id="three" class="skinny"><a href="fig/Assistant.gif"><img    src="fig/Assistant.gif"     alt="clippie"   width="100" height="77" ></a></div>
+          <div id="four"  class="skinny"><a href="http://tiny.cc/ms2012"><img   src="fig/bikeMS2012.png"    alt="bike MS"   width="100" height="100"></a></div>
+  </div> <!-- closes #fixie -->
+
+    
+<div id="wrapper">
+  <div id="header">
+    <div id="title">Sys Admin Pocket Survival Guide</div>
+    <div id="sub-title">A Quick Reference Guide for Sys Admins with Alzeimer :)</div>
+  </div> <!-- closes header -->
+  
+  <div id="navigation">
+      <!-- the replace was not inside hightlight area, but whole page, finc and put back some strong and em in doc...-->
+   <!--  strong, em, h5, or div are not allowed to be nested inside ul !!  -->
+       <div class="azul">Unix</div>
+	<ul>
+        <li> <a href="sul>.html">Solaris</a></li>
+        <li> <a href="linux.html">Linux</a></li>
+        <li> <a href="hpux.html">HP-UX</a> and <br>
+                <a href="hpux.supl.html">supplement</a></li>
+        <li> <a href="aix.html">AIX</a> and <br>
+                <a href="aix_cd_catalog.html">AIX CD catalog</a><br></li>
+        <li> <a href="irix.html">Irix</a></li>
+        <li> <a href="dos.html">Windows</a></li>
+        <li> <a href="apple.html">Apple Mac</a></li>
+	</ul>
+
+        <div class="azul">Storage</div>
+	<ul>
+        <li> <a href="netapp.html">NetApp</a></li>
+        <li> <a href="emc.html">EMC SAN - Clariion</a></li>
+        <li> <a href="emcCelerra.html">EMC NAS - Celerra</a></li>
+        <li> <a href="isilon.html">Isilon</a></li>     
+        <li> <a href="fs.html">Unix File System</a></li>
+        <li> <a href="fusionio.html">FusionIO "SSD"</a></li>
+	</ul>
+
+        <div class="azul">Big Data</div>
+	<ul>
+        <li> <a href="lsf.html">LSF, PBS/Torque, LSF.</a></li>
+        <li> <a href="mpi.html">MPI, PVM</a></li>
+        <li> <a href="sci-file.html">Science File Format/Info</a></li>
+        <li><a href="sci-app.html">Sci-App</a></li>
+	</ul>
+            
+      
+        <div class="azul">Unix Dev</div>
+	<ul>
+  	<li><a href="development.html">compilers, etc</a></li>
+  	<li><a href="shellScript.txt">sh/bash, csh/tcsh</a></li>
+  	<li><a href="awk.txt">AWK</a></li>
+  	<li><a href="perl.html">Perl</a></li>
+  	<li><a href="python.html">Python</a></li>
+  	<li><a href="php.html">PHP</a></li>
+  	<li><a href="javascript_eg.html">javascript_eg</a></li>
+   	<li>gcc</li>
+  	<li><a href="gdb.html">gdb</a></li>
+   	<li>java</li>
+   	<li>rcs, cvs, p4, subversion</li>
+	<li><a href="vi.html">vi</a></li> 
+	</ul>
+
+        <div class="azul">Network</div>
+	<ul>
+        <li> <a href="net.html">Network</a></li>
+        <li> <a href="infiniband.html">InfiniBand</a><br></li>
+        <li> <a href="acopia.html">Acopia</a></li>
+	</ul>
+
+        <div class="azul">Misc</div>
+	<ul>
+        <li> <a href="ldap.html">LDAP</a><BR></li>
+        <li> <a href="admin.html">General Unix Sys Admin </a></li>
+        <li> <a href="toul>.html">Sys Admin tools and performance tuning</a></li>
+        <li> <a href="vnc.html">VNC, X Emulation</a></li>
+        <li> <a href="backup.html">Unix backup</a></li>
+        <li> <a href="general_unix.html">Generic Unix Commands</a></li>
+        <li> <a href="veritas.html">Veritas</a></li>
+        <li> <a href="legato.html">Legato Networker</a></li>
+        <li> <a href="mysql.html">MySQL</a></li>
+        <li> <a href="html.txt">HTML tags</a></li>
+        <li> <a href="wiki.html">WiKi tags</a></li>
+        <li> <a href="3rdParty">3rd Party and Vendor Docs Cache</a></li>
+	</ul>
+
+        <div class="azul">IMHO</div>
+	<ul>
+        <li> <a href="monitor.html">Network monitoring toul> review</a></li>
+        <li> <a href="netArch.html">Network Architecture Approaches</a></li>
+        <li> <a href="docPlatform.html">Documentation platform</a></li>
+	</ul>
+
+        <div class="azul">Prod Review</div>
+	<ul>
+        <li><a href="termSvr.html">Terminal (Serial Console) Servers</a></li>
+        <li><a href="ent_prod.html">Enterprise Products</a></li>
+        <li><a href=""></a></li>
+        <li> &nbsp; </li>
+	</ul>
+            
+  </div> <!-- closes #navigation -->
+  
+  <div id="content">
+
+      <p>
+  Howdy there! This is my collection of notes that I have collected over the years 
+  as a Sys Admin. I am sharing them here hoping that they will be useful 
+  to you. These are concise notes to refresh your mind on how to do certain things, 
+  maybe you know what need to be done on one platform but don't know the commands 
+  on another. Or maybe just pointers for you to read up the relevan man pages 
+  or know what to google for :)  They are work in progress, I know I need to polish 
+  up my notes so that other can make sense of them.  As time permits...
+  <strong>which never really happens</strong> :-/
+  </p>
+  <p>
+  Thanks for those who have send kind and encouraging words to me, it is nice to know that 
+  these notes are actually useful for someone other than myself!  
+  </p>
+  <p>
+  And special thanks to those who send me notes about mistakes, some pretty bad ones that could have
+  caused someone to loose his/her job!  So, be warned, check the man pages etc when doing something that
+  could have negative impact (unexporting file system, shrinking volume, etc)!
+  </p>
+  <p>
+  Okay, after a while of not having a home, I am hosting PSG on dropbox now.
+  If you are bookmarking this, please use
+  <A HREF="http://tiny.cc/tin6150">http://tiny.cc/tin6150/</A>
+  Note that I am remaking the "main page" of PSG as part of my <strong>Internet Development classes.</strong>  
+  Some of the original contents are not yet linked here, please refer to the 
+  <a href="psg-orig.html">old page</a> for them.  
+  Some of my notes are not easily displayable in html, please see 
+  <a href="robot.txt">robot.txt</a>, <a href="scriptRosetta.rtf">unix script rosetta</a>, (more tba).
+  </p>
+  
+  <br><br>
+
+  <h2>Plugs Galore</h2>
+  
+  <p>
+  I need a <em>what</em> to power my new server?  Here is brief help.  For a more extensive guide, please see 
+  <a href="plug/plug.html">the plug page</a>
+  </p>
+  
+<table cellspacing="0">
+<caption>Common plugs for sys admins</caption>
+
+<colgroup class="group">
+<col class="plug-type">
+<col class="Plug">
+<col class="Receptacle">
+</colgroup>
+
+  <thead>
+	<tr>
+		<td scope="col">&nbsp;</td>
+		<th scope="col">Receptacle (wall outlet)</th>
+		<th scope="col">Plug (on cable)</th>
+	</tr>
+  </thead>
+  <tfoot>
+        <tr>
+                <td colspan="4" class="last">
+                    All the NEMA twist lock presented have essentially the same shape. Their main difference is the diameter of circle, 
+                    with L5-20 having the smallest diameter, L6-20 being in the middle, and L6-30 is the largest. <br>
+                    In IEC scheme, odd numbers are receptors, even are plugs (the ones with the pin out). <br>
+                    In a politically incorrect mnemonics, females are odd, males are even.
+                </td>
+        </tr>
+  </tfoot>
+  <tbody>
+	<tr class="altColor1">
+		<th scope="row">NEMA L6-30</th>
+                <td><img src="plug/nema-L6-30R.gif" alt="pic"></td>
+		<td><img src="plug/nema-L6-30P.gif" alt="pic"></td>
+	</tr>
+	<tr class="altColor2">
+		<th scope="row">NEMA L6-20</th>
+		<td><img src="plug/nema-L6-20R-drawing.gif" alt="pic"></td>
+		<td><img src="plug/nema-L6-20P.gif" alt="pic"></td>
+	</tr>
+	<tr class="altColor1">
+		<th scope="row">NEMA L5-20</th>
+		<td><img src="plug/nema-L5-20R-drawing.gif" alt="pic"></td>
+		<td><img src="plug/nema-L5-20P-drawing.gif" alt="pic"></td>
+        </tr>
+        <tr class="altColor2">
+    
+		<th scope="row">IEC C19/C20</th>
+		<td><img src="plug/iec-C19.gif" alt="pic"></td>
+		<td><img src="plug/iec-C20-plug.png" alt="pic"></td>
+	</tr>
+        <tr class="altColor1">
+		<th scope="row">IEC C13/C14</th>
+		<td><img src="plug/iec-C13-pdu.gif" alt="pic">
+                    <img src="plug/iec-C13-cord.gif" alt="pic">
+                </td>
+		<td><img src="plug/iec-C14-cord.gif" alt="pic">
+                    <img src="plug/iec-C14.gif" alt="pic">
+                </td>
+	</tr>
+  </tbody>
+</table>
+
+    <br><br>
+
+  
+  <H3>About me</H3>
+<p>
+I have been "hacking" computers for 10+ years now.  I started liking to fiddle with OS since college days in FIU, 
+and it is still a hobby when I am not hiking or biking or studying for biotech :-) 
+</p>
+
+<p>Drop me a line at <a href="https://plus.google.com/114127907203802598849/posts">G+</a> 
+    or reward me by using 
+    <a href="http://db.tt/W1wFD7Xy">this link</a> to get your own dropbox account (we'll both get an extra 500MB of free storage).
+</p>
+    
+
+<BR><BR>
+
+
+
+
+<A NAME="cc"></A>
+<A NAME="CreativeCommon"></A>
+<H3>Copyright info about this work
+</H3>    
+
+<p>
+This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/">Creative Commons Attribution-NonCommercial-ShareAlike2.5 License</a>.
+       <!--/Creative Commons License-->
+       <!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+       <Work rdf:about="">
+       <license rdf:resource="http://creativecommons.org/licenses/by-nc-sa/2.5/" />
+            <dc:title>Pocket Sys Admin Survival Guide</dc:title>
+            <dc:date>2005</dc:date>
+            <dc:description>A series of concise system administration notes</dc:description>
+            <dc:creator><Agent><dc:title>Tin Ho</dc:title></Agent></dc:creator>
+            <dc:rights><Agent><dc:title>Tin Ho</dc:title></Agent></dc:rights>
+            <dc:type rdf:resource="http://purl.org/dc/dcmitype/Text" />
+            <dc:source rdf:resource="http://www.cs.fiu.edu/~tho01/psg/" />
+            </Work>
+            <License rdf:about="http://creativecommons.org/licenses/by-nc-sa/2.5/"><permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+                                       <permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+                                       <requires rdf:resource="http://web.resource.org/cc/Notice"/><requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+                                       <prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+                                       <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/><requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
+            </License>
+            </rdf:RDF> -->
+
+
+<Strong>Pocket Sys Admin Survival Guide</Strong>: for content that I wrote, (<a
+ href="http://creativecommons.org/licenses/by-nc-sa/2.5/">CC</a>)  
+ <a href="http://creativecommons.org/learnmore"> <i>some rights reserved</i></a>.  
+ 2005,2012 Tin Ho [ tin6150 (at) gmail.com ]  <br>
+ 
+Some contents are "cached" here for easy reference. Sources include man pages, 
+vendor documents, online references, discussion groups, etc. Copyright of those 
+are obviously those of the vendor and original authors.  I am merely caching them here for quick reference and avoid broken URL problems.
+</p>
+
+  <br><br>
+
+
+<h3>Where is PSG hosted these days?</h3>
+  <div id="psg-url">
+  <a href="http://dl.dropbox.com/u/31360775/psg/psg2.html">http://dl.dropbox.com/u/31360775/psg/psg2.html</a> 
+  This new home page at dropbox<br>
+  
+  <A HREF="http://tiny.cc/tin6150"> 
+  http://tiny.cc/tin6150/</A>
+  New home in 2011.06.  <BR>
+
+
+
+<A HREF="http://unixville.com/~sn/psg/psg.html">http://unixville.com/~sn/psg/psg.html</A> 
+(coming soon)
+<BR>
+<a href="ftp://read:only@sn.is-a-geek.com/psg/psg.html">ftp://sn.is-a-geek.com/psg/psg.html</a> 
+My home "server".  Up sporadically.
+<BR>
+
+<!--
+Other caches in decreasing order of update frequency:  <BR>
+
+<A HREF="http://www.grumpyxmas.com/psg.html">
+http://www.grumpyxmas.com/psg.html
+</A> 
+(Google site, they are changing their policy and I may not be update these pages in the near future.  Last updated 2009-10-10)<BR>
+-->
+
+
+<A HREF="http://www.cs.fiu.edu/~tho01/psg/psg.html">http://www.cs.fiu.edu/~tho01/psg/psg.html</A> (no longer updated as of 2007-06)<BR>
+<A HREF="http://www.fiu.edu/~tho01/psg/psg.html">http://www.fiu.edu/~tho01/psg/psg.html</A> (no longer updated as of 2007-05)<BR>
+
+</div>       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  </div> <!-- #content -->
+  
+  
+  <div id="tailer">      
+            <div class="noicon">
+            <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/">
+                <img alt="Creative Commons License" src="http://creativecommons.org/images/public/somerights20.png"></a>
+            <a href="http://jigsaw.w3.org/css-validator/check/referer">
+                <img style="border:0;width:88px;height:31px"
+                    src="http://jigsaw.w3.org/css-validator/images/vcss-blue"
+                    alt="Valid CSS!">
+            </a>
+            <a href="http://validator.w3.org/check?uri=referer">
+                <img src="http://www.w3.org/Icons/valid-html401" alt="Valid HTML 4.01 Strict" height="31" width="88">
+            </a>
+        </div>
+  </div> <!-- #tailer -->
+
+  
+  
+  
+  
+  <div id="footer"> (CC 2012) Some Rights Reserved.</div>
+  
+</div> <!-- closes wrapper --> 
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<!-- 
+Tin Ho 2012.0428
+http://dl.dropbox.com/u/31360775/inet-dev-class/jQuery/assignment2.tin1.html
+-->
+<html>
+    <head>
+        <title>Assignment 2</title>
+        <style>
+            body {
+                min-height: 460px; background-color: #1c1c1c;
+                font: 14px Arial, Helvetica;
+            }
+            #carousel {
+                margin: auto; margin-top: 40px; padding: 5px;
+                width: 600px; height: 450px;
+                border:  1px solid #5c5c5c; border-radius: 5px;
+                -moz-box-shadow: 0px 0px 25px rgba(255,255,255,.5);
+                position: relative;
+            }
+            #keyPad {
+                width: 598px; height: 50px;
+                position: absolute; bottom: 5px; left:5px;
+                border: 1px solid #3f3f3f;
+                border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; background-color: #1f1f1f;
+            }
+            #navBar { text-align: center; margin-top: 15px; color: #5c5c5c; }
+            #navBar a { /*color: green*/; text-decoration: none; text-shadow: -1px -1px #000; margin: 0 15px; }
+            .screen { opacity: 0; }
+            .hide { display: none; }
+            .edge { color: grey; }     /* no next or prev viewport/image */
+        </style>
+    </head>
+    <body>
+        <div id="carousel">
+            <div id="viewPort">
+                <div id="vp_1" class="screen"><img src="image1.jpg"></div>
+                <div id="vp_2" class="screen hide"><img src="image2.jpg"></div>
+                <div id="vp_3" class="screen hide"><img src="image3.jpg"></div>
+                <div id="vp_4" class="screen hide"><img src="image4.jpg"></div>
+            </div>
+            <div id="keyPad">
+                <div id="navBar"><a href="prev" accesskey="P" >Prev</a>|<a href="next" accesskey="N">Next</a></div>
+                <!-- use alt+sh+P or N instead of mouse click, jQuery binds these as mouse click events automaticall -->
+            </div>
+        </div>
+    </body>
+
+<!--
+
+Create a photo carousel.
+Add template within viewPort. Use attached four images.
+Add JavaScript and jQuery to add behavior to the 'Prev' and 'Next' link.
+-->
+
+    <script type="text/javascript" src="jquery-1.6.2.js"></script>
+    <script>
+        //document.writeln("Testing...<BR>");   //this get written outside body, not always shown in browser
+        //console.log("jq script here.");
+        
+        // this fn swaps the view port of the carousel.  
+        var changeScreens = function(fromScreen, toScreen){
+            //console.log("running changeScreen fn")
+            $("#"+fromScreen).animate({opacity:'0'},500, function(){
+                    $("#"+fromScreen).hide();
+                    //console.log("changeScreen fn... animate/hide done")
+                    $("#"+toScreen).show();
+                    $("#"+toScreen).animate({opacity:'1'},500);
+                    console.log("changeScreen fn... animate/show done")
+            });
+            console.log("end changeScreen fn");  // this is logged before the lines inside the fn def above !!    
+            // cuz it use fn as a call back !
+        }
+
+        // this fn repaint the Prev|Next links, gray out to indicate edge screens
+        var redrawKeyPad = function(e) {
+            if(currentVp<=1){
+                //$("[href='prev']").addClass("edge").removeAttr("href").html("No Prev");
+                //in order to remove href link, 
+                //would have to rewrite a lot of code (eg change to access key or add an id)
+                //since most selector are based on href... 
+                $("[href='prev']").addClass("edge").html("No Prev");
+            } else {
+                $("[accesskey='P']").removeClass("edge").attr("href","prev").html("Prev");
+            }
+            if(currentVp>=numOfVp){
+                $("[href='next']").addClass("edge").html("No Next");
+            } else {
+                $("[href='next']").removeClass("edge").html("Next");
+            }
+        };
+
+        //initialization
+        var currentVp = 1;
+        $("#vp_"+currentVp).animate({opacity:'1'},400);
+        //$("#vp_1").animate({opacity:'1'},400);
+        redrawKeyPad($(this));
+
+        // prepare for next/prev request
+        //var numOfVp = 4;   
+        //number of view ports, count from DOM
+        var numOfVp = $("#viewPort").children().length; 
+        console.log(numOfVp);   // should be 4 in this eg.
+        var nextVp;
+        var prevVp;
+        $("a").bind('click', function(e){
+            e.preventDefault();
+            //console.log($(this).siblings().html());
+        });
+        
+        // create handler for next and prev 
+        //selector is html name=value pair, which need [] to define this selector, 
+        //and '' to enclose exact text match
+        $("[href='next']").bind('click', function(e){
+            console.log("clicked next. event data = " + e.data);
+            if(currentVp<numOfVp) {
+                nextVp=currentVp+1; 
+                //$(this).removeClass(".edge").html("Next");
+            };
+            changeScreens("vp_"+currentVp, "vp_"+nextVp);
+            currentVp=nextVp;
+            redrawKeyPad(e);
+        });
+        
+        $("[href='prev']").bind('click', function(e){
+            //e.preventDefault();
+            console.log("clicked on prev");
+            if(currentVp > 1) {
+                prevVp=currentVp-1;
+                //$(this).removeClass(".edge").html("Prev");
+            };
+            changeScreens("vp_"+currentVp, "vp_"+prevVp);
+            currentVp=prevVp;
+            redrawKeyPad(e);
+        });
+        
+    </script>
+</html>
+
+

@@ -1,0 +1,131 @@
+<html>
+    <head>
+        <title>Assignment 1</title>
+        <style>
+            body { font: 13px/1.2 Arial, Helvetica; }
+            .container { margin: 0 auto; width: 500px; }
+            ul { list-style: none; }
+            li { margin: 10px 0; border: 1px solid #ddd; border-width: 0 0 1px 1px; }
+            .master { font-size: 16px; font-weight: bold; background-color: #ccc; padding: 5px; cursor: pointer; }
+            .detail { padding: 5px; visibility: visible; color: red; display:none }
+            .detailXX { padding: 5px; visibility: hidden;  }
+    		.detailShow { padding: 5px; visibility: visible; }
+            <!-- avail options for visibility: hidden, collapse, visible, inherit.  don't seems to have a visibility: none -->'
+            <!-- display: none will redraw html and save the space not needed -->
+            <!-- visibility: none will still take up space, only prevent from viewing the text -->
+            <!-- in the above code, the visibility clause doesn't really do anything, display is the key-->
+            .detailButton { float: right}
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+            <ul class="list">
+                <li>
+                    <div class="master">Pre-foundation <button id="more0" class="detailButton">+</button></div>
+                    <div class="detail">
+                        Steve Jobs and Steve Wozniak were outcasts while they were in high school;
+                        by 1975, they had withdrawn from Reed College and UC Berkeley, respectively.
+                    </div>
+                </li>
+                <li>
+                    <div class="master">Apple I <button id="more1" class="detailButton">+</button></div>
+                    <div class="detail">
+                        Jobs managed to interest Wozniak in assembling a machine and selling it.
+                        The machine had only a few notable features. One was the use of a TV as the display system,
+                        whereas many machines had no display at all.
+                    </div>
+                </li>
+                <li>
+                    <div class="master">Apple II <button id="more2" class="detailButton">+</button></div>
+                    <div class="detail">
+                        Apple II was presented to the public at the first West Coast Computer Faire on April 16 and April 17, 1977.
+                        The main difference internally was a completely redesigned TV interface, which held the display in memory.
+                        Now not only useful for simple text display, the Apple II included graphics, and, eventually, color.
+                    </div>
+                </li>
+                <li>
+                    <div class="master">Apple III <button id="more3" class="detailButton">+</button></div>
+                    <div class="detail">
+                        The Apple III (Apple 3) was designed to take on the IBM PC in the business environment.
+                        However, Steve Jobs did not want the computer to have a fan.Unfortunately, the physical design of
+                        the case was not sufficient to cool the components inside it. By removing the fan from the design,
+                        the Apple III was prone to overheating.
+                    </div>
+                </li>
+                <li>
+                    <div class="master">Apple IPO <button id="more4" class="detailButton">+</button></div>
+                    <div class="detail">
+                        On December 12, 1980, Apple launched the Initial Public Offering of its stock to the investing public.
+                        When Apple went public, it generated more capital than any IPO since Ford Motor Company in 1956 and
+                        instantly created more millionaires (about 300) than any company in history.
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </body>
+
+
+    <script src="jquery-1.6.2.js">
+        /**
+         *  - Include jQuery library file
+         *
+         *  - Using css, hide the detail paragraph
+         *    identified by 'detail' class, from each row
+         *
+         *  - Using JavaScript and jQuery, add a click event handler
+         *    to each element identified by class 'master'. The
+         *    handler function will show/hide the detail paragraph
+         *    for the clicked master in a toggle manner.
+         */
+     </script>
+     <script>
+         document.writeln("Hello World from JQ!<BR>");  
+         //alert("JQ ran.");
+         var $currentItem;
+         
+         // this next one apply to all buttons in the same class.
+         // maybe from there determine label/id and then expand/hide as appropriate?
+         $(".detailButton").click( function() {
+        	 console.log(".detailButton class clicked");
+        	 if( $(this).html() == "+" ) {  
+         	 	$(this).html("-");    // could use .text("-") to change too
+         	 	$(this).parent().next().removeClass("detail").addClass("detailShow");   //could use .parent("div") to be more explicit)
+         	 } else {
+         	 	$(this).html("+");    // could use .text("-") to change too
+          	 	$(this).parent().next().removeClass("detailShow").addClass("detail");   //could use .parent("div") to be more explicit)
+         	 }
+        	 
+         });
+
+
+         /*
+         // this half works now, it can  add the details now...
+         $("#more0").click( function() {
+        	 console.log("more0 clicked");
+        	 if( $(this).html() == "+" ) {  
+        	 	$(this).html("-");    // could use .text("-") to change too
+        	 	$(this).parent().next().removeClass("detail").addClass("detailShow");   //could use .parent("div") to be more explicit)
+        	 } else {
+        	 	$(this).html("+");    // could use .text("-") to change too
+         	 	$(this).parent().next().removeClass("detailShow").addClass("detail");   //could use .parent("div") to be more explicit)
+        	 }
+        	 
+        	 //alert("clicked in more0");
+        	 //$("prev ~ siblings").removeClass(".detail").addClass("detailShow");
+        	 //$("parent > child").removeClass(".detail").addClass("detailShow");
+        	 //$("div parent child").removeClass(".detail");
+        	 //$(this).sibling.addAttr("visibility","visible");
+         });
+         */
+         
+	$.get
+	$(this).ani
+		 
+	</script>
+	<script language="JavaScript">
+		document.writeln("Hello World from JS!<BR>");
+        //alert( "this is js alert.");
+    </script>
+</html>

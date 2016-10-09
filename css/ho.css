@@ -1,0 +1,12 @@
+/*
+Tin Ho
+CSS Class - UCSCX - 2012.0505
+Assignment 2d.  Create style external css file.
+
+direct link for the CSS Validator is:
+http://jigsaw.w3.org/css-validator/#validate_by_upload
+*/
+
+h1, h2 { color:blue; font-family: "Courier New"; }
+/* comma separated list!  If just space, it would be hierachy selector! */
+p { color:greenyellow; font-family: Verdana; }
