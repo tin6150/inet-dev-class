@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>9-Grid Scaling Examples</title>
+<link rel="stylesheet" href="scale9_style.css" type="text/css" media="screen" /> 
+<script type="text/javascript" src="jquery-1.6.2.js"></script>   <!-- add core first, then add plugins -->
+<script type="text/javascript" src="jquery.scale9grid-0.9.3.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+	$('.example').scale9Grid({top:10,bottom:10,left:10,right:10});
+           $('.aqua').scale9Grid({top:10,bottom:10,left:38,right:38});
+	   /* $('.aqua').scale9Grid({top:38,bottom:38,left:38,right:38});*/
+	$('.list li').scale9Grid({top:22, bottom:18, left:18, right:18});
+	
+});
+
+</script>
+</head>
+<body>
+
+<h1>9-Grid Scaling Examples</h1>
+
+<p>source and stuff: <a href="http://code.google.com/p/scale9grid">project home page</a>.
+<br />Return to <a href="http://blog.hempton.com">hempton's blog</a>.</p>
+
+<div class="example">
+    Some text by tin.
+<h3>Scaled Image Background</h3>
+<p>The background of this div uses a single image and is scaled using 9-grid scaling. Resize the browser window to see the examples scale.</p>
+<p>more text by Tin</p>
+</div>
+
+<div class="example">
+<h3>Fluid Complex Background</h3>
+<p>Many images have the property that they can be scaled perfectly using 9-grid scaling. Below is a fluid div which uses a single image for its background. You can use 9-grid scaling for rounded corners, drop shadows, and more.</p>
+<div class="aqua">
+    <p>text inside the aqua scale9 box... nesting...  nope, not inside, but on top of it... weired.. </p>
+</div>
+</div>
+
+<div class="example">
+<h3>Fluid Styled Lists</h3>
+<p>Below is a list where each element is styled using 9-grid scaling. Each list element has a fluid size.</p>
+<ul class="list">
+<li>Tin 1</li>
+<li>Tin 2</li>
+<li>Extra Large Tin</li>
+<li>Tab 4</li>
+<li>Extra Large Tab</li>
+</ul>
+text outside the LI list...
+<div class="clear">
+    text inside clear class div...
+</div>
+</div>
+
+</body>
+</html>

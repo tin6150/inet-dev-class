@@ -1,0 +1,244 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Project - trying out calendar plugin...</title>
+        <style>
+            body { font-family: Arial, Helvetica; font-size: 12px;}
+            #screenContainer {
+                position: absolute;
+                width: 504px;
+                margin: auto;
+                top: 0;
+                left: 0;
+                overflow: hidden;
+            }
+
+            .screen {
+                position: relative; border: 1px solid #888;
+                padding: 10px; width: 230px;
+                border-radius: 4px;
+                float: left;
+            }
+            #registerScreen, #loginScreen { height: 150px; }
+            label { display: block; font-weight: bold; }
+            .text-input {
+                border: 1px solid #88a;
+                border-radius: 3px; width: 200px; margin-bottom: 8px;}
+            .taskbar {
+                position: absolute;
+                width: 242px;
+                border-radius: 4px;
+                background-color: #ddd;
+                bottom: 0;
+                left: 0;
+                padding: 4px;
+            }
+
+            .taskbar button { float: right; }
+            #screenWindow {
+                width: 252px; height: 175px;
+                margin: auto;
+                overflow: hidden;
+                position: relative;
+            }
+            .hide { display: none; }
+        
+        /* date picker */
+        /* located in demo.css and creates a little calendar icon
+ * instead of a text link for "Choose date"
+ */
+a.dp-choose-date {
+	float: left;
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	margin: 5px 3px 0;
+	display: block;
+	text-indent: -2000px;
+	overflow: hidden;
+	background: url(calendar.png) no-repeat; 
+}
+a.dp-choose-date.dp-disabled {
+	background-position: 0 -20px;
+	cursor: default;
+}
+/* makes the input field shorter once the date picker code
+ * has run (to allow space for the calendar icon
+ */
+input.dp-applied {
+	width: 140px;
+	float: left;
+}
+        
+        
+        </style>
+        <link rel="stylesheet" href="datePicker.css" type="text/css">
+               
+    </head>
+    <body>
+        
+        <div id="container">
+            <h1>jquery.datePicker example: simple datePicker</h1>
+	
+            <p>
+                The following example displays simple use of the datePicker component to select a date for
+				input fields.
+            </p>
+			<form name="chooseDateForm" id="chooseDateForm" action="#">
+				<fieldset>
+					<legend>Test date picker form</legend>
+                    <ol>
+                        <li>
+                            <label for="date1">Date 1:</label>
+							<input name="date1" id="date1" class="date-pick" />
+						</li>
+                        <li>
+                            <label for="date2">Date 2:</label>
+							<input name="date2" id="date2" class="date-pick" />
+						</li>
+                        <li>
+                            <label for="test-select">Test select:</label>
+                            <select name="test-select" id="test-select" style="width: 170px">
+                                <option value="1">Test SELECT </option>
+                                <option value="2">Doesn't shine through</option>
+                                <option value="3">Even in IE</option>
+                                <option value="4">Yay!</option>
+                            </select>
+                        </li>
+					</ol>
+				</fieldset>
+			</form>
+        </div>
+        
+        
+
+        <div id="screenWindow">
+
+            <div id="screenContainer">
+
+                <div id="loginScreen" class="screen">
+                    <form id="loginForm">
+                        <label for="luid">Id:</label>
+                        <input class="text-input" type="text" id="luid" name="uid"/>
+                        <label for="lupw">Password:</label>
+                        <input class="text-input" type="password" id="lupw" name="upw"/>
+                    </form>
+                    <div class="taskbar">
+                        <span class="screen-link"><a href="register" rel="registerScreen">Register ></a></span>
+                        <button>Sign in</button>
+                    </div>
+                </div>
+
+                <div id="registerScreen" class="screen">
+                    <form id="registerForm">
+                        <label for="ruid">Id:</label>
+                        <input class="text-input" type="text" id="ruid" name="uid"/>
+                        <label for="rupw">Password:</label>
+                        <input class="text-input" type="password" id="rupw" name="upw"/>
+                        <label for="rucpw">Confirm password:</label>
+                        <input class="text-input" type="password" id="rucpw" name="ucpw"/>
+                    </form>
+                    <div class="taskbar">
+                        <span class="screen-link"><a href="signin" rel="loginScreen">< Sign In</a></span>
+                        <button>Register</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </body>
+
+    <script src="jquery-1.6.2.js"></script>
+    <!-- jquery.datePicker.js, http://www.kelvinluck.com/assets/jquery/datePicker/v2/demo/ -->
+    <script type="text/javascript" src="jquery.datePicker.js"></script>
+
+    <script>
+
+/*
+$(function()
+{
+	$('.date-pick').datePicker();
+});
+*/
+
+$('#date-picker').datePicker();
+$('#date-picker').dpDisplay();
+
+        var screenEls = {
+            "register"  :"registerScreen",
+            "signin"    :"loginScreen"
+        }
+
+
+        var changeScreens = function(fromScreen, toScreen){
+            if(arguments.length == 2 ){
+                $("#"+fromScreen)
+                    .animate({opacity:'0'},100, function(){
+                        $("#"+fromScreen).hide();
+                        $("#"+toScreen).show();
+                        $("#"+toScreen).animate({opacity:'1'},400);
+                    });
+            }
+            if(arguments.length == 1 ){
+                $("#"+arguments[0]).animate({opacity:'1'},400);
+            }
+        }
+
+
+
+        $("a").click(function(e){
+            e.preventDefault();
+            if( $(this).attr("href") == "register" ){
+                $("#screenContainer")
+                        .animate({left:"-252"},300);
+            }
+            if( $(this).attr("href") == "signin" ){
+                $("#screenContainer")
+                        .animate({left:"0"},300);
+            }
+        });
+
+
+        var getIdReqObj = function(){
+            return requestObj = {
+                id: $("#luid").val()
+            }
+        }
+
+        // Ajax call
+
+        $("#loginScreen button").click(function(){
+            var requestObj = {
+                id: $("#luid").val(),
+                password: $("#lupw").val()
+            }
+
+            $.post(
+                "signinurl.txt",
+                    $(this).closest(".screen").find("form").serialize(), //requestObj,
+                function(data){
+                    var r = eval("("+data+")");
+                    alert(r.userid);
+                }
+            );
+        });
+
+
+        $("#luid").bind("keyup", function(){
+            $.get(
+                "signinurl.txt",
+                getIdReqObj(),
+                function(data){
+                    /*
+                    var r = eval("("+data+")");
+                    console.log(r);
+                    alert(r.userid);
+                    */
+                }
+            );
+        });
+
+    </script>
+</html>
