@@ -1,0 +1,26 @@
+
+;; Function main (main, funcdef_no=0, decl_uid=2854, cgraph_uid=0)
+
+main (int argc, char * * argv)
+{
+  int tid;
+  int nthreads;
+
+  <bb 2>:
+  tid_1 = omp_get_thread_num ();
+  printf ("Hello World from thread = %d\n", tid_1);
+  if (tid_1 == 0)
+    goto <bb 3>;
+  else
+    goto <bb 4>;
+
+  <bb 3>:
+  nthreads_2 = omp_get_num_threads ();
+  printf ("Number of threads = %d\n", nthreads_2);
+
+  <bb 4>:
+  return;
+
+}
+
+

@@ -1,0 +1,3 @@
+qsub -cwd -V -r y -b y -l h_rt=86400,m_mem_free=62G -pe smp 32 -binding linear:32   ./openmp-test-a.out
+
+export CPU=48; qsub -cwd -V -r y -b y -l h_rt=50,m_mem_free=1G -N MP$CPU -pe smp $CPU -binding linear:$CPU   ./openmp-test-a.out
