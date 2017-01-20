@@ -14,3 +14,8 @@ export OMP_NUM_THREADS=4
 # slac example is good for sequential code when openMP not avail.
 # llbl example is good that it fails when openMP not avail, easier to learn.
 #
+
+
+# ref:
+# http://pawangh.blogspot.com/2014/05/mpi-vs-openmp.html
+# https://tin6150.github.io/psg/mpi.html 
