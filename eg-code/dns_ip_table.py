@@ -22,7 +22,9 @@
 
 import socket
 #import os
-import commands
+import commands         # commands is deprecated at python 2.6
+# python3 need to use subprocess module instead
+
 #host = "bluespace-1-1-ctl"
 #ip = socket.gethostbyname( host )
 
