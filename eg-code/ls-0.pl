@@ -9,6 +9,9 @@ use strict;
 ## run ls but only diplay file of non zero size.
 ## eg for checking error file that actually have error in it (from sge qsub)
 
+## in reality a one-liner cli could be setup as alias in .bashrc 
+## alias ls0="ls -l | perl -lane 'if ($F[4] == 0 )  { print $_ };' "
+
 ## wget https://raw.githubusercontent.com/tin6150/inet-dev-class/master/eg-code/ls-0.pl
 
 
