@@ -1,18 +1,16 @@
 #!/bin/env perl
 
-
-## #!/usr/prog/perl/5.14.1/bin/perl
-
 use warnings; 
 use strict;
 
 ## run ls but only diplay file of non zero size.
 ## eg for checking error file that actually have error in it (from sge qsub)
+## wget https://raw.githubusercontent.com/tin6150/inet-dev-class/master/eg-code/ls-0.pl
 
 ## in reality a one-liner cli could be setup as alias in .bashrc 
-## alias ls0="ls -l | perl -lane 'if ($F[4] == 0 )  { print $_ };' "
+## alias ls-0="ls -l | perl -lane 'if ($F[4] != 0 )  { print \$_ };' "   
+## when issuing in bash prompt, $_ suffice.  but when script is sourced, need to escape as \$_
 
-## wget https://raw.githubusercontent.com/tin6150/inet-dev-class/master/eg-code/ls-0.pl
 
 
 ## tech tags: 
