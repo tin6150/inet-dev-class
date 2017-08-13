@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://www.knime.org/2008/09/XMLConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knime.org/2008/09/XMLConfig http://www.knime.org/XMLConfig_2008_09.xsd" key="settings.xml">
+<entry key="name" type="xstring" value="Column Rename"/>
+<config key="model">
+<config key="all_columns">
+<config key="APPLICATIONNAME">
+<entry key="old_column_name" type="xstring" value="APPLICATIONNAME"/>
+<entry key="new_column_name" type="xstring" isnull="true" value=""/>
+<entry key="new_column_type" type="xint" value="0"/>
+</config>
+<config key="MONTH">
+<entry key="old_column_name" type="xstring" value="MONTH"/>
+<entry key="new_column_name" type="xstring" isnull="true" value=""/>
+<entry key="new_column_type" type="xint" value="0"/>
+</config>
+<config key="SITE_NAME">
+<entry key="old_column_name" type="xstring" value="SITE_NAME"/>
+<entry key="new_column_name" type="xstring" isnull="true" value=""/>
+<entry key="new_column_type" type="xint" value="0"/>
+</config>
+<config key="COUNT(*)">
+<entry key="old_column_name" type="xstring" value="COUNT(*)"/>
+<entry key="new_column_name" type="xstring" value="Total"/>
+<entry key="new_column_type" type="xint" value="0"/>
+</config>
+</config>
+</config>
+<entry key="hasContent" type="xboolean" value="true"/>
+<entry key="isInactive" type="xboolean" value="false"/>
+<config key="ports">
+<config key="port_1">
+<entry key="index" type="xint" value="1"/>
+<entry key="port_spec_class" type="xstring" value="org.knime.core.data.DataTableSpec"/>
+<entry key="port_object_class" type="xstring" value="org.knime.core.node.BufferedDataTable"/>
+<entry key="port_object_summary" type="xstring" value="Rows: 2993, Cols: 4"/>
+<entry key="port_dir_location" type="xstring" value="port_1"/>
+</config>
+</config>
+<config key="filestores">
+<entry key="file_store_location" type="xstring" isnull="true" value=""/>
+<entry key="file_store_id" type="xstring" value="7a2bf4a8-b5ed-43d0-81e2-7d795fe5b8a5"/>
+</config>
+</config>
