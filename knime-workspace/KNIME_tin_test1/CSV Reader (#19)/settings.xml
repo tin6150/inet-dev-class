@@ -6,12 +6,12 @@
 <entry key="memory_policy" type="xstring" value="CacheSmallInMemory"/>
 </config>
 <config key="model">
-<entry key="url" type="xstring" value="/Users/tin/knime-workspace/KNIME_tin_test1/passwd.csv"/>
-<entry key="colDelimiter" type="xstring" value=":"/>
+<entry key="url" type="xstring" value="file:/Users/tin-gh/inet-dev-class/knime-workspace/InPut/lr5_select/staging-pa.n=143.n0009.outdir/mpi_nxnlatbw/mpi_nxnlatbw.tin2.csv"/>
+<entry key="colDelimiter" type="xstring" value="%%00009"/>
 <entry key="rowDelimiter" type="xstring" value="%%00010"/>
 <entry key="quote" type="xstring" value="&quot;"/>
 <entry key="commentStart" type="xstring" value="#"/>
-<entry key="hasRowHeader" type="xboolean" value="false"/>
+<entry key="hasRowHeader" type="xboolean" value="true"/>
 <entry key="hasColHeader" type="xboolean" value="false"/>
 <entry key="supportShortLines" type="xboolean" value="false"/>
 <entry key="limitRowsCount" type="xlong" value="-1"/>
@@ -20,11 +20,7 @@
 <entry key="limitAnalysisCount" type="xint" value="-1"/>
 </config>
 <entry key="customDescription" type="xstring" isnull="true" value=""/>
-<entry key="state" type="xstring" value="IDLE"/>
-<config key="nodecontainer_message">
-<entry key="type" type="xstring" value="WARNING"/>
-<entry key="message" type="xstring" value="Input file '/Users/tin/knime-workspace/KNIME_tin_test1/passwd.csv' does not exist"/>
-</config>
+<entry key="state" type="xstring" value="CONFIGURED"/>
 <entry key="factory" type="xstring" value="org.knime.base.node.io.csvreader.CSVReaderNodeFactory"/>
 <entry key="node-name" type="xstring" value="CSV Reader"/>
 <entry key="node-bundle-name" type="xstring" value="KNIME Base Nodes"/>

@@ -5,28 +5,11 @@
 <config key="internal_node_subsettings">
 <entry key="memory_policy" type="xstring" value="CacheSmallInMemory"/>
 </config>
-<config key="model">
-<entry key="url" type="xstring" value="/Users/tin/knime-workspace/KNIME_tin_test1/passwd.csv"/>
-<entry key="colDelimiter" type="xstring" value=":"/>
-<entry key="rowDelimiter" type="xstring" value="%%00010"/>
-<entry key="quote" type="xstring" value="&quot;"/>
-<entry key="commentStart" type="xstring" value="#"/>
-<entry key="hasRowHeader" type="xboolean" value="false"/>
-<entry key="hasColHeader" type="xboolean" value="false"/>
-<entry key="supportShortLines" type="xboolean" value="false"/>
-<entry key="limitRowsCount" type="xlong" value="-1"/>
-<entry key="skipFirstLinesCount" type="xint" value="-1"/>
-<entry key="characterSetName" type="xstring" isnull="true" value=""/>
-<entry key="limitAnalysisCount" type="xint" value="-1"/>
-</config>
+<config key="model"/>
 <entry key="customDescription" type="xstring" isnull="true" value=""/>
 <entry key="state" type="xstring" value="IDLE"/>
-<config key="nodecontainer_message">
-<entry key="type" type="xstring" value="WARNING"/>
-<entry key="message" type="xstring" value="Input file '/Users/tin/knime-workspace/KNIME_tin_test1/passwd.csv' does not exist"/>
-</config>
-<entry key="factory" type="xstring" value="org.knime.base.node.io.csvreader.CSVReaderNodeFactory"/>
-<entry key="node-name" type="xstring" value="CSV Reader"/>
+<entry key="factory" type="xstring" value="org.knime.base.node.viz.table.TableNodeFactory"/>
+<entry key="node-name" type="xstring" value="Interactive Table"/>
 <entry key="node-bundle-name" type="xstring" value="KNIME Base Nodes"/>
 <entry key="node-bundle-symbolic-name" type="xstring" value="org.knime.base"/>
 <entry key="node-bundle-vendor" type="xstring" value="KNIME GmbH, Konstanz, Germany"/>
@@ -36,15 +19,10 @@
 <entry key="node-feature-vendor" type="xstring" value="KNIME GmbH, Konstanz, Germany"/>
 <entry key="node-feature-version" type="xstring" value="3.4.0.v201707101013"/>
 <config key="factory_settings"/>
-<entry key="name" type="xstring" value="CSV Reader"/>
+<entry key="name" type="xstring" value="Interactive Table"/>
 <entry key="hasContent" type="xboolean" value="false"/>
 <entry key="isInactive" type="xboolean" value="false"/>
-<config key="ports">
-<config key="port_1">
-<entry key="index" type="xint" value="1"/>
-<entry key="port_dir_location" type="xstring" isnull="true" value=""/>
-</config>
-</config>
+<config key="ports"/>
 <config key="filestores">
 <entry key="file_store_location" type="xstring" isnull="true" value=""/>
 <entry key="file_store_id" type="xstring" isnull="true" value=""/>
