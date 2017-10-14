@@ -43,3 +43,18 @@ Vagrant container setup using Ansible playbook
 
 https://www.vagrantup.com/docs/provisioning/ansible.html
 
+vagrantfile_play.yml	# eg of this in singhub, vagrant provision to call this play
+	# https://www.digitalocean.com/community/tutorials/configuration-management-101-writing-ansible-playbooks 
+	# at the end has eg for playbook.yml for Vagrant, but eg for ubuntu or Debian
+
+
+example ansible playbook yaml 
+-----------------------------
+
+
+tba, but naming like follwing probably work
+workstn_mint17.yaml
+workstn_sl7.yaml
+webserver.yaml
+node_sl7.yaml
+node_sl6.yaml
