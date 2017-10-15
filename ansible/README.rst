@@ -6,7 +6,7 @@ Playing with Ansible
 all = all hosts in inventory.ini file
 
 
-adhoc::
+adhoc:
 
     ansible all -i inventory.ini -m ping -u root
     ansible all --inventory-file=inventory.ini --module-name ping -u vagrant --private-key=~/.vagrant.d/insecure_private_key
@@ -24,7 +24,7 @@ adhoc::
     ansible-doc -l          # list docs
     ansible-doc git         # doc on the git module
 
-execute playbook::
+execute playbook:
 
     ansible-playbook myplaybook.yml -i inventory.ini -u root
 
@@ -61,6 +61,7 @@ For vagrant to provision VM with ansible playbook, the vagrant host must have an
 A bit more details in https://www.vagrantup.com/docs/provisioning/ansible.html
 
 ::
+
     vagrantfile_play.yml	# eg of this in singhub, vagrant provision to call this play
 
 
@@ -75,12 +76,12 @@ A bit more details in https://www.vagrantup.com/docs/provisioning/ansible.html
 example ansible playbook yaml 
 -----------------------------
 
-tba, but naming like follwing probably work
-workstn_mint17.yaml
-workstn_sl7.yaml
-webserver.yaml
-node_sl7.yaml
-node_sl6.yaml
+        tba, but naming like follwing probably work
+        workstn_mint17.yaml
+        workstn_sl7.yaml
+        webserver.yaml
+        node_sl7.yaml
+        node_sl6.yaml
 
 
 ========
