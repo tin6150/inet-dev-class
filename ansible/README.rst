@@ -1,38 +1,52 @@
 
+==========
+|TMP note|
+==========
+
+for dev on linux, 
+maybe copy Vagrantfile here.
+then it can be customized to have multiple hosts, which req more convoluted setup.
+
+(but for now, on c7, have continued to use the Vagrantfile on singhub).
+
+
+
 Playing with Ansible
 ====================
 
-maybe tba.
 
-currently dev on mac...
-nah, dev on cueball... darn in
-
-so just copy a new vagrantfile here.
-one that need two or three hosts anyway.
-
-
-ref:
-https://ryaneschinger.com/blog/ansible-quick-start/
+/etc/ansible/hosts  = default inventory.ini file for defining host group.  
+all = all hosts in inventory.ini file
 
 
 adhoc::
 
-        ansible all -i inventory.ini -m ping -u root
-        ansible all --inventory-file=inventory.ini --module-name ping -u vagrant --private-key=~/.vagrant.d/insecure_private_key
+    ansible all -i inventory.ini -m ping -u root
+    ansible all --inventory-file=inventory.ini --module-name ping -u vagrant --private-key=~/.vagrant.d/insecure_private_key
 
 
-        ansible all -i inventory.ini -m command -u root --args "uptime"
-        ansible all -i inventory.ini -u root -a "uptime"
+    ansible all -i inventory.ini -m command -u root --args "uptime"
+    ansible all -i inventory.ini -u root -a "uptime"
 
-        ansible all -i inventory.ini -m apt -u vagrant -a "name=zsh state=installed -s"
-        # -s sudo 
-        # -K, --ask-sudo-pass
+    ansible all -i inventory.ini -m apt -u vagrant -a "name=zsh state=installed -s"
+    # -s sudo 
+    # -K, --ask-sudo-pass
+
+    ansible localhost -m setup              # display discoverd facts
+
+    ansible-doc -l          # list docs
+    ansible-doc git         # doc on the git module
 
 execute playbook::
 
-        ansible-playbook myuser.yml -i inventory.ini -u root
+    ansible-playbook myplaybook.yml -i inventory.ini -u root
 
 
+
+ref:
+https://ryaneschinger.com/blog/ansible-quick-start/
+http://people.redhat.com/mskinner/rhug/q2.2017/Ansible-Hands-on-Introduction.pdf p23
+https://www.vagrantup.com/docs/provisioning/ansible_intro.html
 
 
 http://galaxy.ansible.com
@@ -64,9 +78,14 @@ vagrantfile_play.yml	# eg of this in singhub, vagrant provision to call this pla
 	# https://www.digitalocean.com/community/tutorials/configuration-management-101-writing-ansible-playbooks 
 	# at the end has eg for playbook.yml for Vagrant, but eg for ubuntu or Debian
 
+# http://people.redhat.com/mskinner/rhug/q2.2017/Ansible-Hands-on-Introduction.pdf p23
+# https://www.vagrantup.com/docs/provisioning/ansible_intro.html
+
+
 
 example ansible playbook yaml 
 -----------------------------
+
 
 
 tba, but naming like follwing probably work
