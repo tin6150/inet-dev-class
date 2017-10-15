@@ -1,16 +1,3 @@
-
-==========
-|TMP note|
-==========
-
-for dev on linux, 
-maybe copy Vagrantfile here.
-then it can be customized to have multiple hosts, which req more convoluted setup.
-
-(but for now, on c7, have continued to use the Vagrantfile on singhub).
-
-
-
 Playing with Ansible
 ====================
 
@@ -43,14 +30,14 @@ execute playbook::
 
 
 
-ref:
-https://ryaneschinger.com/blog/ansible-quick-start/
-http://people.redhat.com/mskinner/rhug/q2.2017/Ansible-Hands-on-Introduction.pdf p23
-https://www.vagrantup.com/docs/provisioning/ansible_intro.html
+ref
+---
 
+* https://ryaneschinger.com/blog/ansible-quick-start/
+* http://people.redhat.com/mskinner/rhug/q2.2017/Ansible-Hands-on-Introduction.pdf p23
+* https://www.vagrantup.com/docs/provisioning/ansible_intro.html
 
-http://galaxy.ansible.com
-Find pre-built playbook roles from the community.
+* http://galaxy.ansible.com - Find pre-built playbook roles from the community.
 
 
 
@@ -74,7 +61,7 @@ For vagrant to provision VM with ansible playbook, the vagrant host must have an
 
 https://www.vagrantup.com/docs/provisioning/ansible.html
 
-vagrantfile_play.yml	# eg of this in singhub, vagrant provision to call this play
+    vagrantfile_play.yml	# eg of this in singhub, vagrant provision to call this play
 	# https://www.digitalocean.com/community/tutorials/configuration-management-101-writing-ansible-playbooks 
 	# at the end has eg for playbook.yml for Vagrant, but eg for ubuntu or Debian
 
@@ -86,11 +73,20 @@ vagrantfile_play.yml	# eg of this in singhub, vagrant provision to call this pla
 example ansible playbook yaml 
 -----------------------------
 
-
-
 tba, but naming like follwing probably work
 workstn_mint17.yaml
 workstn_sl7.yaml
 webserver.yaml
 node_sl7.yaml
 node_sl6.yaml
+
+========
+TMP note
+========
+
+for dev on linux, 
+maybe copy Vagrantfile here.
+then it can be customized to have multiple hosts, which req more convoluted setup.
+
+(but for now, on c7, have continued to use the Vagrantfile on singhub).
+
