@@ -6,7 +6,7 @@ Playing with Ansible
 all = all hosts in inventory.ini file
 
 
-adhoc:
+adhoc::
 
     ansible all -i inventory.ini -m ping -u root
     ansible all --inventory-file=inventory.ini --module-name ping -u vagrant --private-key=~/.vagrant.d/insecure_private_key
@@ -24,7 +24,7 @@ adhoc:
     ansible-doc -l          # list docs
     ansible-doc git         # doc on the git module
 
-execute playbook:
+execute playbook::
 
     ansible-playbook myplaybook.yml -i inventory.ini -u root
 
@@ -60,21 +60,19 @@ Vagrant container setup using Ansible playbook
 For vagrant to provision VM with ansible playbook, the vagrant host must have ansible installed.
 A bit more details in https://www.vagrantup.com/docs/provisioning/ansible.html
 
-::
 
-    vagrantfile_play.yml	# eg of this in singhub, vagrant provision to call this play
-
-
-
+* vagrantfile_playbook.yml 
+  eg of this in singhub, vagrant provision to call this play
 * https://www.digitalocean.com/community/tutorials/configuration-management-101-writing-ansible-playbooks 
   at the end has eg for playbook.yml for Vagrant, but eg for ubuntu or Debian
 * http://people.redhat.com/mskinner/rhug/q2.2017/Ansible-Hands-on-Introduction.pdf p23 has rhel7 eg
 * https://www.vagrantup.com/docs/provisioning/ansible_intro.html
 
 
-
 example ansible playbook yaml 
 -----------------------------
+
+::
 
         tba, but naming like follwing probably work
         workstn_mint17.yaml
