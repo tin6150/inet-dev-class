@@ -1,3 +1,8 @@
+.. image:: xkcd_usb_cables.png
+    :align: center
+    :alt: https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables
+
+
 Playing with Ansible
 ====================
 
