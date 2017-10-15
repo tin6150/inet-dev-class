@@ -58,15 +58,17 @@ Vagrant container setup using Ansible playbook
 ----------------------------------------------
 
 For vagrant to provision VM with ansible playbook, the vagrant host must have ansible installed.
+A bit more details in https://www.vagrantup.com/docs/provisioning/ansible.html
 
-https://www.vagrantup.com/docs/provisioning/ansible.html
-
+::
     vagrantfile_play.yml	# eg of this in singhub, vagrant provision to call this play
-	# https://www.digitalocean.com/community/tutorials/configuration-management-101-writing-ansible-playbooks 
-	# at the end has eg for playbook.yml for Vagrant, but eg for ubuntu or Debian
 
-# http://people.redhat.com/mskinner/rhug/q2.2017/Ansible-Hands-on-Introduction.pdf p23
-# https://www.vagrantup.com/docs/provisioning/ansible_intro.html
+
+
+* https://www.digitalocean.com/community/tutorials/configuration-management-101-writing-ansible-playbooks 
+  at the end has eg for playbook.yml for Vagrant, but eg for ubuntu or Debian
+* http://people.redhat.com/mskinner/rhug/q2.2017/Ansible-Hands-on-Introduction.pdf p23 has rhel7 eg
+* https://www.vagrantup.com/docs/provisioning/ansible_intro.html
 
 
 
@@ -79,6 +81,7 @@ workstn_sl7.yaml
 webserver.yaml
 node_sl7.yaml
 node_sl6.yaml
+
 
 ========
 TMP note
