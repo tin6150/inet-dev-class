@@ -2,7 +2,7 @@
     :align: center
     :alt: https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables
 
-    `XKCD takes on USB Cables ... not unlike config management tools :) <https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables>`_
+    `s/usb cables/config management/ :) <https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables>`_
 
 
 Playing with Ansible
