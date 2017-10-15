@@ -1,7 +1,7 @@
-.. figure:: xkcd_usb_cables.png
+`|xkcd_usb_cables|_ <https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables>`_
+.. |xkcd_usb_cables| figure:: xkcd_usb_cables.png
     :align: center
     :alt: https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables
-
     `s/usb cables/config management/ :) <https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables>`_
 
 
