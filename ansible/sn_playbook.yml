@@ -30,6 +30,7 @@
     - block:
       - name: ensure latest nomachien NX is installed (it nags a lot when there are updates)
         yum: pkg=nomachine state=latest
+        # there is /etc/NX/server/packages, but the tgz are 0 size.  no client?
       - name: ensure ntpd is at the latest version
         yum: pkg=ntp state=latest
         notify:
