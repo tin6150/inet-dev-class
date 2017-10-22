@@ -103,15 +103,15 @@ One example approach at config
 inventory
 ---------
 
-[servers]
-svr1
-svr2
+    [servers]
+    svr1
+    svr2
 
-[workstations]
-ubuntu1
-ubuntu2
-centos1
-centos2
+    [workstations]
+    ubuntu1
+    ubuntu2
+    centos1
+    centos2
 
 
 Roles
@@ -119,11 +119,11 @@ Roles
 
 Use roles to more narrowly group machines.   they can be bundled for "install" into specific host.
 eg:    
-common
-apache
-mysql
-login_otp
-login_local_passwd
+    common
+    apache
+    mysql
+    login_otp
+    login_local_passwd
 
 
 Whether to do a play for specific OS platform 
@@ -131,16 +131,17 @@ or have each task evaluate which platform it is and run yum vs apt (etc) depends
 ansible modules does things.
 
 pros and cons:
+
 - tasks to check what OS it is would provide basic sanity check that task is running in desired env, and more sane error message when applied incorrectly
 - Each OS platform to have its own play avoid needing constant "block ... when platform==rhel"  and then another block for deb.
-
-If change name/ip of say Radius Server, or NTP server, change one task file vs change 2+ task file?
+- If change name/ip of say Radius Server, or NTP server, change one task file vs change 2+ task file?
     
 
 
 .. dotdot like this beging a comment block and will not appear in rendering 
    or appear as comment inside html
    block below is temporary note and indent should make this as performatted text
+
 
     TMP note
     ========
