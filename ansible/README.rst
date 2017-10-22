@@ -115,8 +115,9 @@ Roles
 -----
 
 Use roles to more narrowly group machines.   they can be bundled for "install" into specific host.
+eg:    
 
-eg::    
+::
 
     common
     apache
