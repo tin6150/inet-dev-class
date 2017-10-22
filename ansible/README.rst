@@ -154,7 +154,5 @@ pros and cons:
     rst cheatsheet https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst
 
     dotdot comment block are NOT liked by github -- or something else tripped the parser? :(
+    not even when as footnote notation (cuz lacked ref?)  just avoid them for github rst parsing.
 
-.. [#] dotdot marks comment block
-.. [#] these dotdot lines are likely expected to be rst control and not comment and tripping github rst parser as well.
-       thus turning them into footnote and hopefully won't trip github rst parser
