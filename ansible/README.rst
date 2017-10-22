@@ -120,6 +120,9 @@ Roles
 -----
 
 Use roles to more narrowly group machines.   they can be bundled for "install" into specific host.
+.. dotdot marks comment block
+   eg colon colon below if no blank line before trips the github parser in not rendering this as rst! 
+
 eg::    
 
     common
