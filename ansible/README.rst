@@ -1,8 +1,14 @@
+:url: https://github.com/tin6150/inet-dev-class/tree/master/ansible
+:author: tin6150
+:version: 2017-1021
+
+
 .. figure:: xkcd_usb_cables.png
     :align: center
     :alt: https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables
 
     `s/usb cables/config management/ :) <https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables>`_
+
 
 
 Playing with Ansible
@@ -40,8 +46,8 @@ execute playbook::
 ref
 ---
 
-* https://ryaneschinger.com/blog/ansible-quick-start/
-* http://people.redhat.com/mskinner/rhug/q2.2017/Ansible-Hands-on-Introduction.pdf p23
+* https://ryaneschinger.com/blog/ansible-quick-start/                                       [read]
+* http://people.redhat.com/mskinner/rhug/q2.2017/Ansible-Hands-on-Introduction.pdf p23      [read]
 * https://www.vagrantup.com/docs/provisioning/ansible_intro.html
 
 * http://galaxy.ansible.com - Find pre-built playbook roles from the community.
@@ -89,13 +95,59 @@ example ansible playbook yaml
         node_sl6.yaml
 
 
-========
-TMP note
-========
 
-for dev on linux, 
-maybe copy Vagrantfile here.
-then it can be customized to have multiple hosts, which req more convoluted setup.
+One example approach at config
+==============================
 
-(but for now, on c7, have continued to use the Vagrantfile on singhub).
+
+inventory
+---------
+
+[servers]
+svr1
+svr2
+
+[workstations]
+ubuntu1
+ubuntu2
+centos1
+centos2
+
+
+Roles
+-----
+
+Use roles to more narrowly group machines.   they can be bundled for "install" into specific host.
+eg:    
+common
+apache
+mysql
+login_otp
+login_local_passwd
+
+
+Whether to do a play for specific OS platform 
+or have each task evaluate which platform it is and run yum vs apt (etc) depends on how
+ansible modules does things.
+
+pros and cons:
+- tasks to check what OS it is would provide basic sanity check that task is running in desired env, and more sane error message when applied incorrectly
+- Each OS platform to have its own play avoid needing constant "block ... when platform==rhel"  and then another block for deb.
+
+If change name/ip of say Radius Server, or NTP server, change one task file vs change 2+ task file?
+    
+
+
+.. dotdot like this beging a comment block and will not appear in rendering 
+   or appear as comment inside html
+   block below is temporary note and indent should make this as performatted text
+
+    TMP note
+    ========
+
+    for dev on linux, 
+    maybe copy Vagrantfile here.
+    then it can be customized to have multiple hosts, which req more convoluted setup.
+
+    (but for now, on c7, have continued to use the Vagrantfile on singhub).
 
