@@ -120,9 +120,6 @@ Roles
 -----
 
 Use roles to more narrowly group machines.   they can be bundled for "install" into specific host.
-.. dotdot marks comment block
-.. eg colon colon below if no blank line before trips the github parser in not rendering this as rst! 
-.. these dotdot lines are likely expected to be rst control and not comment and tripping github rst parser as well.
 
 eg::    
 
@@ -158,3 +155,6 @@ pros and cons:
 
     dotdot comment block are NOT liked by github -- or something else tripped the parser? :(
 
+.. [#] dotdot marks comment block
+.. [#] these dotdot lines are likely expected to be rst control and not comment and tripping github rst parser as well.
+       thus turning them into footnote and hopefully won't trip github rst parser
