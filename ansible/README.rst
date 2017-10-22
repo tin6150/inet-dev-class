@@ -103,6 +103,8 @@ One example approach at config
 inventory
 ---------
 
+::
+
     [servers]
     svr1
     svr2
@@ -118,7 +120,8 @@ Roles
 -----
 
 Use roles to more narrowly group machines.   they can be bundled for "install" into specific host.
-eg:    
+eg::    
+
     common
     apache
     mysql
@@ -142,6 +145,8 @@ pros and cons:
    or appear as comment inside html
    block below is temporary note and indent should make this as performatted text
 
+..
+
 
     TMP note
     ========
@@ -152,3 +157,5 @@ pros and cons:
 
     (but for now, on c7, have continued to use the Vagrantfile on singhub).
 
+
+rst cheatsheet https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst
