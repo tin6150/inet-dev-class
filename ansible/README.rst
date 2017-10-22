@@ -1,8 +1,3 @@
-:url: https://github.com/tin6150/inet-dev-class/tree/master/ansible
-:author: tin6150
-:version: 2017-1021
-
-
 .. figure:: xkcd_usb_cables.png
     :align: center
     :alt: https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables
@@ -120,8 +115,6 @@ Roles
 -----
 
 Use roles to more narrowly group machines.   they can be bundled for "install" into specific host.
-.. dotdot marks comment block      
-.. eg colon colon below if no blank line before trips the github parser in not rendering this as rst!         
 
 eg::    
 
@@ -155,6 +148,20 @@ then it can be customized to have multiple hosts, which req more convoluted setu
 
 rst cheatsheet https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst
 
-dotdot comment block are NOT liked by github -- or something else tripped the parser? :(
+
+
+GitHub rst parser notes
+-----------------------
+
+indent of block above with === header trip github parser.
+
+dotdot comment block are NOT liked by github -- maybe trips the parser, maybe just not render them as comment.
 not even when as footnote notation (cuz lacked ref?)  just avoid them for github rst parsing.
 
+
+~~~~
+
+
+:url: https://github.com/tin6150/inet-dev-class/tree/master/ansible
+:author: tin6150
+:version: 2017-1021
