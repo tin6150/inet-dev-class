@@ -142,17 +142,17 @@ pros and cons:
     
 
 
-    TMP note
-    ========
+TMP note
+========
 
-    for dev on linux, 
-    maybe copy Vagrantfile here.
-    then it can be customized to have multiple hosts, which req more convoluted setup.
+for dev on linux, 
+maybe copy Vagrantfile here.
+then it can be customized to have multiple hosts, which req more convoluted setup.
 
-    (but for now, on c7, have continued to use the Vagrantfile on singhub).
+(but for now, on c7, have continued to use the Vagrantfile on singhub).
 
-    rst cheatsheet https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst
+rst cheatsheet https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst
 
-    dotdot comment block are NOT liked by github -- or something else tripped the parser? :(
-    not even when as footnote notation (cuz lacked ref?)  just avoid them for github rst parsing.
+dotdot comment block are NOT liked by github -- or something else tripped the parser? :(
+not even when as footnote notation (cuz lacked ref?)  just avoid them for github rst parsing.
 
