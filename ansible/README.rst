@@ -12,7 +12,7 @@
 
 
 Playing with Ansible
-====================
+********************
 
 
 /etc/ansible/hosts  = default inventory.ini file for defining host group.  
@@ -141,13 +141,6 @@ pros and cons:
     
 
 
-.. dotdot like this beging a comment block and will not appear in rendering 
-   or appear as comment inside html
-   block below is temporary note and indent should make this as performatted text
-
-..
-
-
     TMP note
     ========
 
@@ -159,3 +152,4 @@ pros and cons:
 
 
 rst cheatsheet https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst
+dotdot comment block are NOT liked by github!!
