@@ -92,7 +92,7 @@ example ansible playbook yaml
 
 
 One example approach at config
-==============================
+******************************
 
 
 inventory
@@ -138,7 +138,7 @@ pros and cons:
 
 
 TMP note
-========
+********
 
 for dev on linux, 
 maybe copy Vagrantfile here.
@@ -165,3 +165,4 @@ not even when as footnote notation (cuz lacked ref?)  just avoid them for github
 :url: https://github.com/tin6150/inet-dev-class/tree/master/ansible
 :author: tin6150
 :version: 2017-1021
+
