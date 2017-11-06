@@ -61,10 +61,17 @@ centos 7::
 
     sudo pip install ansible
 
+
 Mint 17.2::
 
-    sudo apt-get install ansible	# 1.5.4+dfsg-1  ... pretty old, don't understand "become"
+    sudo apt-get install ansible	# 1.5.4+dfsg-1  ... very old, don't understand "become"
+    sudo apt-get remove  ansible
+    sudo pip install --upgrade setuptools
+    sudo pip install --upgrade ansible	# 2.4.1.0
+    sudo apt-get install python
+    sudo apt-get autoremove				# clear out python-jinja2 python-yaml
 
+    arggg... backbox / ubuntu notes not pushed...   but I think same versions as mint 17.2
 
 Vagrant container setup using Ansible playbook
 ----------------------------------------------
