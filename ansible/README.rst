@@ -60,6 +60,10 @@ centos 7::
 
     sudo pip install ansible
 
+Mint 17.2::
+
+    sudo apt-get install ansible	# 1.5.4+dfsg-1  ... pretty old, don't understand "become"
+
 
 Vagrant container setup using Ansible playbook
 ----------------------------------------------
