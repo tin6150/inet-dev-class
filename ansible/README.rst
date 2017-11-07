@@ -73,6 +73,10 @@ Mint 17.2::
 
     arggg... backbox / ubuntu notes not pushed...   but I think same versions as mint 17.2
 
+Fedora 25::
+
+	have ansible go in there and install? :)
+
 Vagrant container setup using Ansible playbook
 ----------------------------------------------
 
@@ -181,8 +185,17 @@ pros and cons, check points to keep in mind:
     
 
 
+Troubleshooting
+***************
+
+ansible localhost -m setup 			# run ansible, print out all "facts" it gather.  eg grep os_family
+
+
+
 TMP note
 ********
+
+cueball/bofh in CF_BK/cueball/ANSIBLE/ 
 
 for dev on linux, 
 maybe copy Vagrantfile here.
