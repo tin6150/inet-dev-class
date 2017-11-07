@@ -137,11 +137,43 @@ eg:
     login_local_passwd
 
 
-Whether to do a play for specific OS platform 
-or have each task evaluate which platform it is and run yum vs apt (etc) depends on how
-ansible modules does things.
+OS Platform Specific Issue
+--------------------------
 
-pros and cons:
+Handling tasks that are OS platform specific is a thorny issue.  There is really no good/general solution for this.  
+The way how Ansible YAML files define workflow, named tasks use a `when: ansible_os_family == "Debian"` or `== "RedHat"` etc to handle the task.
+As such, say, running a command and grepping output that is platform specific, the "default" way is to split them in to multiple tasks, one for each platform that need to handle the command in one way.  
+
+There are ways to include different yaml file depending on the OS platform using variables.  see:
+
+1. https://stackoverflow.com/questions/26226609/ansible-conditional-user-based-on-platform
+2. http://docs.ansible.com/ansible/latest/playbooks_best_practices.html#operating-system-and-distribution-variance
+
+But there are many tasks that maybe commont amont all platform.  and splitting 
+YAML file at the highest level for each OS platform may cause logic code to be repeated.  Cut-n-paste is easy, but having to update/maintain the same logic in multiple files is error prone.
+
+Thus, this will likely be the black art part of how to split ansible YAML files.
+
+Have some high level Roles-based separation for server vs workstaion, or to separate between say web servers vs db servers.
+
+But while coding the logic for the role, things that are obviously platform specific should be grouped together, and either have a block that eveluate the OS family to group these tasks or split into differe file.
+
+Point is, try to keep the logic in one place, then group the OS family code together as much as possible while doing one logical task.  
+
+Don't be running every logic and duplicating the named task for each os family where possible.
+
+eg: see https://github.com/tin6150/singhub/blob/master/virtualbox-guest/tasks/main.yml
+
+Overall, this is tedious if not painful.  Having IF or CASE would be nice.
+YAML is a PITA anyway.
+
+
+Package is a platform independent module that can install packages.  It will work when the package name is the same between the platforms.  
+But no easy way to define package name variability (eg linux-headers vs kernel-headers).  
+There are things that need to be defined for yum vs apt-get, eg cache, EPEL repo, etc.  those are not handled by Package.
+
+
+pros and cons, check points to keep in mind:
 
 - tasks to check what OS it is would provide basic sanity check that task is running in desired env, and more sane error message when applied incorrectly
 - Each OS platform to have its own play avoid needing constant "block ... when platform==rhel"  and then another block for deb.
