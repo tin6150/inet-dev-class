@@ -192,6 +192,50 @@ ansible localhost -m setup 			# run ansible, print out all "facts" it gather.  e
 
 
 
+Books
+*****
+
+	"YAML is a crime against humanity"
+	https://www.amazon.com/gp/customer-reviews/R290VXURWU5N36/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B0743VR1MC
+
+Was just trying to find a book to buy to learn about it.  Impression from reading ToC and Reivews.
+many seems disapointing from just the review.
+if/when i actually get a book may be dissapointing.
+another reason why i kinda gave up on buying book to learn new tech.
+but reading online is just not a cohesive flow.
+If can find a good book, it should still make learning easier.  it is whether such a book exist at my right learning level...
+
+
+- Ansible for DevOps by Jeff Geerling 
+	trying to get this.  covers vagrant and ansible to get started.  then move to playbook and roles.  seems the right stuff to cover.
+
+
+- Ansible Playbook Essential (packt)
+	possible.  not very extensive, but seems to cover from starting up to some good fundamentals for basic project.
+
+- Insfrastructure as Code (o'rly)
+	possible.  Not really on ansible, but sections cover patterns and antipatterns of config mgmt.  may hopefully learn how to lay the structure of a site, how to divide, what modularity granularity to employ...
+
+
+
+
+- ansible up and running (o'rly)
+	some good review, yet other review says code not tested.  too many fragments, so not good end to end, which maybe important cuz way of YAML.
+
+
+- mastering ansible by jessie kidding (packt)
+	cover internal of how ansile work.  
+	hot it eval vars, templates, send code to remote host for execution.
+	maybe good for sys admin trying to get ansible work in existing large scale deployment
+	but then maybe just need to google for these as they come up...
+
+- Implementing DevOps with ansible
+	Don't like, too much about teaching the way of devops, and ansible is just like an example.  
+
+- Learning Ansible 2 (packt)
+	maybe a very beginner book.  talk about setup, test.  1 reviewer said spend too little time to reallhy teach ansible.
+
+
 TMP note
 ********
 
