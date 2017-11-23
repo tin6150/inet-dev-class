@@ -35,6 +35,7 @@ adhoc::
 execute playbook::
 
     ansible-playbook myplaybook.yml -i inventory.ini -u root
+    sudo ansible-playbook -vvv myplaybook.yml -i inventory.ini 
 
 
 
