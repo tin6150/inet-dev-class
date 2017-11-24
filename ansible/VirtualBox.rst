@@ -39,10 +39,22 @@ VirtualBox Ref
 	VBox
 	VirtualBox	# start main gui
 
+	VBoxManage --version	# host sw info
+	VBoxClient --version
+	modprobe vboxguest	# see if VirtualBox Guest Addition is avail
+	lsmod			# need vboxvideo for X11
+
+	/usr/lib/modules/3.10.0-693.5.2.el7.x86_64/misc/vboxguest.ko
+	/usr/lib/modules/3.10.0-693.5.2.el7.x86_64/misc/vboxsf.ko
+	/usr/lib/modules/3.10.0-693.5.2.el7.x86_64/misc/vboxvideo.ko
 
 
 
-Resolution:
+Screen Resolution:
 https://github.com/geerlingguy/macos-virtualbox-vm
+
+Install doc.  sounds like there should be a rhel repo for it...
+https://wiki.centos.org/HowTos/Virtualization/VirtualBox
+
 
 
