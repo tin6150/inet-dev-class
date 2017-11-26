@@ -62,6 +62,13 @@ centos 7::
 
     sudo pip install ansible
 
+Mint 18.2 MATE::
+
+    sudo apt-get -y install python-pip
+    sudo pip install --upgrade pip
+    sudo pip install --upgrade setuptools
+    sudo pip install --upgrade ansible  # 2.4.1.0
+
 
 Mint 17.2::
 
