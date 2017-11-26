@@ -8,8 +8,9 @@
 
 
 
-sudo useradd -G sudo -m -s /bin/bash  -u 43413  tin
+sudo useradd -g users -G sudo -m -s /bin/bash  -u 43413  tin
 # -g wheel don't work in ubuntu as no wheel group 
+# but there should be users:100 group
 #pwconv
 
 

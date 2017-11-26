@@ -1,10 +1,9 @@
 ---
 
-# yaml file to configure bofh, a fedora 25 machine
-# cueball is the ansible "controller"
-# root@cueball:/root/.ssh/id_rsa_sinclave.pub > root@bofh:/root/.ssh/authorized_keys 
-# root@cueball : ln -s id_rsa_sinclave id_rsa
-# 2017.11
+# yaml file to configure mint182_osboxes # vm on snMadBook
+# kinda hassle to get ssh to work via VirtualBox NAT
+# thus run as localhost.
+# 2017.1125
 
 # vi use
 # : set shiftwidth=2 tabstop=4 expandtab list nu ft=ruby
@@ -14,22 +13,22 @@
 # vi: set ft=ruby :
 
 # check syntax: 
-# ansible-playbook bofh_playbook.yml --syntax-check
-# ?? ansible-playbook -i tests/inventory tests/$SITE --syntax-check
+# ansible-playbook localhost_playbook.yml --syntax-check
 #
 # test with: 
-# ?? ansible -h sn_inventory.ini -m setup
+# ansible all -i "localhost," -c local -m shell -a 'echo hello world'
 # ansible localhost -m setup                # see all pre-defined ansible variables
+
 #
 # actually run it:
-# - sudo ansible-playbook      bofh_playbook.yml -i inventory.ini
-# - sudo ansible-playbook -vvv bofh_playbook.yml -i inventory.ini       
+# - sudo ansible-playbook -vvv localhost_playbook.yml -i "localhost"
 #    -v   adds little.  -vv is okay for run time troubleshooting.   -vvv for dev that show task data structure (all arguments), run ssh w/ -v
-#    (bofh is the only host defined in inventory.ini at this time)
-#    only root has ssh key setup, thus need to use sudo.  ansible login to remote host first then use "become"
-#    bofh need python installed
-# - ansible workstation -i inventory.ini -m command --args "uptime"           # ad-hoc command test
-#   (bofh is the only host defined under workstation group at this time)
+#    localhost need ansible, python installed
+
+# some thing may still need clean up.
+# was adopted from cueball/ANSIBLE/bofh_playbootk.yml
+
+
 
 # ~~~~
 
@@ -47,13 +46,12 @@
 
 # ~~~~
 
-#- hosts: ansible_os_family == "RedHat" # this don't work.  
+#- hosts: ansible_os_family == "Debian" # this kind of eval don't work.  
 #- hosts: all
-- hosts: bofh 
+- hosts: localhost
   become: true  # not really needed, cuz use "sudo ansible-playbook..." and so running as root already
   roles: 
-      - gui_workstation.yml   # add X11, MATE desktop env     # this space not doing anything (yet)  ++FIXME++
-      #- sn_pkg.yml            # add my favorite packages
+      #- sn_pkg.yml            # add my favorite packages.  TBA
   tasks:
       - debug:
           msg: This is a debug message from bofh_playbook.yml [L56]
@@ -61,21 +59,23 @@
       - debug:
           msg: 'debug cannot handle a list, thus cannot "- msg" above for multiple entry, must add additional "- debug" clause.'
 
-      - include_tasks: infra_cf.yml
-      - import_tasks:  dev_tool.yml                   # both yml are included, so far so good :)
-      - import_tasks:  "gui_workstation.yml"          # let this handle OS platform, as some commands could be platform independent
-      - import_tasks:  epel.yml                       # actually want to put this at the end to avoid other depending on epel...
-      - import_tasks:  os_update_redhat.yml   
+      #- include_tasks: infra_cf.yml
+      - import_tasks:  dev_tool.yml                
+      #- import_tasks:  "gui_workstation.yml"          # let this handle OS platform, as some commands could be platform independent
+      #- import_tasks:  epel.yml                       # actually want to put this at the end to avoid other depending on epel...
+      #- import_tasks:  os_update_redhat.yml   
       #- include_tasks: "os_upgrade_redhat_6to7.yml"   # just to try on bofh (centos6 desktop) to see if it works...
 
-      - name: Set hostname to bofh...  POTENTIALLY DANGEROUS 
+      - name: Set hostname to mintbook182...  POTENTIALLY DANGEROUS 
         block:
         - hostname:
-            name: bofh
-        when: ansible_hostname == "bofh2"
+            name: mintbook128
+          notify: "update hosts file with new hostname"
+        when: ansible_hostname == "osboxes"
         # list of ansible pre-def vars: https://stackoverflow.com/questions/18839509/where-can-i-get-a-list-of-ansible-pre-defined-variables
         # ansible localhost -m setup | less
 
+  
       - name: Find out architecture-independent kernel name
         shell: uname -r | sed 's/-[az].*$//'
         register: kernel_common
@@ -87,8 +87,9 @@
         # but "- user:" cause error, so no way to add multiple user in a single name clause?  F'ing YAML!! or F'ing Ansible??!! !@#$
         user:           # will make home dir as well
             name:       tin
-            comment:    sn
-            group:      wheel
+            #comment:    sn
+            group:      users
+            groups:     sudo
             uid:        43413 
             shell:      /bin/bash
 
@@ -99,4 +100,42 @@
             group:      users
             uid:        1595256 
             shell:      /bin/bash
+            generate_ssh_key: yes
+            ssh_key_bits: 2048
+            ssh_key_file: .ssh/id_rsa
 
+      - name: "Disable user osboxes if it exist"
+        stat: path=/home/osboxes
+        register: osboxesHome
+
+      - name: Move osboxes home away
+        command: mv /home/osboxes /home/_disabled_osboxes
+        when: osboxesHome.stat.exists
+
+      - name: "Disable user osboxes"
+        user:           
+            name:       osboxes
+            groups:     ""    # ie remove from all 2nd group, notably sudo
+            comment:    disabled osboxes user
+            shell:      /bin/false
+            password:   "*LK*disabled*crypt*here*"
+        when: osboxesHome.stat.exists
+
+      - name: Strangely /home/osboxes still left with a few dot files, nuke them
+        file: path=/home/osboxes state=absent
+        when: osboxesHome.stat.exists
+
+
+  handlers:
+      - name: "update hosts file with new hostname"
+        lineinfile:
+            path: /etc/hosts
+            regexp: '^127\.0\.0\.1 mintbook128'
+            line: '127.0.0.1 mintbook128'
+            insertafter: '^127\.0\.0\.1\slocalhost'
+            state: present
+            owner: root
+            group: root
+            mode: 0644
+        #when: changedHostname.exist
+ 
