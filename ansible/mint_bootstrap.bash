@@ -68,7 +68,7 @@ sudo systemctl enable sshd
 
 git config --global user.email "tin@mint18"            
 git config --global user.name tin6150
-git config --global credential.helper 'cache --timeout=3600'
+git config --global credential.helper 'cache --timeout=36000'
 git config --global github.user   tin6150
 git config --global alias.lol "log --oneline --graph --decorate"        
 

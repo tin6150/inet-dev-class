@@ -76,9 +76,9 @@
         # ansible localhost -m setup | less
 
   
-      - name: Find out architecture-independent kernel name
-        shell: uname -r | sed 's/-[az].*$//'
-        register: kernel_common
+      - name: set timezone to America/LosAngeles
+        timezone:
+            name: America/Los_Angeles
 
       - name: add my favorite users :)
         #shell: uptime   # dummy for now
