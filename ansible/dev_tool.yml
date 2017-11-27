@@ -20,6 +20,9 @@
                     - gcc
                     - environment-modules
                     - vim
+                    - squashfs-tools
+                    - docker       # centos may use a diff name...
+                    - docker.io    # this is runtime env
                     #- ansible     # better off install via pip
                     #- awk   # no awk on fedora25!!
 

@@ -5,6 +5,10 @@
 # thus run as localhost.
 # 2017.1125
 
+## *** this worked well on Mint 18.2 VM on snMadBook
+## *** but copying back into cueball/ANSIBLE/tin_desktop1_playbook.yml
+## *** 2017.1127
+
 # vi use
 # : set shiftwidth=2 tabstop=4 expandtab list nu ft=ruby
 # : retab 
@@ -47,8 +51,8 @@
 # ~~~~
 
 #- hosts: ansible_os_family == "Debian" # this kind of eval don't work.  
-#- hosts: all
-- hosts: localhost
+- hosts: all and localhost
+#- hosts: localhost
   become: true  # not really needed, cuz use "sudo ansible-playbook..." and so running as root already
   roles: 
       #- sn_pkg.yml            # add my favorite packages.  TBA
