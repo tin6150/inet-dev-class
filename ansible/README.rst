@@ -255,6 +255,9 @@ then it can be customized to have multiple hosts, which req more convoluted setu
 
 (but for now, on c7, have continued to use the Vagrantfile on singhub).
 
+
+mint182 vm in snMadBook "localhost" yaml in this dir as of 2017.1126
+
 rst cheatsheet https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst
 
 
