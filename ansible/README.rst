@@ -106,18 +106,18 @@ that's probaly the next insanity that need to be memorized.
 
 
 
-* with_items expect a '-' list
+	* with_items expect a '-' list
 
-* tasks expects a '-' list, cuz number of items is variable. (?)
-* the "tasks:" keyword itself is not prefixed with '-' ??
+	* tasks expects a '-' list, cuz number of items is variable. (?)
+	* the "tasks:" keyword itself is not prefixed with '-' ??
 
-* copy:  expects a map, cuz essentially need a key-value map of all parameters.  while some params are optional, it is a FINITE set of possible params, and it is all of ONE copy instruction.  
-  "commands" that can be single line with key=value or multi-lines key: value entries are "structured map" and does not use '-' for each item (?)
+	* copy:  expects a map, cuz essentially need a key-value map of all parameters.  while some params are optional, it is a FINITE set of possible params, and it is all of ONE copy instruction.  
+	  "commands" that can be single line with key=value or multi-lines key: value entries are "structured map" and does not use '-' for each item (?)
 
-* block: ??
+	* block: ??
 
 
-* - hosts: ...   if hosts: clause is allowed, it is always with '-' prefix?
+	* - hosts: ...   if hosts: clause is allowed, it is always with '-' prefix?
 
 
 YAML, example of craziness  
@@ -125,7 +125,7 @@ YAML, example of craziness
 
 pay very careful attention to indent level and when to use '-' and when NOT to use '-' 
 
-     - Only "hosts:" is prefixed with '-', none of the other clauses at the same indent level.  *sigh*
+     - Only "hosts:" is prefixed with '-', none of the other clauses at the same indent level.  
      - "block" probably throw a wrench into this whole thing.
 
 ::
@@ -133,7 +133,7 @@ pay very careful attention to indent level and when to use '-' and when NOT to u
 
     - hosts: all
       vars:
-         ftp_proxy: http://ex-proxy:80/
+         ftp_proxy: "http://ex-proxy:80/"
       vars_files:
          - vars.yml
       pre_tasks:
