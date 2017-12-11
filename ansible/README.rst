@@ -2,8 +2,6 @@
     :align: center
     :alt: https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables
 
-    `s/usb cables/config management/ :) <https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables>`_
-
 
 
 Playing with Ansible
@@ -52,7 +50,7 @@ execute playbook::
 
     -u jane    --remote-user=jane	# think of ssh -l jane
     -e VARS    --extra-vars=VARS	# define extra variables  eg?
-    -e http_proxy="http://proxy.myco.com:2011/proxy.pac"  ??
+    -e http_proxy="http //proxy.myco.com:2011/proxy.pac"  
 
     --check	# dry run mode
 
@@ -131,7 +129,7 @@ Example YAML craziness
 
     - hosts: all
       vars:
-         ftp_proxy: "http://ex-proxy:80"
+         ftp_proxy: "http //ex-proxy 80"
       vars_files:
          - vars.yml
       pre_tasks:
