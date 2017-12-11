@@ -114,14 +114,63 @@ that's probaly the next insanity that need to be memorized.
   * - hosts: ...   if hosts: clause is allowed, it is always with '-' prefix?
 
 
-YAML example of craziness ::
+YAML, example of craziness.  pay very careful attention to indent level and when to use '-' and when NOT to use '-' ::
+
+     Only "hosts:" is prefixed with '-', none of the other clauses at the same indent level.  *sigh*
+     "block" probably throw a wrench into this whole thing.
 
     - hosts: all
+      vars_files:
+         - vars.yml
+      pre_tasks:
+         - name: update apt cache
+           apt: update_cache=yes cache_valid_time=3600
+           when:  # ... some condition here
       tasks:
-         - yum: ...
-         - yum: ...
+         - name: install sw list
+           apt: name={{ item }} state=present
+           with_items:
+             - python-apt
+             - git
+         - apache2_module: name=rewrite state=present
+           notify: restart apache
+         - name: symlink example
+           file: 
+               src:  "template/{{ domain}}.conf
+               dest: "/etc/apache2/{{ domain}}.conf
+               state: link
+           notify: restart apache
+         - copy:
+               src:  "{{ item.src }}"
+               dest: "{{ item.dest }}"
+           with_items:
+                - src:  "httpd.conf"
+                  dest: "/etc/httpd/conf/httpd.conf"
+                - src:  "httpd-vhosts.conf"
+                  dest: "/etc/httpd/conf/httpd-vhosts.conf"
+      handlers:
+         - service: name=apache2 state=restarted
+      
 
-     Why is "tasks:" not prefixed with '-' ??  *sigh*
+
+
+
+YAML constructs/keywords
+************************
+
+- lineinfile
+- regexp
+- notify
+- get_url
+- command   # pretty close to verbatim cli
+- shell     # has clause for chdir, creates, etc.
+- git       # depends on git package installed on ansible client machine
+- file      # state: directory  to create dir rather than file
+- stat      # can create symlink, etc
+- copy
+- rsync
+- unarchive # good for large amount of files to copy
+
 
 
 ref
