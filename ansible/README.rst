@@ -50,9 +50,11 @@ execute playbook::
 YAML
 ****
 
-..code:: 
+.. code:: yaml
 
-    list: entries are prefixed with '-', and each entry does NOT have ':'.  eg:
+    list: entries are prefixed with '-', 
+    and each entry does NOT have ':'.      
+    eg:
 
         listA:
           - foo
@@ -67,7 +69,9 @@ YAML
     }
 
 
-    map/structured list does NOT have '-' prefix in each entry, and each entry contains ':' indicating the key/value.  eg:
+    map/structured list does NOT have '-' prefix in each entry, 
+    and each entry contains ':' indicating the key/value.       
+    eg:
 
         mapB:
           foo: 13
