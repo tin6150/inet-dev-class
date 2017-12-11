@@ -60,6 +60,10 @@ execute playbook::
 YAML
 ****
 
+	"YAML is a crime against humanity"
+	https://www.amazon.com/gp/customer-reviews/R290VXURWU5N36/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B0743VR1MC
+
+
 .. code:: yaml
 
     list: entries are prefixed with '-', 
@@ -116,7 +120,10 @@ that's probaly the next insanity that need to be memorized.
   * - hosts: ...   if hosts: clause is allowed, it is always with '-' prefix?
 
 
-YAML, example of craziness.  pay very careful attention to indent level and when to use '-' and when NOT to use '-' ::
+YAML, example of craziness  
+==========================
+
+pay very careful attention to indent level and when to use '-' and when NOT to use '-' ::
 
      Only "hosts:" is prefixed with '-', none of the other clauses at the same indent level.  *sigh*
      "block" probably throw a wrench into this whole thing.
@@ -178,6 +185,7 @@ YAML constructs/keywords
 ref
 ---
 
+* https://github.com/geerlingguy/ansible-for-devops [reading book, also ex]
 * https://ryaneschinger.com/blog/ansible-quick-start/                                       [read]
 * http://people.redhat.com/mskinner/rhug/q2.2017/Ansible-Hands-on-Introduction.pdf p23      [read]
 * https://www.vagrantup.com/docs/provisioning/ansible_intro.html
@@ -348,9 +356,6 @@ ansible localhost -m setup 			# run ansible, print out all "facts" it gather.  e
 
 Books
 *****
-
-	"YAML is a crime against humanity"
-	https://www.amazon.com/gp/customer-reviews/R290VXURWU5N36/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B0743VR1MC
 
 Was just trying to find a book to buy to learn about it.  Impression from reading ToC and Reivews.
 many seems disapointing from just the review.
