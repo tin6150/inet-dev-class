@@ -116,8 +116,7 @@ that's probaly the next insanity that need to be memorized.
 
 * block: ??
 
-
-	* - hosts: ...   if hosts: clause is allowed, it is always with '-' prefix?
+* - hosts: ...   if hosts: clause is allowed, it is always with '-' prefix?
 
 
 YAML, example of craziness  
