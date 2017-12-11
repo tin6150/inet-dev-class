@@ -50,8 +50,7 @@ execute playbook::
 YAML
 ****
 
-code:: yaml
-
+..code:: 
 
     list: entries are prefixed with '-', and each entry does NOT have ':'.  eg:
 
