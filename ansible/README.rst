@@ -98,17 +98,19 @@ YAML
 Now, what clause expect a list and what clause expect a map in ansible??
 that's probaly the next insanity that need to be memorized.
 
-(infro from Gary Ansible For DevOps Appendix B p377) 
+(info from J.G. Ansible For DevOps Appendix B p377) 
 
-  * with_items expect a '-' list
 
-  * tasks expects a '-' list, cuz number of items is variable. (?)
-  * the "tasks:" keyword itself is not prefixed with '-' ??
- 
-  * copy:  expects a map, cuz essentially need a key-value map of all parameters.  while some params are optional, it is a FINITE set of possible params, and it is all of ONE copy instruction.  
-    "commands" that can be single line with key=value or multi-lines key: value entries are "structured map" and does not use '-' for each item (?)
 
-  * block: ??
+* with_items expect a '-' list
+
+* tasks expects a '-' list, cuz number of items is variable. (?)
+* the "tasks:" keyword itself is not prefixed with '-' ??
+
+* copy:  expects a map, cuz essentially need a key-value map of all parameters.  while some params are optional, it is a FINITE set of possible params, and it is all of ONE copy instruction.  
+  "commands" that can be single line with key=value or multi-lines key: value entries are "structured map" and does not use '-' for each item (?)
+
+* block: ??
 
 
   * - hosts: ...   if hosts: clause is allowed, it is always with '-' prefix?
