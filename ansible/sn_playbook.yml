@@ -1,5 +1,11 @@
 ---
 
+##################
+### never used ###
+##################
+### just a snapshot of some vagran ansible playbook snapshot
+### latest version remained in https://github.com/tin6150/singhub
+
 # adapted from vagrantfile_playbook.yml (in singhub)
 # may become master ansible playbook for my various laptops, just to try things out.
 # for now, just installing a few things on c7

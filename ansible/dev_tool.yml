@@ -1,0 +1,54 @@
+---
+
+# platform independent setup dev tool
+# copy with small tweak from CF_BK/cueball/ANSIBLE/dev_tool.yml
+
+
+- block:
+
+    - debug:
+              msg: This is dbg msg from dev_tool.yml [L9]  sq bracket define list, avoid use after colon
+
+    - block: 
+
+        - name: Install platform independent packages - dev tools
+          package: 
+                #name: csh 
+                name: "{{ item }}"
+                state: present 
+          with_items:
+                    - gcc
+                    - environment-modules
+                    - vim
+                    - squashfs-tools
+                    - docker       # centos may use a diff name...
+                    - docker.io    # this is runtime env
+                    #- ansible     # better off install via pip
+                    #- awk   # no awk on fedora25!!
+
+        - name: Install platform independent packages - sys admin tools really
+          package:
+                name: "{{ item }}"
+                state: present 
+          with_items:
+                - nmap  
+                - wireshark  
+                - wireshark-cli  
+          ignore_errors: yes   # to block level
+          # above will allow ansible to continue when package like wireshark-cli is not found (eg ubuntu don't have it)
+          # but unfortunately also don't update "failed" count in recap report.  
+          # WOuld prefer a "continue on error" option.
+          # It does display red text in failure if one scroll thru log...
+        #- debug:
+        #          msg: <DBG-L32> about to include ...redhat.yml - sq bracket define list, avoid use after colon
+        #- include: dev_tool_redhat.yml
+        #  when: ansible_os_family == "RedHat"
+
+        - debug:
+                  msg: "[DBG-L39] dev_tool.yml end"
+
+        #ignore_errors: yes   # to block level
+        # *sigh* can't have ignore_errors at the block level.
+        # FIXME maybe just not getting syntax right :(   
+        # f'ing hate YAML.  It is really a crime against humanity.  okay, mbaybe just crime against programmer!!
+
