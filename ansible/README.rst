@@ -118,15 +118,15 @@ that's probaly the next insanity that need to be memorized.
 	* - hosts: ...   if hosts: clause is allowed, it is always with '-' prefix?
 
 
-YAML, example of craziness  
-==========================
+Example YAML craziness
+======================
 
     - pay very careful attention to indent level and when to use '-' and when NOT to use '-'.
 
     - Only "hosts:" is prefixed with '-', none of the other clauses at the same indent level.  
     - "block" probably throw a wrench into this whole thing.
 
-::
+
 
 
     - hosts: all
@@ -189,12 +189,13 @@ YAML constructs/keywords
 ref
 ---
 
-* https://github.com/geerlingguy/ansible-for-devops [reading book also ex]
-* https://ryaneschinger.com/blog/ansible-quick-start/                                       [read]
-* http://people.redhat.com/mskinner/rhug/q2.2017/Ansible-Hands-on-Introduction.pdf p23      [read]
-* https://www.vagrantup.com/docs/provisioning/ansible_intro.html
 
-* http://galaxy.ansible.com - Find pre-built playbook roles from the community.
+  * https://github.com/geerlingguy/ansible-for-devops 
+  * https://ryaneschinger.com/blog/ansible-quick-start/                                       [read]
+  * http://people.redhat.com/mskinner/rhug/q2.2017/Ansible-Hands-on-Introduction.pdf p23      [read]
+  * https://www.vagrantup.com/docs/provisioning/ansible_intro.html
+
+  * http://galaxy.ansible.com - Find pre-built playbook roles from the community.
 
 
 
