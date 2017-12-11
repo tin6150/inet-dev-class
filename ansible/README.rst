@@ -19,13 +19,21 @@ adhoc::
     ansible all -i inventory.ini -m ping -u root
     ansible all --inventory-file=inventory.ini --module-name ping -u vagrant --private-key=~/.vagrant.d/insecure_private_key
 
+    ansible all -m shell -a "shellCmd"
+    ansible all          -a "shellCmd"               # shortcut of above
 
-    ansible all -i inventory.ini -m command -u root --args "uptime"
-    ansible all -i inventory.ini -u root -a "uptime"
+    ansible servers -i inventory.ini -m command -u root --args "uptime"
+    ansible workstn -i inventory.ini -u root -a "uptime"
 
-    ansible all -i inventory.ini -m apt -u vagrant -a "name=zsh state=installed -s"
+    ansible ubu1    -i inventory.ini -m apt -u vagrant -a "name=zsh state=installed -s"
+    # "all" means every hosts in the inventory file
+    # "servers", "wrokstn" would be group defined in the inventory file.
+    " "ubu1" is example one specific machine to run ansible on
     # -s sudo 
     # -K, --ask-sudo-pass
+    # -i specify inventory file, can set ANSIBLE_HOSTS, def /etc/ansible/hosts
+
+
 
     ansible localhost -m setup              # display discoverd facts
 
@@ -35,6 +43,50 @@ adhoc::
 execute playbook::
 
     ansible-playbook myplaybook.yml -i inventory.ini -u root
+
+
+
+YAML
+****
+
+code:: yaml
+
+
+    list: entries are prefixed with '-', and each entry does NOT have ':'.  eg:
+
+        listA:
+          - foo
+          - bar
+
+    which converts to python as 
+
+    {'listA': [
+                'foo',
+                'bar'    
+              ]
+    }
+
+
+    map/structured list does NOT have '-' prefix in each entry, and each entry contains ':' indicating the key/value.  eg:
+
+        mapB:
+          foo: 13
+          bar: 14
+
+    which converts to python as
+
+    {'mapB': {
+               'foo': 13,
+               'bar': 14
+              }
+    }
+
+
+Now, what clause expect a list and what clause expect a map in ansible??
+that's probaly the next insanity that need to be memorized.
+
+(infro from Gary Ansible For DevOps Appendix B p377) 
+
 
 
 
@@ -60,6 +112,13 @@ mac::
 centos 7::
 
     sudo pip install ansible
+
+
+backbay 14::
+
+    sudo pip install ansible   # 2.4.1.0
+    sudo aptitude show ansible # 1.5.4+dfsg-1
+
 
 
 Vagrant container setup using Ansible playbook
@@ -100,15 +159,18 @@ inventory
 
 ::
 
-    [servers]
+    [server]
     svr1
     svr2
 
-    [workstations]
-    ubuntu1
-    ubuntu2
+    [workstn]
+    ubu1
+    ubu2
     centos1
     centos2
+    cueball
+    swingset
+
 
 
 Roles
