@@ -117,7 +117,7 @@ that's probaly the next insanity that need to be memorized.
 
 
 Example YAML craziness
-======================
+----------------------
 
     - pay very careful attention to indent level and when to use '-' and when NOT to use '-'.
 
