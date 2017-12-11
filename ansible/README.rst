@@ -117,18 +117,23 @@ that's probaly the next insanity that need to be memorized.
 * block: ??
 
 
-  * - hosts: ...   if hosts: clause is allowed, it is always with '-' prefix?
+* - hosts: ...   if hosts: clause is allowed, it is always with '-' prefix?
 
 
 YAML, example of craziness  
 ==========================
 
-pay very careful attention to indent level and when to use '-' and when NOT to use '-' ::
+pay very careful attention to indent level and when to use '-' and when NOT to use '-' 
 
-     Only "hosts:" is prefixed with '-', none of the other clauses at the same indent level.  *sigh*
-     "block" probably throw a wrench into this whole thing.
+     - Only "hosts:" is prefixed with '-', none of the other clauses at the same indent level.  *sigh*
+     - "block" probably throw a wrench into this whole thing.
+
+::
+
 
     - hosts: all
+      vars:
+         ftp_proxy: http://ex-proxy:80/
       vars_files:
          - vars.yml
       pre_tasks:
@@ -173,6 +178,7 @@ YAML constructs/keywords
 - get_url
 - command   # pretty close to verbatim cli
 - shell     # has clause for chdir, creates, etc.
+- register
 - git       # depends on git package installed on ansible client machine
 - file      # state: directory  to create dir rather than file
 - stat      # can create symlink, etc
@@ -427,5 +433,5 @@ not even when as footnote notation (cuz lacked ref?)  just avoid them for github
 
 :url: https://github.com/tin6150/inet-dev-class/tree/master/ansible
 :author: tin6150
-:version: 2017-1021
+:version: 2017-1210
 
