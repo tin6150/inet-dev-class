@@ -2,6 +2,8 @@
     :align: center
     :alt: https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables
 
+    `s/usb cables/config management/ :) <https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables>`_
+
 
 
 Playing with Ansible
@@ -50,7 +52,7 @@ execute playbook::
 
     -u jane    --remote-user=jane	# think of ssh -l jane
     -e VARS    --extra-vars=VARS	# define extra variables  eg?
-    -e http_proxy="http //proxy.myco.com:2011/proxy.pac"  
+    -e http_proxy="http://proxy.myco.com:2011/proxy.pac"  ??
 
     --check	# dry run mode
 
@@ -58,6 +60,8 @@ execute playbook::
 YAML
 ****
 
+	"YAML is a crime against humanity"
+	https //www.amazon.com/gp/customer-reviews/R290VXURWU5N36/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B0743VR1MC
 
 
 .. code:: yaml
@@ -116,20 +120,20 @@ that's probaly the next insanity that need to be memorized.
 	* - hosts: ...   if hosts: clause is allowed, it is always with '-' prefix?
 
 
-Example YAML craziness
-----------------------
+YAML, example of craziness  
+--------------------------
 
     - pay very careful attention to indent level and when to use '-' and when NOT to use '-'.
 
     - Only "hosts:" is prefixed with '-', none of the other clauses at the same indent level.  
     - "block" probably throw a wrench into this whole thing.
 
-
+::
 
 
     - hosts: all
       vars:
-         ftp_proxy: "http //ex-proxy 80"
+         ftp_proxy: "http://ex-proxy:80"
       vars_files:
          - vars.yml
       pre_tasks:
@@ -187,13 +191,12 @@ YAML constructs/keywords
 ref
 ---
 
+* https://github.com/geerlingguy/ansible-for-devops [reading book also ex]
+* https://ryaneschinger.com/blog/ansible-quick-start/                                       [read]
+* http://people.redhat.com/mskinner/rhug/q2.2017/Ansible-Hands-on-Introduction.pdf p23      [read]
+* https://www.vagrantup.com/docs/provisioning/ansible_intro.html
 
-  * https://github.com/geerlingguy/ansible-for-devops 
-  * https://ryaneschinger.com/blog/ansible-quick-start/                                       [read]
-  * http://people.redhat.com/mskinner/rhug/q2.2017/Ansible-Hands-on-Introduction.pdf p23      [read]
-  * https://www.vagrantup.com/docs/provisioning/ansible_intro.html
-
-  * http://galaxy.ansible.com - Find pre-built playbook roles from the community.
+* http://galaxy.ansible.com - Find pre-built playbook roles from the community.
 
 
 
