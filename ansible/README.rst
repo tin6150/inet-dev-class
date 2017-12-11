@@ -2,6 +2,7 @@
     :align: center
     :alt: https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables
 
+    `s/usb cables/config management/ :) <https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables>`_
 
 
 
@@ -59,8 +60,6 @@ execute playbook::
 YAML
 ****
 
-	"YAML is a crime against humanity"
-	https //www.amazon.com/gp/customer-reviews/R290VXURWU5N36/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B0743VR1MC
 
 
 .. code:: yaml
