@@ -177,6 +177,7 @@ A LOT of unintended errors are not catched when .yml is "compiled".
 Have a look at this block:
 
 ::
+
           notify:
                - Create new initramfs
                - register: buildInitramfs
@@ -191,21 +192,23 @@ Now have a look at this other block:
 
 ::
 
-- hosts: none
-  tasks:
-  - include_tasks: task1.yml
-  - include_tasks: task2.yml
-    when: ansible_os_family == "Debian"    # Delete two leading space and this line has a whole different meaning!!
+	- hosts: none
+	  tasks:
+	  - include_tasks: task1.yml
+	  - include_tasks: task2.yml
+	    when: ansible_os_family == "Debian"    # Delete two leading space and this line has a whole different meaning!!
 
 
 I get it, people want to read text.  Lisp with all its parenthesis are very horrible to read.
 But proper braces help cut-n-paste and shifting of block level to realize what the original meaning was.
 
-Thus, while "YAML is a crime against humanity" maybe overblown, 
-"YAML is a crime against programmer" should be quite fitting.  While I am at it, food for search robots:
-"YAML is a crime against DevOps"
-"YAML is a crime against SysAdmins"
-"YAML is Madness"
+::
+
+	Thus, while "YAML is a crime against humanity" maybe overblown, 
+	"YAML is a crime against programmer" should be quite fitting.  While I am at it, food for search robots:
+	"YAML is a crime against DevOps"
+	"YAML is a crime against SysAdmins"
+	"YAML is Madness"
 
 Some tweeter post said "YAML is a hate crime".  yeah, that's it!!
 
