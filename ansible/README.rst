@@ -301,6 +301,14 @@ backbay 14::
     sudo pip install ansible   # 2.4.1.0
     sudo aptitude show ansible # 1.5.4+dfsg-1
 
+Windows Services for Linux aka Ubuntu 16.04 on win10::
+
+    # sudo apt-get -y install python 
+    # sudo apt-get -y install python-pip python-dev libffi-dev libssl-dev
+    # pip install ansible  # 2.4.2.0
+    # https://www.jeffgeerling.com/blog/2017/using-ansible-through-windows-10s-subsystem-linux
+    # I didn't use this, but JG suggested: (--user installs packages local to the user account instead of globally to avoid permissions issues with Pip and the Linux Subsystem)
+
 
 
 Vagrant container setup using Ansible playbook
