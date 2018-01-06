@@ -210,9 +210,9 @@ But proper braces help cut-n-paste and shifting of block level to realize what t
 	"YAML is a crime against SysAdmins"
 	"YAML is Madness"
 
-Some tweeter post said "YAML is a hate crime".  yeah, that's it!!
+	Some tweeter post said "YAML is a hate crime".  yeah, that's it!!
 
-But really, YAML itself is fine.  Making list and array with simple english is fine.
+But i guess... YAML itself is fine.  Making list and array with simple english is fine.
 It really is Ansible using YAML to implement a highly complex definition language that makes it so disgusting.
 Yet I like the simple, incremental deployment that Ansible provides (vs say Puppet, CFEnggine).  
 So, I take my hate against YAML, and not Ansible.  Crazy eh?
@@ -227,6 +227,7 @@ I know - define a list, and there are things like list and ??
 But, a play expect it to be started as "- hosts:" ?
 And a handler is allowed in a play?
 But not inside a block construct?
+
 *sigh* 
 I have not been able to find the "Regular Grammar" definition for any ansible yaml definition.  
 The list of playbook keywords is the closest thing.  But I am still very fuzzy what is allowed where.  
