@@ -216,7 +216,7 @@ But i guess... YAML itself is fine.  Making list and array with simple english i
 It really is Ansible using YAML to implement a highly complex definition language that makes it so disgusting.
 Yet I like the simple, incremental deployment that Ansible provides (vs say Puppet, CFEnggine).  
 So, I take my hate against YAML, and not Ansible.  Crazy eh?
-Did someone say Salt??
+Did someone say Salt??  Never mind, it has the partner in crime.
 
 
 
