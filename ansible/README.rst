@@ -126,7 +126,8 @@ YAML, example of craziness
 
 - Only "hosts:" is prefixed with '-', none of the other clauses at the same indent level.  
 
-- "block" probably throw a wrench into this whole thing.
+- "block" probably throw a wrench into this whole thing.  This thing is quite fuzzy.  Maybe I am using it wrong.  
+  Have a look at http://docs.ansible.com/ansible/latest/playbooks_blocks.html
 
 ::
 
@@ -167,6 +168,66 @@ YAML, example of craziness
       
 
 
+Why YAML maybe good for reading, but is a crime against programmers
+*******************************************************************
+
+The fact that things are treated as string more or less by default means 
+A LOT of unintended errors are not catched when .yml is "compiled".
+
+Have a look at this block:
+
+::
+          notify:
+               - Create new initramfs
+               - register: buildInitramfs
+
+I am a novice in Ansible, I was HOPING that "register:" command would work when the 
+notification section is triggered.
+No it doesn't.  
+YAML treated it as any string, not special keyword/clause for Ansible to act on.
+
+
+Now have a look at this other block:
+
+::
+
+- hosts: none
+  tasks:
+  - include_tasks: task1.yml
+  - include_tasks: task2.yml
+    when: ansible_os_family == "Debian"    # Delete two leading space and this line has a whole different meaning!!
+
+
+I get it, people want to read text.  Lisp with all its parenthesis are very horrible to read.
+But proper braces help cut-n-paste and shifting of block level to realize what the original meaning was.
+
+Thus, while "YAML is a crime against humanity" maybe overblown, 
+"YAML is a crime against programmer" should be quite fitting.  While I am at it, food for search robots:
+"YAML is a crime against DevOps"
+"YAML is a crime against SysAdmins"
+"YAML is Madness"
+
+Some tweeter post said "YAML is a hate crime".  yeah, that's it!!
+
+But really, YAML itself is fine.  Making list and array with simple english is fine.
+It really is Ansible using YAML to implement a highly complex definition language that makes it so disgusting.
+Yet I like the simple, incremental deployment that Ansible provides (vs say Puppet, CFEnggine).  
+So, I take my hate against YAML, and not Ansible.  Crazy eh?
+Did someone say Salt??
+
+
+
+Where is the grammar book for Ansible's YAML?
+*********************************************
+
+I know - define a list, and there are things like list and ??
+But, a play expect it to be started as "- hosts:" ?
+And a handler is allowed in a play?
+But not inside a block construct?
+*sigh* 
+I have not been able to find the "Regular Grammar" definition for any ansible yaml definition.  
+The list of playbook keywords is the closest thing.  But I am still very fuzzy what is allowed where.  
+http://docs.ansible.com/ansible/latest/playbooks_keywords.html#task
 
 
 YAML constructs/keywords
