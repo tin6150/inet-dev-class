@@ -277,6 +277,11 @@ centos 7::
 
     sudo easy_install pip
     sudo pip install ansible
+    -or-
+    wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    sudo yum install ./epel-release-latest-7.noarch.rpm
+    sudo yum install python2-pip 
+    sudo pip install ansible         # 2.5.0
 
 Mint 18.2 MATE::
 
