@@ -29,4 +29,4 @@
 
 # note the indentation level change for importing a playbook
 - import_playbook: child_play.yml
-
+- import_playbook: install_pkg_play.yml
