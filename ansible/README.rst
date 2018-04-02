@@ -275,6 +275,7 @@ mac::
 
 centos 7::
 
+    sudo easy_install pip
     sudo pip install ansible
 
 Mint 18.2 MATE::
