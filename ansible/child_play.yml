@@ -35,7 +35,7 @@
 
         - name: "record kernel version into a variable"
           shell: "dmesg > /tmp/tin/src/dmesg.log"
-        - shell: "hostname > /tmp/tin/src/example.log"
+        - shell: "uname -a > /tmp/tin/src/example.log"
 
         # src: is local host path (ie where ansible is invoked)
         # dest: is remote manachine ansible is managing 
