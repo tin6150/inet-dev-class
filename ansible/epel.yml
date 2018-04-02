@@ -1,0 +1,44 @@
+---
+
+# Install EPEL repo and many rpm from the EPEL repo
+# RedHat platform specific 
+# see gui_workstation_redhat.yml for more fedora vs redhat platform info.$
+#
+
+- block:     #when: ansible_os_family == "RedHat" and ansible_pkg_mgr == "yum"
+
+    - debug:
+          msg: "This is dbg msg from epel.yml [L10]"
+
+    - block:
+
+          - name: Install EPEL repo
+            yum:
+              name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm
+              state: latest #present
+              # state absent does not ensure it is removed.  
+              # present does not revert changes made to file.  think of yum running not ovewriting existing config.
+
+          - name: Import EPEL GPG key.
+            rpm_key:
+              key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
+              state: present
+              #validate_certs: no    # still get prompt to accept the key  :(
+
+
+          - name: Install EPEL packages
+            yum:
+                name: "{{ item }}"
+                state: present 
+                enablerepo: epel
+            with_items:
+                - dkms
+                - alpine    # email client ala pine?
+
+  when: ansible_os_family == "RedHat" and ansible_pkg_mgr == "yum"
+
+- block:
+    - debug:
+          msg: "Fedora probably don't work ... I am not dealing with DNF at this point"
+  when: ansible_pkg_mgr == "dnf" and ansible_os_family == "RedHat"
+  
