@@ -25,6 +25,7 @@
             name: America/Los_Angeles
 
 
+      - import_tasks:  epel.yml
       #- import_tasks:  os_update_redhat.yml   
       #- import_tasks:  dev_tool.yml                
 
