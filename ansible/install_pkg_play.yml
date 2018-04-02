@@ -13,10 +13,10 @@
 
         - name: "Place a marker file to track Ansile run progress"
           file:
-                path: /tmp/AnsibleRun
+                path: /tmp/tin/AnsibleRun
                 state: directory
         - file:
-                path: /tmp/AnsibleRun/install_pkg_play.marker
+                path: /tmp/tin/AnsibleRun/install_pkg_play.marker
                 state: touch
 
 

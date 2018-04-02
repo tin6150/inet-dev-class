@@ -27,10 +27,10 @@
 
         - name: "Place a marker file to track Ansile run progress"
           file: 
-                path: /tmp/tin/dst/AnsibleRun
+                path: /tmp/tin/AnsibleRun
                 state: directory
         - file: 
-                path: /tmp/tin/dst/AnsibleRun/child_play.marker
+                path: /tmp/tin/AnsibleRun/child_play.marker
                 state: touch
 
         - name: "record kernel version into a variable"
