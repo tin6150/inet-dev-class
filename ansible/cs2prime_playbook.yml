@@ -1,0 +1,32 @@
+---
+
+# Hello World for Ansible :)
+# use cs2prime (as localhost).  Will update OS.
+
+# run as:
+# - sudo ansible-playbook -v   cs2prime_playbook.yml -i "localhost"
+#    -v   adds little.  
+#    -vv  is okay for run time troubleshooting.   
+#    localhost need ansible, python installed
+
+- hosts: localhost
+  become: true  # not really needed, cuz use "sudo ansible-playbook..." and so running as root already
+  tasks:
+      - debug:
+          msg: Hello World
+
+      - name: Running shell command to echo hi msg
+        command: "echo Hi again!!"
+
+      - name: Set timezone to America/LosAngeles
+        timezone:
+            name: America/Los_Angeles
+
+
+      #- import_tasks:  os_update_redhat.yml   
+      #- import_tasks:  dev_tool.yml                
+
+
+# note the indentation level change for importing a playbook
+- import_playbook: child_play.yml
+
