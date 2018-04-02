@@ -38,7 +38,7 @@
           # but unfortunately also don't update "failed" count in recap report.  $
 
         # not all pkg name verified to be valid outside of RHEL7 at this time
-        - name: Install RHEL7 Net packages. eg samba-client
+        - name: Install RHEL7 Net packages. eg pip
           package:
                 name: "{{ item }}"
                 state: present 
@@ -48,7 +48,7 @@
           # above will allow ansible to continue when package like wireshark-cli is not found$
           when: ansible_os_family == "RedHat"  # for 2nd level block
 
-        - name: Install Ubuntu/Mint Net packages. eg samba-client
+        - name: Install Ubuntu/Mint Net packages. eg pip
           package:
                 name: "{{ item }}"
                 state: present 
