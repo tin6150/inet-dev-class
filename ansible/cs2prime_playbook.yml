@@ -5,6 +5,7 @@
 
 # run as:
 # - sudo ansible-playbook -v   cs2prime_playbook.yml -i "localhost"
+# - sudo ansible-playbook      cs2prime_playbook.yml -i inventory.ini -l csd_clients --list-hosts
 # - sudo ansible-playbook      cs2prime_playbook.yml -i inventory.ini -l ux8prime
 #    -v   adds little.  
 #    -vv  is okay for run time troubleshooting.   

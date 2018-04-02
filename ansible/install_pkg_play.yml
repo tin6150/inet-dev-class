@@ -3,7 +3,7 @@
 # install various packages
 # names of rpm and service may be very RHEL7 specific at this point.
 
-- hosts: localhost
+- hosts: localhost and all
 
   tasks:
     - debug:
