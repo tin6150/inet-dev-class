@@ -5,7 +5,7 @@
 ## making this a playbook rather than an include task list so that it is 
 ## independently runnable if/when necessary
 
-- hosts: localhost
+- hosts: localhost and all
 
   vars:
      - SrcBaseDir: /tmp/tin/src
@@ -35,13 +35,15 @@
 
         - name: "record kernel version into a variable"
           shell: "dmesg > /tmp/tin/src/dmesg.log"
+        - shell: "hostname > /tmp/tin/src/example.log"
 
         # src: is local host path (ie where ansible is invoked)
         # dest: is remote manachine ansible is managing 
         # but if "localhost", then they may become the same!?
         - name: "copy dummy log"
           copy:
-              src:  "{{ SrcBaseDir }}/dmesg.log"
+              #src:  "{{ SrcBaseDir }}/dmesg.log"
+              src:  "{{ SrcBaseDir }}/example.log"
               dest: "{{ DstBaseDir }}"
               mode: 0600
               backup: yes

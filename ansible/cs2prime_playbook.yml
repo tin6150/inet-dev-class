@@ -5,11 +5,12 @@
 
 # run as:
 # - sudo ansible-playbook -v   cs2prime_playbook.yml -i "localhost"
+# - sudo ansible-playbook      cs2prime_playbook.yml -i inventory.ini -l ux8prime
 #    -v   adds little.  
 #    -vv  is okay for run time troubleshooting.   
 #    localhost need ansible, python installed
 
-- hosts: localhost
+- hosts: localhost and all
   become: true  # not really needed, cuz use "sudo ansible-playbook..." and so running as root already
   tasks:
       - debug:
