@@ -1,0 +1,46 @@
+---
+
+# update the OS 
+# platform specific task due to nature of work
+# tested to work on
+# - bofh centos 6.6 to 6.9 (need to reboot separately to get kernel rolled)
+
+# for OS upgrade from 6 to 7, try os-upgrade-redhat-6to7.yml
+
+
+- block:
+
+    - debug:
+          msg: "[DBG-L9] os_update_redhat.yml start"
+
+    - block: 
+
+        - name: "run a yum update first"
+          yum: 
+                name:  "yum"
+                update_cache: yes
+                state: latest 
+
+        # if still don't work, run "yum clean all" 
+
+        - name: "Update OS - ie update all packages via yum"
+          # ref: https://stackoverflow.com/questions/29986794/ansible-how-can-i-update-the-system-centos-with-ansible
+          yum: 
+                name:  "*"
+                state: latest 
+
+          #ignore_errors: yes   # to block level
+          # above will allow ansible to continue when package like wireshark-cli is not found
+          # but unfortunately also don't update "failed" count in recap report.  
+          # WOuld prefer a "continue on error" option.
+          # It does display red text in failure if one scroll thru log...
+
+        - debug:
+               msg: "[DBG-L26] os_update_redhat.yml end"
+
+        #ignore_errors: yes   # to block level
+        # *sigh* can't have ignore_errors at the block level.
+        # FIXME maybe just not getting syntax right :(   
+        # f'ing hate YAML.  It is really a crime against humanity.  okay, mbaybe just crime against programmer!!
+
+  when: ansible_os_family == "RedHat"
