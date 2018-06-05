@@ -56,6 +56,11 @@ execute playbook::
 
     --check	# dry run mode
 
+help::
+
+    ansible-doc -l      # list ansible modules
+    ansible-doc yum     # doc on the yum module
+    ANSIBLE_LIBRARY     # default search for ./library 
 
 YAML
 ****
