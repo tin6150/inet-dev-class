@@ -290,11 +290,13 @@ centos 7::
 
 Mint 18.2 MATE::
 
-    sudo apt-get -y install python-pip
+    sudo apt-get -y install ansible          # ubuntu 16.04 comes with ansible 2.1.1.0, no "import_tasks"
+    --or--
+    sudo apt-get -y install python-pip       # cueball
     sudo pip install --upgrade pip
     sudo pip install --upgrade setuptools
     sudo pip install --upgrade ansible  # 2.4.1.0
-
+    #					# 2.5.2 on lunaria 2018.05
 
 Mint 17.2::
 
