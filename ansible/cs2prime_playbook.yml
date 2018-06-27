@@ -2,6 +2,7 @@
 
 # Hello World for Ansible :)
 # use cs2prime (as localhost).  Will update OS.
+# this has been abandoned.  use CF_BK/Ansible instead.
 
 # run as:
 # - sudo ansible-playbook -v   cs2prime_playbook.yml -i "localhost"

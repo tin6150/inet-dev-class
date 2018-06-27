@@ -35,7 +35,8 @@ adhoc::
 
 
 
-    ansible localhost -m setup              # display discoverd facts
+    ansible localhost -m setup              		# discoverd facts as dict ansible_facts
+    ansible localhost -m setup -a 'filter=ansible_eth*'	# filter
 
     ansible-doc -l          # list docs
     ansible-doc git         # doc on the git module
