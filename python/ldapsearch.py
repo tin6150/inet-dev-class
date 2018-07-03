@@ -10,10 +10,11 @@
 
 
 # one-time setup:
-# module load python/3.5
-# pyvenv ~/local_python_35
-# source ~/local_python_35/bin/activate
+# module load python/2.7
+# virtualenv ~/local_python_2.7
+# source ~/local_python_2.7/bin/activate
 # pip install python-ldap
+#
 # pip uninstall ldap # if it complains don't have ldap.initialize()
 
 
