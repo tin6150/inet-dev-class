@@ -47,7 +47,7 @@ def found_alias_in_ldap( user ):
 
 def found_in_ldap( user ):
 		#print ldap.__file__
-		con = ldap.initialize('ldap://identity.lbl.gov:389')
+		con = ldap.initialize('ldap://identity:389')
 		ldap_base = "ou=people,dc=lbl,dc=gov"
 		#searchAttribute = ["uid","cn","mail"]
 		#searchAttribute = ["mail"]
