@@ -34,6 +34,7 @@ def found_alias_in_ldap( user ):
 			#print( "a==>%s<==" % a )
 			#print( "b==>%s<==" % b )
 			#print( "dict==>%s<==" % b['lblGoogleAccountName'] )
+			# zmk would return 'ZMaskusLavin@lbl.gov']
 			return b['lblGoogleAccountName']
 		else :
 			#return "Alias Not Found"
@@ -63,6 +64,7 @@ def found_in_ldap( user ):
 			#print( "a==>%s<==" % a )
 			#print( "b==>%s<==" % b )
 			#print( "dict==>%s<==" % b['lblGoogleAccountName'] )
+			# tin would return ['tin@lbl.gov']
 			return b['lblGoogleAccountName']
 		else :
 			#return "Username Not Found"
