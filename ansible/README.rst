@@ -225,6 +225,15 @@ So, I take my hate against YAML, and not Ansible.  Crazy eh?
 Did someone say Salt??  Never mind, it has the partner in crime.
 
 
+Other example of crazy syntax in Ansible YAML
+*********************************************
+
+ * checkihng membership of an element in a array
+   better use lots of quotes!
+   ``when: '"eth1" in ansible_interfaces'``
+   ref: https://github.com/tin6150/inet-dev-class/blob/master/ansible/README.rst
+   
+
 
 Where is the grammar book for Ansible's YAML?
 *********************************************
