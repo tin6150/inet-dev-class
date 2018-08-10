@@ -443,10 +443,10 @@ pros and cons, check points to keep in mind:
 Ansible Pull
 ************
 
-For "pull method" where `hosts: localhost` is used in the playbook:
+For "pull method" where ``hosts: localhost`` is used in the playbook:
 
-`ansible-playbook -v site.yml -i "localhost," -c local` should be prefered over  
-`ansible-playbook -v site.yml -l localhost`
+``ansible-playbook -v site.yml -i "localhost," -c local`` should be prefered over  
+``ansible-playbook -v site.yml -l localhost``
 the former will work for group_by, the latter don't.
 
 
