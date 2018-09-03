@@ -4,7 +4,7 @@ version: "2"
 services:
   influxdb:
     container_name: influxdb
-    image: influxdb:1.5
+    image: influxdb:1.5          # root/root
     #image: influxdb:1.0.2
     ports:
       - "8083:8083"
@@ -15,6 +15,7 @@ services:
         INFLUX_ADMIN_PASS: "grafana"    # ++ FIXME docker yml password solution?
     volumes:
       - /opt/tig/influxdb:/var/lib/influxdb
+      # data will be stored persistently in local volume /opt/tig/influxdb 
       #- /home/core/volumes/influxdb:/var/lib/influxdb
     restart: always
 
@@ -30,11 +31,11 @@ services:
         ##GF_SECURITY_ADMIN_USER: admin
         #GF_SECURITY_ADMIN_PASSWORD: admin ## ++ FIXME 
         ##GF_SECURITY_ADMIN_PASSWORD: adminadmin  ## changed on webui, thus not setting it again.
-        GF_SECURITY_SECRET_KEY: grafana
+        ##GF_SECURITY_SECRET_KEY: grafana  ## what is this?
         GF_USERS_ALLOW_SIGN_UP: "true"
         GF_USERS_ALLOW_ORG_CREATE: "true"
         GF_AUTH_ANONYMOUS_ENABLED: "true"
-        GF_AUTH_ANONYMOUS_ORG_NAME: grafana
+        GF_AUTH_ANONYMOUS_ORG_NAME: grafana ##
         GF_DASHBOARDS_JSON_ENABLED: "true"
         #GF_DASHBOARDS_JSON_PATH: /opt/grafana
     restart: always
@@ -53,6 +54,8 @@ services:
         DATABASE:      "telegraf"
     volumes:
       - /home/tin/tin-gh/inet-dev-class/tig/conf/telegraf.conf:/etc/telegraf/telegraf.conf
+      - /opt/tig/grafana:/var/lib/grafana
+      # data will be stored persistently in local volume /opt/tig/grafana
       #- /opt/tig/conf/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
       #- /home/core/conf/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
       - /var/run/docker.sock:/var/run/docker.sock

@@ -4,8 +4,11 @@ tig - telegraph, influx, grafana - stack for monitor and graphing for linux serv
 
 plan to roughly follow this guide, using docker to install the stack.
 config files are mapped between host and the container.
+	https://hackernoon.com/monitor-your-infrastructure-with-tig-stack-b63971a15ccf
 
-https://hackernoon.com/monitor-your-infrastructure-with-tig-stack-b63971a15ccf
+something was missing from above.
+this guide maybe better anyway:
+	https://blog.linuxserver.io/2017/11/25/how-to-monitor-your-server-using-grafana-influxdb-and-telegraf/
 
 
 ~~~~
@@ -35,8 +38,21 @@ inside the docker container?
 influx db?
 pwd change persisted after a "docker kill grafana" and ^C on the "docker-compose up" screen.
 
-
 it would make sense for changes to be saved to influxdb, since there will be lots of customaizations.
+
+
+FIXME ++ how to make sure data is persistent
+============================================
+
+changed docker-compose.yml
+hit ^C
+then docker-compose up -d
+saw:
+	**^ tin bofh ~/tin-gh/inet-dev-class/tig/conf ^**>  docker-compose up -d
+	Recreating telegraf
+	Recreating influxdb
+	Recreating grafana
+grafana profile was reset :(
 
 
 
