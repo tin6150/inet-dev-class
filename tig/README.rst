@@ -8,5 +8,11 @@ config files are mapped between host and the container.
 https://hackernoon.com/monitor-your-infrastructure-with-tig-stack-b63971a15ccf
 
 
+~~~~
+
 first target install is bofh_zorin 2018.0903
+
+
+docker-compose up
+
 
