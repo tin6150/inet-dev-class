@@ -13,6 +13,38 @@ https://hackernoon.com/monitor-your-infrastructure-with-tig-stack-b63971a15ccf
 first target install is bofh_zorin 2018.0903
 
 
-docker-compose up
+prereq for debbian: 
+- docker.io
+- docker.compose
 
+# edit docker-compose.yml and telegraph.conf to suit local system need.
+# port 3000 was in use on bofh_zorin 
+
+docker-compose up 	# see console output, but if hit ^C in this window, all 3 containers are closed!
+docker-compose up -d	# daemon mode
+
+docker ps
+
+http://bofh:3000/
+note that it is NOT https
+
+graphana login
+admin/admin
+changed, but where is it saved??
+inside the docker container?
+influx db?
+pwd change persisted after a "docker kill grafana" and ^C on the "docker-compose up" screen.
+
+
+it would make sense for changes to be saved to influxdb, since there will be lots of customaizations.
+
+
+
+
+~~~~
+transiet commands
+
+mkdir TMP; cd tmp
+docker exec telegraf           telegraf -sample-config > telegraf.sample.cfg
+#           ^^container_name   ^^cmd
 
