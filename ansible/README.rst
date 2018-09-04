@@ -35,7 +35,8 @@ adhoc::
 
 
 
-    ansible localhost -m setup              # display discoverd facts
+    ansible localhost -m setup              		# discoverd facts as dict ansible_facts
+    ansible localhost -m setup -a 'filter=ansible_eth*'	# filter
 
     ansible-doc -l          # list docs
     ansible-doc git         # doc on the git module
@@ -56,6 +57,11 @@ execute playbook::
 
     --check	# dry run mode
 
+help::
+
+    ansible-doc -l      # list ansible modules
+    ansible-doc yum     # doc on the yum module
+    ANSIBLE_LIBRARY     # default search for ./library 
 
 YAML
 ****
@@ -219,6 +225,15 @@ So, I take my hate against YAML, and not Ansible.  Crazy eh?
 Did someone say Salt??  Never mind, it has the partner in crime.
 
 
+Other example of crazy syntax in Ansible YAML
+*********************************************
+
+ * checkihng membership of an element in a array
+   better use lots of quotes!
+   ``when: '"eth1" in ansible_interfaces'``
+   ref: https://github.com/tin6150/inet-dev-class/blob/master/ansible/README.rst
+   
+
 
 Where is the grammar book for Ansible's YAML?
 *********************************************
@@ -286,11 +301,13 @@ centos 7::
 
 Mint 18.2 MATE::
 
-    sudo apt-get -y install python-pip
+    sudo apt-get -y install ansible          # ubuntu 16.04 comes with ansible 2.1.1.0, no "import_tasks"
+    --or--
+    sudo apt-get -y install python-pip       # cueball
     sudo pip install --upgrade pip
     sudo pip install --upgrade setuptools
     sudo pip install --upgrade ansible  # 2.4.1.0
-
+    #					# 2.5.2 on lunaria 2018.05
 
 Mint 17.2::
 
@@ -431,6 +448,16 @@ pros and cons, check points to keep in mind:
 - Each OS platform to have its own play avoid needing constant "block ... when platform==rhel"  and then another block for deb.
 - If change name/ip of say Radius Server, or NTP server, change one task file vs change 2+ task file?
     
+
+
+Ansible Pull
+************
+
+For "pull method" where ``hosts: localhost`` is used in the playbook:
+
+``ansible-playbook -v site.yml -i "localhost," -c local`` should be prefered over  
+``ansible-playbook -v site.yml -l localhost``
+the former will work for group_by, the latter don't.
 
 
 Troubleshooting
