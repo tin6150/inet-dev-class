@@ -28,24 +28,35 @@ services:
     ports:
       - "3000:3000"
     links:
-      - influxdb:influxdb # [tr] tweak
+      - influxdb
+      #- influxdb:influxdb # [tr] tweak
     environment: # [matisku ]
-        GF_SECURITY_ADMIN_USER: admin
-        GF_SECURITY_ADMIN_PASSWORD: admin ## ++ FIXME 
+        ##?GF_SECURITY_ADMIN_USER: admin
+        ##?GF_SECURITY_ADMIN_PASSWORD: admin ## ++ FIXME 
         ##GF_SECURITY_ADMIN_PASSWORD: adminadmin  ## changed on webui, thus not setting it again.
-        GF_SECURITY_SECRET_KEY: grafana  ## what is this?
+        ##?GF_SECURITY_SECRET_KEY: grafana  ## what is this?
         GF_USERS_ALLOW_SIGN_UP: "true"
         GF_USERS_ALLOW_ORG_CREATE: "true"
         GF_AUTH_ANONYMOUS_ENABLED: "true"
         GF_AUTH_ANONYMOUS_ORG_NAME: grafana ##
         GF_DASHBOARDS_JSON_ENABLED: "true"
         #GF_DASHBOARDS_JSON_PATH: /opt/grafana
+    #network_mode: "host"
+      # network mode need to be specifed if using persistent mapping
+      # or else need to change permission of the folder ++FIXME 
+      # https://community.home-assistant.io/t/complete-guide-on-setting-up-grafana-influxdb-with-home-assistant-using-official-docker-images/42860/64
     volumes:
       #- /home/core/conf/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
       #- /opt/tig/conf/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
-      - /opt/tig/grafana:/var/lib/grafana 
-      # data will be stored persistently in local volume /opt/tig/grafana
-      # plugins is stored by grafana into /var/lib/plugins
+      #- /opt/tig/grafana:/var/lib/grafana 
+      #  data will be stored persistently in local volume /opt/tig/grafana
+      #  but that requires fixing permission when docker create the folder, so TBA ++ FIXME
+      #  not sure what's the implication of not having persistent storage for grafana... 
+      #  map config, json stored in the container only, potentially lost??
+      - /opt/tig/grafana_plugins:/var/lib/grafana/plugins
+      # plugins is stored by grafana into /var/lib/grafana/plugins
+      # but added a new volume map cuz it complains can't create the dir
+      # so letting docker create it ahead of time...
       # admin pw not stored here (probably influxdb)
     #restart: always
     restart: unless-stopped # [tr]
