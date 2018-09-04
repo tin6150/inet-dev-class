@@ -56,6 +56,30 @@ grafana profile was reset :(
 
 
 
+Grafana config
+==============
+
+adding data source
+------------------
+
+For config using docker container, the CNI used by the containe means it cannot reach the influxdb via 
+http://localhost:8086
+Host FQDN is one solution (else find out that IP kubernetes assigned to the influxdb container).
+
+
+
+INFLUXDB config
+===============
+
+Digital Ocean mentioned needing to create user
+but most other post omited this step. 
+no one even map the influx conf file in the docker env.
+https://www.digitalocean.com/community/tutorials/how-to-monitor-system-metrics-with-the-tick-stack-on-centos-7
+
+influx
+  CREATE USER "sammy" WITH PASSWORD 'sammy_admin' WITH ALL PRIVILEGES
+  show users
+  exit
 
 ~~~~
 transiet commands
@@ -63,4 +87,8 @@ transiet commands
 mkdir TMP; cd tmp
 docker exec telegraf           telegraf -sample-config > telegraf.sample.cfg
 #           ^^container_name   ^^cmd
+
+
+docker stop telegraf grafana influxdb
+
 

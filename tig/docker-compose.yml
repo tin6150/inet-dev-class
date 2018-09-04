@@ -1,5 +1,6 @@
 # basic config from https://hackernoon.com/monitor-your-infrastructure-with-tig-stack-b63971a15ccf
 # [matisku] = additional config from https://github.com/matisku/tig-stack
+# [tg] = https://tig.pt/monitor-your-infrastructure-with-tig-stack/
 version: "2"
 services:
   influxdb:
@@ -17,7 +18,8 @@ services:
       - /opt/tig/influxdb:/var/lib/influxdb
       # data will be stored persistently in local volume /opt/tig/influxdb 
       #- /home/core/volumes/influxdb:/var/lib/influxdb
-    restart: always
+    #restart: always
+    restart: unless-stopped # [tr]
 
   grafana:
     container_name: grafana
@@ -26,20 +28,29 @@ services:
     ports:
       - "3000:3000"
     links:
-      - influxdb
+      - influxdb:influxdb # [tr] tweak
     environment: # [matisku ]
-        ##GF_SECURITY_ADMIN_USER: admin
-        #GF_SECURITY_ADMIN_PASSWORD: admin ## ++ FIXME 
+        GF_SECURITY_ADMIN_USER: admin
+        GF_SECURITY_ADMIN_PASSWORD: admin ## ++ FIXME 
         ##GF_SECURITY_ADMIN_PASSWORD: adminadmin  ## changed on webui, thus not setting it again.
-        ##GF_SECURITY_SECRET_KEY: grafana  ## what is this?
+        GF_SECURITY_SECRET_KEY: grafana  ## what is this?
         GF_USERS_ALLOW_SIGN_UP: "true"
         GF_USERS_ALLOW_ORG_CREATE: "true"
         GF_AUTH_ANONYMOUS_ENABLED: "true"
         GF_AUTH_ANONYMOUS_ORG_NAME: grafana ##
         GF_DASHBOARDS_JSON_ENABLED: "true"
         #GF_DASHBOARDS_JSON_PATH: /opt/grafana
-    restart: always
+    volumes:
+      #- /home/core/conf/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+      #- /opt/tig/conf/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+      - /opt/tig/grafana:/var/lib/grafana 
+      # data will be stored persistently in local volume /opt/tig/grafana
+      # plugins is stored by grafana into /var/lib/plugins
+      # admin pw not stored here (probably influxdb)
+    #restart: always
+    restart: unless-stopped # [tr]
 
+  # eventually will want to fork off telegraf config for collector agent only
   telegraf:
     container_name: telegraf
     image: telegraf:1.5
@@ -47,16 +58,24 @@ services:
     network_mode: "host"
     environment:
         #HOST_NAME:     "telegraf"   # [mutisku]
-        HOST_NAME:     "localhost"   
         #INFLUXDB_HOST: "influxdb"
-        INFLUXDB_HOST: "localhost"
-        INFLUXDB_PORT: "8086"
+        #HOST_NAME:     "localhost"  # localhost may NOT work in docker/cni env, but hackernoon post use "host" network mode.
+        #INFLUXDB_HOST: "localhost"
+        #HOST_NAME:     "bofh.lbl.gov"
+        #INFLUXDB_HOST: "bofh.lbl.gov"
+        #INFLUXDB_PORT: "8086"
         DATABASE:      "telegraf"
     volumes:
-      - /home/tin/tin-gh/inet-dev-class/tig/conf/telegraf.conf:/etc/telegraf/telegraf.conf
-      - /opt/tig/grafana:/var/lib/grafana
-      # data will be stored persistently in local volume /opt/tig/grafana
-      #- /opt/tig/conf/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
-      #- /home/core/conf/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+      - /home/tin/tin-gh/inet-dev-class/tig/conf/telegraf.conf:/etc/telegraf/telegraf.conf 
+      - /opt/tig/telegraf:/var/lib/telegraf
       - /var/run/docker.sock:/var/run/docker.sock
-    restart: always
+      - /var/run/utmp:/var/run/utmp:ro # [tr]
+      - /sys:/rootfs/sys:ro # [tr]
+      - /proc:/rootfs/proc:ro # [tr]
+      - /etc:/rootfs/etc:ro # [tr]
+    environment:
+      - HOST_PROC=/rootfs/proc # [tr]
+      - HOST_SYS=/rootfs/sys # [tr]
+      - HOST_ETC=/rootfs/etc # [tr]
+    #restart: always
+    restart: unless-stopped # [tr]
