@@ -1,22 +1,38 @@
+
+# docker-compose stack for TIG stack
+# sample involkation (more info in README.rst)
+# docker-compose up
+#
+#
 # basic config from https://hackernoon.com/monitor-your-infrastructure-with-tig-stack-b63971a15ccf
+#       aka [ml]    http://www.blog.labouardy.com/monitor-your-infrastructure-with-tig-stack/
 # [matisku] = additional config from https://github.com/matisku/tig-stack
-# [tg] = https://tig.pt/monitor-your-infrastructure-with-tig-stack/
+# [tr] = https://tig.pt/monitor-your-infrastructure-with-tig-stack/
+# [ironicBdger] = https://blog.linuxserver.io/2017/11/25/how-to-monitor-your-server-using-grafana-influxdb-and-telegraf/
+#
+# [influx] = https://hub.docker.com/_/influxdb/
+
 version: "2"
 services:
   influxdb:
     container_name: influxdb
     image: influxdb:1.5          # root/root
-    #image: influxdb:1.0.2
+    #image: influxdb:1.0.2       # maybe need this cuz of admin interface... ++FIXME ??
     ports:
-      - "8083:8083"
-      - "8086:8086"
+      - "8083:8083" # admin interface # said to be removed in 1.3
+      - "8086:8086" # HTTP API port
+      #- "2003:2003" # graphine support, if enabled (def disabled) # https://hub.docker.com/_/influxdb/
     environment:
-        INFLUX_DATABASE:   "telegraf"   # [matisku]
-        INLFUX_ADMIN_USER: "grafana"
-        INFLUX_ADMIN_PASS: "grafana"    # ++ FIXME docker yml password solution?
+        INFLUX_DATABASE:      	"telegraf"   # [matisku]
+        INLFUX_ADMIN_ENABLED: 	"true"       # [influx]
+        INLFUX_ADMIN_USER:    	"grafana"
+        INFLUX_ADMIN_PASSWORD: 	"grafana"    # ++ FIXME docker yml password solution?  cli env var?
+        INFLUXDB_USER:        	"telegraf"   # [influx]
+        INFLUXDB_USER_PASSWORD: "telegraf"   # ++ FIXME  INFLUXDB_USER_PASSWORD=secretpassword
     volumes:
       - /opt/tig/influxdb:/var/lib/influxdb
       # data will be stored persistently in local volume /opt/tig/influxdb 
+      # presumably create db, grant user, etc will all be stored in this mapped volume.
       #- /home/core/volumes/influxdb:/var/lib/influxdb
     #restart: always
     restart: unless-stopped # [tr]

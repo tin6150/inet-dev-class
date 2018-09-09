@@ -4,11 +4,11 @@ tig - telegraph, influx, grafana - stack for monitor and graphing for linux serv
 
 plan to roughly follow this guide, using docker to install the stack.
 config files are mapped between host and the container.
-	https://hackernoon.com/monitor-your-infrastructure-with-tig-stack-b63971a15ccf
+	[ml] https://hackernoon.com/monitor-your-infrastructure-with-tig-stack-b63971a15ccf
 
 something was missing from above.
 this guide maybe better anyway:
-	https://blog.linuxserver.io/2017/11/25/how-to-monitor-your-server-using-grafana-influxdb-and-telegraf/
+	[ironicBdger] https://blog.linuxserver.io/2017/11/25/how-to-monitor-your-server-using-grafana-influxdb-and-telegraf/
 
 
 ~~~~
@@ -25,8 +25,10 @@ prereq for debbian:
 
 docker-compose up 	# see console output, but if hit ^C in this window, all 3 containers are closed!
 docker-compose up -d	# daemon mode
+docker-compose logs --tail=5 influxdb 
 
-docker ps
+docker ps 
+docker ps -a
 
 http://bofh:3000/
 note that it is NOT https
@@ -71,17 +73,43 @@ Host FQDN is one solution (else find out that IP kubernetes assigned to the infl
 INFLUXDB config
 ===============
 
+docker run --rm influxdb           influxd config > influxdb.dockdef.conf
+docker exec -it influxdb           bash 
+#               ^^container_name   ^^cmd
+
+
+
 Digital Ocean mentioned needing to create user
 but most other post omited this step. 
 no one even map the influx conf file in the docker env.
 https://www.digitalocean.com/community/tutorials/how-to-monitor-system-metrics-with-the-tick-stack-on-centos-7
 
+#  influxdb dockerhub :: Manually Init DB
+#  starting influx db with secrets (from env var?) possibility (from influxdb dockerhub)
+#  one time manual run, create db, create user and password, then exit and leave DB in mapped volume -v ($PWD)
+docker run --rm \
+      -e INFLUXDB_DB=db0 -e INFLUXDB_ADMIN_ENABLED=true \
+      -e INFLUXDB_ADMIN_USER=admin -e INFLUXDB_ADMIN_PASSWORD=supersecretpassword \
+      -e INFLUXDB_USER=telegraf -e INFLUXDB_USER_PASSWORD=secretpassword \
+      -v $PWD:/var/lib/influxdb \
+      influxdb /init-influxdb.sh
+
+
 influx
   CREATE USER "sammy" WITH PASSWORD 'sammy_admin' WITH ALL PRIVILEGES
+  GRANT ALL ON telegraf TO telegraf
   show users
   exit
 
+influx
+  use _internal
+  show databases
+
+  CREATE RETENTION POLICY thirty_days ON telegraf DURATION 30d REPLICATION 1 DEFAULT
+  SHOW RETENTION POLICIES ON telegraf
+
 ~~~~
+
 transiet commands
 
 mkdir TMP; cd tmp
