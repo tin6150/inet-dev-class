@@ -36,11 +36,20 @@ docker run --rm \
       -p 8086:8086 \
       --name i_pod \
       influxdb:1.5  
+		restarting influxdb this way does not get the message of "recreating influxdb", that's probably a docker-compose thing.
+		previously not seeing data probably cuz enable auth and thus need to start influx cli w/ user/pass
+		influx -username 'sammy' -password 'sammy_admin' 
 
 results in (very similar to docker compose):
  docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                            NAMES
 4819685d2836        influxdb:1.5        "/entrypoint.sh in..."   24 seconds ago      Up 22 seconds       0.0.0.0:8083->8083/tcp, 0.0.0.0:8086->8086/tcp   i_pod
+
+
+okay, at least starting db this way works.  data seems to persist.
+cece7 got telegraf installed, and used the config that writes to 128.3.10.10:8086, and 
+telegraf db got created, and measurments (table? schema?) has tables that grows over span  of (telegraf report every 10s)
+select count(*) from diskio
 
 
 **^ ^** 
