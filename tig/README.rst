@@ -23,9 +23,9 @@ prereq for debbian:
 # edit docker-compose.yml and telegraph.conf to suit local system need.
 # port 3000 was in use on bofh_zorin 
 
-docker-compose up 	# see console output, but if hit ^C in this window, all 3 containers are closed!
-docker-compose up -d	# daemon mode
-docker-compose logs --tail=5 influxdb 
+docker-compose up | tee compose.out 	# see console output, but if hit ^C in this window, all 3 containers are closed!
+docker-compose up -d			# daemon mode
+docker-compose logs --tail=5 influxdb   # 
 
 docker ps 
 docker ps -a
@@ -74,15 +74,23 @@ INFLUXDB config
 ===============
 
 docker run --rm influxdb           influxd config > influxdb.dockdef.conf
-docker exec -it influxdb           bash 
 #               ^^container_name   ^^cmd
-
-
 
 Digital Ocean mentioned needing to create user
 but most other post omited this step. 
 no one even map the influx conf file in the docker env.
 https://www.digitalocean.com/community/tutorials/how-to-monitor-system-metrics-with-the-tick-stack-on-centos-7
+
+docker exec -it influxdb           bash 
+#               ^^container_name   ^^cmd
+
+
+influx
+  CREATE USER "sammy" WITH PASSWORD 'sammy_admin' WITH ALL PRIVILEGES
+  GRANT ALL ON telegraf TO telegraf
+  show users
+  exit
+
 
 #  influxdb dockerhub :: Manually Init DB
 #  starting influx db with secrets (from env var?) possibility (from influxdb dockerhub)
@@ -94,19 +102,19 @@ docker run --rm \
       -v $PWD:/var/lib/influxdb \
       influxdb /init-influxdb.sh
 
-
-influx
-  CREATE USER "sammy" WITH PASSWORD 'sammy_admin' WITH ALL PRIVILEGES
-  GRANT ALL ON telegraf TO telegraf
-  show users
-  exit
-
 influx
   use _internal
   show databases
 
+  use telegraf
+  shoe measurements
+
   CREATE RETENTION POLICY thirty_days ON telegraf DURATION 30d REPLICATION 1 DEFAULT
   SHOW RETENTION POLICIES ON telegraf
+
+  SHOW MEASUREMENTS ON _internal
+  SELECT * FROM "_internal".."database" LIMIT 10 
+
 
 ~~~~
 
