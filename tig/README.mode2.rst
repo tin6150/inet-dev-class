@@ -10,8 +10,9 @@ now just following docker run command listed in dockerhub of influxdb.
 ensure that i have a stable db first.
 
 
+=============================================================
 influxDB
-========
+=============================================================
 
 
 https://hub.docker.com/_/influxdb/
@@ -81,6 +82,11 @@ _internal
 tin_dockerrun
 
 
+use telegraf
+show measurements
+select count(*) from diskio
+
+
 
 
 root@537c7dfe857f:/# ip a
@@ -105,9 +111,14 @@ but netstat bin not avail.
 
 
 
+=============================================================
 telegraf
-========
+=============================================================
 
+	TODO: 
+	check ufw, ensure bofh can connect to itself.
+	why cece7 can connect from home IP and not on same host??
+	see the telegraf.M2.conf
 
 **^ ^** 
 docker run --rm \
