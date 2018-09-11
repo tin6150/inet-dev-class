@@ -230,3 +230,55 @@ name
 _internal
 tin
 
+
+
+
+
+=============================================================
+Grafana
+=============================================================
+
+GF_PATHS_CONFIG /etc/grafana/grafana.ini
+GF_PATHS_DATA   /var/lib/grafana                # most important for persistent storage
+GF_PATHS_HOME   /usr/share/grafana
+GF_PATHS_LOGS   /var/log/grafana                # map this so that can see what grafana may complain about (or docker logs?).
+
+
+
+
+mkdir /opt/tig/grafana
+chown -R 472 /opt/tig/grafana  # Grafana 5.1+   (prior use uid 104)
+# telegraf had similar uid problem.
+
+**^ ^** 
+docker run --rm \
+  --name g_pod \
+      -e "GF_PATHS_LOGS=/var/lib/grafana/log" \
+      -v /opt/tig/grafana/:/var/lib/grafana \
+      -p 3000:3000 \
+   grafana/grafana:5.1.5
+
+      #-v /opt/tig/grafana/logs:/var/log/grafana \
+      #-v /opt/tig/grafana/plugins:/var/lib/grafana/plugins \
+    #image: grafana/grafana:4.3.2
+        ##?GF_SECURITY_ADMIN_USER: admin
+        ##?GF_SECURITY_ADMIN_PASSWORD: admin ## ++ FIXME 
+        ##GF_SECURITY_ADMIN_PASSWORD: adminadmin  ## changed on webui, thus not setting it again.
+        ##?GF_SECURITY_SECRET_KEY: grafana  ## what is this?
+        GF_USERS_ALLOW_SIGN_UP:     "true"
+        GF_USERS_ALLOW_ORG_CREATE:  "true"
+        GF_AUTH_ANONYMOUS_ENABLED:  "true"
+        GF_AUTH_ANONYMOUS_ORG_NAME: "grafana" ##
+        GF_DASHBOARDS_JSON_ENABLED: "true"
+        #GF_DASHBOARDS_JSON_PATH: /opt/grafana
+    #network_mode: "host"
+      # network mode need to be specifed if using persistent mapping
+      # or else need to change permission of the folder ++FIXME 
+      # https://community.home-assistant.io/t/complete-guide-on-setting-up-grafana-influxdb-with-home-assistant-using-official-docker-images/42860/64
+    volumes:
+      #  data will be stored persistently in local volume /opt/tig/grafana
+      #  but that requires fixing permission when docker create the folder, so TBA ++ FIXME
+      #  not sure what's the implication of not having persistent storage for grafana... 
+      #  map config, json stored in the container only, potentially lost??
+
+
