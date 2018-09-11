@@ -261,25 +261,15 @@ docker run --rm \
 
       #-v /opt/tig/grafana/logs:/var/log/grafana \
       #-v /opt/tig/grafana/plugins:/var/lib/grafana/plugins \
-    #image: grafana/grafana:4.3.2
-        ##?GF_SECURITY_ADMIN_USER: admin
-        ##?GF_SECURITY_ADMIN_PASSWORD: admin ## ++ FIXME 
-        ##GF_SECURITY_ADMIN_PASSWORD: adminadmin  ## changed on webui, thus not setting it again.
-        ##?GF_SECURITY_SECRET_KEY: grafana  ## what is this?
-        GF_USERS_ALLOW_SIGN_UP:     "true"
-        GF_USERS_ALLOW_ORG_CREATE:  "true"
-        GF_AUTH_ANONYMOUS_ENABLED:  "true"
-        GF_AUTH_ANONYMOUS_ORG_NAME: "grafana" ##
-        GF_DASHBOARDS_JSON_ENABLED: "true"
-        #GF_DASHBOARDS_JSON_PATH: /opt/grafana
-    #network_mode: "host"
-      # network mode need to be specifed if using persistent mapping
-      # or else need to change permission of the folder ++FIXME 
-      # https://community.home-assistant.io/t/complete-guide-on-setting-up-grafana-influxdb-with-home-assistant-using-official-docker-images/42860/64
-    volumes:
-      #  data will be stored persistently in local volume /opt/tig/grafana
-      #  but that requires fixing permission when docker create the folder, so TBA ++ FIXME
-      #  not sure what's the implication of not having persistent storage for grafana... 
-      #  map config, json stored in the container only, potentially lost??
 
+
+
+when saving datasource, still get gateway timeout.
+probably got saved, but can't talk.
+is the 73... the ip it is using to go out?
+not likely... 
+docker net ls ??? 
+
+
+t=2018-09-11T06:54:53+0000 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/ status=302 remote_addr=73.170.217.126 time_ms=0 size=29 referer=
 
