@@ -247,6 +247,7 @@ GF_PATHS_LOGS   /var/log/grafana                # map this so that can see what 
 
 
 mkdir /opt/tig/grafana
+mkdir /opt/tig/grafana/log # not created automatically? :(
 chown -R 472 /opt/tig/grafana  # Grafana 5.1+   (prior use uid 104)
 # telegraf had similar uid problem.
 
