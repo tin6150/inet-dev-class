@@ -273,3 +273,43 @@ docker net ls ???
 
 t=2018-09-11T06:54:53+0000 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/ status=302 remote_addr=73.170.217.126 time_ms=0 size=29 referer=
 
+=============================================================
+container tool for troubleshooting
+=============================================================
+
+
+maybe vanilla centos 7 has enough troubleshooting tools:
+
+docker run -it  --rm   centos:7 bash
+docker run -it  --rm   tin6150/apache_psg3 bash
+
+seems like need to put the tools there myself :(
+
+::
+
+	mkdir c7tools
+	vi c7tools/dockerfile 
+	docker build      -t tin6150/c7tools    . 
+	docker run -it --rm  bofh/c7tools:v7 
+	docker push  tin6150/c7tools # optional push to dockerhub... tba...
+
+	something isn't right :(
+
+ref: https://tin6150.github.io/psg/docker.html#dockerfile
+
+
+=============================================================
+netdata
+=============================================================
+
+docker run -d --cap-add SYS_PTRACE \
+           -v /proc:/host/proc:ro \
+           -v /sys:/host/sys:ro \
+           -p 19999:19999 titpetric/netdata
+Open a browser on http://server:19999/ and watch how your server is doing.
+
+dashboard shows right away, no config needed.
+probably not storing any data for long term... 
+
+
+
