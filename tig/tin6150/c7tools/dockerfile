@@ -1,5 +1,7 @@
 FROM centos:7
 MAINTAINER bofh <tin6150@gmail.com>
+LABEL description="A fat container containing many sys admin tools to help troubleshoot docker env \
+**early draft**."
 ENV container docker
 RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == \
 systemd-tmpfiles-setup.service ] || rm -f $i; done); \
@@ -13,7 +15,8 @@ rm -f /lib/systemd/system/anaconda.target.wants/*;
 VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]
 
-RUN /usr/bin/yum update && /usr/bin/yum install -y vim
+#RUN /usr/bin/yum update && /usr/bin/yum install -y vim
+RUN /usr/bin/yum install -y vim net-tools  traceroute wireshark nmap-ncat telnet 
 #tcpdump 
 
 
@@ -21,3 +24,8 @@ RUN /usr/bin/yum update && /usr/bin/yum install -y vim
 #RUN apt-get update && apt-get install -y ruby ruby-dev		# 
 # always run the apt-get update and install command in the same line using &&, 
 # or it would result in a db problem on the resulting container.
+
+# docker build      -t tin6150/c7tools
+# docker build      -t tin6150/satools
+# docker run -it --rm 5d2adf975a24 bash
+
