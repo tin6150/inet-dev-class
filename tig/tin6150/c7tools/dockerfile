@@ -16,7 +16,8 @@ VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]
 
 #RUN /usr/bin/yum update && /usr/bin/yum install -y vim
-RUN /usr/bin/yum install -y vim net-tools  traceroute wireshark nmap-ncat telnet 
+RUN /usr/bin/yum install -y vim net-tools  traceroute tcpdump wireshark nmap-ncat telnet openssh-client nmap nmap-ncat strace iputils iproute 
+# iproute provides /usr/sbin/ip 
 #tcpdump 
 
 
@@ -25,7 +26,22 @@ RUN /usr/bin/yum install -y vim net-tools  traceroute wireshark nmap-ncat telnet
 # always run the apt-get update and install command in the same line using &&, 
 # or it would result in a db problem on the resulting container.
 
-# docker build      -t tin6150/c7tools
-# docker build      -t tin6150/satools
+# docker build .
+# docker build      -t tin6150/c7tools .
+# docker build      -t tin6150/satools .
 # docker run -it --rm 5d2adf975a24 bash
+
+
+# ifconfig -a 
+# 172.17.0.7 
+
+# telnet 128.3.10.10 3000
+# gets nowhere.  ditto w/ traceroute...
+# updtaed firewall on docker host to allow the docker 172.17.0.0/24 network and things are working.
+
+
+# networks for docker and virtual box likely:
+# 172.17.0.0      0.0.0.0         255.255.0.0     U         0 0          0 docker0
+# 172.18.0.0      0.0.0.0         255.255.0.0     U         0 0          0 br-84368794ed5e
+# 172.19.0.0      0.0.0.0         255.255.0.0     U         0 0          0 br-06ce113fe440
 
