@@ -289,11 +289,12 @@ seems like need to put the tools there myself :(
 
 	mkdir c7tools
 	vi c7tools/dockerfile 
-	docker build      -t tin6150/c7tools    . 
-	docker run -it --rm  bofh/c7tools:v7 
-	docker push  tin6150/c7tools # optional push to dockerhub... tba...
+	docker build      -t tin6150/satools    . 
+	#docker run -it --rm  bofh/c7tools:v7 
+	docker push  tin6150/c7tools # optional push to dockerhub... 
+	docker push  tin6150/satools # decided to change name :)
+	# the "upload path" of docker push depends on the tags in the build, not the dir path where dockerfile resides.
 
-	something isn't right :(
 
 ref: https://tin6150.github.io/psg/docker.html#dockerfile
 
