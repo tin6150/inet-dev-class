@@ -303,10 +303,12 @@ ref: https://tin6150.github.io/psg/docker.html#dockerfile
 netdata
 =============================================================
 
-docker run -d --cap-add SYS_PTRACE \
+    docker run --rm -d --cap-add SYS_PTRACE \
            -v /proc:/host/proc:ro \
            -v /sys:/host/sys:ro \
-           -p 19999:19999 titpetric/netdata
+           --name n_stock -p 19999:19999 \
+           titpetric/netdata 
+
 Open a browser on http://server:19999/ and watch how your server is doing.
 
 dashboard shows right away, no config needed.
@@ -317,6 +319,19 @@ https://github.com/firehol/netdata/wiki/netdata-backends
 
 - netdata collects a lot of data, multiple hosts can flood server quickly.
 - use average, probably a good start  (def is 10 sec?)
+
+
+port 19998 in version below use mapped .conf file to send backend data to influxdb.
+first port of mapping is the host, 2nd is inside the container.
+netdata.conf is generated automatically by netdata, it is huge.  only specifying a small number of clauses to configure backend to use influxdb
+
+    docker run --rm -d --cap-add SYS_PTRACE \
+           -v /home/tin/tin-gh/inet-dev-class/tig/conf/netdata.conf:/etc/netdata/netdata.conf \
+           -v /proc:/host/proc:ro \
+           -v /sys:/host/sys:ro \
+           --name n_infx -p 19998:19999 \
+           titpetric/netdata 
+
 
 
 
