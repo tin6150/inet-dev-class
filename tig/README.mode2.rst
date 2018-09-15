@@ -312,5 +312,15 @@ Open a browser on http://server:19999/ and watch how your server is doing.
 dashboard shows right away, no config needed.
 probably not storing any data for long term... 
 
+netdata can send data to say influx backend.  see 
+https://github.com/firehol/netdata/wiki/netdata-backends
+
+- netdata collects a lot of data, multiple hosts can flood server quickly.
+- use average, probably a good start  (def is 10 sec?)
+
+
+
+
+
 
 
