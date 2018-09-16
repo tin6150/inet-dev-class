@@ -14,10 +14,18 @@ ensure that i have a stable db first.
 influxDB
 =============================================================
 
+Time-Series Data Storage
+https://portal.influxdata.com/downloads#influxdb
 
+ref:
 https://hub.docker.com/_/influxdb/
 
-manually init db:
+
+docker network create influxdbnet
+then start influx with:
+--net=influxdbnet
+
+manually init db once:
 
 docker run --rm \
       -e INFLUXDB_DB=db0 -e INFLUXDB_ADMIN_ENABLED=true \
@@ -28,6 +36,9 @@ docker run --rm \
       --name i_pod \
       influxdb /init-influxdb.sh
 
+
+
+
 **^ ^** 
 docker run --rm \
       -e INFLUXDB_DB=db0 \
@@ -35,6 +46,7 @@ docker run --rm \
       -v /opt/tigM2/influxdb:/var/lib/influxdb \
       -p 8083:8083 \
       -p 8086:8086 \
+      --net=influxdbnet \
       --name i_pod \
       influxdb:1.5  
 		restarting influxdb this way does not get the message of "recreating influxdb", that's probably a docker-compose thing.
@@ -109,11 +121,46 @@ but netstat bin not avail.
 
 
 
+=============================================================
+Chronograf 
+=============================================================
+Time-Series data viz.
+
+install:
+docker pull quay.io/influxdb/chronograf:1.6.2
+
+info:
+https://docs.docker.com/samples/library/chronograf/#using-the-container-with-influxdb
+
+
+change influxdb to create a docker network "influxdbnet"
+docker network create influxdbnet
+--net=influxdbnet
+
+docker run --rm \
+    --net=influxdbnet \
+    -p 8888:8888 --name c_pod \
+    chronograf --influxdb-url=http://bofh.lbl.gov:8086 
+
+db query doesn't work yet
+
+strangely i can connect to port 8888, ufw somehow not blocking it !!
+cuz docker setup the network using iptables, so it allows where can connect, no longer limited by my ufw rules!!
+docker overlay network uses 172....
+
+
+
+not sure if still need to mount persistent volume
+    -v ...:/var/lib/chronograf
+
 
 
 =============================================================
 telegraf
 =============================================================
+
+Time-Series Data Collector
+Also see netdata, collectd.
 
 	TODO: 
 	check ufw, ensure bofh can connect to itself.
@@ -237,6 +284,10 @@ tin
 =============================================================
 Grafana
 =============================================================
+Visualization tool
+Needs lots of config to create graphs.
+Alternative: Kapacitor.
+NetData come with a nicely default visualization page already, but it does not save data for long term analysis/trending.
 
 GF_PATHS_CONFIG /etc/grafana/grafana.ini
 GF_PATHS_DATA   /var/lib/grafana                # most important for persistent storage
