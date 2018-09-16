@@ -9,6 +9,17 @@ now just following docker run command listed in dockerhub of influxdb.
 
 ensure that i have a stable db first.
 
+2018.0915
+noticed some ufw not blocking docker ports
+so updated docker-compose.yml with the "M2" config tried out there.
+run as:
+docker-compose rm			# remove old images, if necessary
+
+docker-compose up | tee compose.M2.out  # see console output, but if hit ^C in this window, all 3 containers are closed!
+docker-compose up -d                    # daemon mode
+docker-compose logs --tail=5 influxdb   # 
+
+
 
 =============================================================
 influxDB
@@ -40,7 +51,7 @@ docker run --rm \
 
 
 **^ ^** 
-docker run --rm \
+**compose.mode2** docker run --rm \
       -e INFLUXDB_DB=db0 \
       -v /home/tin/tin-gh/inet-dev-class/tig/conf/influxdb.conf:/etc/influxdb/influxdb.conf \
       -v /opt/tigM2/influxdb:/var/lib/influxdb \
@@ -148,6 +159,14 @@ strangely i can connect to port 8888, ufw somehow not blocking it !!
 cuz docker setup the network using iptables, so it allows where can connect, no longer limited by my ufw rules!!
 docker overlay network uses 172....
 
+Docker deamon adds DOCKER chain to `*filter` and `*nat`
+ufw or iptables reset will break them!!
+but Docker does not change INPUT rules.  thus my ufw should still block access
+restarting it may have been bad.  ufw update may require all docker container to be restarted...
+https://serverfault.com/questions/714276/bind-docker-container-ports-only-to-specific-outside-server-address
+
+
+
 
 
 not sure if still need to mount persistent volume
@@ -168,7 +187,7 @@ Also see netdata, collectd.
 	see the telegraf.M2.conf
 
 **^ ^** 
-docker run --rm \
+**compose.M2** docker run --rm \
   --name t_pod \
       -v /home/tin/tin-gh/inet-dev-class/tig/conf/telegraf.M2.conf:/etc/telegraf/telegraf.conf:ro \
       -v /opt/tigM2/telegraf:/var/lib/telegraf \
@@ -186,15 +205,15 @@ docker run --rm \
 
 
 
-influx container i_pod, don't see new database (telegraf) :(
+	influx container i_pod, don't see new database (telegraf) :(
 
-> show databases
-name: databases
-name
-----
-db0
-_internal
-tin_dockerrun
+	> show databases
+	name: databases
+	name
+	----
+	db0
+	_internal
+	tin_dockerrun
 
 
 
@@ -216,6 +235,7 @@ tin_dockerrun
 
 ~~~~~
 
+(this was before docker network create ... influxdbnet by me for chronograf)
 docker network ls
 docker network inspect cd52fd39c5b1
 
@@ -354,6 +374,7 @@ ref: https://tin6150.github.io/psg/docker.html#dockerfile
 netdata
 =============================================================
 
+**early test, no longer needed, see below** 
     docker run --rm -d --cap-add SYS_PTRACE \
            -v /proc:/host/proc:ro \
            -v /sys:/host/sys:ro \
@@ -376,7 +397,8 @@ port 19998 in version below use mapped .conf file to send backend data to influx
 first port of mapping is the host, 2nd is inside the container.
 netdata.conf is generated automatically by netdata, it is huge.  only specifying a small number of clauses to configure backend to use influxdb
 
-    docker run --rm -d --cap-add SYS_PTRACE \
+**compose.M2** docker run --rm -d \ 
+        --cap-add SYS_PTRACE \
            -v /home/tin/tin-gh/inet-dev-class/tig/conf/netdata.conf:/etc/netdata/netdata.conf \
            -v /proc:/host/proc:ro \
            -v /sys:/host/sys:ro \
