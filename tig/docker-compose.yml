@@ -11,6 +11,16 @@
 #### maybe others
 
 ## ++ FIXME passwords... 
+
+## TBA  more investigation maybe needed
+## currently ports map stpecific host ip, may not be needed anymore
+## should have hopefully disabled docker from mocking with iptables 
+## ( https://tin6150.github.io/psg/docker.html#behind_ufw )
+## had to enable some masquerading, but not done yet, as things seems to be working
+## may have to do with the ufw rules that I have?  (cf_bk commit 3499d90 ; psg commit a8a37d7 ) 
+## or maybe the port with specific IP?
+## But these containers are now protected by UFW rules, internet clients accessing webGUI need to be allowed 
+## (infra_ufw.yml for cueball)
 #
 # basic config from https://hackernoon.com/monitor-your-infrastructure-with-tig-stack-b63971a15ccf
 #       aka [ml]    http://www.blog.labouardy.com/monitor-your-infrastructure-with-tig-stack/
