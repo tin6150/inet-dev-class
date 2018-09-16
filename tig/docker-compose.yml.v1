@@ -1,13 +1,9 @@
 
 
 # docker-compose stack for TIG stack
-# adjusted version using config outlined in README.mode2.rst
-# docker-compose up | tee compose.M2.out
+# sample involkation (more info in README.rst)
+# docker-compose up | tee compose.out
 #
-#### there are cmds in README.mode2.rst that need tto be run, maybe once, for setup
-#### docker net  creation
-#### influxdb init
-#### maybe others
 #
 # basic config from https://hackernoon.com/monitor-your-infrastructure-with-tig-stack-b63971a15ccf
 #       aka [ml]    http://www.blog.labouardy.com/monitor-your-infrastructure-with-tig-stack/
@@ -20,7 +16,7 @@
 version: "2"
 services:
   influxdb:
-    container_name: influxdb_M2
+    container_name: influxdb
     image: influxdb:1.5          # root/root
     #image: influxdb:1.0.2       # maybe need this cuz of admin interface... ++FIXME ??
     #networks:
@@ -29,18 +25,16 @@ services:
       - "8083:8083" # admin interface # said to be removed in 1.3
       - "8086:8086" # HTTP API port
       #- "2003:2003" # graphine support, if enabled (def disabled) # https://hub.docker.com/_/influxdb/
-    networks:
-      - influxdbnet
     environment:
-        INFLUX_DATABASE:        "db0"        # README.mode2.rst
-        #INLFUX_ADMIN_ENABLED:   "true"       # [influx]
-        #INLFUX_ADMIN_USER:      "grafana"
-        #INFLUX_ADMIN_PASSWORD:  "grafana"    # ++ FIXME docker yml password solution?  cli env var?
-        #INFLUXDB_USER:          "telegraf"   # [influx]
-        #INFLUXDB_USER_PASSWORD: "telegraf"   # ++ FIXME  INFLUXDB_USER_PASSWORD=secretpassword
+        INFLUX_DATABASE:        "telegraf"   # [matisku]
+        INLFUX_ADMIN_ENABLED:   "true"       # [influx]
+        INLFUX_ADMIN_USER:      "grafana"
+        INFLUX_ADMIN_PASSWORD:  "grafana"    # ++ FIXME docker yml password solution?  cli env var?
+        INFLUXDB_USER:          "telegraf"   # [influx]
+        INFLUXDB_USER_PASSWORD: "telegraf"   # ++ FIXME  INFLUXDB_USER_PASSWORD=secretpassword
     volumes:
       - /home/tin/tin-gh/inet-dev-class/tig/conf/influxdb.conf:/etc/influxdb/influxdb.conf 
-      - /opt/tigM2/influxdb:/var/lib/influxdb  
+      - /opt/tig/influxdb:/var/lib/influxdb  
       # data will be stored persistently in local volume /opt/tig/influxdb 
       # presumably create db, grant user, etc will all be stored in this mapped volume.
       #- /home/core/volumes/influxdb:/var/lib/influxdb
