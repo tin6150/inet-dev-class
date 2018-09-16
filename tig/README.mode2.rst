@@ -19,7 +19,12 @@ docker-compose up | tee compose.M2.out  # see console output, but if hit ^C in t
 docker-compose up -d                    # daemon mode
 docker-compose logs --tail=5 influxdb   # 
 
+NOTE:
+not recommended, but
+update /etc/default/docker with 
+docker_opts="--iptables=false"
 
+FIXME ++ password in docker-compose...
 
 =============================================================
 influxDB
