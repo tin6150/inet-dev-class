@@ -9,16 +9,21 @@
 # https://www.famousscientists.org/list/
 
 # -e INFLUXDB_ADMIN_USER=dba -e INFLUXDB_ADMIN_PASSWORD=$INFLUXDB_ADMIN_PASS \
-export INFLUXDB_ADMIN_PASS=I_999 # dba
+##export INFLUXDB_ADMIN_PASS=I_999 # dba
 
 # -e INFLUXDB_USER=telegraf -e INFLUXDB_USER_PASSWORD=$INFLUXDB_TELEGRAF_PASS \
-export INFLUXDB_TELEGRAF_PASS=...   # telegraf
+##export INFLUXDB_TELEGRAF_PASS=...   # telegraf
 
 # tba, grafana container, default is admin/admin
-export GRAFANA_APP_PASS=... # grafana  http://...:3000 web login
+##export GRAFANA_APP_PASS=... # grafana  http://...:3000 web login
 
 
 
+[[ -d /opt/tig/grafana ]] || sudo mkdir -p /opt/tig/grafana 
+sudo chown -R 472 /opt/tig/grafana 
+# the rest docker-compose likely create them
+#mkdir /opt/tig
+#mkdir /opt/tigM2
 
 
 # influx one time initialization
@@ -33,8 +38,5 @@ docker run --rm \
       influxdb /init-influxdb.sh
 
 
-
-# perm
-chown -R 472 /opt/tig/grafana
 
 

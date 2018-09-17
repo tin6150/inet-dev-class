@@ -124,7 +124,7 @@ services:
         #HOST_NAME:     "telegraf"   # [mutisku]
         #INFLUXDB_HOST: "influxdb"
         #HOST_NAME:     "localhost"  # localhost may NOT work in docker/cni env, but hackernoon post use "host" network mode.
-        HOST_NAME:     "bofh.lbl.gov"
+        #HOST_NAME:     "bofh.lbl.gov" # should get container name as hostname 9/17
         INFLUXDB_HOST: "bofh.lbl.gov"
         INFLUXDB_PORT: "8086"
         DATABASE:      "telegraf"
