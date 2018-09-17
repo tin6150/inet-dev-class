@@ -44,7 +44,9 @@ services:
     ports:
       - "128.3.10.10:8083:8083" # admin interface # said to be removed in 1.3
       - "128.3.10.10:8086:8086" # HTTP API port
-      - "128.3.10.10:2003:2003" # graphine support, if enabled (def disabled) # https://hub.docker.com/_/influxdb/
+      - "2003:2003" # graphine support, if enabled (def disabled) # https://hub.docker.com/_/influxdb/
+      - "4242:4242" # opentsdb support, if enabled (def disabled) 
+      - "8089:8089" # udp (db) support, if enabled (def disabled)
     networks:
       - influxdbnet
     environment:
@@ -137,6 +139,7 @@ services:
     #restart: always
     restart: unless-stopped # [tr]
 
+  # this first instance use graphite as backend, didn't seems to write to influxdb, graphite not configured correctly?
   netdata:
     container_name: netdata_M2
     image: titpetric/netdata
@@ -151,6 +154,23 @@ services:
       - /proc:/host/proc:ro 
       - /sys:/host/sys:ro 
     restart: unless-stopped 
+
+  # this second instance use opentsdb as backend, since above didn't seems to write to influxdb
+  netdata-alt:
+    container_name: netdata_M2_alt
+    image: titpetric/netdata
+    ports:
+      - "128.3.10.10:19997:19999"
+    cap_add: 
+       - SYS_PTRACE
+    environment:
+        FOO: "bar2"
+    volumes:
+      - /home/tin/tin-gh/inet-dev-class/tig/conf/netdata.opentsdb.conf:/etc/netdata/netdata.conf
+      - /proc:/host/proc:ro 
+      - /sys:/host/sys:ro 
+    restart: unless-stopped 
+
 
   chronograf:
     container_name: chronograf_M2
