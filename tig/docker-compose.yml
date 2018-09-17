@@ -42,8 +42,11 @@ services:
     #networks:
       #- influxdbnet # [telegraf dockerhub]
     ports:
-      - "128.3.10.10:8083:8083" # admin interface # said to be removed in 1.3
-      - "128.3.10.10:8086:8086" # HTTP API port
+      #- "128.3.10.10:8083:8083" # admin interface # said to be removed in 1.3
+      #- "128.3.10.10:8086:8086" # HTTP API port
+      # moving back to bind to all IP, cuz don't think this is needed for ufw, and trying to run some container on lunaria as well to produce more data
+      - "8083:8083" # admin interface # said to be removed in 1.3
+      - "8086:8086" # HTTP API port
       - "2003:2003" # graphine support, if enabled (def disabled) # https://hub.docker.com/_/influxdb/
       - "4242:4242" # opentsdb support, if enabled (def disabled) 
       - "8089:8089" # udp (db) support, if enabled (def disabled)
@@ -70,7 +73,8 @@ services:
     image: grafana/grafana:5.1.5
     #image: grafana/grafana:4.3.2
     ports:
-      - "128.3.10.10:3000:3000"
+      #- "128.3.10.10:3000:3000" # problem loading telegraf dashboard on bofh itself
+      - "3000:3000"
     #links:
       #- influxdb
     #networks:
@@ -144,7 +148,8 @@ services:
     container_name: netdata_M2
     image: titpetric/netdata
     ports:
-      - "128.3.10.10:19998:19999"
+      #- "128.3.10.10:19998:19999"
+      - "19998:19999"
     cap_add: 
        - SYS_PTRACE
     environment:
@@ -160,7 +165,8 @@ services:
     container_name: netdata_M2_alt
     image: titpetric/netdata
     ports:
-      - "128.3.10.10:19997:19999"
+      #- "128.3.10.10:19997:19999"
+      - "19997:19999"
     cap_add: 
        - SYS_PTRACE
     environment:
@@ -178,7 +184,8 @@ services:
     networks:
       - influxdbnet
     ports:
-      - "128.3.10.10:8888:8888"
+      #- "128.3.10.10:8888:8888"
+      - "8888:8888"
     environment:
         FOO: "bar"
     command: chronograf --influxdb-url=http://bofh.lbl.gov:8086
