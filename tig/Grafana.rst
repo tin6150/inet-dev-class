@@ -103,3 +103,18 @@ Let’s say you want to set the admin password this way.
     Environment variable: GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/admin_password
 
 
+
+Import Grafana dashboard
+--------------------------------------------------------------------------------
+
+
+
+https://grafana.com/dashboards/3330
+Telegraf HOst Metrics
+This one imported w/o error, and worked like a charm.
+did not need to do any config.
+Not sure which host it is plotting....
+but most graphs are showing pretty data :)
+
+had just updated telegraf.M2.conf with lots of inputs, just specified them, no additional config on them yet.
+but then this at least seems to provide some good number of data pointts.
