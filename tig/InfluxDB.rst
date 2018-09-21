@@ -92,6 +92,31 @@ select COUNT(*) from cpu
 select * from cpu LIMIT 10
 
 
+Go-style regex supported for queries.
+Query syntax is EBNF (same as Go)
+ref:
+- https://docs.influxdata.com/influxdb/v1.6/query_language/data_exploration/
+- https://docs.influxdata.com/influxdb/v1.6/query_language/spec/
+
+operators
+---------
+
+        =       equal
+        <>  !=  not equal
+        >=      greater than or equal
+        =~      contains regex, delimited by //
+
+
+select * from cpu where host <> 'cece7' limit 1
+select * from cpu where host =~ /cece/  limit 1
+
+        name: cpu
+        time                cpu       host         usage_guest usage_guest_nice usage_idle        usage_iowait         ...
+        ----                ---       ----         ----------- ---------------- ----------        ------------       
+        1536847990000000000 cpu-total 59787d029f8c 0           0                91.20672353261489 0.13171098846177356 
+
+
+
 
 Query Template from Chronograf
 SHOW MEASUREMENTS ON "db_name"
@@ -105,7 +130,6 @@ SHOW TAG VALUES ON "telegraf" FROM "cpu" WITH KEY = "host"
                 ^^^db name^^^
 
 
-Go-style regex supported for queries.
 
 
 curl-ing the influx db
