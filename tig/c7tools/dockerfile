@@ -16,7 +16,7 @@ VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]
 
 #RUN /usr/bin/yum update && /usr/bin/yum install -y vim
-RUN /usr/bin/yum install -y vim net-tools  traceroute tcpdump wireshark nmap-ncat telnet openssh-client nmap nmap-ncat strace iputils iproute 
+RUN /usr/bin/yum install -y vim net-tools  traceroute tcpdump wireshark nmap-ncat telnet openssh-client nmap nmap-ncat strace iputils iproute bind-utils
 # iproute provides /usr/sbin/ip 
 #tcpdump 
 
