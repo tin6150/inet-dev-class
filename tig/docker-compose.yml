@@ -74,7 +74,7 @@ services:
     #image: grafana/grafana:4.3.2
     ports:
       #- "128.3.10.10:3000:3000" # problem loading telegraf dashboard on bofh itself
-      - "3000:3000"
+      - "3030:3000" # host:docker pair
     #links:
       #- influxdb
     #networks:
@@ -97,7 +97,7 @@ services:
       # or else need to change permission of the folder ++FIXME 
       # https://community.home-assistant.io/t/complete-guide-on-setting-up-grafana-influxdb-with-home-assistant-using-official-docker-images/42860/64
     volumes:
-      - /opt/tig/grafana:/var/lib/grafana  ## ++ FIXME need chown -R 472 /opt/tig/grafana
+      - /opt/tig/grafana:/var/lib/grafana  ## host:docker pair  ++ FIXME need chown -R 472 /opt/tig/grafana
       #- /home/core/conf/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
       #- /opt/tig/conf/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
       #  data will be stored persistently in local volume /opt/tig/grafana
@@ -189,7 +189,7 @@ services:
     environment:
         FOO: "bar"
     command: chronograf --influxdb-url=http://bofh.lbl.gov:8086
-    restart: unless-stopped 
+    #restart: unless-stopped 
 
 #
 #
