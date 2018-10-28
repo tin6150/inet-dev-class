@@ -1,0 +1,25 @@
+<HTML>
+
+
+<!-- mapbox... gl is webGL JavaScript ...  -->
+<!-- ref  https://www.mapbox.com/mapbox-gl-js/api/ -->
+
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+Include the following code in the <body> of your HTML file.
+
+<div id='map' style='width: 400px; height: 300px;'></div>
+<script>
+mapboxgl.accessToken = 'undefined';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v9'
+});
+</script>
+
+
+
+
+
+
+</HTML>
