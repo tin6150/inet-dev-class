@@ -4,12 +4,20 @@
 
 import os
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 def create_app(test_config=None):
 	app = Flask(__name__)
 	basedir = os.path.abspath(os.path.dirname(__file__))
-	config = os.environ['APP_CONFIG']
+	APP_CONFIG='config.DevelopmentConfig'
+	config = APP_CONFIG
+	#config = os.environ['APP_CONFIG']
 
+	DATABASE_URL = 'sqlite:///tin_sqlite.db' 
+	app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL 
+	#config = os.environ['DATABASE_URL'] # biositting_tools get this from OS ENV
+	db = SQLAlchemy(app)
+	
 	# do a "Hello World"
 	# ref http://flask.pocoo.org/docs/1.0/tutorial/factory/
 	# below register app to http://bofh.lbl.gov:5000/hello
