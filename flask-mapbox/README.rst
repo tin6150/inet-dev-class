@@ -16,9 +16,19 @@ Starting Dev env
 
 	# one-time creation of virtual env
 	virtualenv venv
-	pip install -r requirements.txt # from tyler's biomining tool, should have everything this learning prj need.
+	source venv/bin/activate 
+	pip install -r requirements.txt 
+	# from tyler's biomining tool, should have everything this learning prj need.
 	# hmm... many eggs error out during install in wsl: pandas, matplotlib, descartes, psycopg2, Shapely
+	# see git log 7dd2894 for full list. 
+	# maybe unicode caused problem too...
+	# there are multiple problems.  for now, removed things other than flask, just to be able to dev on wsl for a bit
+	# per https://opensource.com/article/18/4/flask
+	# psycopg2 is required for flask... so if that doesn't install in wsl, no more dev in windoze!!
 
+	# each time needing to start server/app :
+	export APP_CONFIG='config.DevelopmentConfig'
+	export DEBUG='True'
 	source venv/bin/activate 
 	python app.py			# use python 2.7
 
