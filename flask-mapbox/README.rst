@@ -12,9 +12,14 @@ learning platform for the ETA collaboration with Ling Jin.
 Starting Dev env
 ----------------
 
-::
+.. code-block:: bash
 
-	venv/bin/activate (tba)
+	# one-time creation of virtual env
+	virtualenv venv
+	pip install -r requirements.txt # from tyler's biomining tool, should have everything this learning prj need.
+	# hmm... many eggs error out during install in wsl: pandas, matplotlib, descartes, psycopg2, Shapely
+
+	source venv/bin/activate 
 	python app.py			# use python 2.7
 
 
