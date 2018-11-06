@@ -81,6 +81,10 @@ influx
   show users
   exit
 
+other influx commands
+show databases
+use _internal
+
 ~~~~
 transiet commands
 
