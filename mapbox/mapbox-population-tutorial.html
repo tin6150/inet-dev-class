@@ -16,12 +16,13 @@
     #map { position:absolute; top:0; bottom:0; width:100%; }
   </style>
   -->
-
-    <style type="text/css">
-        <!--
+  <!--
+  <style>
         h1, h2 { color:blue; font-family: tahoma; }
         /* comma separated list!  If just space, it would be hierachy selector! */
-        -->
+  </style>
+  -->
+  <style type="text/css">
 
 body {
   margin: 0;
@@ -103,11 +104,8 @@ body {
 
 <!-- this create the top right info box -->
 	<!-- this is title of top right box -->
-<div class='map-overlay' id='features'>
-	<h2>US population density</h2> 
-	<div id='pd'>
-		<p>Hover over a state!</p>
-	</div>
+<div class='map-overlay' id='features'><h2>US population density</h2>
+	<div id='pd'><p>Hover over a state!</p></div>
 </div>
 
 <!-- this create the bottom right window box with the legend -->
@@ -143,7 +141,7 @@ map.on('load', function() {
 	// apparently also has to be inside this map.on() block...
     map.getCanvas().style.cursor = 'default';
     map.fitBounds([[-133.2421875, 16.972741], [-47.63671875, 52.696361]]);
-	//map.getCanvas().style.cursor = 'default';   // why was this repeated in example code? probably just bug. . .
+    map.getCanvas().style.cursor = 'default';   // why was this repeated in example code? probably just bug. . .
 	// 3dots are some strange html/script thing that get parsed even inside comment!
 
     // define layer names
@@ -173,13 +171,13 @@ map.on('load', function() {
 	// doesn't work when placed outside of it
 
     // change info window on hover
-    map.on('mousemove', function(e) {
+    map.on('mousemove', function (e) {
         var states = map.queryRenderedFeatures(e.point, {
         layers: ['statedata']
     });
 
         if (states.length > 0) {
-            document.getElementById('pd').innerHTML = "<h3><strong>" + states[0].properties.name + "</strong></h3><p><strong><em>" + states[0].properties.density + "</strong> people per square mile</em></p>";$
+            document.getElementById('pd').innerHTML = "<h3><strong>" + states[0].properties.name + "</strong></h3><p><strong><em>" + states[0].properties.density + "</strong> people per square mile</em></p>";
 
             // document.getElementById('pd').innerHTML = '<h3><strong>' + states[0].properties.name + '</strong></h3><p><strong><em>' + states[0].properties.density + '</strong> people per square mile</em></p>';
         } else {
