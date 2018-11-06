@@ -6,10 +6,10 @@
   <meta charset='utf-8' />
   <title>Mapbox GL Population Tutorial</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-  <!--
-  -->
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+  <!--
+  -->
   <!--
   <style>
     body { margin:0; padding:0; }
@@ -21,9 +21,8 @@
         h1, h2 { color:blue; font-family: tahoma; }
         /* comma separated list!  If just space, it would be hierachy selector! */
   </style>
-  <style type="text/css">
   -->
-  <style>
+  <style type="text/css">
 
 body {
   margin: 0;
@@ -71,13 +70,15 @@ body {
   width: 100%;
 }
 
-// # is not comment in css, probably cuz how html/url need to use # ... 
+/* // # is not comment in css, probably cuz how html/url need to use # ...  */
+/* and the snafu was cuz i had the above comment using // and presumably caused a parse error and ignored the block below.  *sigh* */
+/* css validador would likely have been able to point that out and saved me hours of time!! */
         #features {
-  top: 0;
-  height: 100px;
-  margin-top: 20px;
-  width: 250px;
-}
+            top: 0;
+            height: 100px;
+            margin-top: 20px;
+            width: 250px;
+        }
 
         #legend {
   padding: 10px;
@@ -96,6 +97,9 @@ body {
   margin-right: 5px;
 }
 </style>
+<!--
+-->
+
 </head>
 
 
