@@ -28,37 +28,27 @@ body {
   padding: 0;
 }
 
-h2,
-h3 {
+        h2, h3 {
   margin: 10px;
   font-size: 1.2em;
 }
 
-h3 {
+        h3 {
   font-size: 1em;
 }
 
-p {
-  font-size: 0.85em;
-  margin: 10px;
-  text-align: left;
-}
 
-/**
-* Create a position for the map
-* on the page */
-#map {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-}
+        p {
+            font-size: 0.85em;
+            margin: 10px;
+            text-align: left;
+        }
 
 /**
 * Set rules for how the map overlays
 * (info box and legend) will be displayed
 * on the page. */
-.map-overlay {
+        .map-overlay {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -69,15 +59,25 @@ p {
   border-radius: 3px;
 }
 
+/**
+* Create a position for the map
+* on the page */
+        #map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
 // # is not comment in css, probably cuz how html/url need to use # ... 
-#features {
+        #features {
   top: 0;
   height: 100px;
   margin-top: 20px;
   width: 250px;
 }
 
-#legend {
+        #legend {
   padding: 10px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   line-height: 18px;
@@ -86,7 +86,7 @@ p {
   width: 100px;
 }
 
-.legend-key {
+        .legend-key {
   display: inline-block;
   border-radius: 20%;
   width: 10px;
@@ -117,65 +117,75 @@ p {
 
 <script>
 
-mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ';
+// define access token
+mapboxgl.accessToken = 'pk.eyJ1IjoiZXhhbXBsZXMiLCJhIjoiY2lqbmpqazdlMDBsdnRva284cWd3bm11byJ9.V6Hg2oYJwMAxeoR9GEzkAA'; 
+// above is from tutorial solution
+// below is from my Mapbox Studio I think... 
+// mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ';
 
 // const map = new mapboxgl.Map({ 
 var map = new mapboxgl.Map({
-  container: 'map', // container id
-  style: 'mapbox://styles/sn50/cjo4hg4z446x92rp2le0b6j79' //,    // style from mapbox studio web site.
+    container: 'map', // container id
+    style: 'mapbox://styles/examples/cjgioozof002u2sr5k7t14dim' // map style URL from Mapbox Studio
+    // above is from tutorial solution, below from my login to mapbox studio i think
+    //style: 'mapbox://styles/sn50/cjo4hg4z446x92rp2le0b6j79' //,    // style from mapbox studio web site.
+
   //center: [-93.672633, 28.926418],
   //zoom: 4.5
 });
 
-
+// wait for map to load before adjusting it
 map.on('load', function() {
   	// the rest of the code will go in here
 
 
 	// finishing touches at bottom of tutorial.
 	// apparently also has to be inside this map.on() block...
-	//map.getCanvas().style.cursor = 'default';
-	//map.fitBounds([[-133.2421875, 16.972741], [-47.63671875, 52.696361]]);
+    map.getCanvas().style.cursor = 'default';
+    map.fitBounds([[-133.2421875, 16.972741], [-47.63671875, 52.696361]]);
 	//map.getCanvas().style.cursor = 'default';   // why was this repeated in example code? probably just bug. . .
 	// 3dots are some strange html/script thing that get parsed even inside comment!
 
-	// define layer names
-	var layers = ['0-10', '10-20', '20-50', '50-100', '100-200', '200-500', '500-1000', '1000+'];
-	var colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
+    // define layer names
+    var layers = ['0-10', '10-20', '20-50', '50-100', '100-200', '200-500', '500-1000', '1000+'];
+    var colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
 
 
-  // create legend   (not sure how it is updating the text in the box...)
-  for (i = 0; i < layers.length; i++) {
-  var layer = layers[i];
-  var color = colors[i];
-  var item = document.createElement('div');
-  var key = document.createElement('span');
-  key.className = 'legend-key';
-  key.style.backgroundColor = color;
-
-  var value = document.createElement('span');
-  value.innerHTML = layer;
-  item.appendChild(key);
-  item.appendChild(value);
-  legend.appendChild(item);
-  }
+    // create legend   (not sure how it is updating the text in the box...)
+    for (i = 0; i < layers.length; i++) {
+        var layer = layers[i];
+        var color = colors[i];
+        var item = document.createElement('div');
+        var key = document.createElement('span');
+        key.className = 'legend-key';
+        key.style.backgroundColor = color;
+      
+        var value = document.createElement('span');
+        value.innerHTML = layer;
+        item.appendChild(key);
+        item.appendChild(value);
+        legend.appendChild(item);
+    }
 
 
 	// update when mouse over the map.
 	// apparently need this inside the map.on()
 	// doesn't work when placed outside of it
 
-	map.on('mousemove', function(e) {
-	  var states = map.queryRenderedFeatures(e.point, {
-	    layers: ['statedata']
-	  });
+    // change info window on hover
+    map.on('mousemove', function(e) {
+        var states = map.queryRenderedFeatures(e.point, {
+        layers: ['statedata']
+    });
 
-	  if (states.length > 0) {
-	    document.getElementById('pd').innerHTML = '<h3><strong>' + states[0].properties.name + '</strong></h3><p><strong><em>' + states[0].properties.density + '</strong> people per square mile</em></p>';
-	  } else {
-	    document.getElementById('pd').innerHTML = '<p>Hover over a state!</p>';
-	  }
-	});
+        if (states.length > 0) {
+            document.getElementById('pd').innerHTML = "<h3><strong>" + states[0].properties.name + "</strong></h3><p><strong><em>" + states[0].properties.density + "</strong> people per square mile</em></p>";$
+
+            // document.getElementById('pd').innerHTML = '<h3><strong>' + states[0].properties.name + '</strong></h3><p><strong><em>' + states[0].properties.density + '</strong> people per square mile</em></p>';
+        } else {
+            document.getElementById('pd').innerHTML = '<p>Hover over a state!</p>';
+        }
+    });
 
 });
 
