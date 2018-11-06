@@ -1,0 +1,47 @@
+<HTML>
+
+
+<!-- mapbox... gl is webGL JavaScript ...  -->
+<!-- ref  https://www.mapbox.com/mapbox-gl-js/api/ -->
+
+<HEAD>
+
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+</HEAD>
+
+
+Mapbox GL JavaScript  learning playground.
+<BR>
+deployed/test as 
+<BR>
+https://tin6150.github.io/inet-dev-class/mapbox/mapbox-gl-test1.html
+<BR>
+file:///C:/tin/tin-gh/inet-dev-class/mapbox/mapbox-gl-test1.html
+<BR>
+<BR>
+
+Ref:
+<BR>
+https://www.mapbox.com/install/js/cdn-complete/
+<BR>
+
+
+<HR>
+
+
+<BODY>
+<div id='map' style='width: 400px; height: 300px;'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ';
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/mapbox/streets-v10'
+});
+</script>
+
+
+
+</BODY>
+
+</HTML>
