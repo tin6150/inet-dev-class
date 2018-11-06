@@ -21,8 +21,9 @@
         h1, h2 { color:blue; font-family: tahoma; }
         /* comma separated list!  If just space, it would be hierachy selector! */
   </style>
-  -->
   <style type="text/css">
+  -->
+  <style>
 
 body {
   margin: 0;
@@ -149,7 +150,7 @@ map.on('load', function() {
     var colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
 
 
-    // create legend   (not sure how it is updating the text in the box...)
+    // create legend   // not sure how it is updating the text in the box. . .
     for (i = 0; i < layers.length; i++) {
         var layer = layers[i];
         var color = colors[i];
@@ -179,7 +180,6 @@ map.on('load', function() {
         if (states.length > 0) {
             document.getElementById('pd').innerHTML = "<h3><strong>" + states[0].properties.name + "</strong></h3><p><strong><em>" + states[0].properties.density + "</strong> people per square mile</em></p>";
 
-            // document.getElementById('pd').innerHTML = '<h3><strong>' + states[0].properties.name + '</strong></h3><p><strong><em>' + states[0].properties.density + '</strong> people per square mile</em></p>';
         } else {
             document.getElementById('pd').innerHTML = '<p>Hover over a state!</p>';
         }
@@ -192,8 +192,8 @@ map.on('load', function() {
 </script>
 
 </body>
-</html>
 
 <!-- style url - copied  from the menu bar on style : 
 mapbox://styles/sn50/cjo4hg4z446x92rp2le0b6j79
 -->
+</html>
