@@ -78,6 +78,8 @@ Mapbox data structure
 Snipplet from stateData.geojson  
 -------------------------------
 
+Note Alaska and some other state use "MultiPolygon", which are more time consuming to process.
+
 
 {"type":"FeatureCollection","features":[
 
