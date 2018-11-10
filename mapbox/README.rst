@@ -11,7 +11,6 @@ from biositing_tools prj via Tyler Huntington
 
 
 
-===
 Ref
 ===
 
@@ -42,7 +41,6 @@ Shape file (from ESRI) import into Mapbox (Census TIGER data are provided as sha
 https://www.mapbox.com/help/define-shapefile/
 
 
-========
 Examples
 ========
 
@@ -87,3 +85,15 @@ Snipplet from stateData.geojson
 ... }},
 {"type":"Feature","id":"06","properties":{"name":"California","density":241.7},"geometry":{"type":"Polygon","coordinates":[[[-123.233256,42.006186],[-122.378853,42.011663],[-121.037003,41.995232],[-120.001861,41.995232],[-119.996384,40.264519],[-120.001861,38.999346],
 ... }}]}
+
+
+
+RST ref
+-------
+
+pip install rstvalidator
+python -m rstvalidator README.rst
+
+
+apparently boxing title with ===== above and below a line could throw off validator.
+was that a .md feature?  but it had worked on short rst...
