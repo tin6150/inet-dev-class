@@ -91,6 +91,9 @@ influx
   show users
   exit
 
+other influx commands
+show databases
+use _internal
 
 #  influxdb dockerhub :: Manually Init DB
 #  starting influx db with secrets (from env var?) possibility (from influxdb dockerhub)
