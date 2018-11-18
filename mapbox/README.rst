@@ -93,6 +93,29 @@ Note Alaska and some other state use "MultiPolygon", which are more time consumi
 
 
 
+Census data
+===========
+
+probably need some conversion to get population density (population divided by the census block or census track area). 
+
+census block geo boundary and population data can be found here: https://www2.census.gov/geo/tiger/TIGER2010BLKPOPHU/
+California is:
+
+[   ]	tabblock2010_06_pophu.zip	08-Jun-2011 07:28	408M
+https://www2.census.gov/geo/tiger/TIGER2010BLKPOPHU/tabblock2010_06_pophu.zip
+
+	-rw-rw-r-- 1 tin itd  34M Mar 28  2011 tabblock2010_06_pophu.dbf
+	-rw-rw-r-- 1 tin itd  167 Mar 28  2011 tabblock2010_06_pophu.prj
+	-rw-rw-r-- 1 tin itd 653M Mar 28  2011 tabblock2010_06_pophu.shp
+	-rw-rw-r-- 1 tin itd  17K May 20  2011 tabblock2010_06_pophu.shp.xml
+	-rw-rw-r-- 1 tin itd 5.5M Mar 28  2011 tabblock2010_06_pophu.shx
+	-rw-rw-r-- 1 tin itd 409M Jun  8  2011 tabblock2010_06_pophu.zip
+
+may have problem importing into mapbox as they are larger than permitted size?
+
+
+
+
 RST ref
 -------
 
