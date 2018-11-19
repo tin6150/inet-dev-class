@@ -29,27 +29,27 @@ body {
   padding: 0;
 }
 
-        h2, h3 {
+h2, h3 {
   margin: 10px;
   font-size: 1.2em;
 }
 
-        h3 {
+h3 {
   font-size: 1em;
 }
 
 
-        p {
+p {
             font-size: 0.85em;
             margin: 10px;
             text-align: left;
-        }
+}
 
 /**
 * Set rules for how the map overlays
 * (info box and legend) will be displayed
 * on the page. */
-        .map-overlay {
+.map-overlay {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -59,11 +59,22 @@ body {
   overflow: auto;
   border-radius: 3px;
 }
+.map-overlay-dbg {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(250, 250, 224, 0.8);  /* this is greenish/yellowish */
+  margin-right: 4px; /* choropleth used 20px */
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 3px;
+}
+
 
 /**
 * Create a position for the map
 * on the page */
-        #map {
+#map {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -73,14 +84,21 @@ body {
 /* // # is not comment in css, probably cuz how html/url need to use # ...  */
 /* and the snafu was cuz i had the above comment using // and presumably caused a parse error and ignored the block below.  *sigh* */
 /* css validador would likely have been able to point that out and saved me hours of time!! */
-        #features {
+#features {
             top: 0;
             height: 100px;
             margin-top: 20px;
             width: 250px;
-        }
+}
+#featuresDbg {
+            top: 30;
+            height: 400px;
+            margin-top: 20px;
+            width: 700px;
+}
 
-        #legend {
+
+#legend {
   padding: 10px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   line-height: 18px;
@@ -89,7 +107,7 @@ body {
   width: 100px;
 }
 
-        .legend-key {
+.legend-key {
   display: inline-block;
   border-radius: 20%;
   width: 10px;
@@ -97,8 +115,6 @@ body {
   margin-right: 5px;
 }
 </style>
-<!--
--->
 
 </head>
 
@@ -112,6 +128,15 @@ body {
 <div class='map-overlay' id='features'><h2>US population density</h2>
 	<div id='pd'><p>Hover over a state!</p></div>
 </div>
+
+
+<!-- this below creates the debug box window, not sure where the code is to position it! 
+it ends up overlapping the legends box.  the java script by mapbox gl may have some special provisioning for these things...
+-->
+<div class='map-overlay-dbg' id='featuresDbg'>
+        <div id='pd'><p>(data via mapbox tileset)</p></div>   <!-- static text, replaced later by JS -->
+</div>
+
 
 <!-- this create the bottom right window box with the legend -->
 <div class='map-overlay' id='legend'></div>
@@ -139,15 +164,15 @@ var map = new mapboxgl.Map({
 
 // wait for map to load before adjusting it
 map.on('load', function() {
-  	// the rest of the code will go in here
+    // the rest of the code will go in here
 
 
-	// finishing touches at bottom of tutorial.
-	// apparently also has to be inside this map.on() block...
+    // finishing touches at bottom of tutorial.
+    // apparently also has to be inside this map.on() block...
     map.getCanvas().style.cursor = 'default';
     map.fitBounds([[-133.2421875, 16.972741], [-47.63671875, 52.696361]]);
     map.getCanvas().style.cursor = 'default';   // why was this repeated in example code? probably just bug. . .
-	// 3dots are some strange html/script thing that get parsed even inside comment!
+    // 3dots are some strange html/script thing that get parsed even inside comment!
 
     // define layer names
     var layers = ['0-10', '10-20', '20-50', '50-100', '100-200', '200-500', '500-1000', '1000+'];
@@ -169,27 +194,36 @@ map.on('load', function() {
         item.appendChild(value);
         legend.appendChild(item);
     }
+});
 
 
-	// update when mouse over the map.
-	// apparently need this inside the map.on()
-	// doesn't work when placed outside of it
 
-    // change info window on hover
-    map.on('mousemove', function (e) {
+// update when mouse over the map.
+// need this inside the map.on()
+// doesn't work when placed outside of it
+
+// change info window on hover
+map.on('mousemove', function (e) {
         var states = map.queryRenderedFeatures(e.point, {
-        layers: ['statedata']
-    });
+        	layers: ['statedata']
+    	});
 
         if (states.length > 0) {
             document.getElementById('pd').innerHTML = "<h3><strong>" + states[0].properties.name + "</strong></h3><p><strong><em>" + states[0].properties.density + "</strong> people per square mile</em></p>";
 
         } else {
             document.getElementById('pd').innerHTML = '<p>Hover over a state!</p>';
-        }
-    });
-
+        };
 });
+
+// in delaware used 2 mousemove map.on calls, worked, not sure if it was slower..
+map.on('mousemove', function (e) {
+	// https://www.mapbox.com/mapbox-gl-js/example/queryrenderedfeatures/
+    	var featuresDbg = map.queryRenderedFeatures(e.point);
+    	document.getElementById('featuresDbg').innerHTML = JSON.stringify(featuresDbg, null, 2);
+});
+
+
 
 
 

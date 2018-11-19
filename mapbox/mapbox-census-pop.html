@@ -15,7 +15,7 @@ body {
   padding: 0;
 }
 
-        h2, h3 {
+h2, h3 {
   margin: 10px;
   font-size: 1.2em;
 }
@@ -25,17 +25,17 @@ body {
 }
 
 
-        p {
+p {
             font-size: 0.85em;
             margin: 10px;
             text-align: left;
-        }
+}
 
 /**
 * Set rules for how the map overlays
 * (info box and legend) will be displayed
 * on the page. */
-        .map-overlay {
+.map-overlay {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -45,7 +45,7 @@ body {
   overflow: auto;
   border-radius: 3px;
 }
-        .map-overlay-dbg {
+.map-overlay-dbg {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -117,6 +117,7 @@ body {
 	<div id='pd'><p>Hover to reveal Census TIGER/line population data</p></div>   <!-- static text, replaced later by JS -->
 </div>
 
+<!-- funny positioning by mapbox gl js?  it goes in the bottom right without obvious place where this is specified -->
 <div class='map-overlay-dbg' id='featuresDbg'>
 	<div id='pd'><p>(data via mapbox tileset)</p></div>   <!-- static text, replaced later by JS -->
 </div>
@@ -145,26 +146,21 @@ var map = new mapboxgl.Map({
   zoom: 15.0,  // if zoomed in too much, map.fitBounds() likely overwrite it
   
 });
+
 // wait for map to load before adjusting it
 map.on('load', function() {
-  	// the rest of the code will go in here
-
-
-	// finishing touches at bottom of tutorial.
-	// apparently also has to be inside this map.on() block...
+    // finishing touches at bottom of tutorial.
+    // apparently also has to be inside this map.on() block...
     map.getCanvas().style.cursor = 'default';
     //map.fitBounds([[-133.2421875, 16.972741], [-47.63671875, 52.696361]]);
     //map.fitBounds([[-75.8, 38.5], [-75.0, 39.8]]);  // delaware census map, need to specify this or browser will load into middle f ocean!!
     map.fitBounds([[-75.7, 39.7], [-75.1, 39.8]]);  // boxing around Wilmington + show surrounding state (where there is no data)
     //map.fitBounds([[-75.5, 39.7], [-75.6, 39.8]]);  // boxing around Wilmington, DE
     //map.getCanvas().style.cursor = 'default';   // why was this repeated in example code? probably just bug. . .
-	// 3dots are some strange html/script thing that get parsed even inside comment!
+    // 3dots are some strange html/script thing that get parsed even inside comment!
 
-
-
-	// update when mouse over the map.
-	// apparently need this inside the map.on()
-	// doesn't work when placed outside of it
+    // update when mouse over the map.
+    // apparently need this inside the map.on()  or it  doesn't work when placed outside of it
 
     // this display all data as pop up
     // ref: https://www.mapbox.com/mapbox-gl-js/example/queryrenderedfeatures/
@@ -173,7 +169,7 @@ map.on('load', function() {
         document.getElementById('featuresDbg').innerHTML = JSON.stringify(features, null, 2);
     });
 
-    // change info window on hover
+    // change info window on hover  // the mousemove capture should be inside the 'load' per tutorial solution.
     map.on('mousemove', function (e) {
         var states = map.queryRenderedFeatures(e.point, {
             layers: ['delaware-tabblock2010-10-pophu-a0nmlv']
@@ -181,8 +177,6 @@ map.on('load', function() {
             //layers: ['delaware']   // didn't work
             //layers: ['statedata']  // from cholopleth tutorial, not sure what this name match to :(
         });
-
-
 
         if (states.length > 0) {
             document.getElementById('pd').innerHTML 
@@ -200,15 +194,11 @@ map.on('load', function() {
             //+ "</strong> people per square mile</em></p>";
         } else {
             document.getElementById('pd').innerHTML = '<p>Hover over a census track :)</p>';
-        }
+        };
+		// why is this indented??    am i missing bracked somewhere??  or is it vi smartindent bug??!!
+
     });
 });
-
-
-
 </script>
-
-
-
 </body>
 </html>
