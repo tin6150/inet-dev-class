@@ -55,7 +55,8 @@ Loading example pages via web site provided by github.io
 - https://tin6150.github.io/inet-dev-class/mapbox/mapbox-population-tutorial-solution.html
 - https://tin6150.github.io/inet-dev-class/mapbox/mapbox-population-tutorial.html
 
-- https://tin6150.github.io/inet-dev-class/mapbox/mapbox-census-pop.html
+- https://tin6150.github.io/inet-dev-class/mapbox/mapbox-census-pop-delaware.html 
+- https://tin6150.github.io/inet-dev-class/mapbox/mapbox-census-pop.html  # trying to get hover to work
 
 
 
@@ -82,8 +83,10 @@ Mapbox data structure
 Snipplet from stateData.geojson  
 -------------------------------
 
-Note Alaska and some other state use "MultiPolygon", which are more time consuming to process.
+stateData.geojson is the example data source for the choropleth tutorial (mapbox, leaflet).
+The geojson file has the polygon info, as well as name and density value, all embeded as one record per state.
 
+Note Alaska and some other state use "MultiPolygon", which are more time consuming to process.
 
 {"type":"FeatureCollection","features":[
 
@@ -96,6 +99,28 @@ Note Alaska and some other state use "MultiPolygon", which are more time consumi
 ... }}]}
 
 
+mapbox zoom levels
+------------------
+
+tileset have defined zoom extent, which is range where it can add/remove data depending on zoom level.
+vector data can zoom (in) all the way to z22, but if tileset don't have lots of data, it would seem simplified.
+
+ - z22 : most detailed?
+
+ - z16 : max zoom where data is relevant for census population tiger/line shapefile .  probably city block level detail.
+ - z16 : lot size starts to show
+ - z15 : see about 50 blocks of a city
+ - z13 : streets starts to have some width
+ - z12 : streets of one main city
+ - z10 : min zoom for census population tiger/line to be visible.  Good starting point to work on Census data map. 
+ - z10 : cut off for station-6yhf0y, a simple example shapefile by mapbox (for where?)
+
+ - z8  : many cities name showed on a map
+ - z6  : cut off used for cholopleth tutorial (state level data)  
+
+ - z3  : continent wide
+
+ - z0  : least detailed , world wide map
 
 
 ESRI shapefile
@@ -109,6 +134,14 @@ https://www.mapbox.com/help/data/stations.zip ::
 -rw-r--r-- 1 tin itd   788 Nov  4  2015 stations.shx    # esri binary
 -rw-r--r-- 1 tin itd   143 Nov  4  2015 stations.prj	# ascii 
 GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]
+
+
+	* no need to expand the zip file before upload to mapbox
+	* rename the .zip  to something I like, eg mv tabblock2010_06_pophu.zip tiger_delaware.zip
+
+	* so, shapefile can be imported directly into a tileset.  hopefully style it to be visually useful.
+
+ 	* Then still need to extract the pouplation info which in in dBase III... and create it as a csv to be added as a layer to mapbox studio?
 
 
 
@@ -147,6 +180,24 @@ ftp://ftp2.census.gov/geo/tiger/TIGER2010BLKPOPHU/tabblock2010_10_pophu.zip ::
 	-rw-rw-r-- 1 tin itd 19819640 Mar 29  2011 tabblock2010_10_pophu.shp
 	-rw-rw-r-- 1 tin itd    16978 May 20  2011 tabblock2010_10_pophu.shp.xml
 	-rw-rw-r-- 1 tin itd   193020 Mar 29  2011 tabblock2010_10_pophu.shx
+
+
+Tileset detail (without dbf info?) :: 
+
+	BLOCKCE 	String
+	BLOCKID10 	String
+	COUNTYFP10 	String
+	HOUSING10 	Number  0 - 971
+	PARTFLG 	String
+	POP10 		Number 	0 - 2590
+	STATEFP10 	String
+	TRACTCE10 	String
+
+Bounds for Delaware ::
+
+ * -75.8,  38.5,  -75.0,  39.8
+ * Wilmington, DE lat long: 39.739071 , -75.539787
+ * Mapbox GL JS use `center: [-75.53978, 39.73907],` ie, long, lat ??
 
 
 
