@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <!-- from tutorial population / choropleth part 2 - https://www.mapbox.com/help/choropleth-studio-gl-pt-2/ -->
-<!-- not sure why my US Population density box appears at bottom. -->
 <!-- tin (at) berkeley.edu -->
 <html>
 <head>
@@ -40,12 +39,23 @@ body {
   position: absolute;
   bottom: 0;
   right: 0;
-  background: rgba(250, 250, 224, 0.8);  /* this should be yellowish */ /* 255 255 255 is white */
+  background: rgba(250, 250, 250, 0.8);  /* 255 255 255 is pure white */
   margin-right: 4px; /* choropleth used 20px */
   font-family: Arial, sans-serif;
   overflow: auto;
   border-radius: 3px;
 }
+        .map-overlay-dbg {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(250, 250, 224, 0.8);  /* this is greenish/yellowish */ 
+  margin-right: 4px; /* choropleth used 20px */
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 3px;
+}
+
 
 /**
 * Create a position for the map
@@ -63,10 +73,17 @@ body {
 /* this specify the size of the top right info box */
         #features {
             top: 0;
-            height: 500px;      /* formerly 100px */
-            margin-top: 20px;
-            width: 300px;      /* formerly 250px */
+            height: 190px;      /* formerly 100px */
+            margin-top: 10px;
+            width: 230px;      /* formerly 250px */
         }
+        #featuresDbg {
+            top: 110;
+            height: 600px;      /* formerly 100px */
+            margin-top: 20px;
+            width: 400px;      /* formerly 250px */
+        }
+        #legend {
         #legend {
   padding: 10px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -96,21 +113,13 @@ body {
 
 <!-- this create the top right info box -->
 <div class='map-overlay' id='features'>
-	<h2>US population</h2> <!-- this is title of top right box -->
-	<div id='pd'><p>Hover to reveal population (tba)</p></div>   <!-- static text, replaced later by JS -->
+	<h2>Census population</h2> <!-- this is title of top right box -->
+	<div id='pd'><p>Hover to reveal Census TIGER/line population data</p></div>   <!-- static text, replaced later by JS -->
 </div>
 
-<!-- this create the bottom right window box with the legend -->
-<!--
-<div class='map-overlay' id='legend'></div>
--->
-
-<!--
-my census population for delaware try:
-https://api.mapbox.com/styles/v1/sn50/cjono1j7p7gvp2rt67hoho5xz.html?fresh=true&title=true&access_token=pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ#12.0/48.866500/2.317600/0
-
-mapbox://styles/sn50/cjono1j7p7gvp2rt67hoho5xz
--->
+<div class='map-overlay-dbg' id='featuresDbg'>
+	<div id='pd'><p>(data via mapbox tileset)</p></div>   <!-- static text, replaced later by JS -->
+</div>
 
 
 
@@ -131,8 +140,9 @@ var map = new mapboxgl.Map({
     //style: 'mapbox://styles/sn50/cjo4hg4z446x92rp2le0b6j79' //,    // style from mapbox studio web site.
 
   //center: [-75.53978, 39.73907],  // Wilmington, DE, should be some interesting desnity
-  zoom: 12.0,
-  //zoom: 14.0,  // if zoomed in too much, map.fitBounds() likely overwrite it
+  //zoom: 12.0,
+  //zoom: 13.0,
+  zoom: 15.0,  // if zoomed in too much, map.fitBounds() likely overwrite it
   
 });
 // wait for map to load before adjusting it
@@ -144,53 +154,29 @@ map.on('load', function() {
 	// apparently also has to be inside this map.on() block...
     map.getCanvas().style.cursor = 'default';
     //map.fitBounds([[-133.2421875, 16.972741], [-47.63671875, 52.696361]]);
-    map.fitBounds([[-75.8, 38.5], [-75.0, 39.8]]);  // delaware census map, need to specify this or browser will load into middle f ocean!!
+    //map.fitBounds([[-75.8, 38.5], [-75.0, 39.8]]);  // delaware census map, need to specify this or browser will load into middle f ocean!!
+    map.fitBounds([[-75.7, 39.7], [-75.1, 39.8]]);  // boxing around Wilmington + show surrounding state (where there is no data)
     //map.fitBounds([[-75.5, 39.7], [-75.6, 39.8]]);  // boxing around Wilmington, DE
     //map.getCanvas().style.cursor = 'default';   // why was this repeated in example code? probably just bug. . .
 	// 3dots are some strange html/script thing that get parsed even inside comment!
 
-    // define layer names
-    //var layers = ['0-10', '10-20', '20-50', '50-100', '100-200', '200-500', '500-1000', '1000+'];
-    //var colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
 
-
-
-    // create legend   // not sure how it is updating the text in the box. . .
-/*
-    for (i = 0; i < layers.length; i++) {
-        var layer = layers[i];
-        var color = colors[i];
-        var item = document.createElement('div');
-        var key = document.createElement('span');
-        key.className = 'legend-key';
-        key.style.backgroundColor = color;
-      
-        var value = document.createElement('span');
-        value.innerHTML = layer;
-        item.appendChild(key);
-        item.appendChild(value);
-        legend.appendChild(item);
-    }
-*/
 
 	// update when mouse over the map.
 	// apparently need this inside the map.on()
 	// doesn't work when placed outside of it
 
-
-
     // this display all data as pop up
     // ref: https://www.mapbox.com/mapbox-gl-js/example/queryrenderedfeatures/
     map.on('mousemove', function (e) {
         var features = map.queryRenderedFeatures(e.point);
-        document.getElementById('features').innerHTML = JSON.stringify(features, null, 2);
+        document.getElementById('featuresDbg').innerHTML = JSON.stringify(features, null, 2);
     });
 
     // change info window on hover
-/*
     map.on('mousemove', function (e) {
         var states = map.queryRenderedFeatures(e.point, {
-            layers: ['tabblock2010_10_pophu-a0nmlv']
+            layers: ['delaware-tabblock2010-10-pophu-a0nmlv']
             //layers: ['tabblock2010_10_pophu']
             //layers: ['delaware']   // didn't work
             //layers: ['statedata']  // from cholopleth tutorial, not sure what this name match to :(
@@ -200,9 +186,15 @@ map.on('load', function() {
 
         if (states.length > 0) {
             document.getElementById('pd').innerHTML 
-            = "<h3><strong>" + states[0].properties.PARTFLG
-            + "</strong></h3><p><strong><em>" + states[0].properties.POP10
-            + "</strong> pop10 </em></p>";
+            =             "<strong> pop:"   + states[0].properties.POP10 + "</strong><p>" 
+			+ "blockce: "  	    + states[0].properties.BLOCKCE + "<br>" 
+			+ "blockid10: "     + states[0].properties.BLOCKID10 + "<br>"
+			+ "countyfp10: "    + states[0].properties.COUNTYFP10 + "<br>"
+			+ "housing10: "     + states[0].properties.HOUSING10 + "<br>"
+			+ "partflg: "       + states[0].properties.PARTFLG + "<br>"
+			+ "statefp10: "     + states[0].properties.STATEFP10 + "<br>"
+			+ "tractce10: "     + states[0].properties.TRACECE10 + "<br>"
+            + "</p>";
             //= "<h3><strong>" + states[0].properties.name 
             //+ "</strong></h3><p><strong><em>" + states[0].properties.density 
             //+ "</strong> people per square mile</em></p>";
@@ -210,7 +202,6 @@ map.on('load', function() {
             document.getElementById('pd').innerHTML = '<p>Hover over a census track :)</p>';
         }
     });
-*/
 });
 
 
