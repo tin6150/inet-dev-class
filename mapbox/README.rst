@@ -55,6 +55,8 @@ Loading example pages via web site provided by github.io
 - https://tin6150.github.io/inet-dev-class/mapbox/mapbox-population-tutorial-solution.html
 - https://tin6150.github.io/inet-dev-class/mapbox/mapbox-population-tutorial.html
 
+- https://tin6150.github.io/inet-dev-class/mapbox/mapbox-census-pop.html
+
 
 
 
@@ -63,9 +65,11 @@ Loading example pages via web site provided by github.io
 Mapbox data structure
 =====================
 
+* Dataset.  what user import as data.  vector or raster.  
 * Tileset is basic store of vector data that will be rendered by Mapbox (studio) style.  not editable, just optimization intermediate internal format for mapbox.
-* Dataset.  what user import as data.  vector or raster.
-* (ESRI) Shape file are imported into Dataset.
+* (ESRI) Shape file are imported into Dataset, then converted into Tileset (immutable).
+* Actually, Dataset import required geojson.  Tileset import can handle .zip containting shapefile (<=260 MB)
+
 
 * Mapbox studio create layers in the "style" for visualization and UI.
 * Style can be access by URL by JavaScript (Mapbox GL JS) for web app.
@@ -73,7 +77,7 @@ Mapbox data structure
 * geojson, when imported in to MapBox Studio, is converted into vector tileset for efficient rendering.
 * density coloring is done by layer styling in MapBox studio (ie web app), though there maybe something in JS that can set/ovewrite(?) this coloring.
 
-
+* Brief doc on uploading data to mapbox studio: https://www.mapbox.com/studio-manual/overview/geospatial-data/ .  bottom of page has some tricks to shrink large .zip, though not sure if that will work for CA.
 
 Snipplet from stateData.geojson  
 -------------------------------
@@ -93,6 +97,22 @@ Note Alaska and some other state use "MultiPolygon", which are more time consumi
 
 
 
+
+ESRI shapefile
+--------------
+
+Example from mapbox at
+https://www.mapbox.com/help/data/stations.zip ::
+
+-rw-r--r-- 1 tin itd 87623 Nov  4  2015 stations.dbf	# dBase III, 86 records
+-rw-r--r-- 1 tin itd  2508 Nov  4  2015 stations.shp	# esri binary
+-rw-r--r-- 1 tin itd   788 Nov  4  2015 stations.shx    # esri binary
+-rw-r--r-- 1 tin itd   143 Nov  4  2015 stations.prj	# ascii 
+GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]
+
+
+
+
 Census data
 ===========
 
@@ -102,16 +122,31 @@ census block geo boundary and population data can be found here: https://www2.ce
 California is:
 
 [   ]	tabblock2010_06_pophu.zip	08-Jun-2011 07:28	408M
-https://www2.census.gov/geo/tiger/TIGER2010BLKPOPHU/tabblock2010_06_pophu.zip
+(CA is state 06 always?) 
+https://www2.census.gov/geo/tiger/TIGER2010BLKPOPHU/tabblock2010_06_pophu.zip ::
 
 	-rw-rw-r-- 1 tin itd  34M Mar 28  2011 tabblock2010_06_pophu.dbf
 	-rw-rw-r-- 1 tin itd  167 Mar 28  2011 tabblock2010_06_pophu.prj
 	-rw-rw-r-- 1 tin itd 653M Mar 28  2011 tabblock2010_06_pophu.shp
 	-rw-rw-r-- 1 tin itd  17K May 20  2011 tabblock2010_06_pophu.shp.xml
 	-rw-rw-r-- 1 tin itd 5.5M Mar 28  2011 tabblock2010_06_pophu.shx
-	-rw-rw-r-- 1 tin itd 409M Jun  8  2011 tabblock2010_06_pophu.zip
 
-may have problem importing into mapbox as they are larger than permitted size?
+See https://www.mapbox.com/help/define-shapefile/  on importing esri shapefile.
+Import .zip, must uncompress to <= 260 MB :(
+
+start with a smaller state first...
+below reverse search matched Delaware.  It is TIGER/Line Shapefile 2010
+https://catalog.data.gov/dataset/tiger-line-shapefile-2010-2010-state-delaware-2010-census-block-state-based-shapefile-with-hous
+
+[   ]	tabblock2010_10_pophu.zip	08-Jun-2011 07:28	12M    
+(Delaware is state 10 always?)
+ftp://ftp2.census.gov/geo/tiger/TIGER2010BLKPOPHU/tabblock2010_10_pophu.zip ::
+
+	-rw-rw-r-- 1 tin itd  1206040 Mar 29  2011 tabblock2010_10_pophu.dbf
+	-rw-rw-r-- 1 tin itd      167 Mar 29  2011 tabblock2010_10_pophu.prj
+	-rw-rw-r-- 1 tin itd 19819640 Mar 29  2011 tabblock2010_10_pophu.shp
+	-rw-rw-r-- 1 tin itd    16978 May 20  2011 tabblock2010_10_pophu.shp.xml
+	-rw-rw-r-- 1 tin itd   193020 Mar 29  2011 tabblock2010_10_pophu.shx
 
 
 
