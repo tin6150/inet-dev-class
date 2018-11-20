@@ -14,7 +14,9 @@ from biositing_tools prj via Tyler Huntington
 Ref
 ===
 
-https://github.com/mapbox/mapbox-gl-js
+Gist: https://gist.github.com/tin6150/e271e5d3bef6d93ebc6817170ddd2456
+
+Mapbox webgl javascript: https://github.com/mapbox/mapbox-gl-js
 
 Examples to try:
 
