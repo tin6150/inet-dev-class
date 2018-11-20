@@ -9,12 +9,15 @@ as part of collab with Ling Jin of ETA.
 
 from biositing_tools prj via Tyler Huntington
 
+Gist: https://gist.github.com/tin6150/e271e5d3bef6d93ebc6817170ddd2456
+
+.. image:: https://gist.githubusercontent.com/tin6150/e271e5d3bef6d93ebc6817170ddd2456/raw/e5a53cc65f39bc97dabaf3a54ed6c3cac1c2ab3d/census_wilmington.png 
+   :scale: 50%
+   :alt: screenshot of census data displayed in Mapbox WebGL JavaScript
 
 
 Ref
 ===
-
-Gist: https://gist.github.com/tin6150/e271e5d3bef6d93ebc6817170ddd2456
 
 Mapbox webgl javascript: https://github.com/mapbox/mapbox-gl-js
 
