@@ -206,6 +206,14 @@ Bounds for Delaware ::
 
 
 
+TMP_DATA folder
+---------------
+
+The TMP_DATA directory contains various zip files that I downloaded and may have played with.
+Data imported into mapbox (tileset) as appropriate.
+They are large files, do not check them into git.
+eg.  Census zip file (shapefile), CalTrans/TASS zip (pbf)
+
 
 RST ref
 -------
