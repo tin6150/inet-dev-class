@@ -46,6 +46,13 @@ Shape file (from ESRI) import into Mapbox (Census TIGER data are provided as sha
 https://www.mapbox.com/help/define-shapefile/
 
 
+Reading list
+============
+
+* Choropleth by census track population, shows population density, possibly as 3D.  Peter Liu, mapbox engineer.  https://blog.mapbox.com/dive-into-large-datasets-with-3d-shapes-in-mapbox-gl-c89023ef291
+
+
+
 Examples
 ========
 
@@ -60,9 +67,10 @@ Loading example pages via web site provided by github.io
 - https://tin6150.github.io/inet-dev-class/mapbox/mapbox-population-tutorial-solution.html
 - https://tin6150.github.io/inet-dev-class/mapbox/mapbox-population-tutorial.html
 
-- https://tin6150.github.io/inet-dev-class/mapbox/mapbox-census-pop-delaware.html 
-- https://tin6150.github.io/inet-dev-class/mapbox/mapbox-census-pop.html  # trying to get hover to work
+- https://tin6150.github.io/inet-dev-class/mapbox/mapbox-census-pop-delaware.html  Delaware population count choropleth
+- https://tin6150.github.io/inet-dev-class/mapbox/mapbox-census-pop.html  Similar to above, with some hover data display.  
 
+- https://tin6150.github.io/inet-dev-class/mapbox/tass_city_pop.html  CalTrans TASS CA cities population (count, not density)
 
 
 
