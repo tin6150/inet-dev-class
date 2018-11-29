@@ -144,6 +144,10 @@ var map = new mapboxgl.Map({
   //zoom: 12.0,
   //zoom: 13.0,
   zoom: 15.0,  // if zoomed in too much, map.fitBounds() likely overwrite it
+  minZoom: 2,  // studio have census track data avail in zoom 10 to 22, trying to see if can have data show up with much less detail (ie lower zoom num)
+	       // nope, minZoom here can't overwrite studio data limit.
+  maxZoom:16,  // don't really need to limit this, PeterLiu did this to avoid over zooming in, which indeed is kinda pointless
+
   
 });
 
