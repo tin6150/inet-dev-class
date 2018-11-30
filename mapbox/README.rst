@@ -45,6 +45,9 @@ https://blog.mapbox.com/the-net-neutrality-map-how-i-built-it-c387c9cb64a8
 Shape file (from ESRI) import into Mapbox (Census TIGER data are provided as shape files)
 https://www.mapbox.com/help/define-shapefile/
 
+Convert shapefile and GeoJSON to MBTiles (tileset importable into Mapbox)
+https://openmaptiles.org/docs/generate/custom-vector-from-shapefile-geojson/
+
 
 Reading list
 ============
