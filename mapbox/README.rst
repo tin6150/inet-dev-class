@@ -46,7 +46,8 @@ Shape file (from ESRI) import into Mapbox (Census TIGER data are provided as sha
 https://www.mapbox.com/help/define-shapefile/
 
 Convert shapefile and GeoJSON to MBTiles (tileset importable into Mapbox)
-https://openmaptiles.org/docs/generate/custom-vector-from-shapefile-geojson/
+ * https://openmaptiles.org/docs/generate/custom-vector-from-shapefile-geojson/
+ * tippecanoe
 
 
 Reading list
@@ -95,6 +96,76 @@ Mapbox data structure
 * density coloring is done by layer styling in MapBox studio (ie web app), though there maybe something in JS that can set/ovewrite(?) this coloring.
 
 * Brief doc on uploading data to mapbox studio: https://www.mapbox.com/studio-manual/overview/geospatial-data/ .  bottom of page has some tricks to shrink large .zip, though not sure if that will work for CA.
+
+
+Barebone geoJSON
+----------------
+
+::
+
+        {
+          "type": "FeatureCollection",
+          "features": []
+        }
+
+
+
+geoJSON with single point
+-------------------------
+
+::
+        {
+          "type": "FeatureCollection",
+          "features": 
+          [
+              {
+                      "type": "Feature",
+                      "properties": {
+                        "name": "Van Dorn Street",
+                        "marker-color": "#0000ff",
+                        "marker-symbol": "rail-metro",
+                        "line": "blue"
+                      },
+                      "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                          -77.12911152370515,
+                          38.79930767201779
+                        ]
+                      }
+              }
+          ]
+        }
+
+
+* Example geoJSON: https://www.mapbox.com/help/data/stations.geojson
+* Additional ref: https://www.mapbox.com/help/define-geojson/
+
+
+plume data point, try
+---------------------
+
+::
+
+
+      {
+          "type": "FeatureCollection",
+          "features":
+          [
+              {
+                      "type": "Feature",
+                          "properties": { } ,
+                          // properties is needed (at least for mapbox), even if empty.  could give it name or timestamp
+                      "geometry": {
+                          "type": "Point",
+                          "coordinates": [ -77.12911152370515, 38.79930767201779 ]
+                      }
+              }
+              //,   // add comma iff there is next entry, also think json don't have a  comment officially
+          ]
+      }
+
+
 
 Snipplet from stateData.geojson  
 -------------------------------
