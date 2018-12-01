@@ -1,16 +1,26 @@
 #!/usr/bin/env python 
 
-# convert csv into geoJSON
+# convert csv into geoJSON   # i will just call it gson
 # well, customization needed to pick right column etc
 
+
+
 # this one is for the ZWEDC data, from original csv I got from Wei Zhou
+
+
+
+# json rant #
+# json actually took out ability to support comment early on!
+# json5 supports comments with // 
+# geojson may tolerate comment with //  see https://gis.stackexchange.com/questions/22474/geojson-styling-information
+
 
 # ref taxo-spark/taxorpt.py
 
 import argparse
 import os
 import sys
-import json # echo '{1.2:3.4}' | python -mjson.tool
+import json # 
 
 
 
@@ -37,17 +47,24 @@ def dbg( level, strg ):
     if( dbgLevel >= level ) : 
         print( "<!--dbg%s: %s-->" % (level, strg) )
 
-
+gprintWithComment = 0 # hack to tmp print geojson with comment for my own debug, not sure if geojson really suports coment, so need way to turn it off easily.
+def gprint( str1, str2="#" ):
+    if( gprintWithComment >= 1 ) : 
+        print( str1 + "\t\t //" + str2 )
+    else :
+        print( str1 )
+# gprint()-end
 
 # generate a single line of geojson  from a given input arg of 
 def print_gjsLine( lon, lat, value ) :
 	#print( '{ "type": "Feature", "properties": {} ,')
-	print( '{ "type": "Feature", "properties":  ')
-	print json.dumps({"avecon": value}, sort_keys=True, indent=4, separators=(',', ': ')) 
-	print(' ,')
+	gprint( '    { "type": "Feature", 	', '1' ) 				## 1
+	gprint( '    { "        properties":  	', '2' ) 				## 
+	print json.dumps({"avecon": value}, sort_keys=True, indent=6, separators=(',', ': ')) 	## 2
+	gprint( '    ,' , '1?')	  # this seems problem FIXME ++
 	# *sigh* this is boing to be a b*tch to write and debug
-	print json.dumps({"geometry": { "type": "Point", "coordinates": [ lon, lat ] } }, sort_keys=False, indent=4, separators=(',', ': '))
-	print( '}' )
+	print json.dumps({"geometry": { "type": "Point", "coordinates": [ lon, lat ] } }, sort_keys=False, indent=6, separators=(',', ': '))
+	gprint( '    }', '1' )
 	#print json.dumps({'4': 5, '6': 7}, sort_keys=True, indent=4, separators=(',', ': '))
 	# not sure if it would handle tailing comma automatically, not likely since not building a whole json obj.
 
@@ -55,11 +72,11 @@ def print_gjsLine( lon, lat, value ) :
 
 
 def print_opener() :
-	print( '{ "type": "FeatureCollection", "features": [' )
+	gprint( '{ "type": "FeatureCollection", "features": [', 'top' )	## top
 #print_operner() end
 
 def print_closer() : 
-	print( '] }' )
+	gprint( '] }', 'top' )		## top
 #print_closer() end
 
 
@@ -76,7 +93,7 @@ def print_closer() :
 ## this is like main() 
 def run_conversion( args ) :
 
-	print( "running conversion...")
+	dbg( 3, "running conversion...")
 	print_opener()  # some geojson header 
 	print_gjsLine( -128.1, 37.4, 0.123 )
 	# loop to parse file
@@ -98,3 +115,5 @@ def main():
 main()
 
 
+
+# vim: syntax=python noexpandtab nosmarttab noautoindent nosmartinden
