@@ -1,3 +1,5 @@
+# this crated a smaller csv, but turns out all csv data is considered string, not number.  
+# so need to create geojson instead 
 
 # -rwxrwxrwx 1 root root 1709826 Nov 29 22:16 ZWEDC_Biofilter_10X_2016_LongLat.csv
 # tin@Tin-T55:~/tin-gh/inet-dev-class/mapbox/TMP_DATA$ head -5 *csv
@@ -11,3 +13,4 @@
 cat ZWEDC_Biofilter_10X_2016_LongLat.csv | awk -F, '{print $2 "," $3 "," $6}' > ZWEDC_3col.csv
 # vi and remove header line
 # mapbox expects seq as lon lat
+

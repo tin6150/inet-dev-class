@@ -1,0 +1,100 @@
+#!/usr/bin/env python 
+
+# convert csv into geoJSON
+# well, customization needed to pick right column etc
+
+# this one is for the ZWEDC data, from original csv I got from Wei Zhou
+
+# ref taxo-spark/taxorpt.py
+
+import argparse
+import os
+import sys
+import json # echo '{1.2:3.4}' | python -mjson.tool
+
+
+
+### treat them like global :)
+INPUT="ZWEDC.csv"
+# OUTPUT to std out, redirect to file :)
+
+# dbgLevel 3 (ie -ddd) is expected by user troubleshooting problem parsing input file
+# currently most detailed output is at level 5 (ie -ddddd) and it is eye blurry even for programmer
+dbgLevel = 0  
+
+def process_cli() :
+	parser = argparse.ArgumentParser( description='generate geoJSON from CSV, after customization' )
+        parser.add_argument('-d', '--debuglevel', help="Debug mode. Up to -ddd useful for troubleshooting input file parsing. -ddddd intended for coder. ", action="count", default=0)
+        args = parser.parse_args()
+	dbgLevel=args.debuglevel
+
+	return args
+# process_cli()-end
+
+
+
+def dbg( level, strg ):
+    if( dbgLevel >= level ) : 
+        print( "<!--dbg%s: %s-->" % (level, strg) )
+
+
+
+# generate a single line of geojson  from a given input arg of 
+def print_gjsLine( lon, lat, value ) :
+	#print( '{ "type": "Feature", "properties": {} ,')
+	print( '{ "type": "Feature", "properties":  ')
+	print json.dumps({"avecon": value}, sort_keys=True, indent=4, separators=(',', ': ')) 
+	print(' ,')
+	# *sigh* this is boing to be a b*tch to write and debug
+	print json.dumps({"geometry": { "type": "Point", "coordinates": [ lon, lat ] } }, sort_keys=False, indent=4, separators=(',', ': '))
+	print( '}' )
+	#print json.dumps({'4': 5, '6': 7}, sort_keys=True, indent=4, separators=(',', ': '))
+	# not sure if it would handle tailing comma automatically, not likely since not building a whole json obj.
+
+# gjs()-end 
+
+
+def print_opener() :
+	print( '{ "type": "FeatureCollection", "features": [' )
+#print_operner() end
+
+def print_closer() : 
+	print( '] }' )
+#print_closer() end
+
+
+
+### example input lines
+### note, maybe some have missing value, so may just end up with "", or some such
+### 1   2     3     4   5   6
+### "","lon","lat","x","y","aveconc","zelev","zhill","zflag","aveperiod","grp","rank","netid","date"
+### "1",-121.985002139616,37.4079452829464,589827,4140612,0.18577,2.9,2.9,0,"1-HR","BIOFILTR","1ST","CART1","16122219"
+### "2",-121.984437247048,37.4079404316778,589877,4140612,0.18817,3.4,3.4,0,"1-HR","BIOFILTR","1ST","CART1","16122219"
+### need lon, lat, aveconc
+
+
+## this is like main() 
+def run_conversion( args ) :
+
+	print( "running conversion...")
+	print_opener()  # some geojson header 
+	print_gjsLine( -128.1, 37.4, 0.123 )
+	# loop to parse file
+	# need to call print_separator() # essentially a copy to separate records
+	print_closer() # close out parenthesis...
+
+	# maybe there are libs to help... 
+
+# run_conversion()-end
+
+
+def main():
+        args = process_cli()
+	run_conversion(args)
+# main()-end
+
+
+##### program beign 
+main()
+
+

@@ -85,7 +85,7 @@ Mapbox data structure
 
 * Dataset.  what user import as data.  vector or raster.  
 * Tileset is basic store of vector data that will be rendered by Mapbox (studio) style.  not editable, just optimization intermediate internal format for mapbox.
-* (ESRI) Shape file are imported into Dataset, then converted into Tileset (immutable).
+* (ESRI) ``ShapeFile`` are imported into Dataset, then converted into Tileset (immutable).
 * Actually, Dataset import required geojson.  Tileset import can handle .zip containting shapefile (<=260 MB)
 
 
@@ -101,7 +101,7 @@ Mapbox data structure
 Barebone geoJSON
 ----------------
 
-::
+.. code:: json
 
         {
           "type": "FeatureCollection",
@@ -113,7 +113,8 @@ Barebone geoJSON
 geoJSON with single point
 -------------------------
 
-::
+.. code:: json
+
         {
           "type": "FeatureCollection",
           "features": 
@@ -145,7 +146,7 @@ geoJSON with single point
 plume data point, try
 ---------------------
 
-::
+.. code:: json
 
 
       {
