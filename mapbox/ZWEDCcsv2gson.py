@@ -158,6 +158,8 @@ def run_conversion( args ) :
 
 	# loop to parse file
 	# maybe should have used  std unix input redirect, but future may need multiple input files
+	# Alt: read whole file into a dataframe.  would use more memory, 
+	# but could then run check for format, count missing values, etc.  (Think R stats)
 	filename = INPUT
 	f = open( filename, 'r' )
 	#print f            # print whole file
@@ -171,7 +173,8 @@ def run_conversion( args ) :
 		if( lineNum > 0 ) :
 			gprint( ",", "//next feature//" )	# print separator iff not first line
 		print_gjsLine( lon, lat, val )
-		lineNum =+ 1
+		#lineNum =+ 1		# WRONG, this just assign (+1) into the var
+		lineNum += 1		# RIGHT, this increment.  this is almost the equivof c++
 	f.close()
 
 	print_closer() # close out parenthesis...
