@@ -193,22 +193,22 @@ mapbox zoom levels
 tileset have defined zoom extent, which is range where it can add/remove data depending on zoom level.
 vector data can zoom (in) all the way to z22, but if tileset don't have lots of data, it would seem simplified.
 
- - z22 : most detailed?
+- z22 : most detailed?
 
- - z16 : max zoom where data is relevant for census population tiger/line shapefile .  probably city block level detail.
- - z16 : lot size starts to show
- - z15 : see about 50 blocks of a city
- - z13 : streets starts to have some width
- - z12 : streets of one main city
- - z10 : min zoom for census population tiger/line to be visible.  Good starting point to work on Census data map. 
- - z10 : cut off for station-6yhf0y, a simple example shapefile by mapbox (for where?)
+- z16 : max zoom where data is relevant for census population tiger/line shapefile .  probably city block level detail.
+- z16 : lot size starts to show
+- z15 : see about 50 blocks of a city
+- z13 : streets starts to have some width
+- z12 : streets of one main city
+- z10 : min zoom for census population tiger/line to be visible.  Good starting point to work on Census data map. 
+- z10 : cut off for station-6yhf0y, a simple example shapefile by mapbox (for where?)
 
- - z8  : many cities name showed on a map
- - z6  : cut off used for cholopleth tutorial (state level data)  
+- z8  : many cities name showed on a map
+- z6  : cut off used for cholopleth tutorial (state level data)  
 
- - z3  : continent wide
+- z3  : continent wide
 
- - z0  : least detailed , world wide map
+- z0  : least detailed , world wide map
 
 
 ESRI shapefile
@@ -224,12 +224,12 @@ https://www.mapbox.com/help/data/stations.zip ::
 GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]
 
 
-	* no need to expand the zip file before upload to mapbox
-	* rename the .zip  to something I like, eg mv tabblock2010_06_pophu.zip tiger_delaware.zip
+* no need to expand the zip file before upload to mapbox
+* rename the .zip  to something I like, eg mv tabblock2010_06_pophu.zip tiger_delaware.zip
 
-	* so, shapefile can be imported directly into a tileset.  hopefully style it to be visually useful.
+* so, shapefile can be imported directly into a tileset.  hopefully style it to be visually useful.
 
- 	* Then still need to extract the pouplation info which in in dBase III... and create it as a csv to be added as a layer to mapbox studio?
+* Then still need to extract the pouplation info which in in dBase III... and create it as a csv to be added as a layer to mapbox studio?
 
 
 

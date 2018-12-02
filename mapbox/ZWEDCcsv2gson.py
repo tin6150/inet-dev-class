@@ -21,14 +21,17 @@
 import argparse
 import os
 import sys
+import re
 #import json # don't print things with good indent, hinder development, don't find it useful
 
 
 
 ### treat them like global :)
-INPUT="ZWEDC.csv"
+INPUT="ZWEDC.eg.csv"
+INPUT="ZWEDC_Biofilter_10X_2016_LongLat.csv"
 # OUTPUT to std out, redirect to file :)
 
+# dbgLevel 1 (ie -d  ) is good for telling when input fails to pass parser
 # dbgLevel 3 (ie -ddd) is expected by user troubleshooting problem parsing input file
 # currently most detailed output is at level 5 (ie -ddddd) and it is eye blurry even for programmer
 dbgLevel = 0  
@@ -37,16 +40,19 @@ def process_cli() :
 	parser = argparse.ArgumentParser( description='generate geoJSON from CSV, after customization' )
         parser.add_argument('-d', '--debuglevel', help="Debug mode. Up to -ddd useful for troubleshooting input file parsing. -ddddd intended for coder. ", action="count", default=0)
         args = parser.parse_args()
-	dbgLevel=args.debuglevel
-
+	#print( "dbgLevel is %s" , args.debuglevel )
+	global dbgLevel  # ie, tell fn to set the global var, not one created locally in this fn
+	dbgLevel = args.debuglevel      # unable to change global here...   this has no effect :(
+	#print( "dbgLevel is %s" , dbgLevel )
 	return args
 # process_cli()-end
 
 
 
 def dbg( level, strg ):
+    #print( "//dbgLevel %s|--dbg%s: %s--" % (dbgLevel, level, strg) )
     if( dbgLevel >= level ) : 
-        print( "<!--dbg%s: %s-->" % (level, strg) )
+        print( "//--dbg%s: %s--" % (level, strg) )
 
 gprintWithComment = 0 # hack to tmp print geojson with comment for my own debug, not sure if geojson really suports coment, so need way to turn it off easily.
 def gprint( str1, str2="#" ):
@@ -87,20 +93,88 @@ def print_closer() :
 ### need lon, lat, aveconc
 
 
+lon_idx = 2-1 # column index containing longitude, -1 cuz 0-indexed
+lat_idx = 3-1
+val_idx = 6-1 # value of the feature at the lon, lat (in this case, wants to aveconc)
+min_col = 6   # min number of columnsin file
+# this takes one input line, 
+# return a triplet (lon, lat, val)
+# which are the exact same params  the geojson print fn need
+def parse1line( line ) :
+    lon = 0
+    lat = 0
+    val = 0
+    ifs = ","
+    # comment line, blank lines, nothing to process, just return
+    if( re.search( '^#', line ) ) :     
+        return ("", "", "")  # triplet of blank, easier for caller to handle
+    if( re.search( '^$', line ) ) :     
+        return ("", "", "")  # triplet of blank, easier for caller to handle
+    line = line.rstrip("\n\r") 
+    lineList = line.split( ifs )
+
+    if( len(lineList) < min_col ) :
+        dbg( 1, "Not enough columns.  cannot extract features" )
+        dbg( 3, "Line split into %s words" % len (lineList) )
+        #dbg4( "col idx %s not found in this line, returning empty string." % colidx )
+        return ("", "", "")  # triplet of blank, easier for caller to handle
+    lon = lineList[lon_idx].strip()       # strip() removes white space on left and right ends only, not middle
+    lat = lineList[lat_idx].strip() 
+    val = lineList[val_idx].strip()
+    if( re.search( '^[-]{0,1}[0-9]+\.[0-9]+$', lon ) ) :     
+        # re is the regular expression match.  
+        dbg( 2, "Extract ok for lon [%14s] from input line '%s' " % (lon, line) )
+        #return accV
+    else :
+        dbg( 1, "Fail - lon_idex %s had %s , unexpected pattern (input line was '%s')" % (lon_idx, lon, line) )
+        return ("", "", "")  # triplet of blank, easier for caller to handle
+
+    if( re.search( '^[-]{0,1}[0-9]+\.[0-9]+$', lat ) ) :     
+        dbg( 2, "Extract ok for lat [%14s] from input line '%s' " % (lat, line) )
+    else :
+        dbg( 1, "Fail - lat_idex %s had %s , unexpected pattern (input line was '%s')" % (lat_idx, lat, line) )
+        return ("", "", "")  # triplet of blank, easier for caller to handle
+
+    if( re.search( '^[-]{0,1}[0-9]+\.[0-9]+$', val ) ) :     
+        dbg( 2, "Extract ok for val [%14s] from input line '%s' " % (val, line) )
+    else :
+        dbg( 1, "Fail - val_idex %s had %s , unexpected pattern (input line was '%s')" % (val_idx, val, line) )
+        return ("", "", "")  # triplet of blank, easier for caller to handle
+
+    return( lon, lat, val )
+#end
+
+
+
 ## this is like main() 
 def run_conversion( args ) :
-
-	dbg( 3, "running conversion...")
+	dbg( 5, "converting csv to gson...")
 	print_opener()  # some geojson header 
-	print_gjsLine( -121.981, 37.4, 0.12301 )
-	gprint( ",", "//next feature//" )
-	print_gjsLine( -121.982, 37.4, 0.12302 )
+
+	# examples tmp
+	#print_gjsLine( -121.981, 37.4, 0.12301 )
+	#gprint( ",", "//next feature//" )
+	#print_gjsLine( -121.982, 37.4, 0.12302 )
+
 	# loop to parse file
-	# need to call print_separator() # essentially a copy to separate records
+	# maybe should have used  std unix input redirect, but future may need multiple input files
+	filename = INPUT
+	f = open( filename, 'r' )
+	#print f            # print whole file
+	lineNum = 0
+	for line in f:
+		#print line
+		#lineList = line.split( ',' )
+		(lon, lat, val) = parse1line( line )		
+		if ( lon == "" )  :
+			continue		# returned nothing, skipping the line   FIXME
+		if( lineNum > 0 ) :
+			gprint( ",", "//next feature//" )	# print separator iff not first line
+		print_gjsLine( lon, lat, val )
+		lineNum =+ 1
+	f.close()
+
 	print_closer() # close out parenthesis...
-
-	# maybe there are libs to help... 
-
 # run_conversion()-end
 
 
