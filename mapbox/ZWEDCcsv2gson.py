@@ -14,13 +14,14 @@
 # json5 supports comments with // 
 # geojson may tolerate comment with //  see https://gis.stackexchange.com/questions/22474/geojson-styling-information
 
+# test gson output at http://geojson.io/#map=15/37.4045/-121.9810
 
 # ref taxo-spark/taxorpt.py
 
 import argparse
 import os
 import sys
-import json # 
+#import json # don't print things with good indent, hinder development, don't find it useful
 
 
 
@@ -57,18 +58,12 @@ def gprint( str1, str2="#" ):
 
 # generate a single line of geojson  from a given input arg of 
 def print_gjsLine( lon, lat, value ) :
-	#print( '{ "type": "Feature", "properties": {} ,')
-	gprint( '    { "type":       "Feature", 	', '1' ) 				## 1
-	gprint( '      "properties":              ', '2' ) 				## 
-	#print json.dumps({"avecon": value}, sort_keys=True, indent=6, separators=(',', ': ')) 	## 2
-	gprint( '           {"avecon": %s}' % value , "2" )
+	gprint( '    { "type":       "Feature", 	', '1' ) 	## 1
+	gprint( '      "properties":                    ', '2' ) 	## 2
+	gprint( '           {"avecon": %s}' % value ,      "2" )
 	gprint( '      ,' , '1?')
-	# *sigh* this is boing to be a b*tch to write and debug
-	#print json.dumps("geometry": { "type": "Point", "coordinates": [ lon, lat ] } }, sort_keys=False, indent=6, separators=(',', ': '))
 	gprint('      "geometry": { "type": "Point", "coordinates": [ %s, %s ] }' % (lon,lat), '2b') 
 	gprint( '    }', '1' )
-	#print json.dumps({'4': 5, '6': 7}, sort_keys=True, indent=4, separators=(',', ': '))
-	# not sure if it would handle tailing comma automatically, not likely since not building a whole json obj.
 
 # gjs()-end 
 
@@ -97,7 +92,9 @@ def run_conversion( args ) :
 
 	dbg( 3, "running conversion...")
 	print_opener()  # some geojson header 
-	print_gjsLine( -121.98, 37.4, 0.123 )
+	print_gjsLine( -121.981, 37.4, 0.12301 )
+	gprint( ",", "//next feature//" )
+	print_gjsLine( -121.982, 37.4, 0.12302 )
 	# loop to parse file
 	# need to call print_separator() # essentially a copy to separate records
 	print_closer() # close out parenthesis...
