@@ -58,12 +58,14 @@ def gprint( str1, str2="#" ):
 # generate a single line of geojson  from a given input arg of 
 def print_gjsLine( lon, lat, value ) :
 	#print( '{ "type": "Feature", "properties": {} ,')
-	gprint( '    { "type": "Feature", 	', '1' ) 				## 1
-	gprint( '    { "        properties":  	', '2' ) 				## 
-	print json.dumps({"avecon": value}, sort_keys=True, indent=6, separators=(',', ': ')) 	## 2
-	gprint( '    ,' , '1?')	  # this seems problem FIXME ++
+	gprint( '    { "type":       "Feature", 	', '1' ) 				## 1
+	gprint( '      "properties":              ', '2' ) 				## 
+	#print json.dumps({"avecon": value}, sort_keys=True, indent=6, separators=(',', ': ')) 	## 2
+	gprint( '           {"avecon": %s}' % value , "2" )
+	gprint( '      ,' , '1?')
 	# *sigh* this is boing to be a b*tch to write and debug
-	print json.dumps({"geometry": { "type": "Point", "coordinates": [ lon, lat ] } }, sort_keys=False, indent=6, separators=(',', ': '))
+	#print json.dumps("geometry": { "type": "Point", "coordinates": [ lon, lat ] } }, sort_keys=False, indent=6, separators=(',', ': '))
+	gprint('      "geometry": { "type": "Point", "coordinates": [ %s, %s ] }' % (lon,lat), '2b') 
 	gprint( '    }', '1' )
 	#print json.dumps({'4': 5, '6': 7}, sort_keys=True, indent=4, separators=(',', ': '))
 	# not sure if it would handle tailing comma automatically, not likely since not building a whole json obj.
@@ -95,7 +97,7 @@ def run_conversion( args ) :
 
 	dbg( 3, "running conversion...")
 	print_opener()  # some geojson header 
-	print_gjsLine( -128.1, 37.4, 0.123 )
+	print_gjsLine( -121.98, 37.4, 0.123 )
 	# loop to parse file
 	# need to call print_separator() # essentially a copy to separate records
 	print_closer() # close out parenthesis...
