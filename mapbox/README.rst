@@ -113,7 +113,7 @@ Barebone geoJSON
 geoJSON with single point
 -------------------------
 
-.. code:: json
+.. code:: json5
 
         {
           "type": "FeatureCollection",
@@ -136,7 +136,7 @@ geoJSON with single point
                       }
               }
           ]
-        }
+        }       // tagged as json5, comments would be allowed if parser supports this new version
 
 
 * Example geoJSON: https://www.mapbox.com/help/data/stations.geojson
@@ -146,7 +146,7 @@ geoJSON with single point
 plume data point, try
 ---------------------
 
-.. code:: json
+.. code:: geojson
 
 
       {
@@ -164,7 +164,7 @@ plume data point, try
               }
               //,   // add comma iff there is next entry, also think json don't have a  comment officially
           ]
-      }
+      }       // this one tagged as geojson
 
 
 
