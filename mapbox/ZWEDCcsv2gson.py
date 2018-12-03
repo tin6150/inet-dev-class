@@ -23,6 +23,7 @@ import os
 import sys
 import re
 #import json # don't print things with good indent, hinder development, don't find it useful
+import pandas # https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.from_csv.html
 
 
 
@@ -181,14 +182,65 @@ def run_conversion( args ) :
 # run_conversion()-end
 
 
+
+
+# glance over data, find avg, std dev, min, max, missing value, etc # use pandas
+# mostly to get idea to change opacity in mapbox studio using a custom range.
+#https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html#pandas.read_csv
+def sniff_data(args) :
+
+
+    pandas.read_csv( INPUT )
+#end sniff_data()
+
+
 def main():
         args = process_cli()
-	run_conversion(args)
+	#run_conversion(args)
+        sniff_data(args)        # glance over data, find avg, std dev, min, max, missing value, etc # use pandas
 # main()-end
 
 
 ##### program beign 
 main()
+
+################################################################################
+################################################################################
+
+
+"""
+coloring data range
+simple linear scaling of color doesn't work too well, 
+want near zero data to be close to fully transparent.
+
+so using stepwise coloration like the us pop map eg.
+
+min:  #FFEDA0   # light yellow
+10:   #FFEDA0 
+20:   #FED976   # dark yellow
+50:   #FEB24C
+100:  #FD8D3C   # orange
+200:  #FC4E2A
+500:  #E31A1C
+1000: #BD0026   # dark red
+
+
+avecon values                                       #  color    %opacity
+nope, this range isn't right.  look at data instead of mapbox studio, too many weired thing in there to look at data.
+0
+0.13476         # lowest in data set, except zero   #  #000000  0% 
+:   #FFEDA0 
+:   #FED976   # dark yellow
+0.702           #FEB24C
+:  #FD8D3C   # orange
+:  #FC4E2A
+:  #E31A1C
+0.29            #BD0026   # dark red
+0.29944         # highest in data set
+
+
+"""
+
 
 
 
