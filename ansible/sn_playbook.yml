@@ -1,0 +1,92 @@
+---
+
+##################
+### never used ###
+##################
+### just a snapshot of some vagran ansible playbook snapshot
+### latest version remained in https://github.com/tin6150/singhub
+
+# adapted from vagrantfile_playbook.yml (in singhub)
+# may become master ansible playbook for my various laptops, just to try things out.
+# for now, just installing a few things on c7
+# can run this for my machine as
+# ansible-playbook sn_playbook.yml -i sn_inventory.ini  #-u root
+# require sshkey to be setup, may prompt for password
+#
+# ref:
+# http://people.redhat.com/mskinner/rhug/q2.2017/Ansible-Hands-on-Introduction.pdf p23
+# https://www.vagrantup.com/docs/provisioning/ansible_intro.html
+#
+# yaml quirky: 
+# --- means start of doc
+# ... means end of doc (but often not seen)
+# like python, space matter!  it dictates the hierarchy
+#    but the "-" to define list has to stick out for visibility.  this make shifting block level a real PITA  !!!! :( 
+# vi use
+# : set shiftwidth=2 tabstop=4
+
+#- hosts: ansible_os_family == "RedHat" # this don't work.  
+- hosts: all
+  become: true  # rely on sudo setup, may get prompted for password
+  roles:
+  #  - role: PeterMosmans.virtualbox-guest
+      # previously ran ansible-galaxy install PeterMosmans.virtualbox-guest to get a role in ~/.ansible/roles
+      # https://galaxy.ansible.com/PeterMosmans/virtualbox-guest/
+  tasks:
+    - block:
+      - name: ensure latest nomachien NX is installed (it nags a lot when there are updates)
+        yum: pkg=nomachine state=latest
+        # there is /etc/NX/server/packages, but the tgz are 0 size.  no client?
+      - name: ensure ntpd is at the latest version
+        yum: pkg=ntp state=latest
+        notify:
+          - restart ntpd
+      - name: latest zsh is present # alt syntax, but i like it less, too name "name" clause
+        yum: 
+          name: zsh 
+          state: latest
+      - name: Install EPEL repo.
+        yum:
+          name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm
+          state: latest #present
+          # state absent does not ensure it is removed.  
+          # present does not revert changes made to file.  think of yum running not ovewriting existing config.
+      - name: Import EPEL GPG key.
+        rpm_key:
+          key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
+          state: present
+        # lxde is not in epel either.  maybe use xfce, which use GDM.  MATE use LightDM and don't want to mess with that.
+        # https://github.com/DevOps4Networks/ansible-linux-desktop-role/blob/master/tasks/RedHat.yml
+      - name: latest lxde is present
+        yum: pkg=lxde state=removed #absent #latest
+        when: for_now == 'false'  # ie don't expect nor need this to run for now
+      - name: xfce is present
+        #shell: yum --enablerepo=epel -y groupinstall xfce-desktop x11
+        yum: enablerepo=epel name="@Xfce" state=present
+        # @package-group-name vs @^environment-group-name, see "yum grouplist" and 
+        # http://docs.ansible.com/ansible/latest/yum_module.html 
+        #when: redhat_desktop == 'xfce'
+        when: for_now == 'false'  # ie don't expect nor need this to run for now
+      - name: Install RedHat X11
+        yum: name="@x11" state=present
+        ## okay, Xfce and X11 installed, but don't work in virtualbox.  video driver problem
+        when: for_now == 'false'  # ie don't expect nor need this to run for now
+      when: ansible_os_family == "RedHat" # use blok to define this for multiple tasks, but has to be at the end !! WHY?!
+
+    - block:
+        - name: latest csh is present # trying to exlude this in RedHat.  works.  see result as skip, condition was False.
+          apt: pkg=csh state=latest
+      when: ansible_os_family == "Debian"  
+      # INCLUDE eg, see https://github.com/DevOps4Networks/ansible-linux-desktop-role/blob/master/tasks/main.yml 
+
+  handlers:
+    - name: restart ntpd
+      service: name=ntpd state=restarted
+    # service should be in handler, then even if don't exist, no complain
+    # well, nothing will call this block, so maybe why no complains
+    - name: stop httpd 
+      service:
+        name:  http
+        state: stopped
+ 
+

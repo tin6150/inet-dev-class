@@ -1,0 +1,46 @@
+--------------------------------------------------------------------------
+WARNING: There is at least non-excluded one OpenFabrics device found,
+but there are no active ports detected (or Open MPI was unable to use
+them).  This is most certainly not what you wanted.  Check your
+cables, subnet manager configuration, etc.  The openib BTL will be
+ignored for this job.
+
+  Local host: n0032.lr5
+--------------------------------------------------------------------------
+[0<->1]		30.21 us		235.868247 (MillionBytes/sec)
+[2<->0]		27.87 us		235.793638 (MillionBytes/sec)
+[0<->3]		26.84 us		236.080953 (MillionBytes/sec)
+[4<->0]		27.65 us		235.964424 (MillionBytes/sec)
+[0<->5]		26.95 us		220.320935 (MillionBytes/sec)
+[6<->0]		27.82 us		230.421046 (MillionBytes/sec)
+[0<->7]		27.90 us		235.508282 (MillionBytes/sec)
+[8<->0]		26.20 us		235.841686 (MillionBytes/sec)
+[0<->9]		26.19 us		236.075884 (MillionBytes/sec)
+[10<->0]		26.74 us		235.936575 (MillionBytes/sec)
+[0<->11]		26.97 us		236.229315 (MillionBytes/sec)
+[12<->0]		26.72 us		236.001144 (MillionBytes/sec)
+[0<->13]		26.79 us		213.925254 (MillionBytes/sec)
+[14<->0]		26.01 us		236.127851 (MillionBytes/sec)
+[0<->15]		25.95 us		235.301641 (MillionBytes/sec)
+[16<->0]		26.82 us		236.127851 (MillionBytes/sec)
+[0<->17]		26.98 us		235.974552 (MillionBytes/sec)
+[18<->0]		26.25 us		235.455327 (MillionBytes/sec)
+[0<->19]		26.69 us		236.080953 (MillionBytes/sec)
+[20<->0]		25.92 us		235.889754 (MillionBytes/sec)
+[0<->21]		26.18 us		235.207262 (MillionBytes/sec)
+[22<->0]		25.79 us		236.214090 (MillionBytes/sec)
+[0<->23]		25.98 us		235.133070 (MillionBytes/sec)
+[24<->0]		26.99 us		236.224239 (MillionBytes/sec)
+[0<->25]		26.61 us		235.815131 (MillionBytes/sec)
+[26<->0]		26.49 us		235.493150 (MillionBytes/sec)
+[0<->27]		27.46 us		235.328081 (MillionBytes/sec)
+[28<->0]		27.04 us		235.080284 (MillionBytes/sec)
+[0<->29]		26.21 us		216.652537 (MillionBytes/sec)
+[30<->0]		26.24 us		233.219138 (MillionBytes/sec)
+[n0009.scs00:07794] 3 more processes have sent help message help-mpi-btl-openib.txt / no active ports found
+[n0009.scs00:07794] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[n0000.lr5][[41240,1],0][btl_tcp_endpoint.c:655:mca_btl_tcp_endpoint_complete_connect] connect() to 10.4.6.32 failed: No route to host (113)
+mpirun: killing job...
+
+
+1

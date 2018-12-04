@@ -1,0 +1,67 @@
+---
+#
+# install various packages
+# names of rpm and service may be very RHEL7 specific at this point.
+
+- hosts: localhost and all
+
+  tasks:
+    - debug:
+              msg: "[DBG-10] This is dbg msg from install_pkg_play.yml " 
+
+    - block: 
+
+        - name: "Place a marker file to track Ansile run progress"
+          file:
+                path: /tmp/tin/AnsibleRun
+                state: directory
+        - file:
+                path: /tmp/tin/AnsibleRun/install_pkg_play.marker
+                state: touch
+
+
+        # these pkg name should be valid for RHEL7 and Mint/Ubuntu
+        - name: Install platform independent packages 
+          package:
+                name: "{{ item }}"
+                state: present 
+          with_items:
+                - openssl
+                - openssl-libs
+                - crypto-utils
+                - git
+                - traceroute  
+                - samba-client
+                - samba-common
+          ignore_errors: yes   # to block level$
+          # above will allow ansible to continue when package like wireshark-cli is not found$
+          # but unfortunately also don't update "failed" count in recap report.  $
+
+        # not all pkg name verified to be valid outside of RHEL7 at this time
+        - name: Install RHEL7 Net packages. eg pip
+          package:
+                name: "{{ item }}"
+                state: present 
+          with_items:
+                - python2-pip
+          #ignore_errors: yes   
+          # above will allow ansible to continue when package like wireshark-cli is not found$
+          when: ansible_os_family == "RedHat"  # for 2nd level block
+
+        - name: Install Ubuntu/Mint Net packages. eg pip
+          package:
+                name: "{{ item }}"
+                state: present 
+          with_items:
+                # nis in Mint/Ubuntu contain ypbind (hopefully)
+                - python-pip
+          #ignore_errors: yes   
+          # above will allow ansible to continue when package like wireshark-cli is not found$
+          when: ansible_os_family == "Debian"
+
+        - debug:
+              msg: "the end... for this play"
+
+
+      when: ansible_hostname != "cs2"  # extra sanity check to limit host.  mostly as example
+  #when: ansible_os_family == "RedHat" # for 1st level block   # can't do when for play.  stupid ansible

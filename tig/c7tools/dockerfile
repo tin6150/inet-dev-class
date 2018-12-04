@@ -1,0 +1,47 @@
+FROM centos:7
+MAINTAINER bofh <tin6150@gmail.com>
+LABEL description="A fat container containing many sys admin tools to help troubleshoot docker env \
+**early draft**."
+ENV container docker
+RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == \
+systemd-tmpfiles-setup.service ] || rm -f $i; done); \
+rm -f /lib/systemd/system/multi-user.target.wants/*;\
+rm -f /etc/systemd/system/*.wants/*;\
+rm -f /lib/systemd/system/local-fs.target.wants/*; \
+rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
+rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
+rm -f /lib/systemd/system/basic.target.wants/*;\
+rm -f /lib/systemd/system/anaconda.target.wants/*;
+VOLUME [ "/sys/fs/cgroup" ]
+CMD ["/usr/sbin/init"]
+
+#RUN /usr/bin/yum update && /usr/bin/yum install -y vim
+RUN /usr/bin/yum install -y vim net-tools  traceroute tcpdump wireshark nmap-ncat telnet openssh-client nmap nmap-ncat strace iputils iproute bind-utils
+# iproute provides /usr/sbin/ip 
+#tcpdump 
+
+
+# from ubuntu test build:
+#RUN apt-get update && apt-get install -y ruby ruby-dev		# 
+# always run the apt-get update and install command in the same line using &&, 
+# or it would result in a db problem on the resulting container.
+
+# docker build .
+# docker build      -t tin6150/c7tools .
+# docker build      -t tin6150/satools .
+# docker run -it --rm 5d2adf975a24 bash
+
+
+# ifconfig -a 
+# 172.17.0.7 
+
+# telnet 128.3.10.10 3000
+# gets nowhere.  ditto w/ traceroute...
+# updtaed firewall on docker host to allow the docker 172.17.0.0/24 network and things are working.
+
+
+# networks for docker and virtual box likely:
+# 172.17.0.0      0.0.0.0         255.255.0.0     U         0 0          0 docker0
+# 172.18.0.0      0.0.0.0         255.255.0.0     U         0 0          0 br-84368794ed5e
+# 172.19.0.0      0.0.0.0         255.255.0.0     U         0 0          0 br-06ce113fe440
+

@@ -1,0 +1,145 @@
+---
+
+# yaml file to configure mint182_osboxes # vm on snMadBook
+# kinda hassle to get ssh to work via VirtualBox NAT
+# thus run as localhost.
+# 2017.1125
+
+## *** this worked well on Mint 18.2 VM on snMadBook
+## *** but copying back into cueball/ANSIBLE/tin_desktop1_playbook.yml
+## *** 2017.1127
+
+# vi use
+# : set shiftwidth=2 tabstop=4 expandtab list nu ft=ruby
+# : retab 
+# : syntax on 
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# check syntax: 
+# ansible-playbook localhost_playbook.yml --syntax-check
+#
+# test with: 
+# ansible all -i "localhost," -c local -m shell -a 'echo hello world'
+# ansible localhost -m setup                # see all pre-defined ansible variables
+
+#
+# actually run it:
+# - sudo ansible-playbook -vvv localhost_playbook.yml -i "localhost"
+#    -v   adds little.  -vv is okay for run time troubleshooting.   -vvv for dev that show task data structure (all arguments), run ssh w/ -v
+#    localhost need ansible, python installed
+
+# some thing may still need clean up.
+# was adopted from cueball/ANSIBLE/bofh_playbootk.yml
+
+
+
+# ~~~~
+
+# yaml quirky: 
+# --- means start of doc
+# ... means end of doc (but often not seen)
+# like python, space matter!  it dictates the hierarchy
+# worse than python, yaml say not to use space in the beginning of line to do indentation/blocking level.
+# and with the use of '-', yeah, it is a mess!!
+
+#    but the "-" to define list has to stick out for visibility.  this make shifting block level a real PITA  !!!! :( 
+#    Not sure when need to use "-" and when don't.  Best to use 4 space tab even for "-" and the next/prev block
+#    especially when the "when" clause is at the end of the block!!
+
+
+# ~~~~
+
+#- hosts: ansible_os_family == "Debian" # this kind of eval don't work.  
+- hosts: all and localhost
+#- hosts: localhost
+  become: true  # not really needed, cuz use "sudo ansible-playbook..." and so running as root already
+  roles: 
+      #- sn_pkg.yml            # add my favorite packages.  TBA
+  tasks:
+      - debug:
+          msg: This is a debug message from bofh_playbook.yml [L56]
+          msg: This is a debug message from bofh_playbook.yml [L57]  # this msg def overwrite above
+      - debug:
+          msg: 'debug cannot handle a list, thus cannot "- msg" above for multiple entry, must add additional "- debug" clause.'
+
+      #- include_tasks: infra_cf.yml
+      - import_tasks:  dev_tool.yml                
+      #- import_tasks:  "gui_workstation.yml"          # let this handle OS platform, as some commands could be platform independent
+      #- import_tasks:  epel.yml                       # actually want to put this at the end to avoid other depending on epel...
+      #- import_tasks:  os_update_redhat.yml   
+      #- include_tasks: "os_upgrade_redhat_6to7.yml"   # just to try on bofh (centos6 desktop) to see if it works...
+
+      - name: Set hostname to mintbook182...  POTENTIALLY DANGEROUS 
+        block:
+        - hostname:
+            name: mintbook128
+          notify: "update hosts file with new hostname"
+        when: ansible_hostname == "osboxes"
+        # list of ansible pre-def vars: https://stackoverflow.com/questions/18839509/where-can-i-get-a-list-of-ansible-pre-defined-variables
+        # ansible localhost -m setup | less
+
+  
+      - name: set timezone to America/LosAngeles
+        timezone:
+            name: America/Los_Angeles
+
+      - name: add my favorite users :)
+        #shell: uptime   # dummy for now
+      # http://docs.ansible.com/ansible/latest/user_module.html
+        # no "-" in front of each user clause means only add last user!!
+        # but "- user:" cause error, so no way to add multiple user in a single name clause?  F'ing YAML!! or F'ing Ansible??!! !@#$
+        user:           # will make home dir as well
+            name:       tin
+            #comment:    sn
+            group:      users
+            groups:     sudo
+            uid:        43413 
+            shell:      /bin/bash
+
+      - name: "add my favorite user #2 :)"
+        user:           # will make home dir as well
+            name:       berkeley
+            comment:    berkeley
+            group:      users
+            uid:        1595256 
+            shell:      /bin/bash
+            generate_ssh_key: yes
+            ssh_key_bits: 2048
+            ssh_key_file: .ssh/id_rsa
+
+      - name: "Disable user osboxes if it exist"
+        stat: path=/home/osboxes
+        register: osboxesHome
+
+      - name: Move osboxes home away
+        command: mv /home/osboxes /home/_disabled_osboxes
+        when: osboxesHome.stat.exists
+
+      - name: "Disable user osboxes"
+        user:           
+            name:       osboxes
+            groups:     ""    # ie remove from all 2nd group, notably sudo
+            comment:    disabled osboxes user
+            shell:      /bin/false
+            password:   "*LK*disabled*crypt*here*"
+        when: osboxesHome.stat.exists
+
+      - name: Strangely /home/osboxes still left with a few dot files, nuke them
+        file: path=/home/osboxes state=absent
+        when: osboxesHome.stat.exists
+
+
+  handlers:
+      - name: "update hosts file with new hostname"
+        lineinfile:
+            path: /etc/hosts
+            regexp: '^127\.0\.0\.1 mintbook128'
+            line: '127.0.0.1 mintbook128'
+            insertafter: '^127\.0\.0\.1\slocalhost'
+            state: present
+            owner: root
+            group: root
+            mode: 0644
+        #when: changedHostname.exist
+ 

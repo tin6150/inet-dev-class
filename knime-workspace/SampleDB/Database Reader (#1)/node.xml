@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://www.knime.org/2008/09/XMLConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knime.org/2008/09/XMLConfig http://www.knime.org/XMLConfig_2008_09.xsd" key="settings.xml">
+<entry key="name" type="xstring" value="Database Reader"/>
+<config key="model">
+<entry key="statement" type="xstring" value="select applicationname, to_char(accessdate,'YYYY-MM') month, site_name, count(*)%%00010from (select distinct B.APPLICATIONNAME, a.userid, trunc(a.accessdate) accessdate, site_name %%00010from SECURITY.accesslog a, SECURITY.application b, SECURITY.PE_GDDB c, SECURITY.pe_site_vbrws d%%00010where a.applicationid = b.applicationid and a.userid = C.UNIQUE_ID and c.site_code = d.site_code and a.accessdate &gt; '06-Jul-2009') %%00010group by applicationname, to_char(accessdate, 'YYYY-MM'), site_name"/>
+<entry key="driver" type="xstring" value="oracle.jdbc.OracleDriver"/>
+<entry key="database" type="xstring" value="jdbc:oracle:thin:@ldap://tns.na.novartis.net:389/gempr1,cn=oraclecontext,dc=research,dc=pharma"/>
+<entry key="user" type="xstring" value="security_r"/>
+<entry key="password" type="xstring" value="security_r"/>
+<entry key="execute_without_configure" type="xboolean" value="false"/>
+</config>
+<entry key="hasContent" type="xboolean" value="true"/>
+<entry key="isInactive" type="xboolean" value="false"/>
+<config key="ports">
+<config key="port_1">
+<entry key="index" type="xint" value="1"/>
+<entry key="port_spec_class" type="xstring" value="org.knime.core.data.DataTableSpec"/>
+<entry key="port_object_class" type="xstring" value="org.knime.core.node.BufferedDataTable"/>
+<entry key="port_object_summary" type="xstring" value="Rows: 2993, Cols: 4"/>
+<entry key="port_dir_location" type="xstring" value="port_1"/>
+</config>
+</config>
+<config key="filestores">
+<entry key="file_store_location" type="xstring" isnull="true" value=""/>
+<entry key="file_store_id" type="xstring" value="309873bf-6f37-4ee8-8024-20471429e31c"/>
+</config>
+</config>
