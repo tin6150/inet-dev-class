@@ -14,3 +14,13 @@ sbt compile
 
 
 
+~~~~
+
+from long time ago now
+some scala thing that I don't think i end up using after finding a bit more about it.
+
+**^ tin jupyter.scs00 ~/tin-gh/inet-dev-class/sbt ^**>  vi info.rst
+
+
+the foo-build dir on lrc nas home may have been auto generated, will not check in.
+
