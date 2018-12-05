@@ -144,7 +144,7 @@ geoJSON with single point
 * Additional ref: https://www.mapbox.com/help/define-geojson/
 
 
-ZWEDC data with two example point
+ZWEDC data with two example points
 ----------------------------------
 
 This format has been tested to work, see ZWEDCcsv2gson.py that creates .geojson that was imported successfully into mapbox tileset.
@@ -160,23 +160,22 @@ This format has been tested to work, see ZWEDCcsv2gson.py that creates .geojson 
               ,
               "geometry": { "type": "Point", "coordinates": [ -121.985002139616, 37.4079452829464 ] }
             }
-        ,
+            ,
             { "type":       "Feature",
               "properties":
                    {"avecon": 0.18817}
               ,
               "geometry": { "type": "Point", "coordinates": [ -121.984437247048, 37.4079404316778 ] }
             }
-        //,   // add comma iff there is next entry, json don't have a comment officially
+            //,   // add comma iff there is next entry. json don't have a comment officially.  tailing comma not allowed either
         ] }
 
 
 
-ZWEDC data as polygon, try
---------------------------
+ZWEDC data as polygon
+---------------------
 
 Below should work to create polygon to make density coloring on map easier.
-Exact syntax hasn't been tested, but should be something close to this:
 
 .. code:: geojson
 
@@ -194,7 +193,7 @@ Exact syntax hasn't been tested, but should be something close to this:
                       [ -121.985, 37.407 ],     // LT, close it back.  5 points make a square :)
               ] ] }  // strangely need to open two square bracket (support for multi-polygon?)
             }
-        //,   // add comma iff there is next entry, json don't have a comment officially
+            //,   // add comma iff there is next entry, json don't have a comment officially
         ] }
 
 
