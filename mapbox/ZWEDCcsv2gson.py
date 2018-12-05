@@ -23,13 +23,13 @@ import os
 import sys
 import re
 #import json # don't print things with good indent, hinder development, don't find it useful
-import pandas # https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.from_csv.html
+#import pandas # https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.from_csv.html
 
 
 
 ### treat them like global :)
 INPUT="ZWEDC.eg.csv"
-INPUT="ZWEDC_Biofilter_10X_2016_LongLat.csv"
+#INPUT="ZWEDC_Biofilter_10X_2016_LongLat.csv"
 # OUTPUT to std out, redirect to file :)
 
 # dbgLevel 1 (ie -d  ) is good for telling when input fails to pass parser
@@ -188,16 +188,15 @@ def run_conversion( args ) :
 # mostly to get idea to change opacity in mapbox studio using a custom range.
 #https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html#pandas.read_csv
 def sniff_data(args) :
-
-
-    pandas.read_csv( INPUT )
+    print("did the data analysis interactively in jupyther hub")
+    #pandas.read_csv( INPUT )
 #end sniff_data()
 
 
 def main():
         args = process_cli()
-	#run_conversion(args)
-        sniff_data(args)        # glance over data, find avg, std dev, min, max, missing value, etc # use pandas
+	run_conversion(args)
+        #sniff_data(args)        # glance over data, find avg, std dev, min, max, missing value, etc # use pandas
 # main()-end
 
 

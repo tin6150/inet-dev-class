@@ -144,28 +144,59 @@ geoJSON with single point
 * Additional ref: https://www.mapbox.com/help/define-geojson/
 
 
-plume data point, try
----------------------
+ZWEDC data with two example point
+----------------------------------
+
+This format has been tested to work, see ZWEDCcsv2gson.py that creates .geojson that was imported successfully into mapbox tileset.
 
 .. code:: geojson
 
 
-      {
-          "type": "FeatureCollection",
-          "features":
-          [
-              {
-                      "type": "Feature",
-                          "properties": { } ,
-                          // properties is needed (at least for mapbox), even if empty.  could give it name or timestamp
-                      "geometry": {
-                          "type": "Point",
-                          "coordinates": [ -77.12911152370515, 38.79930767201779 ]
-                      }
-              }
-              //,   // add comma iff there is next entry, also think json don't have a  comment officially
-          ]
-      }       // this one tagged as geojson
+        { "type": "FeatureCollection", "features": [
+            { "type":       "Feature",
+              "properties":
+                   {"avecon": 0.18577}
+                   // properties is required (at least for mapbox), even if empty.  could give it name or timestamp
+              ,
+              "geometry": { "type": "Point", "coordinates": [ -121.985002139616, 37.4079452829464 ] }
+            }
+        ,
+            { "type":       "Feature",
+              "properties":
+                   {"avecon": 0.18817}
+              ,
+              "geometry": { "type": "Point", "coordinates": [ -121.984437247048, 37.4079404316778 ] }
+            }
+        //,   // add comma iff there is next entry, json don't have a comment officially
+        ] }
+
+
+
+ZWEDC data as polygon, try
+--------------------------
+
+Below should work to create polygon to make density coloring on map easier.
+Exact syntax hasn't been tested, but should be something close to this:
+
+.. code:: geojson
+
+        { "type": "FeatureCollection", "features": [
+            { "type":       "Feature",
+              "properties":
+                   {"avecon": 0.18577}
+                   // properties is required (at least for mapbox), even if empty.  could give it name or timestamp
+              ,
+              "geometry": { "type": "Polygon", "coordinates": [ [
+                      [ -121.985, 37.407 ],     // LT
+                      [ -121.984, 37.407 ],     // RT
+                      [ -121.984, 37.406 ],     // RB
+                      [ -121.985, 37.406 ],     // LB
+                      [ -121.985, 37.407 ],     // LT, close it back.  5 points make a square :)
+              ] ] }  // strangely need to open two square bracket (support for multi-polygon?)
+            }
+        //,   // add comma iff there is next entry, json don't have a comment officially
+        ] }
+
 
 
 
