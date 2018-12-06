@@ -3,9 +3,11 @@
 # convert csv into geoJSON   # i will just call it gson
 # well, customization needed to pick right column etc
 
+# this one is for the ZWEDC data, ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.head3.csv
+# this version create gson with polygon around the data
+# the new csv it uses has 4 vertices of (essentially) a square
+# 25m from the center point of sensor)
 
-
-# this one is for the ZWEDC data, from original csv I got from Wei Zhou
 
 
 
@@ -28,8 +30,8 @@ import re
 
 
 ### treat them like global :)
-INPUT="ZWEDC.eg.csv"
-#INPUT="ZWEDC_Biofilter_10X_2016_LongLat.csv"
+#INPUT="ZWEDC.eg.csv"
+INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.head3.csv"
 # OUTPUT to std out, redirect to file :)
 
 # dbgLevel 1 (ie -d  ) is good for telling when input fails to pass parser
@@ -64,12 +66,13 @@ def gprint( str1, str2="#" ):
 # gprint()-end
 
 # generate a single line of geojson  from a given input arg of 
-def print_gjsLine( lon, lat, value ) :
+# need to be sure points are 4 vertices in seq, something like TL, TR, BR, BL ... 
+def print_gjsLine( value, lon1, lat1, lon2, lat2 ) :
 	gprint( '    { "type":       "Feature", 	', '1' ) 	## 1
 	gprint( '      "properties":                    ', '2' ) 	## 2
 	gprint( '           {"avecon": %s}' % value ,      "2" )
 	gprint( '      ,' , '1?')
-	gprint('      "geometry": { "type": "Point", "coordinates": [ %s, %s ] }' % (lon,lat), '2b') 
+	gprint('      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ], [ %s,%s], [%s,%s], [%s,%s], [%s,%s]  ]]}' % (lon,lat), '2b') 
 	gprint( '    }', '1' )
 
 # gjs()-end 
@@ -85,14 +88,14 @@ def print_closer() :
 
 
 
-### example input lines
-### note, maybe some have missing value, so may just end up with "", or some such
-### 1   2     3     4   5   6
-### "","lon","lat","x","y","aveconc","zelev","zhill","zflag","aveperiod","grp","rank","netid","date"
-### "1",-121.985002139616,37.4079452829464,589827,4140612,0.18577,2.9,2.9,0,"1-HR","BIOFILTR","1ST","CART1","16122219"
-### "2",-121.984437247048,37.4079404316778,589877,4140612,0.18817,3.4,3.4,0,"1-HR","BIOFILTR","1ST","CART1","16122219"
-### need lon, lat, aveconc
+"""
+example input lines (didn't start with 0-index, been working on octave lately), so parser will -1
+1   2     3     4   5   6     7      8      9    10   11     12     13   14   15     16     17   18   19     20     21   22
+"","lon","lat","x","y","Max","lon1","lat1","x1","y1","lon2","lat2","x2","y2","lon3","lat3","x3","y3","lon4","lat4","x4","y4"
+"1",-121.985002139616,37.4079452829464,589827,4140612,0.18577,-121.985287624997,37.4077223978109,589802,4140587,-121.984722734052,37.4077175479308,589852,4140587,-121.984716652544,37.4081681673591,589852,4140637,-121.985281546871,37.4081730173178,589802,4140637
+"2",-121.984437247048,37.4079404316778,589877,4140612,0.18817,-121.984722734052,37.4077175479308,589852,4140587,-121.984157843243,37.4077126953524,589902,4140587,-121.984151758353,37.4081633147021,589902,4140637,-121.984716652544,37.4081681673591,589852,4140637
 
+"""
 
 lon_idx = 2-1 # column index containing longitude, -1 cuz 0-indexed
 lat_idx = 3-1
@@ -122,6 +125,8 @@ def parse1line( line ) :
     lon = lineList[lon_idx].strip()       # strip() removes white space on left and right ends only, not middle
     lat = lineList[lat_idx].strip() 
     val = lineList[val_idx].strip()
+
+    # make these into fn call...
     if( re.search( '^[-]{0,1}[0-9]+\.[0-9]+$', lon ) ) :     
         # re is the regular expression match.  
         dbg( 2, "Extract ok for lon [%14s] from input line '%s' " % (lon, line) )
@@ -151,11 +156,6 @@ def parse1line( line ) :
 def run_conversion( args ) :
 	dbg( 5, "converting csv to gson...")
 	print_opener()  # some geojson header 
-
-	# examples tmp
-	#print_gjsLine( -121.981, 37.4, 0.12301 )
-	#gprint( ",", "//next feature//" )
-	#print_gjsLine( -121.982, 37.4, 0.12302 )
 
 	# loop to parse file
 	# maybe should have used  std unix input redirect, but future may need multiple input files
@@ -208,34 +208,7 @@ main()
 
 
 """
-coloring data range
-simple linear scaling of color doesn't work too well, 
-want near zero data to be close to fully transparent.
-
-so using stepwise coloration like the us pop map eg.
-
-min:  #FFEDA0   # light yellow
-10:   #FFEDA0 
-20:   #FED976   # dark yellow
-50:   #FEB24C
-100:  #FD8D3C   # orange
-200:  #FC4E2A
-500:  #E31A1C
-1000: #BD0026   # dark red
-
-
-avecon values                                       #  color    %opacity
-nope, this range isn't right.  look at data instead of mapbox studio, too many weired thing in there to look at data.
-0
-0.13476         # lowest in data set, except zero   #  #000000  0% 
-:   #FFEDA0 
-:   #FED976   # dark yellow
-0.702           #FEB24C
-:  #FD8D3C   # orange
-:  #FC4E2A
-:  #E31A1C
-0.29            #BD0026   # dark red
-0.29944         # highest in data set
+example output for 1 record:
 
 
 """
