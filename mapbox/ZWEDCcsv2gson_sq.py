@@ -66,16 +66,16 @@ def gprint( str1, str2="#" ):
 # gprint()-end
 
 # generate a single line of geojson  from a given input arg of 
-# need to be sure points are 4 vertices in seq, something like TL, TR, BR, BL ... 
-def print_gjsLine( value, lon1, lat1, lon2, lat2 ) :
-	gprint( '    { "type":       "Feature", 	', '1' ) 	## 1
-	gprint( '      "properties":                    ', '2' ) 	## 2
-	gprint( '           {"avecon": %s}' % value ,      "2" )
-	gprint( '      ,' , '1?')
-	gprint('      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ], [ %s,%s], [%s,%s], [%s,%s], [%s,%s]  ]]}' % (lon,lat), '2b') 
+# need to be sure points are 4 vertices in seq, something like TL, TR, BR, BL.  will name them seq in case polygon becomes more than just square
+# gson need 5 poionts to close off a square, this fn will print first point last again for that purpose
+def print_gsonLine( value, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :
+	gprint( '    { "type":       "Feature", ', '1' ) 	## 1
+	gprint( '      "properties":            ', '2' ) 	## 2
+	gprint( '           {"max": %s}' % value , "3" )        ## 3
+	gprint( '      ,' , '2')
+	gprint( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ], [ %s,%s], [%s,%s], [%s,%s], [%s,%s]  ]]}' % (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4, lon1,lat1), '2b') 
 	gprint( '    }', '1' )
-
-# gjs()-end 
+# print_gsonLine()-end 
 
 
 def print_opener() :
@@ -86,6 +86,17 @@ def print_closer() :
 	gprint( '] }', 'top' )		## top
 #print_closer() end
 
+# check input has format that fit req of lon/lat point
+# eg one of: -121.985002139616 or  37.4079452829464
+def chkPtFormat( pt, wholeLine ) :
+    if( re.search( '^[-]{0,1}[0-9]+\.[0-9]+$', pt ) ) :     
+        # re is the regular expression match.  
+        dbg( 2, "Extract ok for lon or lat [%14s] from input line '%s' " % (pt, wholeLine) )
+        return( pt )  
+    else :
+        dbg( 1, "Fail - unexptect pattern.  pt read as --%s--, input line was --%s--" % (pt, wholeLine) )
+        return( "NaN" )  # used to return "" maybe NaN is better...
+#end chkPtFormat()
 
 
 """
@@ -97,23 +108,22 @@ example input lines (didn't start with 0-index, been working on octave lately), 
 
 """
 
-lon_idx = 2-1 # column index containing longitude, -1 cuz 0-indexed
-lat_idx = 3-1
 val_idx = 6-1 # value of the feature at the lon, lat (in this case, wants to aveconc)
-min_col = 6   # min number of columnsin file
+lon1_idx = 7-1 # column index containing longitude, -1 cuz 0-indexed
+lat1_idx = 8-1
+min_col = 22   # min number of columns in file
 # this takes one input line, 
 # return a triplet (lon, lat, val)
 # which are the exact same params  the geojson print fn need
 def parse1line( line ) :
-    lon = 0
-    lat = 0
     val = 0
+    (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( 0,0 , 0,0 , 0,0 , 0,0 ) # struct may have been nice...
     ifs = ","
     # comment line, blank lines, nothing to process, just return
     if( re.search( '^#', line ) ) :     
-        return ("", "", "")  # triplet of blank, easier for caller to handle
+        return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
     if( re.search( '^$', line ) ) :     
-        return ("", "", "")  # triplet of blank, easier for caller to handle
+        return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
     line = line.rstrip("\n\r") 
     lineList = line.split( ifs )
 
@@ -121,25 +131,16 @@ def parse1line( line ) :
         dbg( 1, "Not enough columns.  cannot extract features" )
         dbg( 3, "Line split into %s words" % len (lineList) )
         #dbg4( "col idx %s not found in this line, returning empty string." % colidx )
-        return ("", "", "")  # triplet of blank, easier for caller to handle
-    lon = lineList[lon_idx].strip()       # strip() removes white space on left and right ends only, not middle
-    lat = lineList[lat_idx].strip() 
+        return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
     val = lineList[val_idx].strip()
-
-    # make these into fn call...
-    if( re.search( '^[-]{0,1}[0-9]+\.[0-9]+$', lon ) ) :     
-        # re is the regular expression match.  
-        dbg( 2, "Extract ok for lon [%14s] from input line '%s' " % (lon, line) )
-        #return accV
-    else :
-        dbg( 1, "Fail - lon_idex %s had %s , unexpected pattern (input line was '%s')" % (lon_idx, lon, line) )
-        return ("", "", "")  # triplet of blank, easier for caller to handle
-
-    if( re.search( '^[-]{0,1}[0-9]+\.[0-9]+$', lat ) ) :     
-        dbg( 2, "Extract ok for lat [%14s] from input line '%s' " % (lat, line) )
-    else :
-        dbg( 1, "Fail - lat_idex %s had %s , unexpected pattern (input line was '%s')" % (lat_idx, lat, line) )
-        return ("", "", "")  # triplet of blank, easier for caller to handle
+    lon1 = lineList[lon1_idx].strip()       # strip() removes white space on left and right ends only, not middle
+    lat1 = lineList[lat1_idx].strip() 
+    lon2 = lineList[lon2_idx].strip()       # vertices #2
+    lat2 = lineList[lat2_idx].strip() 
+    lon3 = lineList[lon3_idx].strip()       # vertices #3
+    lat3 = lineList[lat3_idx].strip() 
+    lon4 = lineList[lon4_idx].strip()       # vertices #4
+    lat4 = lineList[lat4_idx].strip() 
 
     if( re.search( '^[-]{0,1}[0-9]+\.[0-9]+$', val ) ) :     
         dbg( 2, "Extract ok for val [%14s] from input line '%s' " % (val, line) )
@@ -147,7 +148,20 @@ def parse1line( line ) :
         dbg( 1, "Fail - val_idex %s had %s , unexpected pattern (input line was '%s')" % (val_idx, val, line) )
         return ("", "", "")  # triplet of blank, easier for caller to handle
 
-    return( lon, lat, val )
+    # ++ loop to test all 8 coordinates...
+    pt = chkPtFormat( lon1, line )
+    if( pt == "NaN" ) :
+        return ( "", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+    # lazy, they should be okay as csv created by R... run with -d and chkPtFormat would spill error message :)
+    pt = chkPtFormat( lat1, line )
+    pt = chkPtFormat( lon2, line )
+    pt = chkPtFormat( lat2, line )
+    pt = chkPtFormat( lon3, line )
+    pt = chkPtFormat( lat3, line )
+    pt = chkPtFormat( lon4, line )
+    pt = chkPtFormat( lat4, line )
+
+    return( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
 #end
 
 
@@ -168,12 +182,12 @@ def run_conversion( args ) :
 	for line in f:
 		#print line
 		#lineList = line.split( ',' )
-		(lon, lat, val) = parse1line( line )		
-		if ( lon == "" )  :
+		(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = parse1line( line )		
+		if ( lon1 == "" )  :
 			continue		# returned nothing, skipping the line   FIXME
 		if( lineNum > 0 ) :
 			gprint( ",", "//next feature//" )	# print separator iff not first line
-		print_gjsLine( lon, lat, val )
+		print_gsonLine( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
 		#lineNum =+ 1		# WRONG, this just assign (+1) into the var
 		lineNum += 1		# RIGHT, this increment.  this is almost the equivof c++
 	f.close()
