@@ -31,7 +31,9 @@ import re
 
 ### treat them like global :)
 #INPUT="ZWEDC.eg.csv"
-INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.head3.csv"
+#INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.head3.csv"
+#INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m.head3.csv"
+INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m.csv"
 # OUTPUT to std out, redirect to file :)
 
 # dbgLevel 1 (ie -d  ) is good for telling when input fails to pass parser
@@ -111,6 +113,12 @@ example input lines (didn't start with 0-index, been working on octave lately), 
 val_idx = 6-1 # value of the feature at the lon, lat (in this case, wants to aveconc)
 lon1_idx = 7-1 # column index containing longitude, -1 cuz 0-indexed
 lat1_idx = 8-1
+lon2_idx = 11-1 # 
+lat2_idx = 12-1
+lon3_idx = 15-1 # 
+lat3_idx = 16-1
+lon4_idx = 19-1 # 
+lat4_idx = 20-1
 min_col = 22   # min number of columns in file
 # this takes one input line, 
 # return a triplet (lon, lat, val)
@@ -146,7 +154,7 @@ def parse1line( line ) :
         dbg( 2, "Extract ok for val [%14s] from input line '%s' " % (val, line) )
     else :
         dbg( 1, "Fail - val_idex %s had %s , unexpected pattern (input line was '%s')" % (val_idx, val, line) )
-        return ("", "", "")  # triplet of blank, easier for caller to handle
+        return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
 
     # ++ loop to test all 8 coordinates...
     pt = chkPtFormat( lon1, line )
@@ -170,6 +178,7 @@ def parse1line( line ) :
 def run_conversion( args ) :
 	dbg( 5, "converting csv to gson...")
 	print_opener()  # some geojson header 
+	(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( 0, "","" , "","" , "","" , "",""  )  # 9-tuple initialized to blank
 
 	# loop to parse file
 	# maybe should have used  std unix input redirect, but future may need multiple input files
@@ -182,7 +191,7 @@ def run_conversion( args ) :
 	for line in f:
 		#print line
 		#lineList = line.split( ',' )
-		(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = parse1line( line )		
+		(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( parse1line( line ) )
 		if ( lon1 == "" )  :
 			continue		# returned nothing, skipping the line   FIXME
 		if( lineNum > 0 ) :
@@ -222,7 +231,24 @@ main()
 
 
 """
-example output for 1 record:
+example output for 2 record:
+
+{ "type": "FeatureCollection", "features": [
+    { "type":       "Feature", 
+      "properties":            
+           {"max": 0.18577}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.985287624997,37.4077223978109 ], [ -121.984722734052,37.4077175479308], [-121.984716652544,37.4081681673591], [-121.985281546871,37.4081730173178], [-121.985287624997,37.4077223978109]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"max": 0.18817}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.984722734052,37.4077175479308 ], [ -121.984157843243,37.4077126953524], [-121.984151758353,37.4081633147021], [-121.984716652544,37.4081681673591], [-121.984722734052,37.4077175479308]  ]]}
+    }
+] }
+
 
 
 """
