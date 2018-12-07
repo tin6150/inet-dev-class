@@ -133,7 +133,8 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZXhhbXBsZXMiLCJhIjoiY2lqbmpqazdlMDBsdnRva284c
 var map = new mapboxgl.Map({
 	container: 'map', // container id
 
-	style:   'mapbox://styles/sn50/cjpdknpvn42p62so64aqs3vj8',	// heat map, merge data points... maybe need more tricks to make it look good
+	style:   'mapbox://styles/sn50/cjpakmfbv75ng2rpa8d7qzdno',	// heat map using point data.  terminal map base layer
+	//style:   'mapbox://styles/sn50/cjpdknpvn42p62so64aqs3vj8',	// heat map, using 50x50 sq as source, polygon in gson. (historical map base layer)  merge data points... maybe need more tricks to make it look good
 	//style:   'mapbox://styles/sn50/cjpdk7mpgbx8f2ss4bu9vzfsl',	// 50x50 sq with opacity / stepwise color with exponential scale
 	//style: 'mapbox://styles/sn50/cjp6lo4891vjg2rpi9ebppmi1',  update get the same style URI
     	center: [-121.945, 37.434],
