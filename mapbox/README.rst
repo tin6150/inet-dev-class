@@ -80,6 +80,13 @@ Loading example pages via web site provided by github.io
 - https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_heatmap.html  ZWEDC csv->geojson, point data, heatmap coloring.  
 - https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_50x50sq.html  ZWEDC csv->geojson, data in 50x50m sq.  
 
+- TBA.  ZWEDC_countDup.html.  The value of the point is used to duplicate the number of appearance of the point with value of one.  This hopefully create a data set for a dot-plot that is HOT at the point with highest ZWEDC value....
+  use point data, not 50x50 sq.
+Scale...
+-  0.1 may need to be come 1 point.
+-  0.2 become 2 points.
+-  1.0 become 10 points
+-  12.7 becomes 127 points.
 
 
 
