@@ -44,14 +44,14 @@ INPUT="ZWEDC_Biofilter_10X_2016_LongLat.csv"
 dbgLevel = 0  
 
 def process_cli() :
-	parser = argparse.ArgumentParser( description='generate geoJSON from CSV, after customization' )
+        parser = argparse.ArgumentParser( description='generate geoJSON from CSV, after customization' )
         parser.add_argument('-d', '--debuglevel', help="Debug mode. Up to -ddd useful for troubleshooting input file parsing. -ddddd intended for coder. ", action="count", default=0)
         args = parser.parse_args()
-	#print( "dbgLevel is %s" , args.debuglevel )
-	global dbgLevel  # ie, tell fn to set the global var, not one created locally in this fn
-	dbgLevel = args.debuglevel      # unable to change global here...   this has no effect :(
-	#print( "dbgLevel is %s" , dbgLevel )
-	return args
+        #print( "dbgLevel is %s" , args.debuglevel )
+        global dbgLevel  # ie, tell fn to set the global var, not one created locally in this fn
+        dbgLevel = args.debuglevel      # unable to change global here...   this has no effect :(
+        #print( "dbgLevel is %s" , dbgLevel )
+        return args
 # process_cli()-end
 
 
@@ -71,23 +71,24 @@ def gprint( str1, str2="#" ):
 
 # generate a single line of geojson  from a given input arg of 
 def print_gjsLine( lon, lat, value, pt_idx ) :
-	gprint( '    { "type":       "Feature", 	', '1' ) 	## 1
-	gprint( '      "properties":                    ', '2' ) 	## 2
-	gprint( '           {"avecon": %s ,' % value ,     "2" )
-	gprint( '            "pt_idx": %s}'  % pt_idx,     "2" )
-	gprint( '      ,' , '1?')
-	gprint('      "geometry": { "type": "Point", "coordinates": [ %s, %s ] }' % (lon,lat), '2b') 
-	gprint( '    }', '1' )
+        gprint( '    { "type":       "Feature",         ', '1' )        ## 1
+        gprint( '      "properties":                    ', '2' )        ## 2
+        #gprint( '           {"avecon": %s ,' % value ,     "2" )
+        #gprint( '            "pt_idx": %s}'  % pt_idx,     "2" )
+        gprint( '           {"avecon": %s , "pt_idx": %s}' % (value, pt_idx) ,     "2" )
+        gprint( '      ,' , '1?')
+        gprint('      "geometry": { "type": "Point", "coordinates": [ %s, %s ] }' % (lon,lat), '2b') 
+        gprint( '    }', '1' )
 
 # gjs()-end 
 
 
 def print_opener() :
-	gprint( '{ "type": "FeatureCollection", "features": [', 'top' )	## top
+        gprint( '{ "type": "FeatureCollection", "features": [', 'top' ) ## top
 #print_operner() end
 
 def print_closer() : 
-	gprint( '] }', 'top' )		## top
+        gprint( '] }', 'top' )          ## top
 #print_closer() end
 
 
@@ -159,43 +160,45 @@ def parse1line( line ) :
 
 ## this is like main() 
 def run_conversion( args ) :
-	dbg( 5, "converting csv to gson...")
-	print_opener()  # some geojson header 
+        dbg( 5, "converting csv to gson...")
+        print_opener()  # some geojson header 
 
         val_x10 = 0 # integer value of val, multiplied 10x.
 
-	# examples tmp
-	#print_gjsLine( -121.981, 37.4, 0.12301 )
-	#gprint( ",", "//next feature//" )
-	#print_gjsLine( -121.982, 37.4, 0.12302 )
+        # examples tmp
+        #print_gjsLine( -121.981, 37.4, 0.12301 )
+        #gprint( ",", "//next feature//" )
+        #print_gjsLine( -121.982, 37.4, 0.12302 )
 
-	# loop to parse file
-	# maybe should have used  std unix input redirect, but future may need multiple input files
-	# Alt: read whole file into a dataframe.  would use more memory, 
-	# but could then run check for format, count missing values, etc.  (Think R stats)
-	filename = INPUT
-	f = open( filename, 'r' )
-	#print f            # print whole file
-	lineNum = 0
-	for line in f:
-		#print line
-		#lineList = line.split( ',' )
-		(lon, lat, val) = parse1line( line )		
-		if ( lon == "" )  :
-			continue		# returned nothing, skipping the line   FIXME
-		if( lineNum > 0 ) :
-			gprint( ",", "//next feature//" )	# print separator iff not first line
+        # loop to parse file
+        # maybe should have used  std unix input redirect, but future may need multiple input files
+        # Alt: read whole file into a dataframe.  would use more memory, 
+        # but could then run check for format, count missing values, etc.  (Think R stats)
+        filename = INPUT
+        f = open( filename, 'r' )
+        #print f            # print whole file
+        lineNum = 0
+        for line in f:
+                #print line
+                #lineList = line.split( ',' )
+                (lon, lat, val) = parse1line( line )            
+                if ( lon == "" )  :
+                        continue                # returned nothing, skipping the line   FIXME
+                if( lineNum > 0 ) :
+                        gprint( ",", "//next feature//" )       # print separator iff not first line
                 val_x10 = int( float(val) * 10 ) 
+                if( val_x10 == 0 ) : 
+                    val_x10 = 1                 # want to print a point at least once (this for easy geojson fix, but for heatmap, maybe better without it.  but really low value, 0.1 vs 0.01 become same, should be ok
                 for c in range(0, val_x10) :
-		    if( c > 0 ) :
-			gprint( "  ,", "//next entry pt_idx//" )	# print separator iff not first line
-		    print_gjsLine( lon, lat, val, c )
+                    if( c > 0 ) :
+                        gprint( "  ,", "//next entry pt_idx//" )        # print separator iff not first line
+                    print_gjsLine( lon, lat, val, c )
                 # end-for
-		#lineNum =+ 1		# WRONG, this just assign (+1) into the var
-		lineNum += 1		# RIGHT, this increment.  this is almost the equivof c++
-	f.close()
+                #lineNum =+ 1           # WRONG, this just assign (+1) into the var
+                lineNum += 1            # RIGHT, this increment.  this is almost the equivof c++
+        f.close()
 
-	print_closer() # close out parenthesis...
+        print_closer() # close out parenthesis...
 # run_conversion()-end
 
 
@@ -212,7 +215,7 @@ def sniff_data(args) :
 
 def main():
         args = process_cli()
-	run_conversion(args)
+        run_conversion(args)
         #sniff_data(args)        # glance over data, find avg, std dev, min, max, missing value, etc # use pandas
 # main()-end
 
