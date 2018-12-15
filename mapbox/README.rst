@@ -275,6 +275,31 @@ GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.2572235
 
 
 
+Mapbox GL JS
+============
+
+
+
+https://www.mapbox.com/mapbox-gl-js/api/
+src/ui/map.js
+
+IControl  
+NavigationControl
+are these to add control widget on the web page?
+
+ScaleControl - zoom?
+AttributionControl - credits
+Popup
+
+ImageSource - map.addSource(...) ??
+CanvasSource
+
+
+
+Also read before coding
+https://www.mapbox.com/help/how-web-apps-work/
+
+
 
 Census data
 ===========
@@ -327,8 +352,12 @@ Bounds for Delaware ::
 
  * -75.8,  38.5,  -75.0,  39.8
  * Wilmington, DE lat long: 39.739071 , -75.539787
- * Mapbox GL JS use `center: [-75.53978, 39.73907],` ie, long, lat ??
+ * Mapbox GL JS use `center: [-121.95978, 34.73907],` ie, lng, lat (cuz geoJson is ordered as longitude, lat pair as well).
 
+
+
+Misc
+====
 
 
 TMP_DATA folder
