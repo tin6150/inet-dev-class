@@ -72,7 +72,7 @@ Blueprint was supposed to collect bundle of views.
 views.py
 	@master.route('/')  def root(): ?
     		return(render_template('mbgl_index.html', error=error, form=form))
-		file in templates/mbgl_index.html
+		file in `templates/mbgl_index.html`
 			this is where mapbox GL JS' map.on('load'... ) is defined 
 			map.addLayer is here
 		        url: 'mapbox://tylerhuntington222.cjjj38 ...'
