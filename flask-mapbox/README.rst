@@ -35,6 +35,20 @@ Starting Dev env
 
 
 
+Example Flask Apps
+==================
+
+* app.py - Simple Hello World
+* app_db.py - Was supposed to use DB, didn't get it to work, abandoned.
+* app_map.py - Load html that invoke mapbox GL JS.  works.
+  http://bofh.lbl.gov:5001/ZWEDC_50x50sq 
+
+
+
+###############################################################
+
+
+
 DB
 --
 
@@ -57,19 +71,14 @@ Program Entry Point?
 ====================
 
 
-Let's make first goal (beyond hello world) to be loading mapbox GL JS map.
-
-Not sure which code in Tyler's biositting does this.
-
-
 @app.route(...) is one way to respond to URL path req.
 Biositting use 
 app.register_blueprint(...)
-(it really has a single URL page?)
 Blueprint was supposed to collect bundle of views.
+the bundle of route(...) defintions goes into the views.py
 
 
-views.py
+views.py (biositting)
 	@master.route('/')  def root(): ?
     		return(render_template('mbgl_index.html', error=error, form=form))
 		file in `templates/mbgl_index.html`

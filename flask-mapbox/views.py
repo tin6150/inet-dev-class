@@ -1,9 +1,11 @@
 
 """
 Use Flask blueprints to load bunch of views in one go.
+app.py flask app has this clause 
+	from views import master
 
 modeled after Tyler Biositting views.py
-app.py flask app import views.py which look at this file.
+Tin (at) LBL.gov
 """
 
 
@@ -13,7 +15,7 @@ from flask import render_template	# jinga2 template to escape html
 
 master = Blueprint('master', __name__,
                 template_folder='templates',
-                static_folder='../static')
+                static_folder='../static')     # static was used for .js
 
 
 @master.after_request
@@ -30,6 +32,7 @@ def add_header(r):
 
 
 @master.route('/')
+@master.route('/ZWEDC_50x50sq')
 def root():
     #error = None
     #form = LoginForm(request.form)
@@ -40,18 +43,15 @@ def root():
 ## 
 @master.route('/about')
 def showAbout():
-    return(render_template('about.html'))
+    return(render_template('about.html'))  # static HTML w/o JINJA2 template clause is okay too.  
     # http://flask.pocoo.org/docs/1.0/quickstart/#rendering-templates
     #error = None
     #form = LoginForm(request.form)
     #return(render_template('about.html', error=error, form=form))
 
 
-# can't define this, yet when URL is just /hello it takes long time and them craps out
-#@master.route('/hello')
-#def hello():
-    #return render_template('about.html')
-
+# need define bothversion with or without tailing slash, or else web brwoser hangs waiting for timeout
+@master.route('/hello')
 @master.route('/hello/')
 @master.route('/hello/<name>')
 def hello(name=None):

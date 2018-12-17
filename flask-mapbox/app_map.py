@@ -35,18 +35,15 @@ def create_app(test_config=None):
 
 	# do a "Hello World"
 	# ref http://flask.pocoo.org/docs/1.0/tutorial/factory/
-	# below register app to http://bofh.lbl.gov:5000/hello
+	# below register app to http://bofh.lbl.gov:5001/hi
 	@app.route('/hi')
 	def hi():
 		"""Print 'hello world' as the response body."""
 		return "Hi, World! (at /hi)"
 
 	# Tyler used blueprint to register bunch of views rather than defining them here.
+	# define the bulk of additional route(...) in views.py
 	# https://opensource.com/article/18/4/flask
-	# as main app : 
-	#@app.route('/')  # register to top of web server
-	#def hello_world():
-		#return "Hello, World! (at /)"
 
 	return app
 #end create_app()
