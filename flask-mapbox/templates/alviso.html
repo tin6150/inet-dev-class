@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<!-- tin (at) berkeley.edu -->
+<!-- based on ZWEDC_50x50sq.html, adding features from GL JS, Tyler mbgl_index.html -->
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Mapbox GL JS</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+  <style type="text/css">
+
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h2, h3 {
+  margin: 10px;
+  font-size: 1.2em;
+}
+
+        h3 {
+  font-size: 1em;
+}
+
+
+p {
+            font-size: 0.85em;
+            margin: 10px;
+            text-align: left;
+}
+
+/**
+* Set rules for how the map overlays
+* (info box and legend) will be displayed
+* on the page. */
+.map-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(250, 250, 250, 0.8);  /* 255 255 255 is pure white */
+  margin-right: 4px; /* choropleth used 20px */
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 3px;
+}
+.map-overlay-dbg {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(250, 250, 224, 0.8);  /* this is greenish/yellowish */ 
+  margin-right: 4px; /* choropleth used 20px */
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 3px;
+}
+
+
+/**
+* Create a position for the map
+* on the page */
+        #map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+/* // # is not comment in css, probably cuz how html/url need to use # ...  */
+/* and the snafu was cuz i had the above comment using // and presumably caused a parse error and ignored the block below.  *sigh* */
+/* css validador would likely have been able to point that out and saved me hours of time!! */
+/* this specify the size of the top right info box */
+#features {
+            top: 0;
+            height: 280px;      /* formerly 100px */
+            margin-top: 10px;
+            width: 230px;      /* formerly 250px */
+}
+#featuresDbg {
+            top: 110;
+            height: 300px;      /* formerly 100px */
+            margin-top: 20px;
+            width: 400px;      /* formerly 250px */
+}
+#legend {
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  line-height: 18px;
+  height: 150px;
+  margin-bottom: 40px;
+  width: 100px;
+}
+
+.legend-key {
+  display: inline-block;
+  border-radius: 20%;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+}
+</style>
+
+</head>
+
+
+<body>
+
+<div id='map'></div>
+
+<!-- this create the top right info box -->
+<div class='map-overlay' id='features'>
+	<h2>Parsed data</h2> <!-- this is title of top right box -->
+	<div id='pd'><p>Hover to maybe reveal data...</p></div>   <!-- static text, replaced later by JS -->
+</div>
+
+<!-- funny positioning by mapbox gl js?  it goes in the bottom right without obvious place where this is specified -->
+<div class='map-overlay-dbg' id='featuresDbg'>
+	<div id='pd'><p>(data via mapbox tileset)</p></div>   <!-- static text, replaced later by JS -->
+</div>
+
+
+
+
+<script>
+
+// define access token
+mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // somehow changed?  or is it diff for this map?? 2018-12-07
+//mapboxgl.accessToken = 'pk.eyJ1IjoiZXhhbXBsZXMiLCJhIjoiY2lqbmpqazdlMDBsdnRva284cWd3bm11byJ9.V6Hg2oYJwMAxeoR9GEzkAA'; 
+// above is from tutorial solution
+// below is from my Mapbox Studio I think... 
+// mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ';
+
+// const map = new mapboxgl.Map({ 
+var map = new mapboxgl.Map({
+	container: 'map', // container id
+
+	// style: 'mapbox://styles/sn50/cjp6lo4891vjg2rpi9ebppmi1',  //update get the same style URI
+	style: 'mapbox://styles/sn50/cjpdk7mpgbx8f2ss4bu9vzfsl',
+        //style: 'mapbox://styles/sn50/cjpdk7mpgbx8f2ss4bu9vzfsl',  // style didn't change, why is grid line still there??!!
+    	center: [-121.945, 37.434],
+    	zoom: 13.5
+
+
+    //style: 'mapbox://styles/sn50/cjory4ozjhkzy2smnzzt6pi7a', // caltrans tass cities 2015  population
+    //center: [-118.076000, 34.243000],
+    //zoom: 8.0
+
+});
+
+// wait for map to load before adjusting it
+map.on('load', function() {
+
+    // begin Tyler's mbgl_index.html #####################################################  >>>>
+    // configure map controls 		// ### this works
+    var mapnav = new mapboxgl.NavigationControl(
+      options = {
+        //showCompass: false,
+        showCompass: true,
+        showZoom: true
+      }
+    );
+    map.addControl(mapnav, 'top-right');
+
+
+    //county polygon layer		// ### don't see this
+    map.addLayer({
+      id: 'counties',
+      layout: {
+        visibility: countyPolyVis
+      },
+      type: 'fill',
+      source: {
+        type: 'vector',
+        url: 'mapbox://tylerhuntington222.cjjj38y9c00bq2wt77boc34ia-7r7xb'
+      },
+      'source-layer': 'counties',
+      paint: {
+              'fill-color': styleCountyPolys(poly_data_field),
+              'fill-opacity': polyLayerOpacity,
+
+             }
+    });
+    // county border layer 		// ### don't see this  :(
+    map.addLayer({
+      id: 'county_lines',
+      type: 'line',
+      layout: {
+        visibility: countyPolyVis
+      },
+      source: {
+        type: 'vector',
+        url: 'mapbox://tylerhuntington222.cjjj38y9c00bq2wt77boc34ia-7r7xb'
+      },
+      'source-layer': 'counties',
+      paint: {
+              'line-color': '#A9A9A9',
+              'line-width': 0.8,
+              'line-opacity': polyLayerOpacity,
+             }
+    });
+
+    // end stuff from Tyler   ##################################################### <<<< 
+
+
+
+    // finishing touches at bottom of tutorial.
+    // apparently also has to be inside this map.on() block...
+    map.getCanvas().style.cursor = 'default';
+    //map.fitBounds([[-133.2421875, 16.972741], [-47.63671875, 52.696361]]);
+    //map.fitBounds([[-75.8, 38.5], [-75.0, 39.8]]);  // delaware census map, need to specify this or browser will load into middle f ocean!!
+    //~~ map.fitBounds([[-75.7, 39.7], [-75.1, 39.8]]);  // boxing around Wilmington + show surrounding state (where there is no data)
+    //map.fitBounds([[-75.5, 39.7], [-75.6, 39.8]]);  // boxing around Wilmington, DE
+    //map.getCanvas().style.cursor = 'default';   // why was this repeated in example code? probably just bug. . .
+    // 3dots are some strange html/script thing that get parsed even inside comment!
+
+
+
+    // update when mouse over the map.
+    // apparently need this inside the map.on()  or it  doesn't work when placed outside of it   **INFO** 
+
+    // this display all data as pop up
+    // ref: https://www.mapbox.com/mapbox-gl-js/example/queryrenderedfeatures/
+    map.on('mousemove', function (e) {
+        var features = map.queryRenderedFeatures(e.point);
+        document.getElementById('featuresDbg').innerHTML = JSON.stringify(features, null, 2);
+    });
+
+
+
+    // change info window on hover  // the mousemove capture should be inside the 'load' per tutorial solution.
+    map.on('mousemove', function (e) {
+        var states = map.queryRenderedFeatures(e.point, {
+            layers: ['tass-ca-cities-chfcf9']
+            //layers: ['delaware-tabblock2010-10-pophu-a0nmlv']
+            //layers: ['tabblock2010_10_pophu']
+        });
+
+        if (states.length > 0) {
+            document.getElementById('pd').innerHTML 
+            =             "<strong> Pop2010: "   + states[0].properties.Pop2010 + "</strong><p>" 
+			+ "Land_sqmi: "  	    + states[0].properties.Land_sqmi + "<br>" 
+			+ "NAME: "     + states[0].properties.NAME + "<br>"
+			+ "Notes: "    + states[0].properties.Notes + "<br>"
+			+ "CityAbbv: "    + states[0].properties.CityAbbv + "<br>"
+			+ "CityType: "    + states[0].properties.CityType + "<br>"
+			+ "County: "    + states[0].properties.County + "<br>"
+			+ "DateIncorp: "    + states[0].properties.DateIncorp + "<br>"
+			+ "id: "     + states[0].properties.id + "<br>"
+			+ "Feature: "       + states[0].properties.Feature + "<br>"
+			+ "properties: "     + states[0].properties.properties + "<br>"
+			+ "tractce10: "     + states[0].properties.TRACECE10 + "<br>"
+			+ "Pop2015: "  	    + states[0].properties.Pop2015 + "<br>"     /// probably don't exist ++
+            + "</p>";
+            //= "<h3><strong>" + states[0].properties.name 
+            //+ "</strong></h3><p><strong><em>" + states[0].properties.density 
+            //+ "</strong> people per square mile</em></p>";
+        } else {
+            document.getElementById('pd').innerHTML = '<p>Hover over a census track :)</p>';
+        };
+		// why is this indented??    am i missing bracked somewhere??  or is it vi smartindent bug??!!
+
+    }); // end map.on('mousemove'...)
+
+
+}); // end map.on('load'...)
+</script>
+
+<!-- probably not displayed on web cuz map app covers 100% of window, but recording the data here anyway :) -->
+
+ZWEDC_50x50sq.html 
+Info:
+<UL>
+	<LI> ZWEDC center point to 4 vertices using +/- 25m, then convert to lon/lat in csv (by Wei). </LI>
+	<LI> I create geojson with polygon, sq need 5 moints</LI>
+	<LI> data in map is "max" value</LI>
+	<LI> most of the trick is changing opacity.  stepwise.  lowest found value likely about 0.055 and such number are 0% opaque</LI>
+	<LI> stepwise coloring to create the yellow-orange-red-purple color scale</LI>
+	<LI> </LI>
+</UL>
+
+Old aux info:
+<UL>
+<LI> gist on how this was put together: https://gist.github.com/tin6150/e271e5d3bef6d93ebc6817170ddd2456/ 
+<LI> Mapbox style: Cali Terrain, some terrain polygon.  not satellite map.  thought it maybe useful for plume data to give insight how air maybe trapped.
+<LI> CalTrans provided cities population.  Said source to be TASS (Tax Area Service Section).  2011, 2015 data.
+http://www.dot.ca.gov/hq/tsip/gis/datalibrary/Metadata/cities.html
+<LI> Population is a count at this time, need to calculate density... 
+</UL>
+</body>
+</html>

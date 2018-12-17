@@ -40,6 +40,10 @@ def root():
     return(render_template('ZWEDC_50x50sq.html'))
     # http://flask.pocoo.org/docs/1.0/quickstart/#rendering-templates # case 1
 
+@master.route('/alviso')
+def alviso():
+    return render_template('alviso.html')
+
 ## 
 @master.route('/about')
 def showAbout():
