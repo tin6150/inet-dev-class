@@ -89,7 +89,17 @@ Scale...
 -  12.7 becomes 127 points.
 
 
+gdal - Geospatial Data Abstraction Library
+==========================================
 
+gdal.org
+apt install gdal-bin
+
+
+convert from (24bit?) TIFF to 8bit TIFF:
+gdal_translate -ot Byte -of GTiff path\Input.tif path\output.tif
+
+(Mapbox supports geocoded TIFF, but only in 8bit format, which maybe likely means single color grayscale)
 
 
 Mapbox data structure

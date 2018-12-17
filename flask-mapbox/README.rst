@@ -40,16 +40,81 @@ DB
 
 * try to use sqlite first
 * may move to postgres to be compatible with ETA project goals.
+* At least for the demo and what Tyler telling us to use, it is sqlite:///biositing.db 
 
 
-See also
---------
+See also/Ref
+------------
 
 * http://flask.pocoo.org/docs/1.0/tutorial/factory/
 * http://flask.pocoo.org/docs/1.0/tutorial/#tutorial 
 * https://opensource.com/article/18/4/flask
 * https://bitbucket.org/sn5050/biositing_tool_test/src/master/
 
+
+
+Program Entry Point?
+====================
+
+
+Let's make first goal (beyond hello world) to be loading mapbox GL JS map.
+
+Not sure which code in Tyler's biositting does this.
+
+
+@app.route(...) is one way to respond to URL path req.
+Biositting use 
+app.register_blueprint(...)
+(it really has a single URL page?)
+Blueprint was supposed to collect bundle of views.
+
+
+views.py
+	@master.route('/')  def root(): ?
+    		return(render_template('mbgl_index.html', error=error, form=form))
+		file in templates/mbgl_index.html
+			this is where mapbox GL JS' map.on('load'... ) is defined 
+			map.addLayer is here
+		        url: 'mapbox://tylerhuntington222.cjjj38 ...'
+
+			TODO: 
+			try loading my map as an layer here.
+			but maybe better get a flask app to load mapbox, and 
+			add some JS control to it, so i know how it behave first.
+
+			
+
+	@master.route("/basemap") ?
+	  return flask.jsonify({'biomass': gpd_to_geojson(counties_df, cols_counties),
+				'thermal': gpd_to_geojson(thermal, cols_thermal)})
+
+	@master.route("/points") ?
+	  return flask.jsonify({'AD': gpd_to_geojson(AD_pts, cols_AD_pts),
+				'COMB': gpd_to_geojson(COMB_pts, cols_COMB_pts),
+				'W2E': gpd_to_geojson(W2E_pts, cols_W2E_pts),
+
+
+
+
+
+..code:: 
+
+	config.py 
+	places where os.environ['...'] 
+	define where it reads OS Environment var made
+	these need to be defined for app to work
+	In Biositting, 
+	DATABAASE_URL=sqlite:///biositing.db
+	APP_VERSION=JBEI
+
+
+Model relationship
+------------------
+
+* Web DOM Model View thing?
+* biositting has a model.py, but this seems to be a DB for storing user's "saved site", suggestions, data problem reporting.
+
+ 
 
 
 tin
