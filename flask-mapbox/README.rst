@@ -42,10 +42,23 @@ Example Flask Apps
 * app_db.py - Was supposed to use DB, didn't get it to work, abandoned.
 * app_map.py - Load html that invoke mapbox GL JS.  works.
   http://bofh.lbl.gov:5001/ZWEDC_50x50sq 
+  http://bofh.lbl.gov:5001/alviso
 
 
 
 ###############################################################
+
+
+Mapbox GL JS Plugins
+--------------------
+
+Many of the plugins are npm install, presumably they run on the server side.
+These would be features that a simple static html served by github.io won't work, 
+since there is no server side execution that a Flask app offer.
+
+* sync move - takes two or more maps and sync their move.  maybe similar to what Ling showed in leaflet
+  for side-by-side comparison.  
+  https://github.com/mapbox/mapbox-gl-sync-move
 
 
 
@@ -127,5 +140,5 @@ Model relationship
 
 
 tin
-2018.10.28
+2018.12.16
 

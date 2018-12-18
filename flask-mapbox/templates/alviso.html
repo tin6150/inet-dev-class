@@ -206,6 +206,19 @@ map.on('load', function() {
     // end stuff from Tyler   ##################################################### <<<< 
 
 
+    // https://www.mapbox.com/help/how-web-apps-work/#adding-layers-to-the-map
+    // don't think it is showing up either
+    map.addLayer({
+	    id: 'terrain-data',
+	    type: 'line',
+	    source: {
+	      type: 'vector',
+	      url: 'mapbox://mapbox.mapbox-terrain-v2'
+	    },
+	    'source-layer': 'contour'
+    });
+
+
 
     // finishing touches at bottom of tutorial.
     // apparently also has to be inside this map.on() block...

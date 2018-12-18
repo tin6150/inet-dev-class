@@ -320,6 +320,7 @@ But also watch for these things:
 
 
 * Mapbox Plugins.  Probably extension to GL JS.
+  They seems to take npm install, so need a server side executor, which is likely where Flask app comes in.
 	* https://www.mapbox.com/mapbox-gl-js/plugins/  
 	* compare plugin.  swipe left/right to see diff.  Maybe useful.  https://www.mapbox.com/mapbox-gl-js/example/mapbox-gl-compare/ 
 	* infobox
@@ -328,14 +329,12 @@ But also watch for these things:
 	* gl-sync-move (side-by-side comparison and move?)
 	* gl-inspect - help with debugging... 
 * Mapbox React.  
-	* need to learn what really is React.  (vs Angular, etc?)
-	* https://github.com/mapbox/mapbox-react-examples
+	* sync move - takes two or more maps and sync their move.  maybe similar to what Ling showed in leaflet for side-by-side comparison.  https://github.com/mapbox/mapbox-gl-sync-move
+	* need to learn what really is React.  (vs Angular, etc?) https://github.com/mapbox/mapbox-react-examples
 
 
 Mapbox GL JS
 ============
-
-
 
 https://www.mapbox.com/mapbox-gl-js/api/
 src/ui/map.js
