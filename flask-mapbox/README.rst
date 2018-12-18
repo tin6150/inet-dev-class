@@ -33,6 +33,19 @@ Starting Dev env
 	python app.py			# use python 2.7
 
 
+Installing Mapbox GL JS Plugins
+-------------------------------
+
+* Style switcher - https://github.com/el/style-switcher
+
+.. code-block:: bash
+
+	bofh> npm i mapbox-gl-style-switcher --save
+
+
+
+* https://github.com/mapbox/mapbox-gl-sync-move
+
 
 
 Example Flask Apps
