@@ -41,6 +41,10 @@ npm
 - may want to start with this node.js intro
   https://codeburst.io/the-only-nodejs-introduction-youll-ever-need-d969a47ef219
 
+        - JS is single threaded.  Node.js is a single threaded forever loop listing for event, then dispatching them to worker.  creates a registry for callbacks.  Once call back is received, response is send.
+        This could be client- or server-side js... hmm....
+        - Node.js, being single threaded, not good at things that runs a long time and takes lots of cpu.
+
 
 .. code:: bash
 
