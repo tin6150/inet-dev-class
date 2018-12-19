@@ -33,7 +33,18 @@ npm
   https://www.npmjs.com/package/express
 
 
+- kinda descent intro to npm
+  https://webpack.js.org/guides/getting-started/
+  i guess it install package locally, need a web server to serve them.
+  but js still run client-side on browser, just that js not loaded via public url but served from my server?
+
+- may want to start with this node.js intro
+  https://codeburst.io/the-only-nodejs-introduction-youll-ever-need-d969a47ef219
+
+
 .. code:: bash
+
+        npm init                # creates a barebone package.json
 
         npm install ... 
 
