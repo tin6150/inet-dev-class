@@ -1,0 +1,23 @@
+{
+  "name": "js",
+  "version": "0.0.1",
+  "description": "learning java script, npm js packages",
+  "main": "helloWorld.js",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "upper-case": "^1.1.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "nodejs helloWorld.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "inet-dev-class"
+  },
+  "keywords": [
+    "sn50"
+  ],
+  "author": "sn",
+  "license": "BSD-3-Clause"
+}

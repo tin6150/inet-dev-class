@@ -11,6 +11,8 @@ Node.js
 =======
 
 some server that use js on the server-side...
+event based, not multi-threaded, but can fork children.
+said to be fast, so long as don't do a lot of work in each event, then serve large number of requests.
 
 
 npm
@@ -46,16 +48,22 @@ npm
         - Node.js, being single threaded, not good at things that runs a long time and takes lots of cpu.
 
 
+first setup for a project:
+
 .. code:: bash
 
         npm init                # creates a barebone package.json
 
-        npm install ... 
+        npm install upper-case --save	# --save will update package.json
 
 
 will create a folder called node_module in current dir
 
 will update package.json, which list all requirements.  the file must exist first.
+
+
+should not need to check the files installed by npm under nodes_modules into git
+as package.json will add them automatically as dependencies upon new execution (including get new version).
 
 
 
