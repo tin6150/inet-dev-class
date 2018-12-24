@@ -11,10 +11,21 @@
 
 var http = require('http');
 var fs = require('fs');
-http.createServer(function (req, res) {
-  fs.readFile('ZWEDC_50x50sq.html', function(err, data) {
+
+var server = http.createServer(function (req, res) {
+  //fs.readFile('ZWEDC_50x50sq.html', 		// work with this one
+  fs.readFile('ZWEDC_50x50sq+plugin.html', 	// fail here, either w/ or w/o "import clause
+  function(err, data) {
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write(data);
     res.end();
   });
-}).listen(5002);
+});
+
+const hostname = '0.0.0.0';
+const port = 5002;
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+

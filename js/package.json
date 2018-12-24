@@ -5,6 +5,8 @@
   "main": "helloWorld.js",
   "dependencies": {
     "debug": "^4.1.1",
+    "mapbox-gl": "^0.52.0",
+    "mapbox-gl-controls": "0.0.15",
     "upper-case": "^1.1.3"
   },
   "devDependencies": {},

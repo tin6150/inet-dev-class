@@ -1,2 +1,3 @@
 a.out
 .Rhistory
+# node_modules/  # these are added by npm install ... should not need to check thme in
