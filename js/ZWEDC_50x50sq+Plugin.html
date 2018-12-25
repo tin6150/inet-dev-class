@@ -123,14 +123,16 @@ p {
 
 
 
-
-<!-- <script> --> <!-- need to use the type="module" trick to get support for module/import -->
-<script type="module">
+<!-- 
+need to use the type="module" trick to get support for module/import 
+<script>
+-->
+<script type="module"> 
 
 //const RulerControl = require('mapbox-gl-controls');
 //import { RulerControl } from 'mapbox-gl-controls';  //chrome debugger throws error at this.  like nodejs, doesn't support import?  
-import { RulerControl } from './node_modules/mapbox-gl-controls';
-//import { RulerControl } from './node_modules/mapbox-gl-controls/src/mapbox-gl-controls';
+//import { RulerControl } from './node_modules/mapbox-gl-controls';
+import { RulerControl } from 'https://tin6150.github.io/inet-dev-class/js/node_modules/mapbox-gl-controls/';
 
 // define access token
 mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // somehow changed?  or is it diff for this map?? 2018-12-07
