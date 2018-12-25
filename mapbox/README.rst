@@ -23,7 +23,7 @@ Mapbox FAQ
 	* Lng is East-West.   range [-180,180].  Milpitas is -121.985.
 	* Lat is North-South. range [-90,90].  Milpitas is 37.408. 
 
-* Use Mercatyor Coordinate
+* Use Mercator Coordinate
 	* https://www.mapbox.com/mapbox-gl-js/api/#mercatorcoordinate
 
 * Mapbox.js is legacy raster-based server generated tilemap.  Inherited (all?) features from leaflet
@@ -94,14 +94,15 @@ Loading example pages via web site provided by github.io
 - https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_gson.html  ZWEDC csv->geojson, point data.  
 - https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_heatmap.html  ZWEDC csv->geojson, point data, heatmap coloring.  
 - https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_50x50sq.html  ZWEDC csv->geojson, data in 50x50m sq.  
+- https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_50x50sq+Plugin.html  As above, trying to use some mapbox plugin (js module via import?) 
 
-- TBA.  ZWEDC_countDup.html.  The value of the point is used to duplicate the number of appearance of the point with value of one.  This hopefully create a data set for a dot-plot that is HOT at the point with highest ZWEDC value....
-  use point data, not 50x50 sq.
-Scale...
--  0.1 may need to be come 1 point.
--  0.2 become 2 points.
--  1.0 become 10 points
--  12.7 becomes 127 points.
+- https://tin6150.github.io/inet-dev-class/mapbox/ZWEDCcsv2gson_heatmap.py.  (was thinking of naming it ZWEDC_countDup.html).  The value of the point is used to duplicate the number of appearance of the point with value of one.  This hopefully create a data set for a dot-plot that is HOT at the point with highest ZWEDC value....
+  use point data, not 50x50 sq.  didn't work well.  
+Scale:
+- 0.1 may need to be come 1 point.
+- 0.2 become 2 points.
+- 1.0 become 10 points
+- 12.7 becomes 127 points.
 
 
 gdal - Geospatial Data Abstraction Library

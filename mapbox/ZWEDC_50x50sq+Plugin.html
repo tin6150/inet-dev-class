@@ -39,7 +39,7 @@ p {
   position: absolute;
   bottom: 0;
   right: 0;
-  background: rgba(250, 250, 250, 0.8);  /* 255 255 255 is pure white */
+  background: rgba(250, 250, 250, 0.8);  /* 255 255 255 is pure white; alpha is like an opacity % */
   margin-right: 4px; /* choropleth used 20px */
   font-family: Arial, sans-serif;
   overflow: auto;
@@ -60,7 +60,7 @@ p {
 /**
 * Create a position for the map
 * on the page */
-        #map {
+#map {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -122,7 +122,13 @@ p {
 
 
 
-<script>
+<!-- <script> --> <!-- need to use the type="module" trick to get support for module/import -->
+<script type="module">
+
+//const RulerControl = require('mapbox-gl-controls');
+//import { RulerControl } from 'mapbox-gl-controls';  //chrome debugger throws error at this.  like nodejs, doesn't support import?  
+import { RulerControl } from './node_modules/mapbox-gl-controls';
+//import { RulerControl } from './node_modules/mapbox-gl-controls/src/mapbox-gl-controls';
 
 // define access token
 mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // somehow changed?  or is it diff for this map?? 2018-12-07
@@ -150,7 +156,7 @@ var map = new mapboxgl.Map({
 
 // add a ruler feature
 // https://bravecow.github.io/mapbox-gl-controls/#p-ruler
-import { RulerControl } from 'mapbox-gl-controls;
+//import { RulerControl } from 'mapbox-gl-controls;
 // bleh, import doesn't work here.  even after npm installing.   need to be served by nodejs ? 
 map.addControl(new RulerControl(), 'top-right');
 map.on('ruler.on', () => console.log('ruler: on'));
