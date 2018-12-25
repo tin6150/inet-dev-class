@@ -94,7 +94,7 @@ Loading example pages via web site provided by github.io
 - https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_gson.html  ZWEDC csv->geojson, point data.  
 - https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_heatmap.html  ZWEDC csv->geojson, point data, heatmap coloring.  
 - https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_50x50sq.html  ZWEDC csv->geojson, data in 50x50m sq.  
-- https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_50x50sq+Plugin.html  As above, trying to use some mapbox plugin (js module via import?) 
+- https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_50x50sq+Plugin.html  As above, trying to use some mapbox plugin (js module via import?).  Have not been able to get this to work.  tried moving code under js/, there are more notes there, but overall, no dice yet.
 
 - https://tin6150.github.io/inet-dev-class/mapbox/ZWEDCcsv2gson_heatmap.py.  (was thinking of naming it ZWEDC_countDup.html).  The value of the point is used to duplicate the number of appearance of the point with value of one.  This hopefully create a data set for a dot-plot that is HOT at the point with highest ZWEDC value....
   use point data, not 50x50 sq.  didn't work well.  

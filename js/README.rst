@@ -66,5 +66,19 @@ should not need to check the files installed by npm under nodes_modules into git
 as package.json will add them automatically as dependencies upon new execution (including get new version).
 
 
+Plugin from Mapbox
+------------------
+
+presumably they are js that use import
+but have not been able to figure out how to get them to work.
+
+ZWEDC_50x50sq+Plugin.html was the main place I tried, 
+pairing it up locally, with npm module that was checked into github, 
+serving things via nodejs, 
+none of the thing worked yet.
+
+so, forked the documentation/example 
+https://tin6150.github.io/mapbox-gl-controls
+and try from there.
 
 
