@@ -121,8 +121,26 @@ p {
 
 
 
+<!-- Likely simplest mapbox plugin that install via npm:  https://github.com/mapbox/mapbox-gl-supported 
+Don't like it.  browser debbuger says can't find mapbox-gl-supported.js, which i can't find myself either.  thing still eval to true.  fn may have been incorporated into mapbox-gl-js that I called from earlier script, so this test here is useless. :(
+-->
+<!--
+<script src='./node_modules/@mapbox/mapbox-gl-supported.js'></script>
+<script src='mapbox-gl-supported.js'></script>
+-->
+<script>
+if (mapboxgl.supported()) {
+	console.log('mapboxgl.supported is true');
+} else {
+	console.log('mapboxgl.supported is false');
+}
+</script>
 
-<!-- <script> --> <!-- need to use the type="module" trick to get support for module/import -->
+
+<!-- 
+need to use the type="module" trick to get support for module/import 
+<script> 
+-->
 <script type="module">
 
 //const RulerControl = require('mapbox-gl-controls');

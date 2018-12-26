@@ -9,6 +9,7 @@
   "author": "sn",
   "license": "BSD-3-Clause",
   "dependencies": {
+    "@mapbox/mapbox-gl-supported": "^1.4.0",
     "mapbox-gl": "^0.52.0",
     "mapbox-gl-controls": "0.0.15"
   }
