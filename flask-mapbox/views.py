@@ -1,7 +1,7 @@
 
 """
 Use Flask blueprints to load bunch of views in one go.
-app.py flask app has this clause 
+app.py flask app has this clause:
 	from views import master
 
 modeled after Tyler Biositting views.py

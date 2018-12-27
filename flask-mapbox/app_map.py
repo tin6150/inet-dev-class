@@ -10,7 +10,7 @@ structuring after Tyler biositting templates/mbgl_index.html
 
 import os
 from flask import Flask
-from views import master	# this likely the one that loads views.py
+from views import master  # invoke loading of  views.py [Flask Blueprint]
 
 from flask_sqlalchemy import SQLAlchemy
 

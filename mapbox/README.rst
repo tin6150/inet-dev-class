@@ -321,7 +321,12 @@ But also watch for these things:
 
 
 * Mapbox Plugins.  Probably extension to GL JS.
-  They seems to take npm install, so need a server side executor, which is likely where Flask app comes in.
+  A number of them need to be installed as npm package.
+  But likely still run on client side (have yet to figure out, one plugin, 
+  styles/zoom/compass/ruler used webpack to create a bundle.js, and 
+  example was clearly running off github pages.
+  so, no fancy node.js server needed.  
+  No need for Flask either (but does not prevent its use)
 	* https://www.mapbox.com/mapbox-gl-js/plugins/  
 	* compare plugin.  swipe left/right to see diff.  Maybe useful.  https://www.mapbox.com/mapbox-gl-js/example/mapbox-gl-compare/ 
 	* infobox
