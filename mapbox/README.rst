@@ -104,6 +104,7 @@ Scale:
 - 1.0 become 10 points
 - 12.7 becomes 127 points.
 
+- https://tin6150.github.io/inet-dev-class/mapbox/mapbox-addLayer.html  Use addLayer() to get ZWEDC_50x50 as tileset data, then use JS to do data-driven presentation.  (thus essentially not using mapbox studio styling to present the data).  Need to understand JS much more here to do the work.
 
 gdal - Geospatial Data Abstraction Library
 ==========================================
@@ -339,6 +340,13 @@ But also watch for these things:
 	* need to learn what really is React.  (vs Angular, etc?) https://github.com/mapbox/mapbox-react-examples
 
 
+* Property Expression vs Property Function
+	* Property Expression - new api for data-driven styling, logic, manipulation
+	* Property Function   - legacy, still works, but recommend going away
+	* https://www.mapbox.com/help/mapbox-gl-js-expressions/
+	* https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/ Use Property Expression with fill (polygon) data to do choropleth of state population (unlike the beginner tutorial, this use GL JS and not mapbox studio)   Oh heck, it zoom it to provide county population data!!
+	
+
 Mapbox GL JS
 ============
 
@@ -353,9 +361,10 @@ ScaleControl - zoom?
 AttributionControl - credits
 Popup
 
-ImageSource - map.addSource(...) ??
+ImageSource - map.addSource(...) 
 CanvasSource
 
+addLayer(...) - https://www.mapbox.com/help/analysis-with-turf/  (early part cover addLayer() )
 
 
 Also read before coding

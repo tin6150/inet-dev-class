@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!--
+ref: https://www.mapbox.com/mapbox-gl-js/example/vector-source/
+then added to use my ZWEDC 50x50 alviso data as layer
+need to do the coloring gradient using js, since not using the full style from mapbox studio, 
+but just using the vector data stored on mapbox.
+(I guess then it beg the question, i could have the geojson retrieved by the JS directly, and use leaflet to plot them on the map?  probably just more work
+-->
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Add a vector tile source</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ';   // this is token from the tutorial web page
+var map = new mapboxgl.Map({
+    container: 'map',
+    //style: 'mapbox://styles/mapbox/light-v9',
+    style: 'mapbox://styles/mapbox/dark-v9',		// basemap style
+    //zoom: 13,
+    //center: [-122.447303, 37.753574]   SF
+    center: [-121.945, 37.434],  // alviso
+    //zoom: 13.5	// zoomed in
+    zoom: 12		// see whole coverate area 
+
+});
+
+
+// color gradient from choropleth tutorial  https://www.mapbox.com/help/choropleth-studio-gl-pt-2/
+var layers = ['0-10', '10-20', '20-50', '50-100', '100-200', '200-500', '500-1000', '1000+'];
+var colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
+var zwedc_layers = ['0-0.01', '0.01-0.1', '0.1-1.0', '1.0-3.0', '3.0-5.0', '5.0-8.0', '8.0-10', '10-15',    '15+'];	// Tyler legend needed by markers
+var zwedc_colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026', '#000000']; // Tyler legend needed by markers 
+
+
+map.on('load', function () {
+    map.addLayer({
+        "id": "terrain-data",
+        "type": "line",
+        "source": {
+            type: 'vector',
+            url: 'mapbox://mapbox.mapbox-terrain-v2'
+        },
+        "source-layer": "contour",
+        "layout": {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": "#ff69b4",
+            "line-width": 1
+        }
+    });  // end map.addLayer(...)
+    //------------- ZWEDC "point polygon" LAYER ------------ // ##  need more work here ##
+    map.addLayer({
+      id: 'zwedc',
+      type: 'fill',
+      layout: {
+        //visibility: zwedcPolyVis
+        visibility: 'visible'
+      },
+      source: {
+        type: 'vector',
+        url: 'mapbox://sn50.aae3dmkj'
+        //url: 'mapbox://styles/sn50/cjpdk7mpgbx8f2ss4bu9vzfsl' // may need a diff url for layer rather than style...
+      },
+      'source-layer': 'ZWEDC_50x50m-29q7xv',	// retrieved from mapbox web site Tile management... 
+      paint: {
+              //'fill-color': styleCountyPolys(poly_data_field),
+              'fill-color': 'rgba(61,153,80,0.55)',                    // https://www.mapbox.com/help/how-web-apps-work/#use-mapbox-gl-js-with-react ##
+              //'fill-color': zwedc_colors,
+              //'fill-opacity': polyLayerOpacity,
+              'fill-opacity': 0.7
+             }
+    });  // end map.addLayer(...)
+});
+
+
+// add pop up when hoovering over a ZWEDC grid with data
+// per https://www.mapbox.com/help/analysis-with-turf/
+// it is outside the map.on('load'...) fn def.
+var popup = new mapboxgl.Popup();
+
+map.on('mousemove', function (e) {
+
+      var features = map.queryRenderedFeatures(e.point, { layers: ['zwedc'] });
+      if (!features.length) {
+          popup.remove();
+          return;
+      }
+
+      var feature = features[0];   // can get max ?
+
+      //popup.setLngLat(feature.geometry.coordinates)
+      popup						// now no error but no action either :( 
+          .setHTML(feature.properties.Name)
+          .addTo(map);
+
+      map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+
+}); // end map.on('mousemove'...)
+
+
+
+</script>
+
+</body>
+</html>
