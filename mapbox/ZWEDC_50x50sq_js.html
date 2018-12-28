@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <!--
+
+ZWEDC_50x50sq_js.html - Got must fn of ZWEDC_50x50sq.html
+	but instead of using mapbox studio to create the color styling
+	this is now done using the GL JS API
+	thus have to use addLayer()
+	fill-color with a interpolated range
+	also fill-opacity with an interpolated range 
+
+see mapbox-addLayer for where I learned much of the GL JS work to do this.  
+note from that work below:
 ref: https://www.mapbox.com/mapbox-gl-js/example/vector-source/
 then added to use my ZWEDC 50x50 alviso data as layer
 need to do the coloring gradient using js, since not using the full style from mapbox studio, 
@@ -12,9 +22,6 @@ has polygon based fill
 choropleth with steate and county level data
 using that as addLayer and data-driven styling 
 before i try to color my ZWEDC data
-
-Okay, getting a hang of this.
-moving to put ZWEDC data in ZWEDC_50x50sq_js.html 
 
 -->
 <html>
@@ -90,9 +97,9 @@ moving to put ZWEDC data in ZWEDC_50x50sq_js.html
 mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ';   // this is token from the tutorial web page
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/light-v9',
+    //style: 'mapbox://styles/mapbox/light-v9',
     //style: 'mapbox://styles/mapbox/dark-v9',		// alt basemap style
-    //style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, had to use url from my acc, could not find public style url.
+    style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, had to use url from my acc, could not find public style url.
     //zoom: 13,
     //center: [-122.447303, 37.753574]   SF
     center: [-121.945, 37.434],  // alviso
@@ -194,6 +201,9 @@ map.on('load', function () {
              }
     });  // end map.addLayer(...) for zwedc
 
+// how to get rid of the grid line?? ## 
+
+
     // beging bulk of state/county choropleth as addSource() and addLayer()
     // https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/
     map.addSource('population', {
@@ -222,7 +232,7 @@ map.on('load', function () {
                 10000000, '#8B4225',
                 25000000, '#723122'
             ],
-            'fill-opacity': 0.35   // 0.75
+            'fill-opacity': 0.15   // 0.75
         }
     }, 'waterway-label');
 
@@ -248,7 +258,7 @@ map.on('load', function () {
                 500000, '#8B4225',
                 1000000, '#723122'
             ],
-            'fill-opacity': 0.35 // 0.75
+            'fill-opacity': 0.15 // 0.75
         }
     }, 'waterway-label');
     // end choropleth state/county population
