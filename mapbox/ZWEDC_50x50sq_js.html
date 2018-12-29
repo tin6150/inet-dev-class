@@ -86,7 +86,8 @@ before i try to color my ZWEDC data
     <div><span style='background-color: #E31A1C'></span>5.0</div>
     <div><span style='background-color: #BD0026'></span>7.5</div>
     <div><span style='background-color: #800026'></span>10</div>
-    <div><span style='background-color: #111111'></span>25</div>
+    <div><span style='background-color: #7c27c2'></span>20</div>
+    <div><span style='background-color: #5b08a3'></span>25</div>
 </div>
 
 
@@ -129,6 +130,49 @@ var zwedc_layers = ['0-0.01', '0.01-0.1', '0.1-1.0', '1.0-3.0', '3.0-5.0', '5.0-
 var zwedc_colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026', '#000000']; // Tyler legend needed by markers 
 
 
+// modeleed after styleCountyPolys(poly_data_field) 
+function styleZwedcPolys(attribute) {
+    return [
+      'interpolate',
+      ['linear'],
+      ['get', attribute],
+
+		// Tyler's framework used 10 entries here 
+                0.0, '#f2f3f4', // Anti-flash white, so it blend into bg // '#FFEDA0',  // '#F2F12D',  <--last one is from county choropleth
+                0.5, '#FED976',         // '#EED322',
+                0.7, '#FEB24C',         // '#E6B71E',
+                1.0, '#FD8D3C',         // '#DA9C20',
+                2.5, '#FC4E2A',         // '#CA8323',
+                5.0, '#E31A1C',         // '#B86B25',
+                7.5, '#BD0026',         // '#A25626',
+                10,  '#800026',         // #8B4225',
+                20,  '#7c27c2', // light purple  // few ZWEDC values this high
+                25,  '#5b08a3'  // dark  purple  // '#723122'
+    ]
+};
+
+// the attribute, 'max', don't do anything here
+function styleZwedcOpacity(attribute) {
+    return [
+      'interpolate',
+      ['linear'],
+      ['get', attribute],
+		// Tyler's framework used 10 entries here 
+               0.0, 0.05,              // graded opacity increases as value increases.  look pretty, but may be hiding data from view ##
+                0.5, 0.15,
+                0.7, 0.25,
+                1.0, 0.35,
+                2.5, 0.45,
+                5.0, 0.50,
+                7.5, 0.55,
+                10,  0.65,
+                20,  0.70,
+                25,  0.75
+    ]
+};
+
+
+
 map.on('load', function () {
     map.addLayer({
         "id": "terrain-data",
@@ -165,40 +209,12 @@ map.on('load', function () {
       'source-layer': 'ZWEDC_50x50m-29q7xv',	// retrieved from mapbox web site Tile management... 
       paint: {
               'fill-antialias': false,    // remove gridline
-              //'fill-color': styleCountyPolys(poly_data_field),
               //'fill-color': 'rgba(61,153,80,0.55)',                    // https://www.mapbox.com/help/how-web-apps-work/#use-mapbox-gl-js-with-react ##
-              //'fill-color': zwedc_colors,
-              'fill-color': [
-		'interpolate', 
-		['linear'],
-		['get', 'max'],
-//'#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026', '#000000'
-                0.0, '#f2f3f4', // Anti-flash white, so it blend into bg // '#FFEDA0',	// '#F2F12D',  <--last one is from county choropleth
-                0.5, '#FED976',		// '#EED322',
-                0.7, '#FEB24C', 	// '#E6B71E',
-                1.0, '#FD8D3C',		// '#DA9C20',
-                2.5, '#FC4E2A',		// '#CA8323',
-                5.0, '#E31A1C',		// '#B86B25',
-                7.5, '#BD0026', 	// '#A25626',
-                10,  '#800026', 	// #8B4225',
-                25,  '#111111'		// '#723122'
-              ],
+              // see git log 1dff205 for older version that had 'table' and in-place code here for fill-color and fill-opacity
+              'fill-color': styleZwedcPolys('max'),
               //'fill-opacity': polyLayerOpacity,
               //'fill-opacity': 0.2
-              'fill-opacity': [
-		'interpolate', 
-		['linear'],
-		['get', 'max'],
-                0.0, 0.05,		// graded opacity increases as value increases.  look pretty, but may be hiding data from view ##
-                0.5, 0.15,
-                0.7, 0.25,
-                1.0, 0.35,
-                2.5, 0.45,
-                5.0, 0.50,
-                7.5, 0.55,
-                10,  0.65,
-                25,  0.70
-              ],
+              'fill-opacity': styleZwedcOpacity('max') // max attribute just a place holder
              }
     });  // end map.addLayer(...) for zwedc
 
