@@ -27,6 +27,11 @@ before i try to color my ZWEDC data
 
 ############
 
+https://bravecow.github.io/mapbox-gl-controls/
+now trying to use 
+mapbox-gl-controls 
+but using the plugin url found from the swipe/compare tutorial 
+(instead of npm install, which is prob only needed if want to make changes to it).
 
 -->
 <head>
@@ -37,24 +42,25 @@ before i try to color my ZWEDC data
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
     <!--
     ## it is adding, not replacing :)  below  to use the swiper left/right compare map: 
-    -->
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.js'></script>
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.css' type='text/css' />
+    -->
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
 
 	/* from https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/ for population density legend */
 	.legend {
-	    background-color: #fff;
+	    background-color: rgba(255,255,255,0.65);   /* #fff;*/
 	    border-radius: 3px;
-	    bottom: 30px;
+	    bottom: 60px; /* 30px; */  /* use 60px if have scale, 30px w/o scale ruler bar */
 	    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
 	    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 	    padding: 10px;
 	    position: absolute;
 	    /*right: 10px; */
-	    left: 10px; 
+	    left: 10px;  
+	    /* right: 10px; */    /* can move scale legend to right with this */
 	    z-index: 1;
 	}
 	.legend h4 {
@@ -72,8 +78,9 @@ before i try to color my ZWEDC data
 
 	.map-overlay {
 	  position: absolute;
-	  bottom: 0;
-	  right: 0;
+	  /*bottom: 10px;  /* 10px add buffer at bottom for (i) attributes info icon */
+	  bottom: 0;  /* 0 put box on top, other number put on top.  maybe 30px add buffer at bottom */
+	  right:  0;  /* anything other than 0 put box on left */
 	  background: rgba(250, 250, 224, 0.5);  /* this is greenish/yellowish */
 	  margin-left:  10px; 
 	  margin-right: 10px; /* choropleth used 20px */
@@ -84,9 +91,9 @@ before i try to color my ZWEDC data
 	#features {
 	    visibility: visible; /* hidden */
             top: 110;		/* 0 was at top (right) */
-            height: 120px;      /* formerly 100px */
+            height: 110px;      /* formerly 100px */
             margin-top: 10px;
-            width: 110px;      /* formerly 250px */
+            width: 130px;      /* formerly 250px */
 	}
 
 	/* debug info box in bottom right */
@@ -116,7 +123,9 @@ before i try to color my ZWEDC data
 
 
 <div id='map'></div>
+<!--
 <div id='mapAlt' class='map'></div>
+-->
 
 <div id='state-legend' class='legend' style='display: none;'>
     <h4>Population</h4>
@@ -131,7 +140,7 @@ before i try to color my ZWEDC data
 <!--<div id='county-legend' class='legend' style='display: none;'> -->
 <!-- LOL was county-legend box, never changed name -->
 <div id='county-legend' class='legend' >
-    <h4>zwedc max</h4>
+    ZWEDC<BR>max
     <div><span style='background-color: #f2f3f4'></span>0.0</div>
     <div><span style='background-color: #FED976'></span>0.5</div>
     <div><span style='background-color: #FEB24C'></span>0.7</div>
@@ -146,8 +155,8 @@ before i try to color my ZWEDC data
 
 <!-- this create the top right info box -->
 <div class='map-overlay' id='features'>
-        <h2>ZWEDC</h2> <!-- this is title of top right box -->
-        <div id='pd'><p>Hover to reveal data...</p></div>   <!-- static text, replaced later by JS -->
+        <h3>ZWEDC</h3> <!-- this is title of top right box -->
+        <div id='pd'><p>Max: (Hover)</p></div>   <!-- static text, replaced later by JS -->
 </div>
 
 <!-- currently the map-overlay-dbg goes in the bottom right, 
@@ -363,6 +372,9 @@ map.on('load', function () {
 
 // mousemove should not  need to be inside map.on('load')
 // it updated featuresDbg correctly.
+// may want to see non geocoded pop up : 
+// * https://www.mapbox.com/mapbox-gl-js/api/#popup
+// * https://www.mapbox.com/mapbox-gl-js/example/popup-on-hover/
 map.on('mousemove', function (e) {
       var features = map.queryRenderedFeatures(e.point, { layers: 
 	      ['zwedc'] 
@@ -374,7 +386,7 @@ map.on('mousemove', function (e) {
       if (features.length > 0) {
             document.getElementById('features').innerHTML = 
 		      "<H3>ZWEDC</H3>\n" + 
-		      "max: " + features[0].properties.max 	+ "<BR>\n"  
+		      "Max: " + features[0].properties.max 	+ "<BR>\n"  
 		      // + "id: "  + features[0].properties.id 	+ "<BR>\n" 
       } else {
             document.getElementById('features').innerHTML = "<H3>ZWEDC</H3>\n" + "n/a"
@@ -382,6 +394,65 @@ map.on('mousemove', function (e) {
 
 });
 
+// https://www.mapbox.com/mapbox-gl-js/api/#navigationcontrol
+//var nav = new mapboxgl.NavigationControl();
+//map.addControl(nav, 'top-left');
+map.addControl( new mapboxgl.NavigationControl(), 'top-right');  
+
+map.addControl(new mapboxgl.FullscreenControl({container: document.querySelector('body')}));
+
+// trying to add Ruler or change style...
+// https://bravecow.github.io/mapbox-gl-controls/
+// don't know if there is any released under 
+// https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-controls ...
+// import { RulerControl } from 'mapbox-gl-controls;
+// const mapboxglctrl = require('mapbox-gl-controls');   // js not understanding import or require.  need help!!
+// map.addControl(new RulerControl(), 'top-right');
+
+
+// trying to add style control // NOT defined, need to npm install ... 
+//map.addControl(new StylesControl(), 'top-left');
+/*
+map.addControl(new StylesControl([{
+  name: 'Streets',
+  url: 'mapbox://styles/mapbox/streets-v9'
+}, {
+  name: 'Satellite',
+  url: 'mapbox://styles/mapbox/satellite-v9'
+}, {
+  name: 'Dark',
+  url: 'mapbox://styles/mapbox/dark-v9'
+}]), 'top-left');
+*/
+// Use style.load event to redraw layers when style has changed:
+//map.on('style.load', () => { /* redraw layers */ });
+
+
+// https://www.mapbox.com/mapbox-gl-js/api/#attributioncontrol
+map.addControl(new mapboxgl.AttributionControl({
+        compact: true,  // set to false to add an EXTRA line with info below prefixed.  true add an (i) icon
+	customAttribution: '© Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington @ LBNL'
+}));
+
+
+// https://www.mapbox.com/mapbox-gl-js/api/#scalecontrol  // added to bottom, clobbering legend.
+var scale = new mapboxgl.ScaleControl({
+    //maxWidth: 80,
+    unit: 'imperial'
+});
+map.addControl(scale);
+//scale.setUnit('metric');
+
+// https://www.mapbox.com/mapbox-gl-js/api/#keyboardhandler#enable  but don't seems to do anything in chrome :(
+map.keyboard.enable();
+
+
+
+// sync move, but `require` not understood by chrome engine (??)
+// https://github.com/mapbox/mapbox-gl-sync-move
+// var syncMove = require('mapbox-gl-sync-move');
+
+// also see https://beta.observablehq.com/@siggyf/compare-two-maps-example
 
 </script>
 

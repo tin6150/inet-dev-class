@@ -501,6 +501,14 @@ map.on('click', function (e) {
 //var mapCombo = new mapboxgl.Compare(map, mapAlt, {});
 var mapCombo = new mapboxgl.Compare(map, mapAltC, {});
 
+
+// https://www.mapbox.com/mapbox-gl-js/api/#attributioncontrol
+map.addControl(new mapboxgl.AttributionControl({
+        compact: false,  // set to false to add an EXTRA line with info below prefixed
+        customAttribution: 'Tin,Ling,Wei,Tyler'
+}));
+
+
 </script>
 
 </body>

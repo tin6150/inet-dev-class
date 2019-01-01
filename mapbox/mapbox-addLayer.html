@@ -282,6 +282,13 @@ map.on('mousemove', function (e) {
 }); // end map.on('mousemove'...)
 
 
+// https://www.mapbox.com/mapbox-gl-js/api/#attributioncontrol
+// there are TWO lines of attribution then :(  And not cuz I loaded TWO map(s).
+map.addControl(new mapboxgl.AttributionControl({
+        compact: false,  // set to false to add an EXTRA line with info below prefixed
+        customAttribution: 'Tin,Ling,Wei,Tyler'
+}));
+
 
 </script>
 
