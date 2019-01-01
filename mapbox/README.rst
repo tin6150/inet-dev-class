@@ -70,7 +70,8 @@ Reading list
 
 * Choropleth by census track population, shows population density, possibly as 3D.  Peter Liu, mapbox engineer.  https://blog.mapbox.com/dive-into-large-datasets-with-3d-shapes-in-mapbox-gl-c89023ef291
 
-
+* https://www.mapbox.com/help/processing-satellite-imagery/ tools, Turf.js, side-by-side swipe comparison.
+  addLayer before/after X, etc 
 
 Examples
 ========

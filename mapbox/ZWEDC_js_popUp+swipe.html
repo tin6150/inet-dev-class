@@ -27,6 +27,25 @@ before i try to color my ZWEDC data
 
 ############
 
+pop up.  
+abandoned, cuz need geo coordinate, point data have those readily avail.
+here would need more work.
+
+############
+swipe left/right for comparison
+
+code more or less work
+but too much work to create a raster tile set (cuz eg was satellite data)
+to swipe and compare.
+got some plugin url , maybe useful for other things, 
+but abandoning this swipe thing for now.
+ref: https://www.mapbox.com/help/processing-satellite-imagery/ 
+
+should also see this where they just use build in mapbox style layer
+(which they don't differentiate between base and overlay
+https://github.com/mapbox/mapbox-gl-compare
+
+The map.on('load'...) and adding layers there maybe overwritting the swipe map/mapAlt compare :(
 
 -->
 <head>
@@ -162,18 +181,61 @@ before i try to color my ZWEDC data
 
 
 <script>
-mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ';   // this is token from the tutorial web page
-//mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // Sn  (post?) 2018-12-07
+//mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ';   // this is token from the tutorial web page
+mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // Sn  (post?) 2018-12-07
 
+/*
+var mapAlt = new mapboxgl.Map({
+    container: 'mapAlt',	// container id
+    //style: 'mapbox://styles/mapbox/light-v9',
+    //style: 'mapbox://styles/mapbox/dark-v9',		// alt basemap style
+    //style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, had to use url from my acc, could not find public style url.
+    style: {
+						version: 8,
+						sources: {
+							'raster-tiles': {
+								type: 'raster',
+								//url: 'mapbox://sn50.du0850gh', //+ afterTileset, //'geotiff-test8bit-4tx59g', # map ID: sn50.du0850gh
+    						url: 'mapbox://styles/mapbox/dark-v9',		// alt basemap style
+								tileSize: 256
+							  }
+             },
+						layers: [{
+							id: 'alt-tiles',
+							type: 'raster',
+							source: 'raster-tiles',
+							//source: 'geotiff-test8bit-4tx59g', # map ID: sn50.du0850gh
+							minzoom: 0,
+							maxzoom: 22
+						}]
+    },
+    //center: [-122.447303, 37.753574]   SF
+    center: [-121.945, 37.434],  // alviso
+    zoom: 13.5	// zoomed in
+    //zoom: 12		// see whole coverate area 
+
+});
+*/
+
+var mapAltC = new mapboxgl.Map({
+    container: 'mapAlt',	// container id, need to be defined as div in html
+    //style: 'mapbox://styles/mapbox/light-v9',
+    style: 'mapbox://styles/mapbox/dark-v9',		// alt basemap style
+    //style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, had to use url from my acc, could not find public style url.
+    //center: [-121.945, 37.434],  // alviso
+    //zoom: 13.5          	  // zoomed in
+    zoom: 12    		// see whole coverate area 
+
+});
 
 
 
 
 var map = new mapboxgl.Map({
     container: 'map',	// container id
-    //style: 'mapbox://styles/mapbox/light-v9',
+    style: 'mapbox://styles/mapbox/light-v9' ,
     //style: 'mapbox://styles/mapbox/dark-v9',		// alt basemap style
-    style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, had to use url from my acc, could not find public style url.
+    //style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, had to use url from my acc, could not find public style url.
     //zoom: 13,
     //center: [-122.447303, 37.753574]   SF
     center: [-121.945, 37.434],  // alviso
@@ -367,7 +429,6 @@ map.on('mousemove', function (e) {
       var features = map.queryRenderedFeatures(e.point, { layers: 
 	      ['zwedc'] 
       });
-      //var features = map.queryRenderedFeatures(e.point, { layers: ['ZWEDC_50x50m-29q7xv'] });  //don't use this ID
       //document.getElementById('featuresDbg').innerHTML = JSON.stringify(features, null, 2);
       //document.getElementById('features').innerHTML = JSON.stringify(features, null, 2);
 
@@ -377,11 +438,68 @@ map.on('mousemove', function (e) {
 		      "max: " + features[0].properties.max 	+ "<BR>\n"  
 		      // + "id: "  + features[0].properties.id 	+ "<BR>\n" 
       } else {
-            document.getElementById('features').innerHTML = "<H3>ZWEDC</H3>\n" + "n/a"
+	      document.getElementById('pd').innerHTML = '<p>Hover over ZWEDC data point</p>';
       }
 
 });
 
+// this display all data as pop up
+// ref: https://www.mapbox.com/mapbox-gl-js/example/queryrenderedfeatures/
+
+// add pop up when hoovering over a ZWEDC grid with data
+// per https://www.mapbox.com/help/analysis-with-turf/
+// it is outside the map.on('load'...) fn def.
+// var popup = new mapboxgl.Popup();
+ 
+//map.on('mousemove', function (e) {
+map.on('click', function (e) {
+      var features = map.queryRenderedFeatures(e.point, { layers: 
+	      ['zwedc'] 
+      });
+      //var features = map.queryRenderedFeatures(e.point, { layers: ['ZWEDC_50x50m-29q7xv'] });
+
+      document.getElementById('featuresDbg').innerHTML = JSON.stringify(features, null, 2);
+      //document.getElementById('features').innerHTML = JSON.stringify(features, null, 2);
+
+      if (!features.length) {
+          popup.remove();
+          return;
+      }
+
+      //var feature = features[0];   // can get max ?
+
+      if (features.length > 0) {
+            document.getElementById('features').innerHTML = 
+		      "<H3>ZWEDC</H3>\n" + 
+		      "max: " + features[0].properties.max 	+ "<BR>\n" 
+		      // + "id: "  + features[0].id 			+ "<BR>\n" 
+      } else {
+            document.getElementById('pd').innerHTML = '<p>Hover over a state!</p>';
+      }
+
+      //document.getElementById('pd').innerHTML = "<h3><strong>" + states[0].properties.name + "</strong></h3><p><strong><em>" + states[0].properties.density + "</strong> people per square mile</em></p>";
+
+
+
+      //var popup = new mapboxgl.Popup({ offset: [0,-15] })
+      //    .setLngLat(feature.geometry.coordinates)	// popUp req geo coordinate
+      popup						// now no error but no action either :( 
+          .setHTML("TBA")
+          .addTo(map);
+        //.setHTML(feature.properties.Name)
+	// point data has build-in geocoordinate, but my polygon data need some work to extract that
+	// easier to just display it in a statically positioned info box
+ 
+/*
+      //popup.setLngLat(feature.geometry.coordinates)
+      map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+*/
+	//return;
+}); // end map.on('mousemove'...)
+
+
+//var mapCombo = new mapboxgl.Compare(map, mapAlt, {});
+var mapCombo = new mapboxgl.Compare(map, mapAltC, {});
 
 </script>
 
