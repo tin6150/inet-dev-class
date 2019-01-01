@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<!--
+https://github.com/mapbox/mapbox-gl-leaflet
+https://rawgit.com/mapbox/mapbox-gl-leaflet/master/examples/basic.html
+
+leaflet bind to mapbox gl js work.
+But getting multiple maps (hopefully via leaflet) 
+have not been able to get it  work yet.
+
+Reading Ling's desire, it was to get more layers, pick on demand, not necessarily 
+multiple maps in same screen.
+so, abandoning this test for now.
+-->
+<head>
+    <title>WebGL</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      html, body, #map {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+    <!-- Mapbox GL -->
+    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.35.1/mapbox-gl.css" rel='stylesheet' />
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.35.1/mapbox-gl.js"></script>
+
+</head>
+
+<body>
+<div id="map"></div>
+<div id="map2"></div>
+
+<!--
+<script src="../leaflet-mapbox-gl.js"></script>
+the npm page is where teh CDN link was found!
+https://www.npmjs.com/package/mapbox-gl-leaflet
+-->
+<script src="https://rawgit.com/mapbox/mapbox-gl-leaflet/master/leaflet-mapbox-gl.js"></script>
+
+<script>
+//var map = L.map('map').setView([38.912753, -77.032194], 15);  // DC
+// OMFG leafllet use LatLng?! (mapbox GL/geoJSON use LngLat)
+var zwedcLng = -121.945;
+var zwedcLat = 37.434;
+//var map = L.map('map').setView([-121.945, 37.434], 13.5); 	// alviso as LngLat, DONT work here :(
+var map  = L.map('map').setView([zwedcLat, zwedcLng], 13.5); 	// alviso as LatLng
+var map2 = L.map('map2').setView([zwedcLat, zwedcLng], 13.5); 	// alviso as LatLng
+
+
+
+//L.marker([38.912753, -77.032194]) 
+//L.marker([-121.945, 37.434])
+L.marker([zwedcLat, zwedcLng])	// also need in LatLng leaflet style !!
+    .bindPopup("Hello <b>Leaflet GL</b>!<br>Whoa, it works!")
+    .addTo(map)
+    .openPopup();
+
+var gl = L.mapboxGL({
+    //accessToken: 'no-token',
+    accessToken:  'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ',   // this is token from the mapbox tutorial web page
+
+    //style: 'https://raw.githubusercontent.com/osm2vectortiles/mapbox-gl-styles/master/styles/bright-v9-cdn.json'
+    //style: 'mapbox://styles/mapbox/light-v9',
+    style: 'mapbox://styles/mapbox/dark-v9',          // alt basemap style
+    //style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj',  // cali terrain, had to use url from my acc, could not find public style url.  May need to use my own token for it to work?
+
+}).addTo(map);
+
+// https://stackoverflow.com/questions/25293579/multiple-leaflet-maps-on-same-page-with-same-options
+// need two layers,
+// and two maps anchor in html ??  below don't display correctly yet
+
+// add an OpenStreetMap tile layer
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+// add the same OpenStreetMap tile layer to the second map
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map2);
+
+
+/*
+*/
+
+</script>
+</body>
+</html>
