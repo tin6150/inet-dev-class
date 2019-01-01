@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<!-- 
+	 	https://www.mapbox.com/help/add-points-pt-3/ 
+		apparently default pointer is a hand, not a mouse pointer, to indicate map panning i suppose.	
+	-->
+
+	<head>
+	<meta charset='utf-8' />
+	<title>Display a map</title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+	<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+	<style>
+        body { margin:0; padding:0; }
+	        #map { position:absolute; top:0; bottom:0; width:100%; }
+	</style>
+	</head>
+	<body>
+
+	<div id='map'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiZXhhbXBsZXMiLCJhIjoiY2lqbmpqazdlMDBsdnRva284cWd3bm11byJ9.V6Hg2oYJwMAxeoR9GEzkAA';
+var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/examples/cjgiiz9ck002j2ss5zur1vjji', // stylesheet location
+    center: [-87.661557, 41.893748],
+    zoom: 10.7
+});
+
+map.on('load', function () {
+    //------------- ZWEDC "point polygon" LAYER ------------ // ##  need more work here ##
+    map.addLayer({
+      id: 'zwedc',
+      type: 'fill',
+      layout: {
+        //visibility: zwedcPolyVis
+        visibility: 'visible'
+        //visibility: 'none'            // can use this to make ZWEDC data disapear ##
+      },
+      source: {
+        type: 'vector',
+        url: 'mapbox://sn50.aae3dmkj'
+        //url: 'mapbox://styles/sn50/cjpdk7mpgbx8f2ss4bu9vzfsl' // may need a diff url for layer rather than style...
+      },
+      'source-layer': 'ZWEDC_50x50m-29q7xv',    // retrieved from mapbox web site Tile management... 
+      paint: {
+              'fill-antialias': false,    // remove gridline
+              //'fill-color': 'rgba(61,153,80,0.55)',                    // https://www.mapbox.com/help/how-web-apps-work/#use-mapbox-gl-js-with-react ##
+              // see git log 1dff205 for older version that had 'table' and in-place code here for fill-color and fill-opacity
+              'fill-color': styleZwedcPolys('max'),
+              //'fill-opacity': polyLayerOpacity,
+              //'fill-opacity': 0.2
+              'fill-opacity': styleZwedcOpacity('max') // max attribute just a place holder
+             }
+    });  // end map.addLayer(...) for zwedc
+
+
+});  // end map.on('load'...)
+
+
+
+
+map.on('click', function(e) {
+  var features = map.queryRenderedFeatures(e.point, {
+	      layers: ['chicago-parks'] // replace this with the name of the layer
+	    });
+
+  if (!features.length) {
+	      return;
+	    }
+
+  var feature = features[0];
+
+  var popup = new mapboxgl.Popup({ offset: [0, -15] })
+    .setLngLat(feature.geometry.coordinates)
+    .setHTML('<h3>' + feature.properties.title + '</h3><p>' + feature.properties.description + '</p>')
+    .setLngLat(feature.geometry.coordinates)
+    .addTo(map);
+});
+
+
+
+
+
+
+</script>
+
+	</body>
+</html>
