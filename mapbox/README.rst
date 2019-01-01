@@ -323,9 +323,15 @@ But also watch for these things:
 	* Tyler biositting tool use: ??? TBA
 
 
-* Mapbox Plugins.  Probably extension to GL JS.
-  A number of them need to be installed as npm package.
-  But likely still run on client side (have yet to figure out, one plugin, 
+* Mapbox GL JS 
+	* https://www.mapbox.com/mapbox-gl-js/api/
+	* CDN vs module bundler methods, other than invokation approach, everything else remains the same.
+	* CDN method is using `<script src=http... >`, probably less cumbersome
+	* Module bundler is using `npm install --save mapbox-gl`, same approach plugin use, but maybe instructions not fully clear
+
+* Mapbox Plugins.  These are extension to GL JS.
+  A number of them need to be installed as npm package (ie module bundler approach).
+  But still run on client side (have yet to figure out, one plugin, 
   styles/zoom/compass/ruler used webpack to create a bundle.js, and 
   example was clearly running off github pages.
   so, no fancy node.js server needed.  

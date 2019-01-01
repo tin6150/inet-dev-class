@@ -94,8 +94,10 @@ before i try to color my ZWEDC data
 
 <script>
 mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ';   // this is token from the tutorial web page
+//mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // Sn  (post?) 2018-12-07
+
 var map = new mapboxgl.Map({
-    container: 'map',
+    container: 'map',	// container id
     //style: 'mapbox://styles/mapbox/light-v9',
     //style: 'mapbox://styles/mapbox/dark-v9',		// alt basemap style
     style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, had to use url from my acc, could not find public style url.
@@ -104,12 +106,13 @@ var map = new mapboxgl.Map({
     center: [-121.945, 37.434],  // alviso
     //zoom: 13.5	// zoomed in
     zoom: 12		// see whole coverate area 
-
 });
+
 
 // begin zoom control for state/county choropleth
 var zoomThreshold = 4;
 
+/*
 var stateLegendEl = document.getElementById('state-legend');
 var countyLegendEl = document.getElementById('county-legend');
 map.on('zoom', function() {
@@ -129,7 +132,9 @@ var colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', 
 var zwedc_layers = ['0-0.01', '0.01-0.1', '0.1-1.0', '1.0-3.0', '3.0-5.0', '5.0-8.0', '8.0-10', '10-15',    '15+'];	// Tyler legend needed by markers
 var zwedc_colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026', '#000000']; // Tyler legend needed by markers 
 
+*/
 
+/*
 // modeleed after styleCountyPolys(poly_data_field) 
 function styleZwedcPolys(attribute) {
     return [
@@ -170,10 +175,11 @@ function styleZwedcOpacity(attribute) {
                 25,  0.75
     ]
 };
-
+*/
 
 
 map.on('load', function () {
+/*
     map.addLayer({
         "id": "terrain-data",
         "type": "line",
@@ -217,10 +223,10 @@ map.on('load', function () {
               'fill-opacity': styleZwedcOpacity('max') // max attribute just a place holder
              }
     });  // end map.addLayer(...) for zwedc
+*/
 
-// how to get rid of the grid line?? ## 
 
-
+/*
     // beging bulk of state/county choropleth as addSource() and addLayer()
     // https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/
     map.addSource('population', {
@@ -251,8 +257,12 @@ map.on('load', function () {
             ],
             'fill-opacity': 0.15   // 0.75
         }
-    }, 'waterway-label');
+    //}, 'waterway-label');
+    }); //, 'waterway-label');
+*/
 
+
+/*
     map.addLayer({
         'id': 'county-population',		// note this is county level, not state level !!  zoom in to get it activated ##
         'source': 'population',
@@ -277,21 +287,27 @@ map.on('load', function () {
             ],
             'fill-opacity': 0.15 // 0.75
         }
-    }, 'waterway-label');
+    //}, 'waterway-label');
+    }); //, 'waterway-label');
     // end choropleth state/county population
-  
+*/  
 
-});
+//    return;
+
+});  // end map.on('load'...) 
 
 
 // add pop up when hoovering over a ZWEDC grid with data
 // per https://www.mapbox.com/help/analysis-with-turf/
 // it is outside the map.on('load'...) fn def.
-var popup = new mapboxgl.Popup();
+// var popup = new mapboxgl.Popup();
 
-map.on('mousemove', function (e) {
-
+/*
+//map.on('mousemove', function (e) {
+map.on('click', function (e) {
       var features = map.queryRenderedFeatures(e.point, { layers: ['zwedc'] });
+      //var features = map.queryRenderedFeatures(e.point, { layers: ['ZWEDC_50x50m-29q7xv'] });
+
       if (!features.length) {
           popup.remove();
           return;
@@ -299,16 +315,23 @@ map.on('mousemove', function (e) {
 
       var feature = features[0];   // can get max ?
 
+      var popup = new mapboxgl.Popup({ offset: [0,-15] })
+          .setHTML("TBA")
+          .addTo(map);
+          //.setLngLat(feature.geometry.coordinates)
+
+ 
+/*
       //popup.setLngLat(feature.geometry.coordinates)
       popup						// now no error but no action either :( 
           .setHTML(feature.properties.Name)
           .addTo(map);
-
       map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
-
+* /
+	//return;
 }); // end map.on('mousemove'...)
 
-
+*/
 
 </script>
 
