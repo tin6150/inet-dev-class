@@ -62,6 +62,8 @@ map.on('load', function () {
 
 
 map.on('click', function(e) {
+//map.on('mousemove', function (e) {
+
   var features = map.queryRenderedFeatures(e.point, {
 	      layers: ['chicago-parks'] // replace this with the name of the layer
 	    });
