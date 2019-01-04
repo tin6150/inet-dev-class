@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+
+<!--
+
+ZWEDC_50x50sq_js.html - Got must fn of ZWEDC_50x50sq.html
+	but instead of using mapbox studio to create the color styling
+	this is now done using the GL JS API
+	thus have to use addLayer()
+	fill-color with a interpolated range
+	also fill-opacity with an interpolated range 
+
+see mapbox-addLayer for where I learned much of the GL JS work to do this.  
+note from that work below:
+ref: https://www.mapbox.com/mapbox-gl-js/example/vector-source/
+then added to use my ZWEDC 50x50 alviso data as layer
+need to do the coloring gradient using js, since not using the full style from mapbox studio, 
+but just using the vector data stored on mapbox.
+(I guess then it beg the question, i could have the geojson retrieved by the JS directly, and use leaflet to plot them on the map?  probably just more work
+
+
+https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/
+has polygon based fill 
+choropleth with steate and county level data
+using that as addLayer and data-driven styling 
+before i try to color my ZWEDC data
+
+############
+
+https://bravecow.github.io/mapbox-gl-controls/
+now trying to use 
+mapbox-gl-controls 
+but using the plugin url found from the swipe/compare tutorial 
+(instead of npm install, which is prob only needed if want to make changes to it).
+
+########
+
+adding a slider via jquery-ui https://jqueryui.com/slider/
+
+
+-->
+<head>
+    <meta charset='utf-8' />
+    <title>Add a vector tile source</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+    <!--
+    ## it is adding, not replacing :)  below  to use the swiper left/right compare map: 
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.css' type='text/css' />
+    -->
+
+  <!--
+  adding a slider via jquery-ui https://jqueryui.com/slider/
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#slider" ).slider();
+  } );
+  </script>
+
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:20px; width:90%; }
+
+	/* from https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/ for population density legend */
+	.legend {
+	    background-color: rgba(255,255,255,0.65);   /* #fff;*/
+	    border-radius: 3px;
+	    bottom: 60px; /* 30px; */  /* use 60px if have scale, 30px w/o scale ruler bar */
+	    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+	    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	    padding: 10px;
+	    position: absolute;
+	    /*right: 10px; */
+	    left: 10px;  
+	    /* right: 10px; */    /* can move scale legend to right with this */
+	    z-index: 1;
+	}
+	.legend h4 {
+	    margin: 0 0 10px;
+	}
+	.legend div span {
+	    border-radius: 50%;
+	    display: inline-block;
+	    height: 10px;
+	    margin-right: 5px;
+	    width: 10px;
+	}
+
+	/* horizontal bar to fit a slider */
+	.hbar {
+	    background-color: rgba(250,224,224,0.65);   /* blue greenish? */
+	    border-radius: 3px;
+	    bottom: 5px; /* 30px; */  /* use 60px if have scale, 30px w/o scale ruler bar */
+	    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+	    padding: 10px;
+	    position: absolute;
+	    /*right: 10px; */
+	    left: 4px;  
+	    /* right: 10px; */    /* can move scale legend to right with this */
+	    z-index: 1;
+	}
+
+	/* feature info box in top right */
+
+	.map-overlay {
+	  position: absolute;
+	  /*bottom: 10px;  /* 10px add buffer at bottom for (i) attributes info icon */
+	  bottom: 0;  /* 0 put box on top, other number put on top.  maybe 30px add buffer at bottom */
+	  right:  0;  /* anything other than 0 put box on left */
+	  background: rgba(250, 250, 224, 0.5);  /* this is greenish/yellowish */
+	  margin-left:  10px; 
+	  margin-right: 10px; /* choropleth used 20px */
+	  font-family: Arial, sans-serif;
+	  overflow: auto;
+	  border-radius: 3px;
+	}
+	#features {
+	    visibility: visible; /* hidden */
+            top: 110;		/* 0 was at top (right) */
+            height: 110px;      /* formerly 100px */
+            margin-top: 10px;
+            width: 130px;      /* formerly 250px */
+	}
+
+	/* debug info box in bottom right */
+	.map-overlay-dbg {
+	  position: absolute;
+	  bottom: 0;
+	  right: 0;
+	  background: rgba(250, 250, 250, 0.4);  /* 255 255 255 is pure white */
+	  margin-right: 4px; /* choropleth used 20px */
+	  font-family: Arial, sans-serif;
+	  overflow: auto;
+	  border-radius: 3px;
+	}
+	#featuresDbg {
+	    visibility: hidden; /* visible */
+            top: 110;
+            height: 400px;      /* formerly 100px */
+            margin-top: 20px;
+            width: 500px;      /* formerly 250px */
+ 	}
+
+
+    </style>
+</head>
+
+<body>
+
+
+<div id='map'></div>
+<!--
+<div id='mapAlt' class='map'></div>
+-->
+<div class="hbar" id="slider" ></div>
+
+<div id='state-legend' class='legend' style='display: none;'>
+    <h4>Population</h4>
+    <div><span style='background-color: #723122'></span>25,000,000</div>
+    <div><span style='background-color: #8B4225'></span>10,000,000</div>
+    <div><span style='background-color: #CA8323'></span>2,500,000</div>
+    <div><span style='background-color: #DA9C20'></span>1,000,000</div>
+    <div><span style='background-color: #F2F12D'></span>0</div>
+</div>
+
+<!-- legends  from https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/ -->
+<!--<div id='county-legend' class='legend' style='display: none;'> -->
+<!-- LOL was county-legend box, never changed name -->
+<div id='county-legend' class='legend' >
+    ZWEDC<BR>max
+    <div><span style='background-color: #f2f3f4'></span>0.0</div>
+    <div><span style='background-color: #FED976'></span>0.5</div>
+    <div><span style='background-color: #FEB24C'></span>0.7</div>
+    <div><span style='background-color: #FD8D3C'></span>1.0</div>
+    <div><span style='background-color: #FC4E2A'></span>2.5</div>
+    <div><span style='background-color: #E31A1C'></span>5.0</div>
+    <div><span style='background-color: #BD0026'></span>7.5</div>
+    <div><span style='background-color: #800026'></span>10</div>
+    <div><span style='background-color: #7c27c2'></span>20</div>
+    <div><span style='background-color: #5b08a3'></span>25</div>
+</div>
+
+<!-- this create the top right info box -->
+<div class='map-overlay' id='features'>
+        <h3>ZWEDC</h3> <!-- this is title of top right box -->
+        <div id='pd'><p>Max: (Hover)</p></div>   <!-- static text, replaced later by JS -->
+</div>
+
+<!-- currently the map-overlay-dbg goes in the bottom right, 
+	placement likely by the css style code
+	though not obvious how it is specified 
+	Comment out block below if don't want to see it.
+-->
+<div class='map-overlay-dbg' id='featuresDbg' >
+	<div id='pd'><p>(debug data via mapbox tileset)</p></div>   <!-- static text, replaced later by JS -->
+</div>
+
+
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ';   // this is token from the tutorial web page
+//mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // Sn  (post?) 2018-12-07
+
+
+
+
+
+var map = new mapboxgl.Map({
+    container: 'map',	// container id
+    //style: 'mapbox://styles/mapbox/light-v9',
+    style: 'mapbox://styles/mapbox/dark-v9',		// alt basemap style
+    //style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, had to use url from my acc, could not find public style url.
+    //zoom: 13,
+    //center: [-122.447303, 37.753574]   SF
+    center: [-121.945, 37.434],  // alviso
+    //zoom: 13.5	// zoomed in
+    zoom: 12		// see whole coverate area 
+});
+
+
+// begin zoom control for state/county choropleth
+var zoomThreshold = 4;
+
+var stateLegendEl = document.getElementById('state-legend');
+var countyLegendEl = document.getElementById('county-legend');
+map.on('zoom', function() {
+    if (map.getZoom() > zoomThreshold) {
+        stateLegendEl.style.display = 'none';
+        countyLegendEl.style.display = 'block';
+    } else {
+        stateLegendEl.style.display = 'block';
+        countyLegendEl.style.display = 'none';
+    }
+});
+// end of state/county choropleth
+
+// color gradient from choropleth tutorial  https://www.mapbox.com/help/choropleth-studio-gl-pt-2/
+var layers = ['0-10', '10-20', '20-50', '50-100', '100-200', '200-500', '500-1000', '1000+'];
+var colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
+var zwedc_layers = ['0-0.01', '0.01-0.1', '0.1-1.0', '1.0-3.0', '3.0-5.0', '5.0-8.0', '8.0-10', '10-15',    '15+'];	// Tyler legend needed by markers
+var zwedc_colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026', '#000000']; // Tyler legend needed by markers 
+
+
+// modeleed after styleCountyPolys(poly_data_field) 
+function styleZwedcPolys(attribute) {
+    return [
+      'interpolate',
+      ['linear'],
+      ['get', attribute],
+
+		// Tyler's framework used 10 entries here 
+                0.0, '#f2f3f4', // Anti-flash white, so it blend into bg // '#FFEDA0',  // '#F2F12D',  <--last one is from county choropleth
+                0.5, '#FED976',         // '#EED322',
+                0.7, '#FEB24C',         // '#E6B71E',
+                1.0, '#FD8D3C',         // '#DA9C20',
+                2.5, '#FC4E2A',         // '#CA8323',
+                5.0, '#E31A1C',         // '#B86B25',
+                7.5, '#BD0026',         // '#A25626',
+                10,  '#800026',         // #8B4225',
+                20,  '#7c27c2', // light purple  // few ZWEDC values this high
+                25,  '#5b08a3'  // dark  purple  // '#723122'
+    ]
+};
+
+// the attribute, 'max', don't do anything here
+function styleZwedcOpacity(attribute) {
+    return [
+      'interpolate',
+      ['linear'],
+      ['get', attribute],
+		// Tyler's framework used 10 entries here 
+               0.0, 0.05,              // graded opacity increases as value increases.  look pretty, but may be hiding data from view ##
+                0.5, 0.15,
+                0.7, 0.25,
+                1.0, 0.35,
+                2.5, 0.45,
+                5.0, 0.50,
+                7.5, 0.55,
+                10,  0.65,
+                20,  0.70,
+                25,  0.75
+    ]
+};
+
+
+map.on('load', function () {
+    map.addLayer({
+        "id": "terrain-data",
+        "type": "line",
+        "source": {
+            type: 'vector',
+            url: 'mapbox://mapbox.mapbox-terrain-v2'
+        },
+        "source-layer": "contour",
+        "layout": {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": "#263aad", // blue  "#ff69b4", // red
+            "line-opacity": 0.6,
+            "line-width": 1
+        }
+    });  // end map.addLayer(...)
+    //------------- ZWEDC "point polygon" LAYER ------------ // ##  need more work here ##
+    map.addLayer({
+      id: 'zwedc',
+      type: 'fill',
+      layout: {
+        //visibility: zwedcPolyVis
+        visibility: 'visible'
+        //visibility: 'none'		// can use this to make ZWEDC data disapear ##
+      },
+      source: {
+        type: 'vector',
+        url: 'mapbox://sn50.aae3dmkj'
+        //url: 'mapbox://styles/sn50/cjpdk7mpgbx8f2ss4bu9vzfsl' // may need a diff url for layer rather than style...
+      },
+      'source-layer': 'ZWEDC_50x50m-29q7xv',	// retrieved from mapbox web site Tile management... 
+      paint: {
+              'fill-antialias': false,    // remove gridline
+              //'fill-color': 'rgba(61,153,80,0.55)',                    // https://www.mapbox.com/help/how-web-apps-work/#use-mapbox-gl-js-with-react ##
+              // see git log 1dff205 for older version that had 'table' and in-place code here for fill-color and fill-opacity
+              'fill-color': styleZwedcPolys('max'),
+              //'fill-opacity': polyLayerOpacity,
+              //'fill-opacity': 0.2
+              'fill-opacity': styleZwedcOpacity('max') // max attribute just a place holder
+             }
+    });  // end map.addLayer(...) for zwedc
+
+
+    // beging bulk of state/county choropleth as addSource() and addLayer()
+    // https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/
+    map.addSource('population', {
+        'type': 'vector',
+        'url': 'mapbox://mapbox.660ui7x6'
+    });
+    map.addLayer({
+        'id': 'state-population',
+        'source': 'population',
+        'source-layer': 'state_county_population_2014_cen',
+        'maxzoom': zoomThreshold,
+        'type': 'fill',
+        'filter': ['==', 'isState', true],
+        'paint': {
+            'fill-color': [
+                'interpolate',
+                ['linear'],
+                ['get', 'population'],
+                0, '#F2F12D',
+                500000, '#EED322',
+                750000, '#E6B71E',
+                1000000, '#DA9C20',
+                2500000, '#CA8323',
+                5000000, '#B86B25',
+                7500000, '#A25626',
+                10000000, '#8B4225',
+                25000000, '#723122'
+            ],
+            'fill-opacity': 0.15   // 0.75
+        }
+    //}, 'waterway-label');
+    }); //, 'waterway-label');
+
+
+    map.addLayer({
+        'id': 'county-population',		// note this is county level, not state level !!  zoom in to get it activated ##
+        'source': 'population',
+        'source-layer': 'state_county_population_2014_cen',
+        'minzoom': zoomThreshold,
+        'type': 'fill',
+        'filter': ['==', 'isCounty', true],
+        'paint': {
+            'fill-color': [
+                'interpolate',
+                ['linear'],
+                ['get', 'population'],
+                0, '#F2F12D',
+                100, '#EED322',
+                1000, '#E6B71E',
+                5000, '#DA9C20',
+                10000, '#CA8323',
+                50000, '#B86B25',
+                100000, '#A25626',
+                500000, '#8B4225',
+                1000000, '#723122'
+            ],
+            'fill-opacity': 0.15 // 0.75
+        }
+    //}, 'waterway-label');
+    }); //, 'waterway-label');
+    // end choropleth state/county population
+
+//    return;
+
+});  // end map.on('load'...) 
+
+
+
+// mousemove should not  need to be inside map.on('load')
+// it updated featuresDbg correctly.
+// may want to see non geocoded pop up : 
+// * https://www.mapbox.com/mapbox-gl-js/api/#popup
+// * https://www.mapbox.com/mapbox-gl-js/example/popup-on-hover/
+map.on('mousemove', function (e) {
+      var features = map.queryRenderedFeatures(e.point, { layers: 
+	      ['zwedc'] 
+      });
+      //var features = map.queryRenderedFeatures(e.point, { layers: ['ZWEDC_50x50m-29q7xv'] });  //don't use this ID
+      //document.getElementById('featuresDbg').innerHTML = JSON.stringify(features, null, 2);
+      //document.getElementById('features').innerHTML = JSON.stringify(features, null, 2);
+
+      if (features.length > 0) {
+            document.getElementById('features').innerHTML = 
+		      "<H3>ZWEDC</H3>\n" + 
+		      "Max: " + features[0].properties.max 	+ "<BR>\n"  
+		      // + "id: "  + features[0].properties.id 	+ "<BR>\n" 
+      } else {
+            document.getElementById('features').innerHTML = "<H3>ZWEDC</H3>\n" + "n/a"
+      }
+
+});
+
+// https://www.mapbox.com/mapbox-gl-js/api/#navigationcontrol
+//var nav = new mapboxgl.NavigationControl();
+//map.addControl(nav, 'top-left');
+map.addControl( new mapboxgl.NavigationControl(), 'top-right');  
+
+map.addControl(new mapboxgl.FullscreenControl({container: document.querySelector('body')}));
+
+// trying to add Ruler or change style...
+// https://bravecow.github.io/mapbox-gl-controls/
+// don't know if there is any released under 
+// https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-controls ...
+// import { RulerControl } from 'mapbox-gl-controls;
+// const mapboxglctrl = require('mapbox-gl-controls');   // js not understanding import or require.  need help!!
+// map.addControl(new RulerControl(), 'top-right');
+
+
+// trying to add style control // NOT defined, need to npm install ... 
+//map.addControl(new StylesControl(), 'top-left');
+/*
+map.addControl(new StylesControl([{
+  name: 'Streets',
+  url: 'mapbox://styles/mapbox/streets-v9'
+}, {
+  name: 'Satellite',
+  url: 'mapbox://styles/mapbox/satellite-v9'
+}, {
+  name: 'Dark',
+  url: 'mapbox://styles/mapbox/dark-v9'
+}]), 'top-left');
+*/
+// Use style.load event to redraw layers when style has changed:
+//map.on('style.load', () => { /* redraw layers */ });
+
+
+// https://www.mapbox.com/mapbox-gl-js/api/#attributioncontrol
+map.addControl(new mapboxgl.AttributionControl({
+        compact: true,  // set to false to add an EXTRA line with info below prefixed.  true add an (i) icon
+	customAttribution: '© Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington @ LBNL'
+}));
+
+
+// https://www.mapbox.com/mapbox-gl-js/api/#scalecontrol  // added to bottom, clobbering legend.
+var scale = new mapboxgl.ScaleControl({
+    //maxWidth: 80,
+    unit: 'imperial'
+});
+map.addControl(scale);
+//scale.setUnit('metric');
+
+// https://www.mapbox.com/mapbox-gl-js/api/#keyboardhandler#enable  but don't seems to do anything in chrome :(
+map.keyboard.enable();
+
+
+
+// sync move, but `require` not understood by chrome engine (??)
+// https://github.com/mapbox/mapbox-gl-sync-move
+// var syncMove = require('mapbox-gl-sync-move');
+
+// also see https://beta.observablehq.com/@siggyf/compare-two-maps-example
+
+</script>
+
+</body>
+</html>
