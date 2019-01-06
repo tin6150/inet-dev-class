@@ -112,7 +112,7 @@ Scale:
 
 - https://tin6150.github.io/inet-dev-class/mapbox/mapbox-leaflet.html - GL JS bind with leaflet.  Note that Leaflet seems to use LatLng !! :(
 
-- https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_jq_slider.html - jquery slider version of ZWEDC_50x50sq_js.html
+- https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_jq_slider.html - jquery slider version of ZWEDC_50x50sq_js.html *sigh* jquery-ui slider doesn't work on ios :(
 
 gdal - Geospatial Data Abstraction Library
 ==========================================
