@@ -20,8 +20,8 @@ Mapbox FAQ
 ==========
 
 * Use LngLat, just like geoJSON.  ie, it is Longitude first, then Latitude (in the paired geo coordinate). 
-	* Lng is East-West.   range [-180,180].  Milpitas is -121.985.
-	* Lat is North-South. range [-90,90].  Milpitas is 37.408. 
+	* Lng is East-West.   range [-180,180].  Milpitas is -121.985.  Y-axis on paper map.
+	* Lat is North-South. range [-90,90].  Milpitas is 37.408.      X-axis on paper map.
 	* Leaflet seems to use LatLng :(
 
 * Use Mercator Coordinate
@@ -111,6 +111,8 @@ Scale:
 - https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_50x50sq_js.html - GL JS version of ZWEDC_50x50sq.html  (ie, use JS instead of Studio to color render data), which is the method needed to addLayer() to Tyler's framework.
 
 - https://tin6150.github.io/inet-dev-class/mapbox/mapbox-leaflet.html - GL JS bind with leaflet.  Note that Leaflet seems to use LatLng !! :(
+
+- https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_jq_slider.html - jquery slider version of ZWEDC_50x50sq_js.html
 
 gdal - Geospatial Data Abstraction Library
 ==========================================

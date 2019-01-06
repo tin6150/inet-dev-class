@@ -55,19 +55,44 @@ adding a slider via jquery-ui https://jqueryui.com/slider/
   adding a slider via jquery-ui https://jqueryui.com/slider/
   <meta name="viewport" content="width=device-width, initial-scale=1">
   -->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
+  //$( function() { $( "#slider" ).slider(); } );
+
   $( function() {
-    $( "#slider" ).slider();
+    var handle = $( "#custom-handle" );
+    //$( "#slider-vertical" ).slider({
+    $( "#slider" ).slider({
+      //orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 365,  /* day number of the year, can hopefully parse that into mm/dd for slider */
+      value: 1,
+      create: function() {
+          handle.text( $(this).slider( "value" ) );
+      },
+      slide: function( event, ui ) {
+        //$( "#amount" ).val( ui.value );
+        handle.text( ui.value );
+      }
+    });
+    //$( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
+    $( "#amount" ).val( $( "#slider" ).slider( "value" ) );
   } );
+
   </script>
 
     <style>
-        body { margin:0; padding:0; }
-        #map { position:absolute; top:0; bottom:20px; width:90%; }
+        body { margin:0; padding:0; }   /* map cover who page? */
+        /*#map { position:absolute; top:0; bottom:20px; width:100%; } */
+        #map { 
+		position:absolute; 
+		top:0; 
+		bottom: 6px; 	/* this affect bottom padding where mapbox logo appears */
+		width: 100%;    /* width of map (?) */
+	} 
 
 	/* from https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/ for population density legend */
 	.legend {
@@ -96,16 +121,32 @@ adding a slider via jquery-ui https://jqueryui.com/slider/
 
 	/* horizontal bar to fit a slider */
 	.hbar {
-	    background-color: rgba(250,224,224,0.65);   /* blue greenish? */
-	    border-radius: 3px;
-	    bottom: 5px; /* 30px; */  /* use 60px if have scale, 30px w/o scale ruler bar */
-	    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
-	    padding: 10px;
-	    position: absolute;
+	    /*background-color: rgba(250,224,224,0.65);   /* blue greenish? */
+	    /*border-radius: 3px; */
+	    bottom: 10px; /* 30px; */  /* thickness of slider bar */
+	    /*top: 5px; /* 30px; */  
+	    /*box-shadow: 0 1px 2px rgba(0,0,0,0.10);*/
+	    /*padding: 50px; /* this is the height of the slider background, little to no use really */
 	    /*right: 10px; */
-	    left: 4px;  
+	    /*left: 100px;  /* this leaves a gap to the left where slider start */
+	    /*height: 100%;   /* use this if doing vertically positioned slider bar*/
+	    position: absolute;
+            margin-right: 100px%;       /* margin-left and width combined to position the slider in center; but mapbox logo is num of pixels :( */
+            margin-left: 100px;       /* margin-left and width combined to position the slider in center; but mapbox logo is num of pixels :( */
+	    width: 84%;     /* create scroll bar when screen is too narrow... 84% seems ok compromise  */
+            opacity: 0.85;
 	    /* right: 10px; */    /* can move scale legend to right with this */
-	    z-index: 1;
+	    z-index: 5;		/* 1 appear behind copyright link; 5 would cover it. I have another (i) for the link :) */
+	}
+	/* custom handle for slider (to have number inside it */
+	#custom-handle {
+	    width: 3em;
+	    height: 1.6em;
+	    top: 50%;
+	    margin-top: -.8em;
+	    text-align: center;
+	    line-height: 1.6em;
+            opacity: 0.95;
 	}
 
 	/* feature info box in top right */
@@ -160,7 +201,9 @@ adding a slider via jquery-ui https://jqueryui.com/slider/
 <!--
 <div id='mapAlt' class='map'></div>
 -->
-<div class="hbar" id="slider" ></div>
+<div class="hbar" id="slider" >
+	<div id="custom-handle" class="ui-slider-handle"></div>
+</div>
 
 <div id='state-legend' class='legend' style='display: none;'>
     <h4>Population</h4>
@@ -216,8 +259,8 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwa
 var map = new mapboxgl.Map({
     container: 'map',	// container id
     //style: 'mapbox://styles/mapbox/light-v9',
-    style: 'mapbox://styles/mapbox/dark-v9',		// alt basemap style
-    //style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, had to use url from my acc, could not find public style url.
+    //style: 'mapbox://styles/mapbox/dark-v9',		// alt basemap style
+    style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, had to use url from my acc, could not find public style url.
     //zoom: 13,
     //center: [-122.447303, 37.753574]   SF
     center: [-121.945, 37.434],  // alviso
