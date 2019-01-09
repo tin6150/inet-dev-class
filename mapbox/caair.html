@@ -3,51 +3,10 @@
 
 <!--
 
-ZWEDC_50x50sq_js.html - Got must fn of ZWEDC_50x50sq.html
-	but instead of using mapbox studio to create the color styling
-	this is now done using the GL JS API
-	thus have to use addLayer()
-	fill-color with a interpolated range
-	also fill-opacity with an interpolated range 
+ca air 
+base on ZWEDC_jq_slider.html and ZWEDC_50x50sq_js.html
 
-see mapbox-addLayer for where I learned much of the GL JS work to do this.  
-note from that work below:
-ref: https://www.mapbox.com/mapbox-gl-js/example/vector-source/
-then added to use my ZWEDC 50x50 alviso data as layer
-need to do the coloring gradient using js, since not using the full style from mapbox studio, 
-but just using the vector data stored on mapbox.
-(I guess then it beg the question, i could have the geojson retrieved by the JS directly, and use leaflet to plot them on the map?  probably just more work
-
-
-https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/
-has polygon based fill 
-choropleth with steate and county level data
-using that as addLayer and data-driven styling 
-before i try to color my ZWEDC data
-
-############
-
-https://bravecow.github.io/mapbox-gl-controls/
-now trying to use 
-mapbox-gl-controls 
-but using the plugin url found from the swipe/compare tutorial 
-(instead of npm install, which is prob only needed if want to make changes to it).
-
-########
-
-adding a slider via jquery-ui https://jqueryui.com/slider/
-
-this prototype has functional slider now.  But it is a desktop only app.
-ie, it needs a mouse to drag the handle, can't do it with the touch interface.
-no touch w/ drag on ios, android, or win10 touch laptop.
-
-        see http://touchpunch.furf.com/
-        for a "hack" to make the slider draggable on touch screen.
-        untested, and probably won't be needing a slider after all.
-
-The HTML element for drop down selection in Tyler's framework works, albeit too many element and too big to fit on phone, but i would imagine that is workable on a tablet, which maybe useful.
-
-So, I guess would have to use something like React which mapbox advertise to work with.
+drop down to pick sites, scale, season, time
 
 -->
 <head>
@@ -56,11 +15,6 @@ So, I guess would have to use something like React which mapbox advertise to wor
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
-    <!--
-    ## it is adding, not replacing :)  below  to use the swiper left/right compare map: 
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.js'></script>
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.css' type='text/css' />
-    -->
 
   <!--
   adding a slider via jquery-ui https://jqueryui.com/slider/
@@ -160,6 +114,27 @@ So, I guess would have to use something like React which mapbox advertise to wor
             opacity: 0.95;
 	}
 
+
+	/* top box for user input -- need more tweaking*/
+	.inputPicker {
+	    /*background-color: rgba(250,224,224,0.65);   /* blue greenish? */
+	    /*border-radius: 3px; */
+	    top: 10px; /*  */  /* thickness of input area */
+	    /*top: 5px; /* 30px; */  
+	    box-shadow: 0 1px 2px rgba(0,0,0,0.10);*/
+	    padding: 5px; /* this is the height of the drop down */
+	    /*right: 10px; */
+	    /*left: 100px;  /* this leaves a gap to the left where slider start */
+	    /*height: 100%;   /* use this if doing vertically positioned slider bar*/
+	    position: absolute;
+            /*margin-right: 100px%;       /* margin-left and width combined to position the slider in center; but mapbox logo is num of pixels :( */
+            /*margin-left: 100px;       /* margin-left and width combined to position the slider in center; but mapbox logo is num of pixels :( */
+	    /*width: 300px;       /* create scroll bar when screen is too narrow... 84% seems ok compromise  */
+            opacity: 0.8;
+	    /* right: 10px; */    /* can move scale legend to right with this */
+	    /*z-index: 5;		/* 1 appear behind copyright link; 5 would cover it. I have another (i) for the link :) */
+	}
+
 	/* feature info box in top right */
 
 	.map-overlay {
@@ -212,6 +187,37 @@ So, I guess would have to use something like React which mapbox advertise to wor
 <!--
 <div id='mapAlt' class='map'></div>
 -->
+<div class="inputPicker" id="inputbar" >
+	<!--html element for drop down picker goes here-->
+	<select> <!-- site -->
+		<option value="">--BAAMQD--</option>
+		<option value="zwedc_actual">Alviso ZWEDC Actual</option>
+		<option value="zwedc_1x"    >Alviso ZWEDC 1x</option>
+		<option value="zwedc_2x"    >Alviso ZWEDC 2x</option>
+		<option value="milpitas"    >Milpitas DUMMY</option>
+		<option value="">--SJAMQD--</option>
+		<option value="wpcp"        >Calexico WPCP</option>
+	</select>
+
+	<select>
+		<option value=""        >Spring</option>
+		<option value=""        >Summer</option>
+		<option value=""        >Fall</option>
+		<option value=""        >Winter</option>
+	</select>
+	<select>
+		<option value=""        >All hours</option>
+		<option value=""        >High mixing</option>
+		<option value=""        >Low  mixing</option>
+	</select>
+	<select> <!-- source -->
+		<option value=""        >biofilter</option>
+		<option value=""        >compost</option>
+		<option value=""        >A+B</option>
+		<option value=""        >C+D</option>
+	</select>
+
+</div>
 <div class="hbar" id="slider" >
 	<div id="custom-handle" class="ui-slider-handle"></div>
 </div>

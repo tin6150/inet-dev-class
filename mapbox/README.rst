@@ -112,7 +112,9 @@ Scale:
 
 - https://tin6150.github.io/inet-dev-class/mapbox/mapbox-leaflet.html - GL JS bind with leaflet.  Note that Leaflet seems to use LatLng !! :(
 
-- https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_jq_slider.html - jquery slider version of ZWEDC_50x50sq_js.html *sigh* jquery-ui slider doesn't work on ios :(
+- https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_jq_slider.html - jquery slider version of ZWEDC_50x50sq_js.html (jquery-ui slider is quirky in mobile, need to click on desired spot.  there is a "hack" to allow for dragging on touch screen, need to load an extra script.  see http://touchpunch.furf.com/
+
+- https://tin6150.github.io/inet-dev-class/mapbox/caair.html - drop down menu to pick sites, season, etc.  early draft to eventually pick multiple sites...
 
 gdal - Geospatial Data Abstraction Library
 ==========================================
