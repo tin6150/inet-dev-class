@@ -1,0 +1,4 @@
+#### just one point for each site, may use diff style, maybe heatmap, so that it shows up in state-wide low zoom level
+####"record_id","lon","lat","x","y","basin","site_id","site_name","source"
+"1",-121.985002139616,37.4079452829464,"baaqmd","zwedc","alviso_zwedc","BIOFILTR"
+
