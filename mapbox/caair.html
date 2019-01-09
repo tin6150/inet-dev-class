@@ -287,14 +287,19 @@ var map = new mapboxgl.Map({
 
 
 // begin zoom control for state/county choropleth
-var zoomThreshold = 4;
+var zoomThreshold = 4;  // flip beween state vs county density
+
+var zoomThresholdAQI = 6;  // flip between county population density vs air quality  (for scale, maybe opacity)
+
+// oh really dont want to be dealing with population density at this point.
 
 var stateLegendEl = document.getElementById('state-legend');
 var countyLegendEl = document.getElementById('county-legend');
 map.on('zoom', function() {
-    if (map.getZoom() > zoomThreshold) {
-        stateLegendEl.style.display = 'none';
-        countyLegendEl.style.display = 'block';
+    //if (map.getZoom() > zoomThreshold) {
+    if (map.getZoom() > zoomThresholdAQI) {
+        stateLegendEl.style.display = 'block'; //'none';
+        countyLegendEl.style.display = 'none'; //'block';
     } else {
         stateLegendEl.style.display = 'block';
         countyLegendEl.style.display = 'none';
