@@ -16,3 +16,7 @@ from time import sleep
 from random import radint
 mapid = getfixure('uploads_dest_id') # upload-test
 
+# not sure what that getfixture call is
+# and found the cli sdk is way way simpler, will use that instead.
+# https://github.com/mapbox/mapbox-cli-py#upload
+
