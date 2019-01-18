@@ -15,3 +15,8 @@ service = Uploader()
 from time import sleep
 from random import randint
 mapid = getfixture('uploads_dest_id') # 'uploads-test'
+
+# not sure what that getfixture call is
+# and found the cli sdk is way way simpler, will use that instead.
+# https://github.com/mapbox/mapbox-cli-py#upload
+
