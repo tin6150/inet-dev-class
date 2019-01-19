@@ -1,4 +1,4 @@
-#!/bin/env python 
+#!/usr/bin/env python 
 
 # python script to upload geojson for ZWEDC into mapbox, where it would convert them as tileset
 # tin 2019.01.16
@@ -13,8 +13,8 @@ from mapbox import Uploader
 
 service = Uploader()
 from time import sleep
-from random import radint
-mapid = getfixure('uploads_dest_id') # upload-test
+from random import randint
+mapid = getfixture('uploads_dest_id') # 'uploads-test'
 
 # not sure what that getfixture call is
 # and found the cli sdk is way way simpler, will use that instead.
