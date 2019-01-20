@@ -9,6 +9,9 @@
 # https://www.mapbox.com/api-documentation/maps/#uploads
 # need to have mapbox secret token to generate temp aws key for stage file in S3, see area51
 
+
+# pip install mapbox 
+# maybe do it inside virtual env?  or just have it in bofh as root... less hassle :)
 from mapbox import Uploader
 
 service = Uploader()
