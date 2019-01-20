@@ -6,10 +6,12 @@ ca air
 base on ZWEDC_jq_slider.html and ZWEDC_50x50sq_js.html
 
 drop down to pick sites, scale, season, time
+
+This version only for zwedc data,  prepping a demo for 2019-0205
 -->
 <head>
     <meta charset='utf-8' />
-    <title>CA Air</title>
+    <title>CA Air - ZWEDC only</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
@@ -443,67 +445,7 @@ map.on('load', function () {
 
     // beging bulk of state/county choropleth as addSource() and addLayer()
     // https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/
-    map.addSource('population', {
-        'type': 'vector',
-        'url': 'mapbox://mapbox.660ui7x6'
-    });
-    map.addLayer({
-        'id': 'state-population',
-        'source': 'population',
-        'source-layer': 'state_county_population_2014_cen',
-        'maxzoom': zoomThreshold,
-        'type': 'fill',
-        'filter': ['==', 'isState', true],
-        'paint': {
-            'fill-color': [
-                'interpolate',
-                ['linear'],
-                ['get', 'population'],
-                0, '#F2F12D',
-                500000, '#EED322',
-                750000, '#E6B71E',
-                1000000, '#DA9C20',
-                2500000, '#CA8323',
-                5000000, '#B86B25',
-                7500000, '#A25626',
-                10000000, '#8B4225',
-                25000000, '#723122'
-            ],
-            'fill-opacity': 0.3 //0.15   // 0.75
-        }
-    //}, 'waterway-label');
-    }); //, 'waterway-label');
 
-
-    map.addLayer({
-        'id': 'county-population',		// note this is county level, not state level !!  zoom in to get it activated ##
-        'source': 'population',
-        'source-layer': 'state_county_population_2014_cen',
-        'minzoom': zoomThreshold,
-        'type': 'fill',
-        'filter': ['==', 'isCounty', true],
-        'paint': {
-            'fill-color': [
-                'interpolate',
-                ['linear'],
-                ['get', 'population'],
-                0, '#F2F12D',
-                100, '#EED322',
-                1000, '#E6B71E',
-                5000, '#DA9C20',
-                10000, '#CA8323',
-                50000, '#B86B25',
-                100000, '#A25626',
-                500000, '#8B4225',
-                1000000, '#723122'
-            ],
-            'fill-opacity': 0.3 // 0.15 // 0.75
-        }
-    //}, 'waterway-label');
-    }); //, 'waterway-label');
-    // end choropleth state/county population
-
-//    return;
 
 });  // end map.on('load'...) 
 

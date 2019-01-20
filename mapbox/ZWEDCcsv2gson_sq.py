@@ -30,10 +30,8 @@ import re
 
 
 ### treat them like global :)
-#INPUT="ZWEDC.eg.csv"
-#INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.head3.csv"
-#INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m.head3.csv"
-INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m.csv"
+INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.head5.csv"
+#INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.csv"
 # OUTPUT to std out, redirect to file :)
 
 # dbgLevel 1 (ie -d  ) is good for telling when input fails to pass parser
@@ -102,6 +100,7 @@ def chkPtFormat( pt, wholeLine ) :
 
 
 """
+ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.csv ::
 example input lines (didn't start with 0-index, been working on octave lately), so parser will -1
 1   2     3     4   5   6     7      8      9    10   11     12     13   14   15     16     17   18   19     20     21   22
 "","lon","lat","x","y","Max","lon1","lat1","x1","y1","lon2","lat2","x2","y2","lon3","lat3","x3","y3","lon4","lat4","x4","y4"
