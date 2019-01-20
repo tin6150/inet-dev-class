@@ -30,7 +30,7 @@ import re
 
 
 ### treat them like global :)
-INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.head5.csv"
+INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.head10.csv"
 #INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.csv"
 # OUTPUT to std out, redirect to file :)
 
