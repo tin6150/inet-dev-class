@@ -9,6 +9,9 @@
 # 25m from the center point of sensor)
 
 
+# example run
+# Actually, use caAirCsv2gson.sh 
+# which loop over many input file, and generate output filename
 
 
 # json rant #
