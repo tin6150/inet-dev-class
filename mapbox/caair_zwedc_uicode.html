@@ -16,38 +16,6 @@ This version only for zwedc data,  prepping a demo for 2019-0205
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
 
-  <!--
-  adding a slider via jquery-ui https://jqueryui.com/slider/
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  -->
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  //$( function() { $( "#slider" ).slider(); } );
-
-  $( function() {
-    var handle = $( "#custom-handle" );
-    //$( "#slider-vertical" ).slider({
-    $( "#slider" ).slider({
-      //orientation: "vertical",
-      range: "min",
-      min: 0,
-      max: 365,  /* day number of the year, can hopefully parse that into mm/dd for slider */
-      value: 1,
-      create: function() {
-          handle.text( $(this).slider( "value" ) );
-      },
-      slide: function( event, ui ) {
-        //$( "#amount" ).val( ui.value );
-        handle.text( ui.value );
-      }
-    });
-    //$( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
-    $( "#amount" ).val( $( "#slider" ).slider( "value" ) );
-  } );
-
-  </script>
 
     <style>
         body { margin:0; padding:0; }   /* map cover who page? */
