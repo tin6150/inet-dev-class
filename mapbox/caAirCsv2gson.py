@@ -203,12 +203,7 @@ def run_conversion( args ) :
 	# maybe should have used  std unix input redirect, but future may need multiple input files
 	# Alt: read whole file into a dataframe.  would use more memory, 
 	# but could then run check for format, count missing values, etc.  (Think R stats)
-	inF = args.infile #.name 
-	#print( inF )
-	#outF = args.outfile.name : 
-	#inF  = open( inFilename,  'r' )
-	#outF = open( outFilename, 'w' )
-	#print f            # print whole file
+	inF = args.infile  # process_cli already have file handle open and ready for use (expect always to be STDIN)
 	lineNum = 0
 	for line in inF:
 		#print line
@@ -221,9 +216,6 @@ def run_conversion( args ) :
 		print_gsonLine( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
 		#lineNum =+ 1		# WRONG, this just assign (+1) into the var
 		lineNum += 1		# RIGHT, this increment.  this is almost the equivof c++
-	#inF.close()   # NO need to close stdin either!!
-	#outF.close()   # NO!  don't want to close out std out!!
-
 	print_closer() # close out parenthesis...
 # run_conversion()-end
 
