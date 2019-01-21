@@ -294,10 +294,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 
 
 <script>
-mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ';   // this is token from the tutorial web page
-//mapboxgl.accessToken = 'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // Sn  (post?) 2018-12-07
-
-
+mapboxgl.accessToken =   'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // Sn  (post?) 2018-12-07   pk = public token
 
 
 
@@ -308,10 +305,11 @@ var map = new mapboxgl.Map({
     style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, had to use url from my acc, could not find public style url.
     //zoom: 13,
     //center: [-122.447303, 37.753574]   SF
-    //center: [-121.945, 37.434],  // alviso
-    center: [-121.985287624997,37.4077223978109],  // data point from TMP test, in santa clara!
-    zoom: 16    	// see building shape, needed cuz 50m x 50m (or 25m?)
+    center: [-121.945, 37.434],  // alviso
+    //center: [-121.985287624997,37.4077223978109],  // data point from TMP test, in santa clara!
+    //zoom: 16    	// see building shape, needed cuz 50m x 50m (or 25m?)
     //zoom: 15    	// see buildings, needed cuz 50m x 50m (or 25m?)
+    zoom: 14.2  	// zoomed in and good for zwedc demo with many low value data points
     //zoom: 13.5  	// zoomed in
     //zoom: 12		// see whole coverate area of ZWEDC
     //zoom: 9		// see most of BAAQMD
@@ -403,15 +401,20 @@ map.on('load', function () {
         //visibility: zwedcPolyVis
         visibility: 'visible'
         //visibility: 'none'		// can use this to make ZWEDC data disapear ##
-      },
+      },     
+      // sn50.SfZwedcAllHiBi10x need to be in url and source-layer, w/ username in url, NO username in source-layer.  be careful!!
       source: {
         type: 'vector',
         //url: 'mapbox://sn50.aae3dmkj'   // ZWEDC 25x25 sq first test data set (at 10x?)
-        url: 'mapbox://sn50.SFZWEDCSpringHighAllAreaLine10x' 	// fake 3-5 point data for now
-        //url: 'mapbox://styles/sn50/cjpdk7mpgbx8f2ss4bu9vzfsl' // may need a diff url for layer rather than style...
+        //url: 'mapbox://sn50.SFZWEDCSpringHighAllAreaLine10x' 	// fake 3-5 point data for now
+        url:   'mapbox://sn50.SfZwedcAllHiBi10x' 	                // 1st csv2gson upload 
+        //url:   'mapbox://sn50.SfZwedcSprHiBi10x' 	                // 2nd csv2gson upload    ... next, try to make way to toggle between them.   hmm. ready to upload em all!
+
       },
       //'source-layer': 'ZWEDC_50x50m-29q7xv',	// retrieved from mapbox web site Tile management...  [1st dummy test data]
-      'source-layer': 'SFZWEDCSpringHighAllAreaLine10x',	// 3-5 point test data FAKE for now (not visible, too faint due to low val?)
+      //'source-layer': 'SFZWEDCSpringHighAllAreaLine10x',	// 3-5 point test data FAKE for now (not visible, too faint due to low val?)
+      'source-layer': 'SfZwedcAllHiBi10x',	// 
+      //'source-layer': 'SfZwedcSprHiBi10x',	// no username prefix here!! duh!!
       paint: {
               'fill-antialias': false,    // remove gridline
               //'fill-color': 'rgba(61,153,80,0.55)',                    // https://www.mapbox.com/help/how-web-apps-work/#use-mapbox-gl-js-with-react ##
