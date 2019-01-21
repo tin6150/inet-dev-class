@@ -27,7 +27,9 @@ fi
 #F=$U.SF_ZWEDC_Spring_High_AllAreaLine_10x.geojson
 #TilesetName=$( echo $F | awk -F\. '{print $2}' | sed 's/_//g' )
 
-F=SfZwedcAllHiBi10x.geojson
+#INPUT#
+#F=SfZwedcAllHiBi10x.geojson
+F=SfZwedcSprHiBi10x.geojson
 TilesetName=$( echo $F | awk -F\. '{print $1}' )
 cat $F | mapbox upload $U.$TilesetName
 
