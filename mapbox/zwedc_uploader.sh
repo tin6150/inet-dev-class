@@ -23,17 +23,30 @@ fi
 
 # ref https://github.com/mapbox/mapbox-cli-py#upload
 
-# looping for multiple files TBA FIXME 
 #F=$U.SF_ZWEDC_Spring_High_AllAreaLine_10x.geojson
-#TilesetName=$( echo $F | awk -F\. '{print $2}' | sed 's/_//g' )
+#TilesetName=$( echo $F | awk -F\. '{print $2}' | sed 's/_//g' )   # this version strip _ ; but gson created by my no longer have _
 
-#INPUT#
-#F=SfZwedcAllHiBi10x.geojson
-F=SfZwedcSprHiBi10x.geojson
-TilesetName=$( echo $F | awk -F\. '{print $1}' )
-cat $F | mapbox upload $U.$TilesetName
 
-# If TielsetName already exist in mapbox server, it will be overwritten.
+InputFileList=$( ls -1 *.geojson )
+FileNum=0
+
+#INPUT loop for all files#
+for F in $InputFileList; do
+	TilesetName=$( echo $F | awk -F\. '{print $1}' )		# if filename has sn50. prefix then use $2
+	#ls -ld $F 
+	#echo "about to cat $F + mapbox upload $U.$TilesetName"
+	cat $F | mapbox upload $U.$TilesetName
+	# If TielsetName already exist in mapbox server, it will be overwritten.
+	exitCode=$?
+
+	if [[ $exitCode -ne 0 ]]; then 
+		echo "--FAIL-- $FileNum: upload of $F failed with exit code $exitCode"
+	else
+		echo "++ OK ++ $FileNum: upload of $F completed successfully."
+	fi
+        FileNum=$((FileNum + 1))
+done
+
 
 #~mapbox upload $F
 #### tileset name limited to 32 char by the validator :(
@@ -43,17 +56,9 @@ cat $F | mapbox upload $U.$TilesetName
 #mapbox datasets list
 #mapbox tilesets list   # no way to list tileset
 #mapbox --access-token $MAPBOX_ACCESS_TOKEN datasets list
-exitCode=$?
 
 
-if [[ $exitCode -ne 0 ]]; then 
-	echo "--FAIL-- upload of $F failed with exit code $exitCode"
-else
-	echo "++ OK ++ upload of $F completed successfully."
-fi
- 
-
-exit 0
+exit $exitCode
 
 ############################################################
 ############################################################
