@@ -42,8 +42,10 @@ dbgLevel = 0
 
 def process_cli() :
 	parser = argparse.ArgumentParser( description='generate geoJSON from CSV, after customization' )
-        parser.add_argument('-d', '--debuglevel', help="Debug mode. Up to -ddd useful for troubleshooting input file parsing. -ddddd intended for coder. ", action="count", default=0)
-        args = parser.parse_args()
+	parser.add_argument('-d', '--debuglevel', help="Debug mode. Up to -ddd useful for troubleshooting input file parsing. -ddddd intended for coder. ", action="count", default=0)
+	parser.add_argument("infile",  help="dummy, always expect STDIN",  nargs='?', type=argparse.FileType('r'), default=sys.stdin )
+	parser.add_argument('outfile', help="dummy, always to     STDOUT", nargs='?', type=argparse.FileType('w'), default=sys.stdout)
+	args = parser.parse_args()
 	#print( "dbgLevel is %s" , args.debuglevel )
 	global dbgLevel  # ie, tell fn to set the global var, not one created locally in this fn
 	dbgLevel = args.debuglevel      # unable to change global here...   this has no effect :(
@@ -189,9 +191,10 @@ def parse1line( line ) :
 #end
 
 
-# this take one file at a time, 
-# read it, generate converged geojson output, write it out to specified filename (with PATH?)
-def run_conversion( args, inFilename, outFilename ) :
+## this is like main()  now
+# this take std in
+# read it, generate converged geojson output, write it out to std out
+def run_conversion( args ) :
 	dbg( 5, "converting csv to gson...")
 	print_opener()  # some geojson header 
 	(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( 0, "","" , "","" , "","" , "",""  )  # 9-tuple initialized to blank
@@ -200,8 +203,11 @@ def run_conversion( args, inFilename, outFilename ) :
 	# maybe should have used  std unix input redirect, but future may need multiple input files
 	# Alt: read whole file into a dataframe.  would use more memory, 
 	# but could then run check for format, count missing values, etc.  (Think R stats)
-	inF  = open( inFilename,  'r' )
-	outF = open( outFilename, 'w' )
+	inF = args.infile #.name 
+	#print( inF )
+	#outF = args.outfile.name : 
+	#inF  = open( inFilename,  'r' )
+	#outF = open( outFilename, 'w' )
 	#print f            # print whole file
 	lineNum = 0
 	for line in inF:
@@ -215,20 +221,12 @@ def run_conversion( args, inFilename, outFilename ) :
 		print_gsonLine( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
 		#lineNum =+ 1		# WRONG, this just assign (+1) into the var
 		lineNum += 1		# RIGHT, this increment.  this is almost the equivof c++
-	inF.close()
-	outF.close()
+	#inF.close()   # NO need to close stdin either!!
+	#outF.close()   # NO!  don't want to close out std out!!
 
 	print_closer() # close out parenthesis...
 # run_conversion()-end
 
-
-## this is like main()  now
-def loopForAllFiles( args ) :
-    # add loop TBA FIXME
-	inFilename = INPUT
-	outFilename = "./tinTmp.geojson"
-	run_conversion( args, inFilename, outFilename )
-# loopForAllFiles()-end
 
 
 # glance over data, find avg, std dev, min, max, missing value, etc # use pandas
@@ -242,8 +240,7 @@ def sniff_data(args) :
 
 def main():
         args = process_cli()
-	##run_conversion(args)
-	loopForAllFiles(args)      # this will loop for all input files and call run_conversion on each file now
+	run_conversion(args)
 	#sniff_data(args)          # glance over data, find avg, std dev, min, max, missing value, etc # use pandas
 # main()-end
 
