@@ -20,8 +20,9 @@ FileNum=0
 
 for F in $InputFileList; do
 	#ls -ld $F
-	# FIXME strip _
-	OutFile="$OutputDir/"$( basename -s .csv $F)".geojson"
+	# strip _ from input filename , add path, ext
+	OutFile="$OutputDir/"$( basename -s .csv $F | sed 's/_//g' )".geojson"
+	# call python script to do conversion
 	cat $F | python caAirCsv2gson.py > $OutFile 
 	exitCode=$?
 
