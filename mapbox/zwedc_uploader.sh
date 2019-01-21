@@ -1,9 +1,13 @@
 #!/bin/bash
 
-# using the mapbox-cli-sdk, upload seems much simpler.  
+# using the mapbox-cli-sdk, upload is much simpler.   
+# don't have to deal with AWS staging to S3 step.
 # may not have lot of tracking, but don't think i need that
 
-# plan to cut-n-paste cmd for now...
+# execute this after having converted csv to geojson using caAirCsv2gson.sh
+# example run
+# cd DATA_zwedc
+# ../zwedc_uploader.sh | tee ../zwedc_uploader.log  2>&1 
 
 PATH=$PATH:~/.local/bin  # from pip install --user mapbox (didn't bother creating virtual env)
 U=sn50
@@ -19,8 +23,12 @@ fi
 
 # ref https://github.com/mapbox/mapbox-cli-py#upload
 
-F=$U.SF_ZWEDC_Spring_High_AllAreaLine_10x.geojson
-TilesetName=$( echo $F | awk -F\. '{print $2}' | sed 's/_//g' )
+# looping for multiple files TBA FIXME 
+#F=$U.SF_ZWEDC_Spring_High_AllAreaLine_10x.geojson
+#TilesetName=$( echo $F | awk -F\. '{print $2}' | sed 's/_//g' )
+
+F=SfZwedcAllHiBi10x.geojson
+TilesetName=$( echo $F | awk -F\. '{print $1}' )
 cat $F | mapbox upload $U.$TilesetName
 
 # If TielsetName already exist in mapbox server, it will be overwritten.
