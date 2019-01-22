@@ -116,7 +116,8 @@ Scale:
 
 - https://tin6150.github.io/inet-dev-class/mapbox/caair.html - drop down menu to pick sites, season, etc.  early draft to eventually pick multiple sites.  not functional yet.  zoom 5.5 to see whole ca.  population layer there at 761747b
 - https://tin6150.github.io/inet-dev-class/mapbox/caair_zwedc.html - fork of caair.html, with a make up data set for Ling to comment on coloring scale.  have state vs population layers in there still at 761747b.
-- https://tin6150.github.io/inet-dev-class/mapbox/caair_zwedc_uicode.html - fork of caair_zwedc.html, coding handler to respond to drop down selector (add/remove layer/source).  
+- https://tin6150.github.io/inet-dev-class/mapbox/caair_zwedc_uicode.html - fork of caair_zwedc.html, coding handler to respond to drop down selector (add/remove layer/source).   working at git log 21d86ad
+
 
 gdal - Geospatial Data Abstraction Library
 ==========================================
