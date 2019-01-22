@@ -114,7 +114,9 @@ Scale:
 
 - https://tin6150.github.io/inet-dev-class/mapbox/ZWEDC_jq_slider.html - jquery slider version of ZWEDC_50x50sq_js.html (jquery-ui slider is quirky in mobile, need to click on desired spot.  there is a "hack" to allow for dragging on touch screen, need to load an extra script.  see http://touchpunch.furf.com/
 
-- https://tin6150.github.io/inet-dev-class/mapbox/caair.html - drop down menu to pick sites, season, etc.  early draft to eventually pick multiple sites...
+- https://tin6150.github.io/inet-dev-class/mapbox/caair.html - drop down menu to pick sites, season, etc.  early draft to eventually pick multiple sites.  not functional yet.  zoom 5.5 to see whole ca.  population layer there at 761747b
+- https://tin6150.github.io/inet-dev-class/mapbox/caair_zwedc.html - fork of caair.html, with a make up data set for Ling to comment on coloring scale.  have state vs population layers in there still at 761747b.
+- https://tin6150.github.io/inet-dev-class/mapbox/caair_zwedc_uicode.html - fork of caair_zwedc.html, coding handler to respond to drop down selector (add/remove layer/source).  
 
 gdal - Geospatial Data Abstraction Library
 ==========================================

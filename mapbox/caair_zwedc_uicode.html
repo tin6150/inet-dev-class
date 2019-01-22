@@ -291,6 +291,12 @@ mapboxgl.accessToken =   'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3h
 var currentLoadedMapLayer  = "";
 var currentLoadedMapSource = "";
 var mapboxUser = "sn50";
+// below are mostly for debuging use
+var getInputSelectorCounter = 0;
+var addLayerCounter = 0;
+var addSourceCounter = 0;
+var rmLayerCounter = 0;
+var rmSourceCounter = 0;
 
 // note there is a map.remove() ... 
 var map = new mapboxgl.Map({
@@ -373,6 +379,7 @@ function styleZwedcOpacity(attribute) {
 // do a map.new each time this is triggered?  
 // better to store current layer, then addLayer, removeLayer....
 function getInputFormSelection() {
+	getInputSelectorCounter++;
         inputFormSelection =  document.getElementById("siteSelectorUI").value;
         inputFormSelection += document.getElementById("seasonSelectorUI").value;;
         inputFormSelection += document.getElementById("hourSelectorUI").value;;
@@ -385,8 +392,11 @@ function getInputFormSelection() {
             //    map.removeLayer('caair');
             //    this.className = '';
             //} 
+            rmLayerCounter++;
+            map.removeLayer(  currentLoadedMapLayer );
+            //map.removeLayer('caair');
+            rmSourceCounter++;
             map.removeSource( currentLoadedMapSource );
-            map.removeLayer('caair');
             this.className = '';
             feedback.innerHTML = "removeLayer executed";
         }
@@ -397,8 +407,11 @@ function getInputFormSelection() {
         
         currentLoadedMapLayer  = inputFormSelection;       // this is essentially global var
         currentLoadedMapSource = inputFormSelection;       // this is essentially global var
+	addLayerCounter++;
+	addSourceCounter++;
         map.addLayer({
-            id: 'caair',
+            id: currentLoadedMapLayer,
+            //id: 'caair',
             type: 'fill',
             layout: {
                 //visibility: zwedcPolyVis
@@ -429,7 +442,7 @@ function getInputFormSelection() {
                     'fill-opacity': styleZwedcOpacity('max') // max attribute just a place holder
             }
         });  // end map.addLayer(...) for zwedc/caair        
-        feedback.innerHTML = inputFormSelection + "layerAdded";
+        feedback.innerHTML = inputFormSelection + " - layerAdded";
         this.className = 'active';   // from mapbox layer eg... not sure what it does :(
         currentLoadedMapSource = inputFormSelection;       // this is essentially global var
         
@@ -499,7 +512,8 @@ map.on('load', function () {
 // * https://www.mapbox.com/mapbox-gl-js/example/popup-on-hover/
 map.on('mousemove', function (e) {
       var features = map.queryRenderedFeatures(e.point, { layers: 
-	      ['caair'] 
+	      [currentLoadedMapLayer] 
+	      //['caair'] 
 	      //['zwedc'] 
       });
       //var features = map.queryRenderedFeatures(e.point, { layers: ['ZWEDC_50x50m-29q7xv'] });  //don't use this ID
