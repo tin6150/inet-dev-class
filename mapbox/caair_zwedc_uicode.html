@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 
+
 <!--
 ca air 
 base on ZWEDC_jq_slider.html and ZWEDC_50x50sq_js.html
@@ -16,6 +17,15 @@ This version only for zwedc data,  prepping a demo for 2019-0205
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
 
+    <!--
+    below is for form inputPicker
+    adding jquery-ui https://jqueryui.com/slider/
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
 
     <style>
         body { margin:0; padding:0; }   /* map cover who page? */
@@ -128,14 +138,22 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 
 <body>
 
+<!-- Tyler had a navbar at top, just trying to be closer to his model, i don't plan to have anything here  -->
+<div id='navbar'></div>
+
+
+
+<!-- Tyler had a map-container below the navbar.  the map-container encloses the map div.  just trying to be closer to his model, i so far dont need this extra div container  -->
+<div id='map-container'>
 
 <div id='map'></div>
 <!--
 <div id='mapAlt' class='map'></div>
 -->
-<div class="inputPicker" id="inputbar" >
+
+<div id="inputbar" class="inputPicker">
 	<!--html element for drop down picker goes here-->
-	<select id="site"> <!-- site -->
+	<select id="site"> <!-- site -->  <!--Tyler <select id="polygon-layer-selector"> -->
 		<option value="SfZwedc">SF: ZWEDC</option>
 		<option value="SfZbest">SF: Z Best Products</option>
 		<option value="">--SF Bay--</option>
@@ -196,10 +214,11 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 		<option value="20x">20x</option>
 	</select>
 
-</div>
+</div><!-- end for inputbar -->
 
 <div id='feedback' class='map-overlay-dbg' class='#featuresDbg'>
-	Selected options: 
+    <!-- this text can/will be overwritten by jquery handler for the ui form selection -->
+	Selected options: tba
 </div>
 
 <!-- legends  from https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/ -->
@@ -244,7 +263,32 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	<div id='pd'><p>(debug data via mapbox tileset)</p></div>   <!-- static text, replaced later by JS -->
 </div>
 
+</div> <!-- end div for map-container -->
 
+
+<!-- ########################################################### -->
+<!-- ########################################################### -->
+<!-- ###### JavaScript below     ############################### -->
+<!-- ########################################################### -->
+<!-- ########################################################### -->
+
+<script>
+$( function() {
+    $( "inputPicker" ).select( function() {
+        alert( "select triggered" );
+    });
+    //var uiSelection = $("inputPicker").$("site").val();
+    document.getElementById('feedback').innerHTML = "sn5050\n" //+ uiSelection;
+    
+    
+    var poly_selector = document.getElementById("polygon-layer-selector");  //##  Tin UI
+    poly_selector.addEventListener('change', function(e) {
+ 
+
+});
+
+
+</script>
 
 <script>
 mapboxgl.accessToken =   'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // Sn  (post?) 2018-12-07   pk = public token
@@ -327,6 +371,9 @@ function styleZwedcOpacity(attribute) {
     ]
 };
 
+//$( function() {
+//    $( "inputPicker" ).select( function() { alert( "select triggered" ); });
+//});
 
 map.on('load', function () {
     map.addLayer({
