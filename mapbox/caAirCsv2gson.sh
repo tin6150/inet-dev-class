@@ -11,11 +11,12 @@
 # after this is upload to mapbox using zwedc_uploader.sh 
 
 InputDir="/home/wzhou/csv"
-OutputDir="./DATA_zwedc"
+#OutputDir="./DATA_zwedc"
+OutputDir="./DATA_caair"
 
 [[ -d $OutputDir ]] || mkdir $OutputDir 
 
-InputFileList=$( ls -1 $InputDir/*csv )
+InputFileList=$( ls -1 $InputDir/*_*csv )
 FileNum=0
 
 for F in $InputFileList; do
