@@ -11,6 +11,7 @@ mbgl_index.html
 js 
 to handle zwedc selector in dropdown 
 
+many many functions are defined inside the map.on('load',... 
 __2spaces_indent__
   map.on('load', function() {
     |

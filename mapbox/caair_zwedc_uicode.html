@@ -18,7 +18,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
 
     <!--
-    below is for form inputPicker
+    below is for form inputForm
     adding jquery-ui https://jqueryui.com/slider/
     <meta name="viewport" content="width=device-width, initial-scale=1">
     -->
@@ -65,7 +65,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 
 
 	/* top box for user input -- need more tweaking*/
-	.inputPicker {
+	.inputForm {
 	    /*background-color: rgba(250,224,224,0.65);   /* blue greenish? */
 	    /*border-radius: 3px; */
 	    top: 10px; /*  */  /* thickness of input area */
@@ -114,9 +114,10 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	  right: 0;
 	  background: rgba(250, 250, 250, 0.4);  /* 255 255 255 is pure white */
 	  margin-right: 4px; /* choropleth used 20px */
-	  font-family: Arial, sans-serif;
 	  overflow: auto;
 	  border-radius: 3px;
+	  font: 10px/12px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
+	  /*font-family: Arial, sans-serif;*/
 	}
 	#featuresDbg {
             visibility: hidden; /* visible */
@@ -151,16 +152,16 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 <div id='mapAlt' class='map'></div>
 -->
 
-<div id="inputbar" class="inputPicker">
+<div id="inputbar" class="inputForm">
 	<!--html element for drop down picker goes here-->
-	<select id="site"> <!-- site -->  <!--Tyler <select id="polygon-layer-selector"> -->
+	<select id="siteSelectorUI"> <!-- site -->  <!--to emulate Tyler <select id="polygon-layer-selector"> -->
 		<option value="SfZwedc">SF: ZWEDC</option>
 		<option value="SfZbest">SF: Z Best Products</option>
+		<option value="SjAtwater">SJ: Atwater WWTF</option>
+		<option value="SjBakersfiled">SJ: Bakersfield WWTP #2</option>
+		<option value=""    ></option>
 		<option value="">--SF Bay--</option>
 		<option value="">--San Joaquin Valley--</option>
-		<option value="SjAtwater">Atwater WWTF</option>
-		<option value="SjBakersfiled">Bakersfield WWTP #2</option>
-		<option value=""    ></option>
 		<option value="">--North Coast--</option>
 		<option value="Arcata_WWTF">Arcata WWTF</option>  <!-- more fixing tba -->
 		<option value="Ukia_WWTP">Ukia WWTP</option>
@@ -186,19 +187,19 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 		<option value=""    ></option>
 	</select>
 
-	<select>
+	<select id="seasonSelectorUI">
 		<option value="Spr">Spring</option>
 		<option value="Sum">Summer</option>
 		<option value="Aut">Autumn</option>
 		<option value="Win">Winter</option>
 		<option value="All">All</option>
 	</select>
-	<select>
+	<select id="hourSelectorUI"> <!--mixing depends on time of day-->
 		<option value="Al">All hours</option>
 		<option value="Hi">High mixing</option>
 		<option value="Lo">Low  mixing</option>
 	</select>
-	<select> <!-- source -->
+	<select id="sourceSelectorUI">
 		<option value="Bi">Biofilter</option>
 		<option value="Co">Compost</option>
 		<option value="Nc">No Compost</option>
@@ -206,7 +207,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 		<option value="Tr">Truck</option>
 		<option value="Aa">All Area Line</option>
 	</select>
-	<select> <!-- scale -->
+	<select id="scaleSelectorUI">
 		<option value="10x">10x</option>
 		<option value="Act">Actual</option>
 		<option value="05x">5x</option>
@@ -217,8 +218,8 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 </div><!-- end for inputbar -->
 
 <div id='feedback' class='map-overlay-dbg' class='#featuresDbg'>
-    <!-- this text can/will be overwritten by jquery handler for the ui form selection -->
-	Selected options: tba
+    <!-- place holder text.  this text can/will be overwritten by jquery handler for the ui form selection -->
+	.
 </div>
 
 <!-- legends  from https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/ -->
@@ -272,6 +273,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 <!-- ########################################################### -->
 <!-- ########################################################### -->
 
+<!-- no use
 <script>
 $( function() {
     $( "inputPicker" ).select( function() {
@@ -279,22 +281,18 @@ $( function() {
     });
     //var uiSelection = $("inputPicker").$("site").val();
     document.getElementById('feedback').innerHTML = "sn5050\n" //+ uiSelection;
-    
-    
-    var poly_selector = document.getElementById("polygon-layer-selector");  //##  Tin UI
-    poly_selector.addEventListener('change', function(e) {
- 
-
 });
-
-
 </script>
+-->
+
 
 <script>
 mapboxgl.accessToken =   'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // Sn  (post?) 2018-12-07   pk = public token
+var currentLoadedMapLayer  = "";
+var currentLoadedMapSource = "";
+var mapboxUser = "sn50";
 
-
-
+// note there is a map.remove() ... 
 var map = new mapboxgl.Map({
     container: 'map',	// container id
     //style: 'mapbox://styles/mapbox/light-v9',
@@ -306,7 +304,7 @@ var map = new mapboxgl.Map({
     //center: [-121.985287624997,37.4077223978109],  // data point from TMP test, in santa clara!
     //zoom: 16    	// see building shape, needed cuz 50m x 50m (or 25m?)
     //zoom: 15    	// see buildings, needed cuz 50m x 50m (or 25m?)
-    zoom: 14.2  	// zoomed in and good for zwedc demo with many low value data points
+    zoom: 14.2  	// zoomed in and good for zwedc demo with many low value data points // 1000 ft
     //zoom: 13.5  	// zoomed in
     //zoom: 12		// see whole coverate area of ZWEDC
     //zoom: 9		// see most of BAAQMD
@@ -371,11 +369,76 @@ function styleZwedcOpacity(attribute) {
     ]
 };
 
-//$( function() {
-//    $( "inputPicker" ).select( function() { alert( "select triggered" ); });
-//});
+// find out what combination is selected in the form selections UI ... eventually trigger loading maplayer...   ##FIXME
+// do a map.new each time this is triggered?  
+// better to store current layer, then addLayer, removeLayer....
+function getInputFormSelection() {
+        inputFormSelection =  document.getElementById("siteSelectorUI").value;
+        inputFormSelection += document.getElementById("seasonSelectorUI").value;;
+        inputFormSelection += document.getElementById("hourSelectorUI").value;;
+        inputFormSelection += document.getElementById("sourceSelectorUI").value;;
+        inputFormSelection += document.getElementById("scaleSelectorUI").value;;
+        feedback.innerHTML = inputFormSelection;
+        if( currentLoadedMapLayer != "" ) {
+            // https://docs.mapbox.com/mapbox.js/example/v1.0.0/layers/
+            //if (map.hasLayer('caair')) {     // err not a fn.  so can't call map.fn here? 
+            //    map.removeLayer('caair');
+            //    this.className = '';
+            //} 
+            map.removeSource( currentLoadedMapSource );
+            map.removeLayer('caair');
+            this.className = '';
+            feedback.innerHTML = "removeLayer executed";
+        }
+         
+        
+        // maybe split out the mapLayer code to be called separately??   FIXME ## 
+        
+        
+        currentLoadedMapLayer  = inputFormSelection;       // this is essentially global var
+        currentLoadedMapSource = inputFormSelection;       // this is essentially global var
+        map.addLayer({
+            id: 'caair',
+            type: 'fill',
+            layout: {
+                //visibility: zwedcPolyVis
+                visibility: 'visible'
+                //visibility: 'none'		// can use this to make ZWEDC data disapear ##
+            },     
+            // sn50.SfZwedcAllHiBi10x need to be in url and source-layer, w/ username in url, NO username in source-layer.  be careful!!
+            source: {
+                type: 'vector',
+                //url: 'mapbox://sn50.aae3dmkj'   // ZWEDC 25x25 sq first test data set (at 10x?)
+                //url: 'mapbox://sn50.SFZWEDCSpringHighAllAreaLine10x' 	// fake 3-5 point data for now
+                //url:   'mapbox://sn50.SfZwedcAllHiBi10x' 	                // 1st csv2gson upload 
+                //url:   'mapbox://sn50.SfZwedcSprHiBi10x' 	                // 2nd csv2gson upload    ... next, try to make way to toggle between them.   hmm. ready to upload em all!
+                url:   'mapbox://' + mapboxUser + "." + inputFormSelection
+            },
+            //'source-layer': 'ZWEDC_50x50m-29q7xv',	// retrieved from mapbox web site Tile management...  [1st dummy test data]
+            //'source-layer': 'SFZWEDCSpringHighAllAreaLine10x',	// 3-5 point test data FAKE for now (not visible, too faint due to low val?)
+            //'source-layer': 'SfZwedcAllHiBi10x',	// 
+            //'source-layer': 'SfZwedcSprHiBi10x',	// no username prefix here!! duh!!
+            'source-layer': inputFormSelection,	    //  grab source layer name from parsed input form 
+            paint: {
+                    'fill-antialias': false,    // remove gridline
+                    //'fill-color': 'rgba(61,153,80,0.55)',                    // https://www.mapbox.com/help/how-web-apps-work/#use-mapbox-gl-js-with-react ##
+                    // see git log 1dff205 for older version that had 'table' and in-place code here for fill-color and fill-opacity
+                    'fill-color': styleZwedcPolys('max'),
+                    //'fill-opacity': polyLayerOpacity,
+                    //'fill-opacity': 0.2
+                    'fill-opacity': styleZwedcOpacity('max') // max attribute just a place holder
+            }
+        });  // end map.addLayer(...) for zwedc/caair        
+        feedback.innerHTML = inputFormSelection + "layerAdded";
+        this.className = 'active';   // from mapbox layer eg... not sure what it does :(
+        currentLoadedMapSource = inputFormSelection;       // this is essentially global var
+        
+        //--    $( "inputPicker" ).select( function() { alert( "select triggered" ); });
+}; //end fn getInputFormSelection 
+
 
 map.on('load', function () {
+    getInputFormSelection();
     map.addLayer({
         "id": "terrain-data",
         "type": "line",
@@ -395,43 +458,36 @@ map.on('load', function () {
         }
     });  // end map.addLayer(...)
     //------------- ZWEDC "point polygon" LAYER ------------ // ##  need more work here ##
-    map.addLayer({
-      id: 'zwedc',
-      type: 'fill',
-      layout: {
-        //visibility: zwedcPolyVis
-        visibility: 'visible'
-        //visibility: 'none'		// can use this to make ZWEDC data disapear ##
-      },     
-      // sn50.SfZwedcAllHiBi10x need to be in url and source-layer, w/ username in url, NO username in source-layer.  be careful!!
-      source: {
-        type: 'vector',
-        //url: 'mapbox://sn50.aae3dmkj'   // ZWEDC 25x25 sq first test data set (at 10x?)
-        //url: 'mapbox://sn50.SFZWEDCSpringHighAllAreaLine10x' 	// fake 3-5 point data for now
-        url:   'mapbox://sn50.SfZwedcAllHiBi10x' 	                // 1st csv2gson upload 
-        //url:   'mapbox://sn50.SfZwedcSprHiBi10x' 	                // 2nd csv2gson upload    ... next, try to make way to toggle between them.   hmm. ready to upload em all!
-
-      },
-      //'source-layer': 'ZWEDC_50x50m-29q7xv',	// retrieved from mapbox web site Tile management...  [1st dummy test data]
-      //'source-layer': 'SFZWEDCSpringHighAllAreaLine10x',	// 3-5 point test data FAKE for now (not visible, too faint due to low val?)
-      'source-layer': 'SfZwedcAllHiBi10x',	// 
-      //'source-layer': 'SfZwedcSprHiBi10x',	// no username prefix here!! duh!!
-      paint: {
-              'fill-antialias': false,    // remove gridline
-              //'fill-color': 'rgba(61,153,80,0.55)',                    // https://www.mapbox.com/help/how-web-apps-work/#use-mapbox-gl-js-with-react ##
-              // see git log 1dff205 for older version that had 'table' and in-place code here for fill-color and fill-opacity
-              'fill-color': styleZwedcPolys('max'),
-              //'fill-opacity': polyLayerOpacity,
-              //'fill-opacity': 0.2
-              'fill-opacity': styleZwedcOpacity('max') // max attribute just a place holder
-             }
-    });  // end map.addLayer(...) for zwedc
+    // ^^ moved to getInputFormSelection 
 
 
-    // beging bulk of state/county choropleth as addSource() and addLayer()
-    // https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/
-
-
+    // ################################################ //
+    // #### add handler for form selector
+    var inputFormSelection = "";
+    //-- Tyler's code has definition at this level
+    var poly_selector = document.getElementById("siteSelectorUI");  //##  Tin UI
+    poly_selector.addEventListener('change', function(e) {
+        //var testTin = "test123";
+        getInputFormSelection();
+    });
+    var seasonSelector = document.getElementById("seasonSelectorUI");  
+    seasonSelector.addEventListener('change', function(e) {
+        getInputFormSelection();
+    });
+    var hourSelector = document.getElementById("hourSelectorUI");  
+    hourSelector.addEventListener('change', function(e) {
+        getInputFormSelection();                                            // FIXME these are the one throwing error about layer
+    });
+    var sourceSelector = document.getElementById("sourceSelectorUI");  
+    sourceSelector.addEventListener('change', function(e) {
+        getInputFormSelection();
+    });
+    var scaleSelector = document.getElementById("scaleSelectorUI");  
+    scaleSelector.addEventListener('change', function(e) {
+        getInputFormSelection();
+    });
+ 
+ 
 });  // end map.on('load'...) 
 
 
@@ -443,7 +499,8 @@ map.on('load', function () {
 // * https://www.mapbox.com/mapbox-gl-js/example/popup-on-hover/
 map.on('mousemove', function (e) {
       var features = map.queryRenderedFeatures(e.point, { layers: 
-	      ['zwedc'] 
+	      ['caair'] 
+	      //['zwedc'] 
       });
       //var features = map.queryRenderedFeatures(e.point, { layers: ['ZWEDC_50x50m-29q7xv'] });  //don't use this ID
       //document.getElementById('featuresDbg').innerHTML = JSON.stringify(features, null, 2);
