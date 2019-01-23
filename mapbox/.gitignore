@@ -3,3 +3,5 @@ EXAMPLE/
 TMP_DATA/
 DATA_zwedc/
 node_modules/
+sitesinfo.unix.csv
+siteXY_polygon.unix.csv
