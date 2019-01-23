@@ -155,35 +155,42 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 <div id="inputbar" class="inputForm">
 	<!--html element for drop down picker goes here-->
 	<select id="siteSelectorUI"> <!-- site -->  <!--to emulate Tyler <select id="polygon-layer-selector"> -->
-		<option value="SfZwedc">SF: ZWEDC</option>
-		<option value="SfZbest">SF: Z Best Products</option>
-		<option value="SjAtwater">SJ: Atwater WWTF</option>
-		<option value="SjBakersfiled">SJ: Bakersfield WWTP #2</option>
-		<option value=""    ></option>
-		<option value="">--SF Bay--</option>
-		<option value="">--San Joaquin Valley--</option>
-		<option value="">--North Coast--</option>
-		<option value="Arcata_WWTF">Arcata WWTF</option>  <!-- more fixing tba -->
-		<option value="Ukia_WWTP">Ukia WWTP</option>
-		<option value=""    ></option>
-		<option value="">--Salton Sea--</option>
-		<option value="wpcp"        >Calexico WPCP</option>
-		<option value=""    ></option>
-		<option value="">--South Coast--</option>
-		<option value="IEUA_Plant">IEUA Plant</option>  <!-- i or l ?? -->
-		<option value=""    ></option>
-		<option value="">--Mountain Counties--</option>
-		<option value="El_Dorado_WPP">El Dorado WPP</option>
-		<option value=""    ></option>
-		<option value="">--Mojave Desert--</option>
-		<option value=""    ></option>
-		<option value="">--North Central Coast--</option>
-		<option value="Monterey_WPCA">MONTEREY_WPCA</option>
-		<option value=""    ></option>
-		<option value="">--San Diego--</option>
-		<option value="SanDiego_Metro">San Diego Metro</option>
-		<option value="">--Sacramento Valley--</option>
-		<option value="Vacaville_WWTP">Vacaville WWTP</option>
+		<option value="SfZwedc"         >SF: ZWEDC</option>                                       <!-- San Francisco Bay -->
+		<option value="SfSanJose"       >SF: San Jose WPCP</option>	                              <!-- San Francisco Bay -->
+		<option value="SfZbest"         >SF: Z Best Products</option>                             <!-- San Francisco Bay -->
+		<option value="SfDublin"        >SF: Dublin WWTP</option>                                 <!-- San Francisco Bay -->
+		<option value="SfFairfiled"     >SF: Fairfield-Suisan Sewer District</option>             <!-- San Francisco Bay -->
+		<option value="SfSoutheast"     >SF: Southeast Water Pollution Control Plant</option>     <!-- San Francisco Bay -->
+		
+		<option value="SvVacaville_WWTP">SV: Vacaville WWTP</option>    <!-- Sacramento Valley -->
+		<option value="SvRedding"       >SV: Redding WWTP</option>	
+		<option value="SvSacramento"    >SV: Sacramento Regional County Sanitation District</option>	
+		
+		<option value="SjAtwater"      >SJ: Atwater WWTF</option>           <!-- San Joaquin -->
+		<option value="SjBakersfiled"  >SJ: Bakersfield WWTP #2</option>
+		<option value="SjFresno"       >SJ: Fresno-Clovis Regional Water Reclamation</option>	
+		<option value="SjPorterville"  >SJ: Porterville WWTF</option>	
+		
+		<option value="NcArcata"       >NC: Arcata WWTF</option>  <!-- North Coast -->
+		<option value="NcUkia"         >NC: Ukia WWTP</option>
+		<option value="NcHealdsburg"   >NC: Healdsburg WRF</option>
+		
+		<option value="SsCalexico"     >SS: Calexico WPCP</option>    <!-- Salton Sea -->
+		<option value="SsPalm"         >SS: Palm WPCP</option>        <!-- Salton Sea -->
+		
+		<option value="ScLeua"         >SC: LEUA Plant</option>        <!-- South Coast --> 
+		<option value="ScCorona"       >SC: Corona WWTP #1</option>	
+		<option value="ScJoint"        >SC: Joint WPCA</option>	
+		<option value="ScSocwa"        >SC: SOCWA J B Latham TP</option>
+		
+		<option value="McEldorado"     >MC: El Dorado WPP</option>            <!-- Mountain Counties -->
+		
+		<option value="MdLancaster"    >MD: Lancaster WPP</option>            <!-- Mojave Desert -->
+		
+		<option value="CcMonterey"     >CC: Monterey WPCA</option>             <!-- North Central Coast -->
+		
+		<option value="SdSandiego"     >SD: San Diego Metro</option>           <!-- San Diego -->
+		
 		<option value=""    ></option>
 	</select>
 
@@ -195,8 +202,8 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 		<option value="All">All</option>
 	</select>
 	<select id="hourSelectorUI"> <!--mixing depends on time of day-->
-		<option value="Al">All hours</option>
 		<option value="Hi">High mixing</option>
+		<option value="Al">All hours</option>
 		<option value="Lo">Low  mixing</option>
 	</select>
 	<select id="sourceSelectorUI">
@@ -208,9 +215,9 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 		<option value="Aa">All Area Line</option>
 	</select>
 	<select id="scaleSelectorUI">
+		<option value="10x">1.0</option>
 		<option value="Act">Actual</option>
 		<option value="05x">0.5</option>
-		<option value="10x">1.0</option>
 		<option value="15x">1.5</option>
 		<option value="20x">2.0</option>
 	</select>
@@ -237,7 +244,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 -->
 <div id='legend' class='legend' >
     Odor<BR>(ou/m3)
-    <div><span style='background-color: #f2f3f4'></span>&le;0.0001</div>
+    <div><span style='background-color: #f2f3f4'></span>0.0001</div>
     <div><span style='background-color: #FED976'></span>0.01</div>
     <div><span style='background-color: #FEB24C'></span>0.1</div>
     <div><span style='background-color: #FD8D3C'></span>1.0</div>
@@ -306,7 +313,8 @@ var map = new mapboxgl.Map({
     style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, had to use url from my acc, could not find public style url.
     //zoom: 13,
     //center: [-122.447303, 37.753574]   SF
-    center: [-121.945, 37.434],  // alviso
+    center: [-121.945, 37.434],  // alviso ZWEDC
+    //center: [-121.5240213, 36.9481043],  // Gilroy Z Best Products
     //center: [-121.985287624997,37.4077223978109],  // data point from TMP test, in santa clara!
     //zoom: 16    	// see building shape, needed cuz 50m x 50m (or 25m?)
     //zoom: 15    	// see buildings, needed cuz 50m x 50m (or 25m?)
@@ -570,7 +578,7 @@ map.addControl(new StylesControl([{
 // https://www.mapbox.com/mapbox-gl-js/api/#attributioncontrol
 map.addControl(new mapboxgl.AttributionControl({
         compact: true,  // set to false to add an EXTRA line with info below prefixed.  true add an (i) icon
-	customAttribution: '© Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington @ LBNL'
+	customAttribution: '© Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington,  @ LBNL'
 }));
 
 
