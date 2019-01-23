@@ -1,0 +1,17 @@
+-rw-rw-r-- 1 tin tin-right  697 Dec 14 09:36 ZWEDC.eg.csv
+	example csv for ZWEDC, largely obsolete now
+
+
+-rw-rw-r-- 1 tin users     4249 Jan 17 19:59 sitesinfo.csv
+	~25 sites, name, lat/long info, etc.  for point data.
+	sitesinfo.csv was from Wei 2019.0109
+	she named it Run_siteinfo.csv
+	https://mail.google.com/mail/u/1/#search/w.zhou%40lbl.gov/FMfcgxwBVDCtZbjdxKKXJgMmHDkRJChR
+
+-rw-rw-r-- 1 tin users     6831 Jan 22 16:09 siteXY_polygon.csv
+	version of above, with 4 point vertices to enclose area where sim data covers
+	to provide a background transparent layer to yield site info.
+
+-rw-rw-r-- 1 tin users      277 Jan 16 21:43 caair.site.csv
+	dont remember, maybe proposed format for sites info.
+	tba...

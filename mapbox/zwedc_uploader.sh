@@ -7,7 +7,7 @@
 # execute this after having converted csv to geojson using caAirCsv2gson.sh
 # example run
 # cd DATA_zwedc
-# ../zwedc_uploader.sh | tee ../zwedc_uploader.log  2>&1 
+# ../zwedc_uploader.sh | tee ../zwedc_uploader.log2  2>&1 
 
 PATH=$PATH:~/.local/bin  # from pip install --user mapbox (didn't bother creating virtual env)
 U=sn50
@@ -27,6 +27,7 @@ fi
 #TilesetName=$( echo $F | awk -F\. '{print $2}' | sed 's/_//g' )   # this version strip _ ; but gson created by my no longer have _
 
 
+#InputFileList=$( ls -1 SfZbestSprHiCo10x.geojson )
 InputFileList=$( ls -1 *.geojson )
 FileNum=0
 
@@ -45,6 +46,8 @@ for F in $InputFileList; do
 		echo "++ OK ++ $FileNum: upload of $F completed successfully."
 	fi
         FileNum=$((FileNum + 1))
+
+	sleep 1 # limit upload to 50 per min.  probably don't need it, but be safe, be nice :)
 done
 
 
