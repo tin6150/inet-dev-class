@@ -1,7 +1,3 @@
--rw-rw-r-- 1 tin tin-right  697 Dec 14 09:36 ZWEDC.eg.csv
-	example csv for ZWEDC, largely obsolete now
-
-
 -rw-rw-r-- 1 tin users     4249 Jan 17 19:59 sitesinfo.csv       aka Run_siteinfo.csv
 	~25 sites, name, lat/long info, etc.  for point data.
 	from Wei 2019.0109 https://mail.google.com/mail/u/1/#search/w.zhou%40lbl.gov/FMfcgxwBVDCtZbjdxKKXJgMmHDkRJChR
@@ -11,14 +7,18 @@
 	to provide a background transparent layer to yield site info.
 
 sites_extInfo.csv
-	# x join --header -j2 sitesinfo.csv siteXY_polygon.csv > sites_extInfo.csv
-	# don't work cuz files are , separated, need them to be space...
-	# x cat sitesinfo.csv | sed 's///'   | sed 's/,/\t/g' > sitesinfo.tsv
+	cat sitesinfo.csv      | dos2unix > sitesinfo.unix.csv
+	cat siteXY_polygon.csv | dos2unix > siteXY_polygon.unix.csv
+	join --header -t, -j2 sitesinfo.unix.csv siteXY_polygon.unix.csv > sites_extInfo.csv
+	# dirID uniq and uniforly aps to site_nae, so can use col 1 as key, and keep file format same as what Wei provides.
+	join --header -t,     sitesinfo.unix.csv siteXY_polygon.unix.csv > sites_extInfo.csv
+	cat sites_extInfo.csv | awk -F, '{print $2 "\t\t" $14}' # eyeball that sites are indeed joined correctly by dirID (col 1)
 
 
-	cat sitesinfo.csv | dos2unix | sed 's/,/\t/g' > sitesinfo.tsv
-	cat siteXY_polygon.csv | sed 's/,/\t/g' > siteXY_polygon.tsv
-	join --header -j2 sitesinfo.tsv siteXY_polygon.tsv > sites_extInfo.tsv
+
+-rw-rw-r-- 1 tin tin-right  697 Dec 14 09:36 ZWEDC.eg.csv
+	example csv for ZWEDC, largely obsolete now
+
 
 -rw-rw-r-- 1 tin users      277 Jan 16 21:43 caair.site.csv
 	dont remember, maybe proposed format for sites info.
