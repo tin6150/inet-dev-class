@@ -1,40 +1,36 @@
 #!/usr/bin/env python 
 
-# convert csv into geoJSON   # i will just call it gson
-# based on earlier ZWEDCcsv2gson_sq.py , but now format should becoming standardized for multiple sites.
+# take many sites across CA from csv to gson
+# this version to polygon ("square") gson data first, cuz template was generating polygon 
 
-# this time starting with Sf_Zwedc_All_Al_Aa_10x.head10.csv  ("cbind" version)
-# this version create gson with polygon around the data
-# the new csv it uses has 4 vertices of (essentially) a square
-# 25m from the center point of sensor)
+# once this done, easy to trim to have single point.
+
+# input file is a join i did 
 
 
-# example run
-# Actually, use caAirCsv2gson.sh 
-# which loop over many input file, and generate output filename
+# run as
+# ./sites_csv2gson.py < sites_extInfo.csv  >  sites_info_polyg.geojson
 
+
+####
 
 # json rant #
 # json actually took out ability to support comment early on!
 # json5 supports comments with // 
 # geojson may tolerate comment with //  see https://gis.stackexchange.com/questions/22474/geojson-styling-information
-
+#
 # test gson output at http://geojson.io/#map=15/37.4045/-121.9810
-
-# ref taxo-spark/taxorpt.py
 
 import argparse
 import os
 import sys
 import re
-#import json # don't print things with good indent level, hinder development, don't find it useful
-#import pandas # https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.from_csv.html
 
 
 ### treat them like global :)
-INPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"
-#INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.head10.csv"
-InDir="/home/wzhou/csv/"
+#xxINPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"
+#InDir="/home/wzhou/csv/"
+
 
 # dbgLevel 1 (ie -d  ) is good for telling when input fails to pass parser
 # dbgLevel 3 (ie -ddd) is expected by user troubleshooting problem parsing input file
@@ -106,16 +102,6 @@ def chkPtFormat( pt, wholeLine ) :
 
 
 """
-ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.csv ::
-example input lines (didn't start with 0-index, been working on octave lately), so parser will -1
-1   2     3     4   5   6     7      8      9    10   11     12     13   14   15     16     17   18   19     20     21   22
-"","lon","lat","x","y","Max","lon1","lat1","x1","y1","lon2","lat2","x2","y2","lon3","lat3","x3","y3","lon4","lat4","x4","y4"
-"1",-121.985002139616,37.4079452829464,589827,4140612,0.18577,-121.985287624997,37.4077223978109,589802,4140587,-121.984722734052,37.4077175479308,589852,4140587,-121.984716652544,37.4081681673591,589852,4140637,-121.985281546871,37.4081730173178,589802,4140637
-"2",-121.984437247048,37.4079404316778,589877,4140612,0.18817,-121.984722734052,37.4077175479308,589852,4140587,-121.984157843243,37.4077126953524,589902,4140587,-121.984151758353,37.4081633147021,589902,4140637,-121.984716652544,37.4081681673591,589852,4140637
-
-"""
-
-"""
 new format, for 450 ZWEDC files.  hopoefully standard going forward for other site as well.
 
 INPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"
@@ -124,6 +110,16 @@ INPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"
  0 , 1  , 2              , 3              , 4              , 5               , 6              , 7              , 8              , 9               , 10
 "1","1",-121.984557282895,37.4617964867235,1.22821750333907,-121.983991985539,37.4617916274105,-121.98399808318,37.4613410121812,-121.984563377145,37.4613458714155
 "2","2",-121.983991985539,37.4617916274105,1.28725760513053,-121.983426688318,37.4617867653938,-121.983432789351,37.4613361502432,-121.98399808318,37.4613410121812
+"""
+
+
+# ^^^ old template data above
+# vvv new input below.  update index ++
+
+"""
+dirID,site_name,airbasin_name,airbasin,facility,city,county,terrain,waterproximity,popdensity,lat,lon,attr.label,site_name,centerlon,centerlat,UTM,x,y,lon1,lat1,x1,y1,lon2,lat2,x2,y2,lon3,lat3,x3,y3,lon4,lat4,x4,y4
+1,Arcata_WWTF,NC,North Coast,Arcata WWTF,Arcata,Humboldt,hilly or mountainous,coastal,1894.159779,40.85562,-124.090124,hilly or mountainous-coastal-low,Arcata_WWTF,40.85562,-124.090124,10,408118.3227,4523301.536,-124.1252537,40.82825793,405118.3227,4520301.536,-124.0541083,40.82892998,411118.3227,4520301.536,-124.0549654,40.88297159,411118.3227,4526301.536,-124.1261686,40.88229828,405118.3227,4526301.536
+2,Atwater_WWTF,SJ,San Joaquin Valley,Atwater WWTF,Atwater,Merced,flat,inland,4627.282563,37.276403,-120.63169,flat-inland-high,Atwater_WWTF,37.276403,-120.63169,10,709973.7762,4128164.559,-120.6663357,37.25005539,706973.7762,4125164.559,-120.5987382,37.24870311,712973.7762,4125164.559,-120.5970202,37.30273951,712973.7762,4131164.559,-120.664666,37.30409443,706973.7762,4131164.559
 """
 
 val_idx = 4 # value of the feature at the lon, lat (in this case, wants Max)
@@ -230,10 +226,19 @@ def sniff_data(args) :
     #pandas.read_csv( INPUT )
 #end sniff_data()
 
+################################################################################
+################################################################################
 
 def main():
+	# no args needed, just that i took some old code that open STDIN
+	# -ddddd is supported
         args = process_cli()
 	run_conversion(args)
+
+	# INPUT csv is from stdin (just cuz caAirCsv2gson.py use that convention now)
+	# OUTPUT is to stdout
+
+
 	#sniff_data(args)          # glance over data, find avg, std dev, min, max, missing value, etc # use pandas
 # main()-end
 
@@ -246,16 +251,32 @@ main()
 
 
 """
-example output for 2 record:
+desired output 
+
+see README, where i had a simplied pop density gson parsed out.
+
 
 { "type": "FeatureCollection", "features": [
+							// rec #1 below.   note there is no comma here
     { "type":       "Feature", 
+      "id"  :       "01",				//## new this time, not in ZWEDC/caair ou/m3 odor dataset ##    this maybe string.  is okay, could use dirID here.
       "properties":            
-           {"max": 0.18577}
+           {"site_name": "Arcata_WWTF",				//## seems like additional feature is comma list here  ##
+	    "site_abbr": "TBA",					//## was not in INPUT csv, probably don't need it.  but build code for it in case future need it
+            "airbasin_name": "NC",
+            "airbasin":      "North Coast",
+            "city":          "Arcata",
+            "county":        "Humboldt",
+            "terrain":       "hilly or ountainous",
+            "popdensity":    1894.159,                          //## dont quote it, so that it is treated as number and not text 
+            "attr_label":    "flat-inland-high"
+	   }
       ,
       "geometry": { "type": "Polygon", "coordinates": [[ [ -121.985287624997,37.4077223978109 ], [ -121.984722734052,37.4077175479308], [-121.984716652544,37.4081681673591], [-121.985281546871,37.4081730173178], [-121.985287624997,37.4077223978109]  ]]}
     }
-,
+
+
+,                                      // #2 below, not updated from prev ZWEDC odor data.  
     { "type":       "Feature", 
       "properties":            
            {"max": 0.18817}
@@ -263,6 +284,7 @@ example output for 2 record:
       "geometry": { "type": "Polygon", "coordinates": [[ [ -121.984722734052,37.4077175479308 ], [ -121.984157843243,37.4077126953524], [-121.984151758353,37.4081633147021], [-121.984716652544,37.4081681673591], [-121.984722734052,37.4077175479308]  ]]}
     }
 ] }
+
 
 
 
