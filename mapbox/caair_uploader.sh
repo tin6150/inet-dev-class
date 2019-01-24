@@ -32,8 +32,8 @@ fi
 
 
 #InputFileList=$( ls -1 SfZbestSprHiCo10x.geojson )
-InputFileList=$( ls -1 SfZbestSprAlCo10x.geojson )
-#InputFileList=$( ls -1 *.geojson )
+#InputFileList=$( ls -1 SfZbestSprAlCo10x.geojson )
+InputFileList=$( ls -1 *.geojson )
 FileNum=0
 
 #INPUT loop for all files#
