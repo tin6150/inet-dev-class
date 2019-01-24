@@ -117,15 +117,57 @@ INPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"
 # vvv new input below.  update index ++
 
 """
+0     1         2             3        4        5    6      7       8              9          10  11  12         13        14        15        16 17 18 19  20   21 22 23   24   25 26 27   28   29 30 31   32   33 34
 dirID,site_name,airbasin_name,airbasin,facility,city,county,terrain,waterproximity,popdensity,lat,lon,attr.label,site_name,centerlon,centerlat,UTM,x,y,lon1,lat1,x1,y1,lon2,lat2,x2,y2,lon3,lat3,x3,y3,lon4,lat4,x4,y4
 1,Arcata_WWTF,NC,North Coast,Arcata WWTF,Arcata,Humboldt,hilly or mountainous,coastal,1894.159779,40.85562,-124.090124,hilly or mountainous-coastal-low,Arcata_WWTF,40.85562,-124.090124,10,408118.3227,4523301.536,-124.1252537,40.82825793,405118.3227,4520301.536,-124.0541083,40.82892998,411118.3227,4520301.536,-124.0549654,40.88297159,411118.3227,4526301.536,-124.1261686,40.88229828,405118.3227,4526301.536
 2,Atwater_WWTF,SJ,San Joaquin Valley,Atwater WWTF,Atwater,Merced,flat,inland,4627.282563,37.276403,-120.63169,flat-inland-high,Atwater_WWTF,37.276403,-120.63169,10,709973.7762,4128164.559,-120.6663357,37.25005539,706973.7762,4125164.559,-120.5987382,37.24870311,712973.7762,4125164.559,-120.5970202,37.30273951,712973.7762,4131164.559,-120.664666,37.30409443,706973.7762,4131164.559
+    # need to parse above to create a 19-tuple returnable by parse1line
+    dirId,  
+    site_name
+    site_abbr          # this field not currently in input and always get 'TBA'
+    airbasin_abbr
+    airbasin
+    facility
+    city
+    county
+    terrain
+    pop_density
+    attr_label
+    lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 
 """
 
 ## partially completed this parse1line()
 ## did the return 19-tuple
 ## need to parse for the correct data (add var, update _idx, etc)
-val_idx = 4 # value of the feature at the lon, lat (in this case, wants Max)
+site_name_idx       = 1 # field/column number for the variable in question
+airbasin_name_idx   = 2
+airbasin_idx        = 
+facility_idx        = 
+city_idx            = 
+county_idx          = 
+terrain_idx         = 
+waterproximity_idx  = 
+popdensity_idx      = 
+
+lat,
+lon,
+attr.label_idx     = 
+xxsite_name,_idx      = 
+
+xxx
+centerlon,centerlat,UTM,x,y,
+lon1,lat1,x1,y1,
+lon2,
+lat2,x2,y2,
+lon3,
+lat3
+,x3,y3,
+lon4,
+lat4
+,x4,y4
+
+
+++ FIXME 
 lon1_idx = 2 # column index containing longitude
 lat1_idx = 3
 lon2_idx = 5 # 
@@ -139,10 +181,11 @@ min_col = 11   # min number of columns in file
 # return a 9-tuple  of form ( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
 # which are the exact same params  the geojson print fn need
 def parse1line( line ) :
-    val = 0
-    (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( 0,0 , 0,0 , 0,0 , 0,0 ) # struct may have been nice...  # 8-tuples for 4-point vertices
-    #(dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = 
-    #( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    )  # 19-tuple initialized to blank     # new site loc/desc data - polygon format
+    #-val = 0
+    #-(lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( 0,0 , 0,0 , 0,0 , 0,0 ) # struct may have been nice...  # 8-tuples for 4-point vertices
+    # initializing is not needed by my code.  but also serve as declaring the vars :)
+    (dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = 
+    ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    )  # 19-tuple initialized to blank     # new site loc/desc data - polygon format
     ifs = ","
     # comment line, blank lines, nothing to process, just return
     if( re.search( '^#', line ) ) :     
@@ -165,7 +208,19 @@ def parse1line( line ) :
         #dbg4( "col idx %s not found in this line, returning empty string." % colidx )
         #-return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
         return ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    ) ## 19-tuples of 'blank'
-    val = lineList[val_idx].strip()
+    #-val = lineList[val_idx].strip()
+    #(dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = 
+    site_name           = lineList[site_name_idx].strip()
+    site_abbr           = 'TBA'                     # this field not currently in input thus hard coded (it is placeholder in case future need it)
+    airbasin_abbr       = lineList[airbasin_abbr_idx].strip()
+    airbasin            = lineList[airbasin_idx].strip()
+    facility            = lineList[facility_idx].strip()
+    city                = lineList[city_idx].strip()
+    county              = lineList[county_idx].strip()
+    terrain             = lineList[terrain_idx].strip()
+    pop_density         = lineList[pop_density_idx].strip()
+    attr_label          = lineList[attr_label_idx].strip()
+
     lon1 = lineList[lon1_idx].strip()       # strip() removes white space on left and right ends only, not middle
     lat1 = lineList[lat1_idx].strip() 
     lon2 = lineList[lon2_idx].strip()       # vertices #2
@@ -175,16 +230,19 @@ def parse1line( line ) :
     lon4 = lineList[lon4_idx].strip()       # vertices #4
     lat4 = lineList[lat4_idx].strip() 
 
-    if( re.search( '^[-]{0,1}[0-9]+\.[0-9]+$', val ) ) :     
-        dbg( 2, "Extract ok for val [%14s] from input line '%s' " % (val, line) )
+    # sanity check for extracted number field - use for pop_density
+    if( re.search( '^[-]{0,1}[0-9]+\.[0-9]+$', pop_density ) ) :     
+        dbg( 2, "Extract ok for pop_density [%14s] from input line '%s' " % (pop_density, line) )
     else :
-        dbg( 1, "Fail - val_idex %s had %s , unexpected pattern (input line was '%s')" % (val_idx, val, line) )
-        return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+        dbg( 1, "Fail - pop_density_idx %s had %s , unexpected pattern (input line was '%s')" % (pop_density_idx, pop_density, line) )
+        return ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    ) ## 19-tuples of 'blank'
+        #-return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
 
     # ++ loop to test all 8 coordinates...
     pt = chkPtFormat( lon1, line )
     if( pt == "NaN" ) :
-        return ( "", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+        return ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    ) ## 19-tuples of 'blank'
+        #-return ( "", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
     # lazy, they should be okay as csv created by R... run with -d and chkPtFormat would spill error message :)
     pt = chkPtFormat( lat1, line )
     pt = chkPtFormat( lon2, line )
