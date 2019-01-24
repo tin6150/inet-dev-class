@@ -122,6 +122,9 @@ dirID,site_name,airbasin_name,airbasin,facility,city,county,terrain,waterproximi
 2,Atwater_WWTF,SJ,San Joaquin Valley,Atwater WWTF,Atwater,Merced,flat,inland,4627.282563,37.276403,-120.63169,flat-inland-high,Atwater_WWTF,37.276403,-120.63169,10,709973.7762,4128164.559,-120.6663357,37.25005539,706973.7762,4125164.559,-120.5987382,37.24870311,712973.7762,4125164.559,-120.5970202,37.30273951,712973.7762,4131164.559,-120.664666,37.30409443,706973.7762,4131164.559
 """
 
+## partially completed this parse1line()
+## did the return 19-tuple
+## need to parse for the correct data (add var, update _idx, etc)
 val_idx = 4 # value of the feature at the lon, lat (in this case, wants Max)
 lon1_idx = 2 # column index containing longitude
 lat1_idx = 3
@@ -137,16 +140,22 @@ min_col = 11   # min number of columns in file
 # which are the exact same params  the geojson print fn need
 def parse1line( line ) :
     val = 0
-    (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( 0,0 , 0,0 , 0,0 , 0,0 ) # struct may have been nice...
+    (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( 0,0 , 0,0 , 0,0 , 0,0 ) # struct may have been nice...  # 8-tuples for 4-point vertices
+    #(dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = 
+    #( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    )  # 19-tuple initialized to blank     # new site loc/desc data - polygon format
     ifs = ","
     # comment line, blank lines, nothing to process, just return
     if( re.search( '^#', line ) ) :     
-        return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+        #-return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+	# return 19-tuples of 'default' values, so that there is no param error to caller.  key is for lon1/lat1 to be "".
+        return ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    ) ## 19-tuples of 'blank'
     if( re.search( '^$', line ) ) :     
-        return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+        #-return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+        return ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    ) ## 19-tuples of 'blank'
     # Wei has a header line which this will ignore
     if( re.search( '^"","id","lon1","lat1",', line ) ) :     
-         return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+        #- return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+        return ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    ) ## 19-tuples of 'blank'
     line = line.rstrip("\n\r") 
     lineList = line.split( ifs )
 
@@ -154,7 +163,8 @@ def parse1line( line ) :
         dbg( 1, "Not enough columns.  cannot extract features" )
         dbg( 3, "Line split into %s words" % len (lineList) )
         #dbg4( "col idx %s not found in this line, returning empty string." % colidx )
-        return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+        #-return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+        return ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    ) ## 19-tuples of 'blank'
     val = lineList[val_idx].strip()
     lon1 = lineList[lon1_idx].strip()       # strip() removes white space on left and right ends only, not middle
     lat1 = lineList[lat1_idx].strip() 
@@ -184,7 +194,8 @@ def parse1line( line ) :
     pt = chkPtFormat( lon4, line )
     pt = chkPtFormat( lat4, line )
 
-    return( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
+    #-return( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
+    return(dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)   ## return a 19-tuple.
 #end
 
 

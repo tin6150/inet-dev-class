@@ -32,7 +32,7 @@ import re
 
 
 ### treat them like global :)
-INPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"
+#-INPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"  #-- no longer needed
 #INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.head10.csv"
 InDir="/home/wzhou/csv/"
 
