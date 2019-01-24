@@ -188,13 +188,17 @@ def parse1line( line ) :
 #end
 
 
-## this is like main()  now
-# this take std in
+#### with some luck this is fine now.  need to update parse1line(...) next  ## ++ FIXME
+
+## this is real gut/core of program, more main than main() :-O
+# this take stdin
 # read it, generate converged geojson output, write it out to std out
 def run_conversion( args ) :
 	dbg( 5, "converting csv to gson...")
 	print_opener()  # some geojson header 
-	(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( 0, "","" , "","" , "","" , "",""  )  # 9-tuple initialized to blank
+	#(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( 0, "","" , "","" , "","" , "",""  )  # 9-tuple initialized to blank    # old odor data
+	(dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = 
+        ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    )  # 19-tuple initialized to blank     # new site loc/desc data - polygon format
 
 	# loop to parse file
 	# maybe should have used  std unix input redirect, but future may need multiple input files
@@ -205,12 +209,14 @@ def run_conversion( args ) :
 	for line in inF:
 		#print line
 		#lineList = line.split( ',' )
-		(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( parse1line( line ) )
+		#(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( parse1line( line ) )  #old ZWEDC odor
+		(dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( parse1line( line ) )
 		if ( lon1 == "" )  :
 			continue		# returned nothing, skipping the line   FIXME
 		if( lineNum > 0 ) :
 			gprint( ",", "//next feature//" )	# print separator iff not first line
-		print_gsonLine( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
+		#print_gsonLine( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )     # old format for ZWEDC odor
+		print_gsonLine( dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  # new site loc/desc data
 		#lineNum =+ 1		# WRONG, this just assign (+1) into the var
 		lineNum += 1		# RIGHT, this increment.  this is almost the equivof c++
 	print_closer() # close out parenthesis...
@@ -256,20 +262,25 @@ desired output
 see README, where i had a simplied pop density gson parsed out.
 
 
-{ "type": "FeatureCollection", "features": [
+{ "type": "FeatureCollection", "features": [		// this line printed by "print_opener()
+
+							// rest is loop for each record
+
 							// rec #1 below.   note there is no comma here
     { "type":       "Feature", 
-      "id"  :       "01",				//## new this time, not in ZWEDC/caair ou/m3 odor dataset ##    this maybe string.  is okay, could use dirID here.
+//    "id"  :       "01",				//## new this time, not in ZWEDC/caair ou/m3 odor dataset ##    this maybe string.  is okay, could use dirID here.    this is likely optional, don't want to code for it
       "properties":            
-           {"site_name": "Arcata_WWTF",				//## seems like additional feature is comma list here  ##
-	    "site_abbr": "TBA",					//## was not in INPUT csv, probably don't need it.  but build code for it in case future need it
-            "airbasin_name": "NC",
+           {"dirID":         1,
+            "site_name":     "Arcata_WWTF",		//## seems like additional feature is comma list here  ##
+	    "site_abbr":     "TBA",			//## was not in INPUT csv, probably don't need it.  but build code for it in case future need it
+            "airbasin_abbr": "NC",
             "airbasin":      "North Coast",
+            "facility":      "Bakersfield WWTP #2",	//   data from various places to show complexity
             "city":          "Arcata",
             "county":        "Humboldt",
             "terrain":       "hilly or ountainous",
-            "popdensity":    1894.159,                          //## dont quote it, so that it is treated as number and not text 
-            "attr_label":    "flat-inland-high"
+            "pop_density":   1894.159,                  //## dont quote it, so that it is treated as number and not text 
+            "attr_label":    "flat-inland-high"		//## 11 feature here, so need a 19-tuple for polygon data, 13-tuple for point data
 	   }
       ,
       "geometry": { "type": "Polygon", "coordinates": [[ [ -121.985287624997,37.4077223978109 ], [ -121.984722734052,37.4077175479308], [-121.984716652544,37.4081681673591], [-121.985281546871,37.4081730173178], [-121.985287624997,37.4077223978109]  ]]}
@@ -279,11 +290,11 @@ see README, where i had a simplied pop density gson parsed out.
 ,                                      // #2 below, not updated from prev ZWEDC odor data.  
     { "type":       "Feature", 
       "properties":            
-           {"max": 0.18817}
+           {"max": 0.18817}		//## this changed drastically for site location and description data 
       ,
       "geometry": { "type": "Polygon", "coordinates": [[ [ -121.984722734052,37.4077175479308 ], [ -121.984157843243,37.4077126953524], [-121.984151758353,37.4081633147021], [-121.984716652544,37.4081681673591], [-121.984722734052,37.4077175479308]  ]]}
     }
-] }
+] }					// this line printed by print_closer()
 
 
 
