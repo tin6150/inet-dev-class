@@ -117,18 +117,24 @@ example input lines (didn't start with 0-index, been working on octave lately), 
 
 """
 
+## ^^ above, old format from ZWEDC.  obsolete now really.
+## vv below, new format, for 450 ZWEDC files.  also used for remaining 25-sites, with 750 files.  
+
 """
-new format, for 450 ZWEDC files.  hopoefully standard going forward for other site as well.
 
 INPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"
 
+ +---+------- note that there was a "" column, then an "id" column.  both have the same value.  as long as all data file has this then ok.  
+ |   |
+ v   v   
 "", "id","lon1"          ,"lat1"          ,"Max"           ,"lon2"           ,"lat2"          ,"lon3"          ,"lat3"          ,"lon4"           ,"lat4"
  0 , 1  , 2              , 3              , 4              , 5               , 6              , 7              , 8              , 9               , 10
 "1","1",-121.984557282895,37.4617964867235,1.22821750333907,-121.983991985539,37.4617916274105,-121.98399808318,37.4613410121812,-121.984563377145,37.4613458714155
 "2","2",-121.983991985539,37.4617916274105,1.28725760513053,-121.983426688318,37.4617867653938,-121.983432789351,37.4613361502432,-121.98399808318,37.4613410121812
+
 """
 
-val_idx = 4 # value of the feature at the lon, lat (in this case, wants Max)
+val_idx = 4 # value of the feature at the lon, lat (in this case, wants Max)   Unit is ou/m3
 lon1_idx = 2 # column index containing longitude
 lat1_idx = 3
 lon2_idx = 5 # 

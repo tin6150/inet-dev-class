@@ -2,6 +2,8 @@ CENSUS/
 EXAMPLE/
 TMP_DATA/
 DATA_zwedc/
+DATA_caair_Al/
+DATA_caair_BadName_Hi/
 node_modules/
 sitesinfo.unix.csv
 siteXY_polygon.unix.csv

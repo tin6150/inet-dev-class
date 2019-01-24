@@ -6,13 +6,14 @@
 # and generate correct output filename.
 
 # example run:
-# ./caAirCsv2gson.sh | tee caAirCsv2gson.log
+# ./caAirCsv2gson.sh | tee caAirCsv2gson.25-sites-Al.log
 
 # after this is upload to mapbox using zwedc_uploader.sh 
 
-InputDir="/home/wzhou/csv"
+#InputDir="/home/wzhou/csv"		# these had the "Hi" mixing time, need to create trimmed version to black out the data.
+InputDir="/home/wzhou/csv-25sites"	# these are the "fixed" to use "Al" timing mode.  maybe was just a file rename?
 #OutputDir="./DATA_zwedc"
-OutputDir="./DATA_caair"
+OutputDir="./DATA_caair_Al"
 
 [[ -d $OutputDir ]] || mkdir $OutputDir 
 

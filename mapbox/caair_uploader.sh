@@ -7,7 +7,11 @@
 # execute this after having converted csv to geojson using caAirCsv2gson.sh
 # example run
 # cd DATA_zwedc
-# ../zwedc_uploader.sh | tee ../zwedc_uploader.log2  2>&1 
+# ../zwedc_uploader.sh | tee ../zwedc_uploader.log2  2>&1 	
+# ../caair_uploader.sh | tee -a ../caair_uploader.25-sites-Al.log  2>&1 
+
+# renamed from zwedc_uploader.sh to caair_uploader.sh since it works for all sites geojson.  2019-01-23
+# maybe should have renamed it to smelley_uploader :)
 
 PATH=$PATH:~/.local/bin  # from pip install --user mapbox (didn't bother creating virtual env)
 U=sn50
@@ -28,7 +32,8 @@ fi
 
 
 #InputFileList=$( ls -1 SfZbestSprHiCo10x.geojson )
-InputFileList=$( ls -1 *.geojson )
+InputFileList=$( ls -1 SfZbestSprAlCo10x.geojson )
+#InputFileList=$( ls -1 *.geojson )
 FileNum=0
 
 #INPUT loop for all files#
