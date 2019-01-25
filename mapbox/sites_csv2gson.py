@@ -11,6 +11,9 @@
 # run as
 # ./sites_csv2gson.py < sites_extInfo.csv  >  sites_info_polyg.geojson
 
+# validate json output as
+# python -m json.tool < sites_info_polyg.geojson
+
 
 ####
 
@@ -83,7 +86,7 @@ def print_gsonLine( dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  f
 	gprint( '            "city":          "%s",' % city , "3-g" )        ## 3
 	gprint( '            "county":        "%s",' % county , "3-h" )        ## 3
 	gprint( '            "terrain":       "%s",' % terrain , "3-i" )        ## 3
-	gprint( '            "pop_density":    %s ,' % pop_density , "3-j" )        ## 3
+	gprint( '            "pop_density":    %s, ' % pop_density , "3-j" )        ## 3
 	gprint( '            "attr_label":    "%s"}' % attr_label , "3-last" )        ## 3
 	gprint( '      ,' , '2')
 	gprint( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ], [ %s,%s], [%s,%s], [%s,%s], [%s,%s]  ]]}' % (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4, lon1,lat1), '2b') 
@@ -151,15 +154,15 @@ dirID,site_name,airbasin_name,airbasin,facility,city,county,terrain,waterproximi
 ## did the return 19-tuple
 ## need to parse for the correct data (add var, update _idx, etc)
 site_name_idx       = 1 # field/column number for the variable in question
-airbasin_name_idx   = 2
+airbasin_abbr_idx   = 2
 airbasin_idx        = 3
 facility_idx        = 4
 city_idx            = 5
 county_idx          = 6
 terrain_idx         = 7
 waterproximity_idx  = 8
-popdensity_idx      = 9
-attr.label_idx     = 12
+pop_density_idx     = 9
+attr_label_idx     = 12
 #lon1_idx = 11 # column index containing longitude, center point, index is flipped cuz input there is lat/lon
 #lat1_idx = 10
 lon1_idx = 19 # column index containing longitude, 4 point vertices polygon version
@@ -178,8 +181,7 @@ def parse1line( line ) :
     #-val = 0
     #-(lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( 0,0 , 0,0 , 0,0 , 0,0 ) # struct may have been nice...  # 8-tuples for 4-point vertices
     # initializing is not needed by my code.  but also serve as declaring the vars :)
-    (dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = 
-    ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    )  # 19-tuple initialized to blank     # new site loc/desc data - polygon format
+    (dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  =  ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    )  # 19-tuple initialized to blank     # new site loc/desc data - polygon format
     ifs = ","
     # comment line, blank lines, nothing to process, just return
     if( re.search( '^#', line ) ) :     
@@ -259,8 +261,7 @@ def run_conversion( args ) :
 	dbg( 5, "converting csv to gson...")
 	print_opener()  # some geojson header 
 	#(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( 0, "","" , "","" , "","" , "",""  )  # 9-tuple initialized to blank    # old odor data
-	(dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = 
-        ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    )  # 19-tuple initialized to blank     # new site loc/desc data - polygon format
+	(dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    )  # 19-tuple initialized to blank     # new site loc/desc data - polygon format
 
 	# loop to parse file
 	# maybe should have used  std unix input redirect, but future may need multiple input files
