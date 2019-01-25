@@ -70,10 +70,21 @@ def gprint( str1, str2="#" ):
 # generate a single line of geojson  from a given input arg of 
 # need to be sure points are 4 vertices in seq, something like TL, TR, BR, BL.  will name them seq in case polygon becomes more than just square
 # gson need 5 poionts to close off a square, this fn will print first point last again for that purpose
-def print_gsonLine( value, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :
+#def print_gsonLine( value, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :
+def print_gsonLine( dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :  ## input is 19-tuple.
 	gprint( '    { "type":       "Feature", ', '1' ) 	## 1
 	gprint( '      "properties":            ', '2' ) 	## 2
-	gprint( '           {"max": %s}' % value , "3" )        ## 3
+	gprint( '           {"dirId":          %s ,'  % dirId , "3-first" )        ## 3
+	gprint( '            "site_name":     "%s",' % site_name , "3-b" )        ## 3    #may need quote around %s FIXME
+	gprint( '            "site_abbr":     "%s",' % site_abbr , "3-c" )        ## 3
+	gprint( '            "airbasin_abbr": "%s",' % airbasin_abbr , "3-d" )        ## 3
+        gprint( '            "airbasin":      "%s",' % airbasin , "3-e" )        ## 3
+	gprint( '            "facility":      "%s",' % facility , "3-f" )        ## 3
+	gprint( '            "city":          "%s",' % city , "3-g" )        ## 3
+	gprint( '            "county":        "%s",' % county , "3-h" )        ## 3
+	gprint( '            "terrain":       "%s",' % terrain , "3-i" )        ## 3
+	gprint( '            "pop_density":    %s ,' % pop_density , "3-j" )        ## 3
+	gprint( '            "attr_label":    "%s"}' % attr_label , "3-last" )        ## 3
 	gprint( '      ,' , '2')
 	gprint( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ], [ %s,%s], [%s,%s], [%s,%s], [%s,%s]  ]]}' % (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4, lon1,lat1), '2b') 
 	gprint( '    }', '1' )
@@ -141,42 +152,25 @@ dirID,site_name,airbasin_name,airbasin,facility,city,county,terrain,waterproximi
 ## need to parse for the correct data (add var, update _idx, etc)
 site_name_idx       = 1 # field/column number for the variable in question
 airbasin_name_idx   = 2
-airbasin_idx        = 
-facility_idx        = 
-city_idx            = 
-county_idx          = 
-terrain_idx         = 
-waterproximity_idx  = 
-popdensity_idx      = 
-
-lat,
-lon,
-attr.label_idx     = 
-xxsite_name,_idx      = 
-
-xxx
-centerlon,centerlat,UTM,x,y,
-lon1,lat1,x1,y1,
-lon2,
-lat2,x2,y2,
-lon3,
-lat3
-,x3,y3,
-lon4,
-lat4
-,x4,y4
-
-
-++ FIXME 
-lon1_idx = 2 # column index containing longitude
-lat1_idx = 3
-lon2_idx = 5 # 
-lat2_idx = 6
-lon3_idx = 7 # 
-lat3_idx = 8 
-lon4_idx = 9 # 
-lat4_idx = 10
-min_col = 11   # min number of columns in file
+airbasin_idx        = 3
+facility_idx        = 4
+city_idx            = 5
+county_idx          = 6
+terrain_idx         = 7
+waterproximity_idx  = 8
+popdensity_idx      = 9
+attr.label_idx     = 12
+#lon1_idx = 11 # column index containing longitude, center point, index is flipped cuz input there is lat/lon
+#lat1_idx = 10
+lon1_idx = 19 # column index containing longitude, 4 point vertices polygon version
+lat1_idx = 20
+lon2_idx = 23 # 
+lat2_idx = 24
+lon3_idx = 27 # 
+lat3_idx = 28 
+lon4_idx = 31 # 
+lat4_idx = 32
+min_col = 34   # min number of columns in file
 # this takes one input line, 
 # return a 9-tuple  of form ( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
 # which are the exact same params  the geojson print fn need
@@ -257,7 +251,6 @@ def parse1line( line ) :
 #end
 
 
-#### with some luck this is fine now.  need to update parse1line(...) next  ## ++ FIXME
 
 ## this is real gut/core of program, more main than main() :-O
 # this take stdin
