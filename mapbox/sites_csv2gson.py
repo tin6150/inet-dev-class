@@ -29,6 +29,9 @@ import os
 import sys
 import re
 
+# kludgy, but just need to generate data once
+# -P args will overwrite this to false
+generatePolygon = True
 
 ### treat them like global :)
 #xxINPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"
@@ -40,9 +43,12 @@ import re
 # currently most detailed output is at level 5 (ie -ddddd) and it is eye blurry even for programmer
 dbgLevel = 0  
 
+
 def process_cli() :
 	parser = argparse.ArgumentParser( description='generate geoJSON from CSV, after customization' )
 	parser.add_argument('-d', '--debuglevel', help="Debug mode. Up to -ddd useful for troubleshooting input file parsing. -ddddd intended for coder. ", action="count", default=0)
+	parser.add_argument('-4', '--polygon',    help="Generate polygon (4 points polygon) data (default)",               default="true",  action="store_true"  )
+	parser.add_argument('-1', '--point',      help="Generate point   (1 point) data (and not default of polygon data", dest="polygon",  action="store_false" )
 	parser.add_argument("infile",  help="dummy, always expect STDIN",  nargs='?', type=argparse.FileType('r'), default=sys.stdin )
 	parser.add_argument('outfile', help="dummy, always to     STDOUT", nargs='?', type=argparse.FileType('w'), default=sys.stdout)
 	args = parser.parse_args()
@@ -75,6 +81,13 @@ def gprint( str1, str2="#" ):
 # gson need 5 poionts to close off a square, this fn will print first point last again for that purpose
 #def print_gsonLine( value, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :
 def print_gsonLine( dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :  ## input is 19-tuple.
+        if( generatePolygon ) : 
+            print( "generate 4 points polygon data" ) 
+        else :
+            print( "generate point data" ) 
+
+        return      ## TMP FIXME
+
 	gprint( '    { "type":       "Feature", ', '1' ) 	## 1
 	gprint( '      "properties":            ', '2' ) 	## 2
 	gprint( '           {"dirId":          %s ,'  % dirId , "3-first" )        ## 3
@@ -91,6 +104,7 @@ def print_gsonLine( dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  f
 	gprint( '      ,' , '2')
 	gprint( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ], [ %s,%s], [%s,%s], [%s,%s], [%s,%s]  ]]}' % (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4, lon1,lat1), '2b') 
 	gprint( '    }', '1' )
+
 # print_gsonLine()-end 
 
 
@@ -150,9 +164,6 @@ dirID,site_name,airbasin_name,airbasin,facility,city,county,terrain,waterproximi
     lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 
 """
 
-## partially completed this parse1line()
-## did the return 19-tuple
-## need to parse for the correct data (add var, update _idx, etc)
 site_name_idx       = 1 # field/column number for the variable in question
 airbasin_abbr_idx   = 2
 airbasin_idx        = 3
@@ -302,10 +313,19 @@ def main():
 	# no args needed, just that i took some old code that open STDIN
 	# -ddddd is supported
         args = process_cli()
-	run_conversion(args)
+
+
+        # tmp test...
+        if( args.polygon ) :
+            print( "==Generate 4 points vertices polygon data" )
+            generatePolygon = True      # global var
+        else :
+            print( "==Generate point data" )
+            generatePolygon = False      # global var
 
 	# INPUT csv is from stdin (just cuz caAirCsv2gson.py use that convention now)
 	# OUTPUT is to stdout
+	run_conversion(args)
 
 
 	#sniff_data(args)          # glance over data, find avg, std dev, min, max, missing value, etc # use pandas
