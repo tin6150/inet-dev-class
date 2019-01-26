@@ -12,7 +12,7 @@
 
 # for the CA state map overview of all sites:
 # ++ Change INPUT file first!!
-# ./caair_uploader.sh 
+# ./caair_uploader.sh | tee -a  caair_uploader.sites_info.log
 
 # renamed from zwedc_uploader.sh to caair_uploader.sh since it works for all sites geojson.  2019-01-23
 # maybe should have renamed it to smelley_uploader :)
@@ -37,8 +37,8 @@ fi
 
 #InputFileList=$( ls -1 SfZbestSprHiCo10x.geojson )
 #InputFileList=$( ls -1 SfZbestSprAlCo10x.geojson )
-InputFileList=$( ls -1 *.geojson )
-#InputFileList=$( ls -1 sites_info_polyg.geojson )
+#InputFileList=$( ls -1 *.geojson )
+InputFileList=$( ls -1 sites_info_polyg.geojson )
 FileNum=0
 
 #INPUT loop for all files#
