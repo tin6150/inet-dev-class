@@ -113,7 +113,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	  overflow: auto;
 	  border-radius: 3px;
 	}
-	#features {
+	#features { 
             visibility: visible; /* hidden */
             top: 110;		/* 0 was at top (right) */
             height: 100px;      /* formerly 80px, 100px */
@@ -122,25 +122,44 @@ This version only for zwedc data,  prepping a demo for 2019-0205
             width: 320px;      /* formerly 220px, 300px - needed more space cuz longer title now */
 	}
 
-	/* debug info box in top right */
-	.map-overlay-dbg {
+	/* debug info box to display tileset features info - top right */
+	.map-overlay-features-dbg {
+          visibility: visible; /*hidden; /* visible */
 	  position: absolute;
 	  top: 0;
 	  right: 0;
 	  background: rgba(250, 250, 250, 0.4);  /* 255 255 255 is pure white */
 	  margin-right: 4px; /* choropleth used 20px */
+          width: 440px;      /* formerly 250px */
+          height: 400px;      /* formerly 100px */
+          margin-top: 30px;
 	  overflow: auto;
 	  border-radius: 3px;
 	  font: 10px/12px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
 	  /*font-family: Arial, sans-serif;*/
 	}
+	/*  don't want so many cascades... i don't need it.  just code them in a single css style and call it out explicity.
 	#featuresDbg {
-            visibility: hidden; /* visible */
+            visibility: visible; /*hidden; /* visible * /
             top: 110;
-            height: 400px;      /* formerly 100px */
+            height: 400px;      /* formerly 100px * /
             margin-top: 20px;
-            width: 500px;      /* formerly 250px */
+            width: 500px;      /* formerly 250px * /
  	}
+	*/
+
+	/* feedback debug info box in bottom left */
+	.map-overlay-feedback-dbg {
+	  position: absolute;
+	  bottom: 0;
+	  left: 0;
+	  background: rgba(250, 250, 250, 0.4);  /* 255 255 255 is pure white */
+	  margin-right: 2px; /* choropleth used 20px */
+	  overflow: auto;
+	  border-radius: 3px;
+	  font: 10px/12px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
+	  /*font-family: Arial, sans-serif;*/
+	}
 
 
     </style>
@@ -225,9 +244,9 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 		<option value="All">All</option>
 	</select>
 	<select id="hourSelectorUI"> <!--mixing depends on time of day-->
-		<option value="Hi">High mixing</option>
-		<option value="Al">All hours</option>
+		<option value="Hi">High mixing</option>  <!-- FIXME much data for many sites need to be removed -->
 		<option value="Lo">Low  mixing</option>
+		<option value="Al">All hours</option>
 	</select>
 	<select id="sourceSelectorUI">
 		<option value="Co">Compost</option>
@@ -246,11 +265,6 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 	</select>
 
 </div><!-- end for inputbar -->
-
-<div id='feedback' class='map-overlay-dbg' class='#featuresDbg'>
-    <!-- place holder text.  this text can/will be overwritten by jquery handler for the ui form selection -->
-	.
-</div>
 
 <!-- legends  from https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/ -->
 <!--<div id='legend' class='legend' style='display: none;'> -->
@@ -285,13 +299,18 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
         <div id='pd'><p>(Hover)</p></div>   <!-- static text, replaced later by JS -->
 </div>
 
-<!-- currently the map-overlay-dbg goes in the bottom right, 
-	placement likely by the css style code
-	though not obvious how it is specified 
-	Comment out block below if don't want to see it.
+<!-- ZWEDC_gson.html still have that debug data box, but at bottom rather than top -->
+<div class='map-overlay-features-dbg' id='featuresDbg' >
+	Hello... Are you looking for me?
+     <div id='pd'><p>(data via mapbox tileset)</p></div>   <!-- static text, replaced later by JS at map.on('mousemove'...) -->
+</div>
+<!-- wonder if this div 'feedback' prevented the featuresDbg from showing
+changing class to see...
+<div id='feedback' class='map-overlay-dbg' class='#featuresDbg'>
 -->
-<div class='map-overlay-dbg' id='featuresDbg' >
-	<div id='pd'><p>(debug data via mapbox tileset)</p></div>   <!-- static text, replaced later by JS -->
+<div id='feedback' class='map-overlay-feedback-dbg'>
+    <!-- place holder text.  this text can/will be overwritten by jquery handler for the ui form selection -->
+    Map layer loading debug data will appear here.
 </div>
 
 </div> <!-- end div for map-container -->
@@ -426,7 +445,7 @@ function getInputFormSelection() {
         inputFormSelection += document.getElementById("hourSelectorUI").value;;
         inputFormSelection += document.getElementById("sourceSelectorUI").value;;
         inputFormSelection += document.getElementById("scaleSelectorUI").value;;
-        feedback.innerHTML = inputFormSelection;
+        feedback.innerHTML = inputFormSelection;					
         if( currentLoadedMapLayer != "" ) {
             // https://docs.mapbox.com/mapbox.js/example/v1.0.0/layers/
             //if (map.hasLayer('caair')) {     // err not a fn.  so can't call map.fn here? 
@@ -558,7 +577,7 @@ map.on('mousemove', function (e) {
 	      //['zwedc'] 
       });
       //var features = map.queryRenderedFeatures(e.point, { layers: ['ZWEDC_50x50m-29q7xv'] });  //don't use this ID
-      //document.getElementById('featuresDbg').innerHTML = JSON.stringify(features, null, 2);
+      document.getElementById('featuresDbg').innerHTML = "Hi DBG" + JSON.stringify(features, null, 2);      // this now hopefully display tile data in featuresDbg box at top right) ##
       //document.getElementById('features').innerHTML = JSON.stringify(features, null, 2);
 
       if (features.length > 0) {
