@@ -12,7 +12,7 @@
 # ./sites_csv2gson.py -d  -1 -c  # check that it is generating the right version of things.  ^C to kill as it expect STDIN
 # ./sites_csv2gson.py -4        < sites_extInfo.csv  >  sites_info_polyg.geojson
 # ./sites_csv2gson.py -1        < sites_extInfo.csv  >  sites_info_pt_ctr.geojson
-# ./sites_csv2gson.py -dd -1 -t < sites_extInfo.csv  | grep -v '^//--dbg' >  sites_info_pt_topLeft.geojson
+# ./sites_csv2gson.py -dd -1 -t < sites_extInfo.csv  | grep -v '^//--dbg' >  sites_info_pt_topLeft.geojson  # no point to do this, above center point show up nice and well.
 #  -t, --useTopLeft
 
 # validate json output as
@@ -114,7 +114,7 @@ def print_gsonLine( dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  f
 	gprint( '    { "type":       "Feature", ', '1' ) 	## 1
 	gprint( '      "properties":            ', '2' ) 	## 2
 	gprint( '           {"dirId":          %s ,'  % dirId , "3-first" )        ## 3
-	gprint( '            "site_name":     "%s",' % site_name , "3-b" )        ## 3    #may need quote around %s FIXME
+	gprint( '            "site_name":     "%s",' % site_name , "3-b" )        ## 3   
 	gprint( '            "site_abbr":     "%s",' % site_abbr , "3-c" )        ## 3
 	gprint( '            "airbasin_abbr": "%s",' % airbasin_abbr , "3-d" )        ## 3
         gprint( '            "airbasin":      "%s",' % airbasin , "3-e" )        ## 3
@@ -136,7 +136,8 @@ def print_gsonLine( dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  f
             # don't have to check if useTopLeftCorner here as caller would have done the right thing and fed it the right param.
             # FIXME at least double check if geojson is correct for geometry of single point >>>
             dbg( 2, 'print_gsonLine | generatePolygon in ELSE ie point ')
-	    gprint( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ]  ]]}' % (lon1,lat1), '2b-singlePt') 
+	    gprint( '      "geometry": { "type": "Point", "coordinates": [ %s,%s ] }' % (lon1,lat1), '2b-singlePt') 
+        #endif
 	gprint( '    }', '1' )
 
 # print_gsonLine()-end 

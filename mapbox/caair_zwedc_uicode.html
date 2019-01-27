@@ -335,19 +335,22 @@ var map = new mapboxgl.Map({
     //style: 'mapbox://styles/mapbox/dark-v9',		// alt basemap style
     //style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, probably just the base layer map from mapbox.  used in early caair_zwedc
     //style: 'mapbox://styles/sn50/cjrd1zmyy1kds2tp6k4az7apr',    // sites_info_polyg  with satellite street as base layer, too many colors, don't show data well.
-    style: 'mapbox://styles/sn50/cjreie0fs4o0m2sqghg3ukiqn', 	// sites_info_pt_ctr with cali terrain     as base layer
+    style: 'mapbox://styles/sn50/cjreie0fs4o0m2sqghg3ukiqn', 	// sites_info_pt_ctr with cali terrain     as base layer .  pt in center is pretty small, no need for TopLeft position.
 
     //zoom: 13,
     //center: [-122.447303, 37.753574]   SF
     center: [-121.945, 37.434],  // alviso ZWEDC
     //center: [-121.5240213, 36.9481043],  // Gilroy Z Best Products
     //center: [-121.985287624997,37.4077223978109],  // data point from TMP test, in santa clara!
+    //zoom: 19          // odor data tileset is said to be z0-z19, 19+ will "appear simplified"
     //zoom: 16    	// see building shape, needed cuz 50m x 50m (or 25m?)
     //zoom: 15    	// see buildings, needed cuz 50m x 50m (or 25m?)
     //zoom: 14.2  	// zoomed in and good for zwedc demo with many low value data points // 1000 ft
     //zoom: 13.5  	// zoomed in
     //zoom: 12		// see whole coverate area of ZWEDC
+    //zoom: 10          // circle filled point data is said to be z0-z10, 10+ will "appear simplified"
     //zoom: 9		// see most of BAAQMD   // 5mi 
+    //zoom: 8		// site-info as polygon said to be good at z0-z8.  8+ will "appear simplified"
     zoom: 6  		// see most of CA  	// 50mi    ## smelly overview map
     //zoom: 5.5		// see whole CA
 });

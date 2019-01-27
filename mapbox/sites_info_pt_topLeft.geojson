@@ -13,7 +13,7 @@
             "pop_density":    1894.159779, 
             "attr_label":    "hilly or mountainous-coastal-low"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -124.1252537,40.82825793 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -124.1252537,40.82825793 ] }
     }
 ,
     { "type":       "Feature", 
@@ -30,7 +30,7 @@
             "pop_density":    4627.282563, 
             "attr_label":    "flat-inland-high"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -120.6663357,37.25005539 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -120.6663357,37.25005539 ] }
     }
 ,
     { "type":       "Feature", 
@@ -47,7 +47,7 @@
             "pop_density":    2444.233179, 
             "attr_label":    "flat-inland-low"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -119.0055577,35.29814262 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -119.0055577,35.29814262 ] }
     }
 ,
     { "type":       "Feature", 
@@ -64,7 +64,7 @@
             "pop_density":    4596.712369, 
             "attr_label":    "flat-inland-high"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -115.5376146,32.64524926 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -115.5376146,32.64524926 ] }
     }
 ,
     { "type":       "Feature", 
@@ -81,7 +81,7 @@
             "pop_density":    3924.589341, 
             "attr_label":    "hilly or mountainous-inland-high"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -117.6370111,33.90046387 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -117.6370111,33.90046387 ] }
     }
 ,
     { "type":       "Feature", 
@@ -98,7 +98,7 @@
             "pop_density":    2914.846435, 
             "attr_label":    "hilly or mountainous-inland-low"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.9495589,37.66040243 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -121.9495589,37.66040243 ] }
     }
 ,
     { "type":       "Feature", 
@@ -115,7 +115,7 @@
             "pop_density":    902.4, 
             "attr_label":    "hilly or mountainous-inland-low"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.0953699,38.61091151 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -121.0953699,38.61091151 ] }
     }
 ,
     { "type":       "Feature", 
@@ -132,7 +132,7 @@
             "pop_density":    2816.83086, 
             "attr_label":    "flat-coastal-low"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.1129694,38.19576359 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -122.1129694,38.19576359 ] }
     }
 ,
     { "type":       "Feature", 
@@ -149,7 +149,7 @@
             "pop_density":    4418.361524, 
             "attr_label":    "flat-inland-high"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -119.9256048,36.67466712 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -119.9256048,36.67466712 ] }
     }
 ,
     { "type":       "Feature", 
@@ -166,7 +166,7 @@
             "pop_density":    2525.088958, 
             "attr_label":    "hilly or mountainous-inland-low"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.8972018,38.55662131 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -122.8972018,38.55662131 ] }
     }
 ,
     { "type":       "Feature", 
@@ -183,7 +183,7 @@
             "pop_density":    3282.386276, 
             "attr_label":    "flat-inland-high"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -117.6341457,34.00142363 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -117.6341457,34.00142363 ] }
     }
 ,
     { "type":       "Feature", 
@@ -200,7 +200,7 @@
             "pop_density":    4898.166857, 
             "attr_label":    "flat-coastal-high"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -118.3177976,33.77393346 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -118.3177976,33.77393346 ] }
     }
 ,
     { "type":       "Feature", 
@@ -217,7 +217,7 @@
             "pop_density":    1661.423154, 
             "attr_label":    "flat-inland-low"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -118.1883798,34.75775571 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -118.1883798,34.75775571 ] }
     }
 ,
     { "type":       "Feature", 
@@ -234,7 +234,7 @@
             "pop_density":    2219.765151, 
             "attr_label":    "hilly or mountainous-coastal-low"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.8038934,36.6789435 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -121.8038934,36.6789435 ] }
     }
 ,
     { "type":       "Feature", 
@@ -251,7 +251,7 @@
             "pop_density":    473.3710471, 
             "attr_label":    "hilly or mountainous-inland-low"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -116.5309949,33.77936077 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -116.5309949,33.77936077 ] }
     }
 ,
     { "type":       "Feature", 
@@ -268,7 +268,7 @@
             "pop_density":    3076.277648, 
             "attr_label":    "hilly or mountainous-inland-high"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -119.0806804,36.04876251 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -119.0806804,36.04876251 ] }
     }
 ,
     { "type":       "Feature", 
@@ -285,7 +285,7 @@
             "pop_density":    1506.547428, 
             "attr_label":    "hilly or mountainous-inland-low"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.4050843,40.47614211 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -122.4050843,40.47614211 ] }
     }
 ,
     { "type":       "Feature", 
@@ -302,7 +302,7 @@
             "pop_density":    3626.820618, 
             "attr_label":    "flat-inland-high"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.4986141,38.42207131 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -121.4986141,38.42207131 ] }
     }
 ,
     { "type":       "Feature", 
@@ -319,7 +319,7 @@
             "pop_density":    4020.449496, 
             "attr_label":    "hilly or mountainous-coastal-high"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -117.1911672,32.8146164 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -117.1911672,32.8146164 ] }
     }
 ,
     { "type":       "Feature", 
@@ -336,7 +336,7 @@
             "pop_density":    5358.643555, 
             "attr_label":    "flat-coastal-high"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.9794086,37.40599167 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -121.9794086,37.40599167 ] }
     }
 ,
     { "type":       "Feature", 
@@ -353,7 +353,7 @@
             "pop_density":    5133.151557, 
             "attr_label":    "hilly or mountainous-coastal-high"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -117.7159796,33.43919164 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -117.7159796,33.43919164 ] }
     }
 ,
     { "type":       "Feature", 
@@ -370,7 +370,7 @@
             "pop_density":    17179.16448, 
             "attr_label":    "hilly or mountainous-coastal-high"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.4254582,37.71379935 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -122.4254582,37.71379935 ] }
     }
 ,
     { "type":       "Feature", 
@@ -387,7 +387,7 @@
             "pop_density":    3441.893738, 
             "attr_label":    "hilly or mountainous-inland-high"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -123.2261946,39.08524341 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -123.2261946,39.08524341 ] }
     }
 ,
     { "type":       "Feature", 
@@ -404,7 +404,7 @@
             "pop_density":    455.5, 
             "attr_label":    "flat-inland-low"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.9385977,38.31682032 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -121.9385977,38.31682032 ] }
     }
 ,
     { "type":       "Feature", 
@@ -421,7 +421,7 @@
             "pop_density":    3023.667048, 
             "attr_label":    "hilly or mountainous-inland-high"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.5582139,36.92148324 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -121.5582139,36.92148324 ] }
     }
 ,
     { "type":       "Feature", 
@@ -438,6 +438,6 @@
             "pop_density":    5358.643555, 
             "attr_label":    "flat-coastal-high"}
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.9850021,37.40794528 ]  ]]}
+      "geometry": { "type": "Point", "coordinates": [ -121.9850021,37.40794528 ] }
     }
 ] }
