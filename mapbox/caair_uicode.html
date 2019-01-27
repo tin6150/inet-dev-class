@@ -116,10 +116,10 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	#features {
             visibility: visible; /* hidden */
             top: 110;		/* 0 was at top (right) */
-            height: 80px;      /* formerly 100px */
+            height: 100px;      /* formerly 80px, 100px */
             margin-top: 10px;
             margin-bottom: 22px;
-            width: 300px;      /* formerly 220px */
+            width: 320px;      /* formerly 220px, 300px - needed more space cuz longer title now */
 	}
 
 	/* debug info box in top right */
@@ -335,8 +335,9 @@ var map = new mapboxgl.Map({
     //style: 'mapbox://styles/mapbox/dark-v9',		// alt basemap style
     //style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, probably just the base layer map from mapbox.  used in early caair_zwedc
     //style: 'mapbox://styles/sn50/cjrd1zmyy1kds2tp6k4az7apr',    // sites_info_polyg  with satellite street as base layer, too many colors, don't show data well.
-    //style: 'mapbox://styles/sn50/cjreie0fs4o0m2sqghg3ukiqn', 	// sites_info_pt_ctr with cali terrain     as base layer .  pt in center is pretty small, no need for TopLeft position.
-    style: 'mapbox://styles/sn50/cjrekq65d4o7o2slw5x262rb0',	// sites_info_polyg  + sites_info_pt_topLeft  with cali terrain.  corner point turns out to be bottom left, but whatever. 
+    // #### wtf? mapboxstyles change here!
+    style: 'mapbox://styles/sn50/cjreie0fs4o0m2sqghg3ukiqn', 	// sites_info_pt_ctr with cali terrain     as base layer .  pt in center is pretty small, no need for TopLeft position.
+    //style: 'mapbox://styles/sn50/cjrekq65d4o7o2slw5x262rb0',	// sites_info_polyg  + sites_info_pt_topLeft  with cali terrain.  corner point turns out to be bottom left, but whatever. 
 
 
     //zoom: 13,
