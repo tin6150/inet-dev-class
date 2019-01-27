@@ -9,7 +9,11 @@
 
 
 # run as
-# ./sites_csv2gson.py < sites_extInfo.csv  >  sites_info_polyg.geojson
+# ./sites_csv2gson.py -d  -1 -c  # check that it is generating the right version of things.  ^C to kill as it expect STDIN
+# ./sites_csv2gson.py -4        < sites_extInfo.csv  >  sites_info_polyg.geojson
+# ./sites_csv2gson.py -1        < sites_extInfo.csv  >  sites_info_pt_ctr.geojson
+# ./sites_csv2gson.py -dd -1 -t < sites_extInfo.csv  | grep -v '^//--dbg' >  sites_info_pt_topLeft.geojson
+#  -t, --useTopLeft
 
 # validate json output as
 # python -m json.tool < sites_info_polyg.geojson
@@ -59,6 +63,9 @@ def process_cli() :
 	global dbgLevel  # ie, tell fn to set the global var, not one created locally in this fn
 	dbgLevel = args.debuglevel      # unable to change global here...   this has no effect :(
 	#print( "dbgLevel is %s" , dbgLevel )
+
+        global     generatePolygon
+        global     useTopLeftCorner 
 
         if( args.useTopLeftCorner ) :
 		    useTopLeftCorner = True      # global var
@@ -122,11 +129,13 @@ def print_gsonLine( dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  f
         # the vars are global or Object-wide state :)
         if( generatePolygon ) :
             # normal 4 point vertices case
+            dbg( 2, 'print_gsonLine | generatePolygon in THEN ie polygon')
 	    gprint( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ], [ %s,%s], [%s,%s], [%s,%s], [%s,%s]  ]]}' % (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4, lon1,lat1), '2b') 
-        #elif( generatePolygon == False && useTopLeftCorner == False ) : 
+        #elif( generatePolygon == False and useTopLeftCorner == False ) : 
         else : 
             # don't have to check if useTopLeftCorner here as caller would have done the right thing and fed it the right param.
             # FIXME at least double check if geojson is correct for geometry of single point >>>
+            dbg( 2, 'print_gsonLine | generatePolygon in ELSE ie point ')
 	    gprint( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ]  ]]}' % (lon1,lat1), '2b-singlePt') 
 	gprint( '    }', '1' )
 
@@ -237,6 +246,10 @@ def parse1line( line ) :
     if( re.search( '^"","id","lon1","lat1",', line ) ) :     
         #- return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
         return ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    ) ## 19-tuples of 'blank'
+    # new header line 2019.01
+    if( re.search( '^dirID,site_name,airbasin_name,', line ) ) :     
+        #- return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+        return ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    ) ## 19-tuples of 'blank'
     line = line.rstrip("\n\r") 
     lineList = line.split( ifs )
 
@@ -261,7 +274,7 @@ def parse1line( line ) :
 
     # check if using center point, ie, specified --point (-1) but not --useTopLeftCorner (-t)
     # the vars are global or Object-wide state :)
-    if( generatePolygon == False && useTopLeftCorner == False ) : 
+    if( generatePolygon == False and useTopLeftCorner == False ) : 
         lon1 = lineList[lon0_idx].strip()       # notice using idx for lon0 and lat0 which are points in center/middle
         lat1 = lineList[lat0_idx].strip() 
     else :
