@@ -29,9 +29,11 @@ import os
 import sys
 import re
 
-# kludgy, but just need to generate data once
-# -P args will overwrite this to false
-generatePolygon = True
+# global vars, 
+# kinda kludgy, but just need to generate data once
+# but think of OOP, then these are just obj instance level state data :)
+generatePolygon = True 		# -1 args will overwrite this to false
+useTopLeftCorner = False	# -c set this to true
 
 ### treat them like global :)
 #xxINPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"
@@ -49,6 +51,7 @@ def process_cli() :
 	parser.add_argument('-d', '--debuglevel', help="Debug mode. Up to -ddd useful for troubleshooting input file parsing. -ddddd intended for coder. ", action="count", default=0)
 	parser.add_argument('-4', '--polygon',    help="Generate polygon (4 points polygon) data (default)",               default="true",  action="store_true"  )
 	parser.add_argument('-1', '--point',      help="Generate point   (1 point) data (and not default of polygon data", dest="polygon",  action="store_false" )
+	parser.add_argument('-t', '--useTopLeftCorner',    help="when using --point, whether to use top left corner--rather than center (def)",  action="store_true" )   # could add code that this is revelant only if specify --point but lazy, this is just a one time conversion tool 
 	parser.add_argument("infile",  help="dummy, always expect STDIN",  nargs='?', type=argparse.FileType('r'), default=sys.stdin )
 	parser.add_argument('outfile', help="dummy, always to     STDOUT", nargs='?', type=argparse.FileType('w'), default=sys.stdout)
 	args = parser.parse_args()
@@ -56,6 +59,26 @@ def process_cli() :
 	global dbgLevel  # ie, tell fn to set the global var, not one created locally in this fn
 	dbgLevel = args.debuglevel      # unable to change global here...   this has no effect :(
 	#print( "dbgLevel is %s" , dbgLevel )
+
+        if( args.useTopLeftCorner ) :
+		    useTopLeftCorner = True      # global var
+        else :
+		    useTopLeftCorner = False      # global var, False is default, but just to be sure :)
+
+        if( args.polygon ) :
+            dbg( 1, "Generate 4 points vertices polygon data" )
+            generatePolygon = True      # global var
+            useTopLeftCorner = True     # for polygon, wants to force this to always be using top left corner  (ie, lon1/lat1 later in the input line rather than the earlier lon/lat which might be center point)
+        else :
+            dbg( 1, "Generate point data" )
+            generatePolygon = False      # global var
+
+        if( useTopLeftCorner ) :
+		    dbg( 1, "Use Top Left Corner for point" )
+        else :
+		    dbg( 1, "Use Center for point" )
+ 
+
 	return args
 # process_cli()-end
 
@@ -81,13 +104,6 @@ def gprint( str1, str2="#" ):
 # gson need 5 poionts to close off a square, this fn will print first point last again for that purpose
 #def print_gsonLine( value, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :
 def print_gsonLine( dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :  ## input is 19-tuple.
-        if( generatePolygon ) : 
-            print( "generate 4 points polygon data" ) 
-        else :
-            print( "generate point data" ) 
-
-        return      ## TMP FIXME
-
 	gprint( '    { "type":       "Feature", ', '1' ) 	## 1
 	gprint( '      "properties":            ', '2' ) 	## 2
 	gprint( '           {"dirId":          %s ,'  % dirId , "3-first" )        ## 3
@@ -102,7 +118,16 @@ def print_gsonLine( dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  f
 	gprint( '            "pop_density":    %s, ' % pop_density , "3-j" )        ## 3
 	gprint( '            "attr_label":    "%s"}' % attr_label , "3-last" )        ## 3
 	gprint( '      ,' , '2')
-	gprint( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ], [ %s,%s], [%s,%s], [%s,%s], [%s,%s]  ]]}' % (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4, lon1,lat1), '2b') 
+        # check if using center point, ie, specified --point (-1) but not --useTopLeftCorner (-t)
+        # the vars are global or Object-wide state :)
+        if( generatePolygon ) :
+            # normal 4 point vertices case
+	    gprint( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ], [ %s,%s], [%s,%s], [%s,%s], [%s,%s]  ]]}' % (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4, lon1,lat1), '2b') 
+        #elif( generatePolygon == False && useTopLeftCorner == False ) : 
+        else : 
+            # don't have to check if useTopLeftCorner here as caller would have done the right thing and fed it the right param.
+            # FIXME at least double check if geojson is correct for geometry of single point >>>
+	    gprint( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ]  ]]}' % (lon1,lat1), '2b-singlePt') 
 	gprint( '    }', '1' )
 
 # print_gsonLine()-end 
@@ -149,7 +174,11 @@ INPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"
 dirID,site_name,airbasin_name,airbasin,facility,city,county,terrain,waterproximity,popdensity,lat,lon,attr.label,site_name,centerlon,centerlat,UTM,x,y,lon1,lat1,x1,y1,lon2,lat2,x2,y2,lon3,lat3,x3,y3,lon4,lat4,x4,y4
 1,Arcata_WWTF,NC,North Coast,Arcata WWTF,Arcata,Humboldt,hilly or mountainous,coastal,1894.159779,40.85562,-124.090124,hilly or mountainous-coastal-low,Arcata_WWTF,40.85562,-124.090124,10,408118.3227,4523301.536,-124.1252537,40.82825793,405118.3227,4520301.536,-124.0541083,40.82892998,411118.3227,4520301.536,-124.0549654,40.88297159,411118.3227,4526301.536,-124.1261686,40.88229828,405118.3227,4526301.536
 2,Atwater_WWTF,SJ,San Joaquin Valley,Atwater WWTF,Atwater,Merced,flat,inland,4627.282563,37.276403,-120.63169,flat-inland-high,Atwater_WWTF,37.276403,-120.63169,10,709973.7762,4128164.559,-120.6663357,37.25005539,706973.7762,4125164.559,-120.5987382,37.24870311,712973.7762,4125164.559,-120.5970202,37.30273951,712973.7762,4131164.559,-120.664666,37.30409443,706973.7762,4131164.559
+    # 40.85562,-124.090124 for lat/long col 10/11 (seems like center point)
+    # 40.85562,-124.090124, for centerLon/Lat col 14/15, but order seems like lat/lon :(     ++ WARNING ++
+    # -124.1252537,40.82825793 col 19/20 lon1/lat1
     # need to parse above to create a 19-tuple returnable by parse1line
+
     dirId,  
     site_name
     site_abbr          # this field not currently in input and always get 'TBA'
@@ -176,6 +205,8 @@ pop_density_idx     = 9
 attr_label_idx     = 12
 #lon1_idx = 11 # column index containing longitude, center point, index is flipped cuz input there is lat/lon
 #lat1_idx = 10
+lon0_idx = 11 #  lon0 is for center point.  note input order for this is lat, then lon
+lat0_idx = 10
 lon1_idx = 19 # column index containing longitude, 4 point vertices polygon version
 lat1_idx = 20
 lon2_idx = 23 # 
@@ -228,8 +259,17 @@ def parse1line( line ) :
     pop_density         = lineList[pop_density_idx].strip()
     attr_label          = lineList[attr_label_idx].strip()
 
-    lon1 = lineList[lon1_idx].strip()       # strip() removes white space on left and right ends only, not middle
-    lat1 = lineList[lat1_idx].strip() 
+    # check if using center point, ie, specified --point (-1) but not --useTopLeftCorner (-t)
+    # the vars are global or Object-wide state :)
+    if( generatePolygon == False && useTopLeftCorner == False ) : 
+        lon1 = lineList[lon0_idx].strip()       # notice using idx for lon0 and lat0 which are points in center/middle
+        lat1 = lineList[lat0_idx].strip() 
+    else :
+        # not using center point, whether polygon or point, use top left corner 
+        lon1 = lineList[lon1_idx].strip()       # strip() removes white space on left and right ends only, not middle
+        lat1 = lineList[lat1_idx].strip() 
+
+    # thse setup remaining 3 vertices, not relevant if using --point, but data is here, easier to parse it so downstream handling does not need to check for special conditions
     lon2 = lineList[lon2_idx].strip()       # vertices #2
     lat2 = lineList[lat2_idx].strip() 
     lon3 = lineList[lon3_idx].strip()       # vertices #3
@@ -313,15 +353,6 @@ def main():
 	# no args needed, just that i took some old code that open STDIN
 	# -ddddd is supported
         args = process_cli()
-
-
-        # tmp test...
-        if( args.polygon ) :
-            print( "==Generate 4 points vertices polygon data" )
-            generatePolygon = True      # global var
-        else :
-            print( "==Generate point data" )
-            generatePolygon = False      # global var
 
 	# INPUT csv is from stdin (just cuz caAirCsv2gson.py use that convention now)
 	# OUTPUT is to stdout
