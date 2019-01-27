@@ -1,0 +1,443 @@
+{ "type": "FeatureCollection", "features": [
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Arcata_WWTF",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "NC",
+            "airbasin":      "North Coast",
+            "facility":      "Arcata WWTF",
+            "city":          "Arcata",
+            "county":        "Humboldt",
+            "terrain":       "hilly or mountainous",
+            "pop_density":    1894.159779, 
+            "attr_label":    "hilly or mountainous-coastal-low"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -124.090124,40.85562 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Atwater_WWTF",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SJ",
+            "airbasin":      "San Joaquin Valley",
+            "facility":      "Atwater WWTF",
+            "city":          "Atwater",
+            "county":        "Merced",
+            "terrain":       "flat",
+            "pop_density":    4627.282563, 
+            "attr_label":    "flat-inland-high"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -120.63169,37.276403 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "BakersfieldWWTP2",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SJ",
+            "airbasin":      "San Joaquin Valley",
+            "facility":      "Bakersfield WWTP #2",
+            "city":          "Bakersfield",
+            "county":        "Kern",
+            "terrain":       "flat",
+            "pop_density":    2444.233179, 
+            "attr_label":    "flat-inland-low"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -118.973238,35.32572 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Calexico_WPCP",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SS",
+            "airbasin":      "Salton Sea",
+            "facility":      "Calexico WPCP",
+            "city":          "Calexico",
+            "county":        "Imperial",
+            "terrain":       "flat",
+            "pop_density":    4596.712369, 
+            "attr_label":    "flat-inland-high"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -115.505188,32.671926 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Corona_WWTP1",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SC",
+            "airbasin":      "South Coast",
+            "facility":      "Corona WWTP #1",
+            "city":          "Corona",
+            "county":        "Riverside",
+            "terrain":       "hilly or mountainous",
+            "pop_density":    3924.589341, 
+            "attr_label":    "hilly or mountainous-inland-high"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -117.604756,33.927683 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Dublin_WWTP",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SF",
+            "airbasin":      "San Francisco Bay",
+            "facility":      "Dublin San Ramon Services District Regional WWTP",
+            "city":          "Pleasanton",
+            "county":        "Alameda",
+            "terrain":       "hilly or mountainous",
+            "pop_density":    2914.846435, 
+            "attr_label":    "hilly or mountainous-inland-low"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.915158,37.68713 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "El_Dorado_WPP",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "MC",
+            "airbasin":      "Mountain Counties",
+            "facility":      "El Dorado Hills Reclamation Plant",
+            "city":          "El Dorado Hills",
+            "county":        "El Dorado",
+            "terrain":       "hilly or mountainous",
+            "pop_density":    902.4, 
+            "attr_label":    "hilly or mountainous-inland-low"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.060204,38.637366 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Fairfield_Suisan",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SF",
+            "airbasin":      "San Francisco Bay",
+            "facility":      "Fairfield-Suisan Sewer District",
+            "city":          "Fairfield",
+            "county":        "Solano",
+            "terrain":       "flat",
+            "pop_density":    2816.83086, 
+            "attr_label":    "flat-coastal-low"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.078372,38.222534 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Fresno-Clovis",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SJ",
+            "airbasin":      "San Joaquin Valley",
+            "facility":      "Fresno/Clovis Regional Wastewater Reclamation",
+            "city":          "Fresno",
+            "county":        "Fresno",
+            "terrain":       "flat",
+            "pop_density":    4418.361524, 
+            "attr_label":    "flat-inland-high"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -119.893086,36.702497 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Healdsburg_WRF",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "NC",
+            "airbasin":      "North Coast",
+            "facility":      "Healdsburg WRF",
+            "city":          "Healdsburg",
+            "county":        "Sonoma",
+            "terrain":       "hilly or mountainous",
+            "pop_density":    2525.088958, 
+            "attr_label":    "hilly or mountainous-inland-low"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.862719,38.583622 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "IEUA_Plant",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SC",
+            "airbasin":      "South Coast",
+            "facility":      "IEUA Regional Plant No. 1",
+            "city":          "Ontario",
+            "county":        "San Bernardino",
+            "terrain":       "flat",
+            "pop_density":    3282.386276, 
+            "attr_label":    "flat-inland-high"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -117.601852,34.028642 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Joint_WPCA",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SC",
+            "airbasin":      "South Coast",
+            "facility":      "Joint Water Pollution Control Plant",
+            "city":          "Carson",
+            "county":        "Los Angeles",
+            "terrain":       "flat",
+            "pop_density":    4898.166857, 
+            "attr_label":    "flat-coastal-high"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -118.282017,33.831406 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Lancaster_WPP",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "MD",
+            "airbasin":      "Mojave Desert",
+            "facility":      "Lancaster Water Reclamation Plant",
+            "city":          "Lancaster",
+            "county":        "Los Angeles",
+            "terrain":       "flat",
+            "pop_density":    1661.423154, 
+            "attr_label":    "flat-inland-low"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -118.155984,34.785119 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "MONTEREY_WPCA",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "CC",
+            "airbasin":      "North Central Coast",
+            "facility":      "MONTEREY REG. WPCA",
+            "city":          "Marina",
+            "county":        "Monterey",
+            "terrain":       "hilly or mountainous",
+            "pop_density":    2219.765151, 
+            "attr_label":    "hilly or mountainous-coastal-low"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.769894,36.70564 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Palm_WPCP",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SS",
+            "airbasin":      "Salton Sea",
+            "facility":      "Palm Springs WWTP",
+            "city":          "Palm Springs",
+            "county":        "Riverside",
+            "terrain":       "hilly or mountainous",
+            "pop_density":    473.3710471, 
+            "attr_label":    "hilly or mountainous-inland-low"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -116.498436,33.80629 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Porterville_WWTF",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SJ",
+            "airbasin":      "San Joaquin Valley",
+            "facility":      "Porterville WWTF",
+            "city":          "Porterville",
+            "county":        "Tulare",
+            "terrain":       "hilly or mountainous",
+            "pop_density":    3076.277648, 
+            "attr_label":    "hilly or mountainous-inland-high"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -119.048096,36.076366 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Redding_WWTP",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SV",
+            "airbasin":      "Sacramento Valley",
+            "facility":      "Redding Clear Creek WWTP",
+            "city":          "Redding",
+            "county":        "Shasta",
+            "terrain":       "hilly or mountainous",
+            "pop_density":    1506.547428, 
+            "attr_label":    "hilly or mountainous-inland-low"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.369441,40.50298 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Sacramento",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SV",
+            "airbasin":      "Sacramento Valley",
+            "facility":      "Sacramento Regional County Sanitation District",
+            "city":          "Elk Grove",
+            "county":        "Sacramento",
+            "terrain":       "flat",
+            "pop_density":    3626.820618, 
+            "attr_label":    "flat-inland-high"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.463686,38.448653 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "SanDiego_Metro",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SD",
+            "airbasin":      "San Diego",
+            "facility":      "San Diego Metro Biosolids Center",
+            "city":          "San Diego",
+            "county":        "San Diego",
+            "terrain":       "hilly or mountainous",
+            "pop_density":    4020.449496, 
+            "attr_label":    "hilly or mountainous-coastal-high"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -117.159168,32.841723 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "SanJose_WPCP",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SF",
+            "airbasin":      "San Francisco Bay",
+            "facility":      "San Jose/Santa Clara WPCP",
+            "city":          "San Jose",
+            "county":        "Santa Clara",
+            "terrain":       "flat",
+            "pop_density":    5358.643555, 
+            "attr_label":    "flat-coastal-high"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.945137,37.432731 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "SOCWA_TP",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SC",
+            "airbasin":      "South Coast",
+            "facility":      "SOCWA J. B. LATHAM TP",
+            "city":          "Dana Point",
+            "county":        "Orange",
+            "terrain":       "hilly or mountainous",
+            "pop_density":    5133.151557, 
+            "attr_label":    "hilly or mountainous-coastal-high"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -117.683919,33.466431 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Southeast_WPCP",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SF",
+            "airbasin":      "San Francisco Bay",
+            "facility":      "Southeast Water Pollution Control Plant",
+            "city":          "San Francisco",
+            "county":        "San Francisco",
+            "terrain":       "hilly or mountainous",
+            "pop_density":    17179.16448, 
+            "attr_label":    "hilly or mountainous-coastal-high"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.391201,37.740667 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Ukiah_WWTP",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "NC",
+            "airbasin":      "North Coast",
+            "facility":      "Ukiah WWTP",
+            "city":          "Ukiah",
+            "county":        "Mendocino",
+            "terrain":       "hilly or mountainous",
+            "pop_density":    3441.893738, 
+            "attr_label":    "hilly or mountainous-inland-high"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -123.191581,39.112339 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Vacaville_WWTP",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SV",
+            "airbasin":      "Sacramento Valley",
+            "facility":      "Vacaville Easterly WWTP",
+            "city":          "Elmira",
+            "county":        "Solano",
+            "terrain":       "flat",
+            "pop_density":    455.5, 
+            "attr_label":    "flat-inland-low"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.903879,38.343537 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "Z-Best_Facility",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SF",
+            "airbasin":      "San Francisco Bay",
+            "facility":      "Z Best Products",
+            "city":          "Gilroy",
+            "county":        "Santa Clara",
+            "terrain":       "hilly or mountainous",
+            "pop_density":    3023.667048, 
+            "attr_label":    "hilly or mountainous-inland-high"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.5240213,36.9481043 ]  ]]}
+    }
+,
+    { "type":       "Feature", 
+      "properties":            
+           {"dirId":          0 ,
+            "site_name":     "ZWEDC",
+            "site_abbr":     "TBA",
+            "airbasin_abbr": "SF",
+            "airbasin":      "San Francisco Bay",
+            "facility":      "ZWEDC",
+            "city":          "San Jose",
+            "county":        "Santa Clara",
+            "terrain":       "flat",
+            "pop_density":    5358.643555, 
+            "attr_label":    "flat-coastal-high"}
+      ,
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.9507,37.43469 ]  ]]}
+    }
+] }
