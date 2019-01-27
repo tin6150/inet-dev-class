@@ -9,3 +9,13 @@ MAPBOX_ACCESS_TOKEN aka SECRET env var not set, exiting
 ++ OK ++ 0: upload of sites_info_pt_ctr.geojson completed successfully.
 {"id":"cjrejqpwd0v432xnyvyu80996","name":"sites_info_pt_topLeft","complete":false,"error":null,"created":"2019-01-27T06:52:06.973Z","modified":"2019-01-27T06:52:06.973Z","tileset":"sn50.sites_info_pt_topLeft","owner":"sn50","progress":0}
 ++ OK ++ 1: upload of sites_info_pt_topLeft.geojson completed successfully.
+{"id":"cjrfgqudy0gfl34m38ohxmb93","name":"sites_info_pt_ctr","complete":false,"error":null,"created":"2019-01-27T22:16:00.126Z","modified":"2019-01-27T22:16:00.126Z","tileset":"sn50.sites_info_pt_ctr","owner":"sn50","progress":0}
+++ OK ++ 0: upload of sites_info_pt_ctr.geojson completed successfully.
+{"id":"cjrfgqx82193u2xnyrc1fyo3o","name":"sites_info_pt_topLeft","complete":false,"error":null,"created":"2019-01-27T22:16:03.820Z","modified":"2019-01-27T22:16:03.820Z","tileset":"sn50.sites_info_pt_topLeft","owner":"sn50","progress":0}
+++ OK ++ 1: upload of sites_info_pt_topLeft.geojson completed successfully.
+{"id":"cjrfgtu562yhv2rqqibtifmqk","name":"sites_info_polyg","complete":false,"error":null,"created":"2019-01-27T22:18:19.763Z","modified":"2019-01-27T22:18:19.763Z","tileset":"sn50.sites_info_polyg","owner":"sn50","progress":0}
+++ OK ++ 0: upload of sites_info_polyg.geojson completed successfully.
+{"id":"cjrfgtxik36g62woxd2x6bbmh","name":"sites_info_pt_ctr","complete":false,"error":null,"created":"2019-01-27T22:18:24.137Z","modified":"2019-01-27T22:18:24.137Z","tileset":"sn50.sites_info_pt_ctr","owner":"sn50","progress":0}
+++ OK ++ 1: upload of sites_info_pt_ctr.geojson completed successfully.
+{"id":"cjrfgu0kx386j2wn5lmxvuehk","name":"sites_info_pt_topLeft","complete":false,"error":null,"created":"2019-01-27T22:18:28.124Z","modified":"2019-01-27T22:18:28.124Z","tileset":"sn50.sites_info_pt_topLeft","owner":"sn50","progress":0}
+++ OK ++ 2: upload of sites_info_pt_topLeft.geojson completed successfully.
