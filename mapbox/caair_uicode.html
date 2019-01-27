@@ -12,7 +12,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 -->
 <head>
     <meta charset='utf-8' />
-    <title>CA Air - ZWEDC only</title>
+    <title>Smelly - ETA + Science IT Collaboration</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
@@ -266,7 +266,7 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 (fewer classes than before.  also need to adjust in 'function styleZwedcPolys' 
 -->
 <div id='legend' class='legend' >
-    Odor<BR>(ou/m3)
+    Top 2% Odor Exposure (ou/m3)
     <div><span style='background-color: #f2f3f4'></span>0.0001</div>
     <div><span style='background-color: #FED976'></span>0.01</div>
     <div><span style='background-color: #FEB24C'></span>0.1</div>
@@ -281,7 +281,7 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 
 <!-- this create the bottom? right info box -->
 <div class='map-overlay' id='features'>
-        <h3>Odor (ou/m3):</h3> <!-- this is title of bottom right box -->
+        <h3>Top 2% Odor Exposure (ou/m3):</h3> <!-- this is title of bottom right box -->
         <div id='pd'><p>(Hover)</p></div>   <!-- static text, replaced later by JS -->
 </div>
 
@@ -562,11 +562,11 @@ map.on('mousemove', function (e) {
 
       if (features.length > 0) {
             document.getElementById('features').innerHTML = 
-		      "<H3>Odor (ou/m3)</H3>\n" + 
+		      "<H3>Top 2% Odor Exposure (ou/m3)</H3>\n" + 
 		      "" + features[0].properties.max 	+ "<BR>\n"  
 		      // + "id: "  + features[0].properties.id 	+ "<BR>\n" 
       } else {
-            document.getElementById('features').innerHTML = "<H3>Odor (ou/m3)</H3>\n" + "n/a" 
+            document.getElementById('features').innerHTML = "<H3>Top 2% Odor Exposure (ou/m3)</H3>\n" + "n/a" 
             //UiSelection = $("site").val();
             //+ "UI: " + UiSelection ;
       }
