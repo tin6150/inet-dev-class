@@ -279,22 +279,22 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 (fewer classes than before.  also need to adjust in 'function styleZwedcPolys' 
 -->
 <div id='legend' class='legend' >
-    Top 2% Odor Exposure (ou/m3)
+    Top 2% Odor Exposure (ou/m&cube;)
     <div><span style='background-color: #f2f3f4'></span>0.0001</div>
     <div><span style='background-color: #FED976'></span>0.01</div>
     <div><span style='background-color: #FEB24C'></span>0.1</div>
-    <div><span style='background-color: #FD8D3C'></span>1.0</div>
+    <div><span style='background-color: #FD8D3C'></span>1.0</div>    <!-- was FD8D3C , thought about changing to FF9900, but not enough diff -->
     <div><span style='background-color: #FC4E2A'></span>5.0</div>
     <div><span style='background-color: #E31A1C'></span>30</div>
     <div><span style='background-color: #BD0026'></span>100</div>
-    <div><span style='background-color: #800026'></span>&gt;100</div>
+    <div><span style='background-color: #800026'></span>100+</div>
     <!--<div><span style='background-color: #7c27c2'></span>tba</div>
         <div><span style='background-color: #5b08a3'></span>&gt;100</div>-->
 </div>
 
 <!-- this create the bottom right info box -->
 <div class='map-overlay-features' id='features'>
-        <h3>Top 2% Odor Exposure (ou/m3):</h3> <!-- this is title of bottom right box -->
+        <h3>Top 2% Odor Exposure (ou/m&cube;):</h3> <!-- this is title of bottom right box -->
         <div id='pd'><p>(Hover over data point)</p></div>   <!-- static text, replaced later by JS -->
 </div>
 
@@ -399,8 +399,8 @@ var map = new mapboxgl.Map({
 var layers = ['0-10', '10-20', '20-50', '50-100', '100-200', '200-500', '500-1000', '1000+'];
 var colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
 // don't think these below are used anymore
-var zwedc_layers = ['0-0.01', '0.01-0.1', '0.1-1.0', '1.0-3.0', '3.0-5.0', '5.0-8.0', '8.0-10', '10-15',    '15+'];	// Tyler legend needed by markers
-var zwedc_colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026', '#000000']; // Tyler legend needed by markers 
+//var zwedc_layers = ['0-0.01', '0.01-0.1', '0.1-1.0', '1.0-3.0', '3.0-5.0', '5.0-8.0', '8.0-10', '10-15',    '15+'];	// Tyler legend needed by markers
+//var zwedc_colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026', '#000000']; // Tyler legend needed by markers 
 
 
 // modeleed after styleCountyPolys(poly_data_field) 
@@ -426,6 +426,24 @@ function styleZwedcPolys(attribute) {
 
 // the attribute, 'max', don't do anything here
 function styleZwedcOpacity(attribute) {
+    return [
+      'interpolate',
+      ['linear'],
+      ['get', attribute],
+		// Tyler's framework used 10 entries here 
+                0.0, 0.05,              // graded opacity increases as value increases.  look pretty, but may be hiding data from view ##
+               0.01, 0.15,
+                1.0, 0.25,
+                5.0, 0.40,
+                 30, 0.55,
+                100, 0.70,
+               1000, 0.85,
+             100000, 0.95
+    ]
+};
+
+// this not used anymore, but kept for ref till color scale/opacity verified to work
+function styleZwedcOpacity_old10Gradient(attribute) {
     return [
       'interpolate',
       ['linear'],
@@ -611,7 +629,7 @@ map.on('mousemove', function (e) {
 	      //['caair'] 
       });
       if (features.length > 0) {
-            text2display = 
+            text2display =  
 		      "<H3>Top 2% Odor Exposure (ou/m3)</H3>\n" + 
 		      //"" + features[0].properties.max 	+ "<BR>\n"  
 		      "" + features[0].properties.max.toExponential(1) 	+ "<BR>\n"  
