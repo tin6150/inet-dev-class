@@ -195,7 +195,8 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 <div id="inputbar" class="inputForm">
 	<!--html element for drop down picker goes here-->
 	<select id="siteSelectorUI"> <!-- site -->  <!--to emulate Tyler <select id="polygon-layer-selector"> -->
-		<option value="SfZwedc"         >SF: ZWEDC</option>                                       <!-- San Francisco Bay -->
+		<option value="NA"         disabled           >Air Basin: Site</option>	       
+		<option value="SfZwedc"    selected='selected'>SF: ZWEDC</option>                                       <!-- San Francisco Bay -->
 		<option value="SfSanJose"       >SF: San Jose WPCP</option>	                              <!-- San Francisco Bay -->
 		<option value="SfZbest"         >SF: Z Best Products</option>                             <!-- San Francisco Bay -->
 		<option value="SfDublin"        >SF: Dublin WWTP</option>                                 <!-- San Francisco Bay -->
@@ -235,6 +236,7 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 	</select>
 
 	<select id="seasonSelectorUI">
+		<option value="NA"  disabled >Season</option>	       
 		<option value="Spr">Spring</option>
 		<option value="Sum">Summer</option>
 		<option value="Aut">Autumn</option>
@@ -242,11 +244,13 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 		<option value="All">All</option>
 	</select>
 	<select id="hourSelectorUI"> <!--mixing depends on time of day-->
+		<option value="NA"  disabled >Hour</option>	       
 		<option value="Hi">High mixing</option>  <!-- FIXME much data for many sites need to be removed -->
 		<option value="Lo">Low  mixing</option>
 		<option value="Al">All hours</option>
 	</select>
 	<select id="sourceSelectorUI">
+		<option value="NA" disabled >Source</option>	       
 		<option value="Co">Compost</option>
 		<option value="Nc">No Compost</option>
 		<option value="Bi">Biofilter</option>
@@ -255,8 +259,9 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 		<option value="Aa">All Area Line</option>
 	</select>
 	<select id="scaleSelectorUI">
-		<option value="10x">1.0</option>
-		<option value="Act">Actual</option>
+		<option value="NA"  disabled >Capacity</option>	       
+		<option value="Act">Actual/Current</option>
+		<option value="10x" selected='selected' >1.0</option>
 		<option value="05x">0.5</option>
 		<option value="15x">1.5</option>
 		<option value="20x">2.0</option>
