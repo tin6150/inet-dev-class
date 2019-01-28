@@ -62,6 +62,12 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	    width: 10px;
 	}
 
+	/* trying to format the now customized attribution feature, but don't seems to get it to work  */
+	#attribution-layer {
+       margin-left: 1000px;	
+       background: rgba(30, 30, 30, 0.6);  /* this should be dark to black...  255 255 255 is pure white */
+	}
+	
 	/* top box for attribution -- need more tweaking*/
 	.attributionFloat {
 	  /*transform: rotate(90deg);  */
@@ -69,12 +75,12 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	  top: 0;   /* 0 before rotate */
 	  left: 0;    /* 0 before rotate */
 	  /*right: 3;     /* */
-	  background: rgba(250, 250, 250, 0.6);  /* 255 255 255 is pure white */
-	  margin-left: 2px; 
+	  background: rgba(250, 250, 250, 0.7);  /* 255 255 255 is pure white */
+	  margin-left: 6px; 
 	  /*overflow: auto;*/
 	  border-radius: 3px;
-	  font: 10px/12px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
-	  z-index: 5;		/* 1 appear behind copyright link; 5 would cover it. I have another (i) for the link :) */
+	  font: 14px/14px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
+	  z-index: 4;		/* 1 appear behind copyright link; 5 would cover it. I have another (i) for the link :) */
 	}
 
 
@@ -91,7 +97,8 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	    /*left: 100px;  /* this leaves a gap to the left where slider start */
 	    /*height: 100%;   /* use this if doing vertically positioned slider bar*/
 	    position: absolute;
-            /*margin-right: 100px%;       /* margin-left and width combined to position the slider in center; but mapbox logo is num of pixels :( */
+            margin-top: 6px;
+            /*margin-right: 100px;       /* margin-left and width combined to position the slider in center; but mapbox logo is num of pixels :( */
             /*margin-left: 100px;       /* margin-left and width combined to position the slider in center; but mapbox logo is num of pixels :( */
 	    /*width: 300px;       /* create scroll bar when screen is too narrow... 84% seems ok compromise  */
             opacity: 0.8;
@@ -99,52 +106,41 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	    /*z-index: 5;		/* 1 appear behind copyright link; 5 would cover it. I have another (i) for the link :) */
 	}
 
-	/* feature info box in bottom right */
-	.map-overlay-features {
-            visibility: visible; /* hidden */
-            height: 300px;      /* formerly 100px, now adding much more text */
-            margin-top: 10px;
-            margin-bottom: 22px;
-            width: 320px;      /* formerly 220px, 300px - needed more space cuz longer title now */
-	  position: absolute;
-	  /*bottom: 10px;  /* 10px add buffer at bottom for (i) attributes info icon */
-	  bottom: 0;  /* 0 put box on top, other number put on top.  maybe 30px add buffer at bottom */
-	  right:  0;  /* anything other than 0 put box on left */
-	  background: rgba(250, 250, 224, 0.5);  /* this is greenish/yellowish */
-	  margin-left:  10px; 
-	  margin-right: 10px; /* choropleth used 20px */
-	  font-family: Arial, sans-serif;
-	  overflow: auto;
-	  border-radius: 3px;
-	}
+    /* feature info box in bottom right */
+    .map-overlay-features {
+        visibility: visible; /* hidden */
+        height: 300px;      /* formerly 100px, now adding much more text */
+        margin-top: 10px;
+        margin-bottom: 22px;
+        width: 320px;      /* formerly 220px, 300px - needed more space cuz longer title now */
+        position: absolute;
+        /*bottom: 10px;  /* 10px add buffer at bottom for (i) attributes info icon */
+        bottom: 0;  /* 0 put box on top, other number put on top.  maybe 30px add buffer at bottom */
+        right:  0;  /* anything other than 0 put box on left */
+        background: rgba(250, 250, 224, 0.5);  /* this is greenish/yellowish */
+        margin-left:  10px; 
+        margin-right: 10px; /* choropleth used 20px */
+        font-family: Arial, sans-serif;
+        overflow: auto;
+        border-radius: 3px;
+    }
 	
-	/*   simplyfing css 
-	#features { 
-            visibility: visible; /* hidden * /
-            top: 110;		/* 0 was at top (right) * /
-            height: 100px;      /* formerly 80px, 100px * /
-            margin-top: 10px;
-            margin-bottom: 22px;
-            width: 320px;      /* formerly 220px, 300px - needed more space cuz longer title now * /
-	}
-	*/
-
-	/* debug info box to display tileset features info - top right */
-	.map-overlay-features-dbg {
-          visibility: visible; /*hidden; /* visible */
-	  position: absolute;
-	  top: 0;
-          margin-top: 40px;    /* so that it appears below the drop down selectors */
-          margin-right: 50px;  /* so that it has room for the zoom control buttons */
-	  right: 0;
-	  background: rgba(250, 250, 250, 0.4);  /* 255 255 255 is pure white */
-          width: 440px;      /* formerly 250px */
-          height: 400px;      /* formerly 100px */
-	  overflow: auto;
-	  border-radius: 3px;
-	  font: 14px/14px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
-	  /*font-family: Arial, sans-serif;*/
-	}
+    /* debug info box to display tileset features info - top right - hidden when not in use */
+    .map-overlay-features-dbg {
+        visibility: hidden; /* visible */
+        position: absolute;
+        top: 0;
+        margin-top: 40px;    /* so that it appears below the drop down selectors */
+        margin-right: 50px;  /* so that it has room for the zoom control buttons */
+        right: 0;
+        background: rgba(250, 250, 250, 0.4);  /* 255 255 255 is pure white */
+        width: 440px;      /* formerly 250px */
+        height: 400px;      /* formerly 100px */
+        overflow: auto;
+        border-radius: 3px;
+        font: 14px/14px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
+        /*font-family: Arial, sans-serif;*/
+    }
 
 	/* feedback debug info box in bottom left */
 	.map-overlay-feedback-dbg {
@@ -155,7 +151,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	  margin-right: 2px; /* choropleth used 20px */
 	  overflow: auto;
 	  border-radius: 3px;
-	  font: 10px/12px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
+	  font: 11px/11px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
 	  /*font-family: Arial, sans-serif;*/
 	}
 
@@ -195,7 +191,8 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 <div id="inputbar" class="inputForm">
 	<!--html element for drop down picker goes here-->
 	<select id="siteSelectorUI"> <!-- site -->  <!--to emulate Tyler <select id="polygon-layer-selector"> -->
-		<option value="SfZwedc"         >SF: ZWEDC</option>                                       <!-- San Francisco Bay -->
+		<option value="NA"         disabled           >Air Basin: Site</option>	       
+		<option value="SfZwedc"    selected='selected'>SF: ZWEDC</option>                                       <!-- San Francisco Bay -->
 		<option value="SfSanJose"       >SF: San Jose WPCP</option>	                              <!-- San Francisco Bay -->
 		<option value="SfZbest"         >SF: Z Best Products</option>                             <!-- San Francisco Bay -->
 		<option value="SfDublin"        >SF: Dublin WWTP</option>                                 <!-- San Francisco Bay -->
@@ -235,6 +232,7 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 	</select>
 
 	<select id="seasonSelectorUI">
+		<option value="NA"  disabled >Season</option>	       
 		<option value="Spr">Spring</option>
 		<option value="Sum">Summer</option>
 		<option value="Aut">Autumn</option>
@@ -242,11 +240,13 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 		<option value="All">All</option>
 	</select>
 	<select id="hourSelectorUI"> <!--mixing depends on time of day-->
+		<option value="NA"  disabled >Hour</option>	       
 		<option value="Hi">High mixing</option>  <!-- FIXME much data for many sites need to be removed -->
 		<option value="Lo">Low  mixing</option>
 		<option value="Al">All hours</option>
 	</select>
 	<select id="sourceSelectorUI">
+		<option value="NA" disabled >Source</option>	       
 		<option value="Co">Compost</option>
 		<option value="Nc">No Compost</option>
 		<option value="Bi">Biofilter</option>
@@ -255,8 +255,9 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 		<option value="Aa">All Area Line</option>
 	</select>
 	<select id="scaleSelectorUI">
-		<option value="10x">1.0</option>
-		<option value="Act">Actual</option>
+		<option value="NA"  disabled >Capacity</option>	       
+		<option value="Act">Actual/Current</option>
+		<option value="10x" selected='selected' >1.0</option>
 		<option value="05x">0.5</option>
 		<option value="15x">1.5</option>
 		<option value="20x">2.0</option>
@@ -310,6 +311,16 @@ changing class to see...
     <!-- place holder text.  this text can/will be overwritten by jquery handler for the ui form selection -->
     Map layer loading debug data will appear here.
 </div>
+
+    <!-- Modify the style: right position so it matches with the mapbox attribution -->
+    <!-- https://stackoverflow.com/questions/40382515/how-do-i-add-custom-attribution-to-the-default-mapbox-gl-attribution-control -->
+    <!-- didnt do what i wanted, so disabling. -tin
+    <div id="attribution" class="mapboxgl-ctrl mapboxgl-ctrl-attrib mapboxgl-ctrl-bottom-right" style="position: fixed; bottom: 0; right: 230px;">
+        <a href="*">Attribution 1</a> &nbsp;|&nbsp; 
+        <a href="*">Attribution 2</a>  &nbsp;|&nbsp;
+        <a href="*">Attribution n</a> &nbsp;|
+    </div>
+    -->
 
 </div> <!-- end div for map-container -->
 
@@ -368,10 +379,10 @@ var map = new mapboxgl.Map({
     //zoom: 14.2  	// zoomed in and good for zwedc demo with many low value data points // 1000 ft
     //zoom: 13.5  	// zoomed in
     //zoom: 12		// see whole coverate area of ZWEDC
-    zoom: 10          // circle filled point data is said to be z0-z10, 10+ will "appear simplified"  // ## TMP
+    //zoom: 10          // circle filled point data is said to be z0-z10, 10+ will "appear simplified"  // ## TMP
     //zoom: 9		// see most of BAAQMD   // 5mi 
     //zoom: 8		// site-info as polygon said to be good at z0-z8.  8+ will "appear simplified"
-    //zoom: 6  		// see most of CA  	// 50mi    ## smelly overview map ## FIXME come back to this after debug
+    zoom: 6  		// see most of CA  	// 50mi    ## smelly overview map ## FIXME come back to this after debug
     //zoom: 5.5		// see whole CA
 });
 
@@ -529,9 +540,26 @@ map.on('load', function () {
         }
     });  // end map.addLayer(...)
 
-    //------------- site_info point LAYER ------------ // ##  need more work here ##
-    // it already done by mapbox style, but cant seems to be able to get tile info out of it... so adding it here
-    // TBA... maybe dont need it after all
+    //------------- site_info point LAYER ------------ 
+    // if need more rendering feature than what Mapbox studio styling does, 
+    // manually add the layer here
+    // but so far i think i can get what i need as is, so not doing this (yet)
+
+    
+    map.addLayer({
+    "id": "attribution-layer",
+    "type": "circle",
+    "source": {
+        "type": "geojson",
+        "data": {
+            "type": "Feature",
+            "properties": {},
+            "geometry": null
+        }
+    }
+    });
+    //map.style.sourceCaches['attribution-layer']._source.attribution = "Smelly. An app from the collaboration of ETA and Sciencie IT, LBNL. © 2019 Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington, Corinne Scown";
+    map.style.sourceCaches['attribution-layer']._source.attribution = "Smelly";
 
 
 
@@ -655,7 +683,9 @@ map.addControl(new StylesControl([{
 
 
 // https://www.mapbox.com/mapbox-gl-js/api/#attributioncontrol
+//map.addControl(new mapboxgl.AttributionControl({
 map.addControl(new mapboxgl.AttributionControl({
+        //compact: true,  // set to false to add an EXTRA line with info below prefixed.  true add an (i) icon
         compact: true,  // set to false to add an EXTRA line with info below prefixed.  true add an (i) icon
 	customAttribution: '© Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington, Corinne Scown @ LBNL'
 }));
