@@ -134,8 +134,8 @@ This version only for zwedc data,  prepping a demo for 2019-0205
         margin-right: 50px;  /* so that it has room for the zoom control buttons */
         right: 0;
         background: rgba(250, 250, 250, 0.4);  /* 255 255 255 is pure white */
-        width: 440px;      /* formerly 250px */
-        height: 400px;      /* formerly 100px */
+        /* width: 440px;     height: 400px;      /* good for lots of data */
+        width: 300px;     height: 200px;        /* just for map addLayer status */
         overflow: auto;
         border-radius: 3px;
         font: 14px/14px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
@@ -279,7 +279,7 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 (fewer classes than before.  also need to adjust in 'function styleZwedcPolys' 
 -->
 <div id='legend' class='legend' >
-    Top 2% Odor Exposure (ou/m&cube;)
+    Top 2% Odor Exposure (ou/m³)
     <div><span style='background-color: #f2f3f4'></span>0.0001</div>
     <div><span style='background-color: #FED976'></span>0.01</div>
     <div><span style='background-color: #FEB24C'></span>0.1</div>
@@ -294,7 +294,7 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 
 <!-- this create the bottom right info box -->
 <div class='map-overlay-features' id='features'>
-        <h3>Top 2% Odor Exposure (ou/m&cube;):</h3> <!-- this is title of bottom right box -->
+        <h3>Top 2% Odor Exposure (ou/m³):</h3> <!-- this is title of bottom right box -->
         <div id='pd'><p>(Hover over data point)</p></div>   <!-- static text, replaced later by JS -->
 </div>
 
@@ -303,10 +303,6 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
      Temporary debug window - Tileset feature data.
      <!-- static text, replaced later by JS at map.on('mousemove'...) -->
 </div>
-<!-- wonder if this div 'feedback' prevented the featuresDbg from showing
-changing class to see...
-<div id='feedback' class='map-overlay-dbg' class='#featuresDbg'>
--->
 <div id='feedback' class='map-overlay-feedback-dbg'>
     <!-- place holder text.  this text can/will be overwritten by jquery handler for the ui form selection -->
     Map layer loading debug data will appear here.
@@ -348,6 +344,8 @@ $( function() {
 mapboxgl.accessToken =   'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // Sn  (post?) 2018-12-07   pk = public token
 var currentLoadedMapLayer  = "";
 var currentLoadedMapSource = "";
+var prevSite = "";
+var currentSite = "";
 var mapboxUser = "sn50";
 // below are mostly for debuging use
 var getInputSelectorCounter = 0;
@@ -466,7 +464,7 @@ function styleZwedcOpacity_old10Gradient(attribute) {
 // do a map.new each time this is triggered?  
 // better to store current layer, then addLayer, removeLayer....
 function getInputFormSelection() {
-	getInputSelectorCounter++;
+        getInputSelectorCounter++;
         inputFormSelection =  document.getElementById("siteSelectorUI").value;
         inputFormSelection += document.getElementById("seasonSelectorUI").value;;
         inputFormSelection += document.getElementById("hourSelectorUI").value;;
@@ -484,19 +482,17 @@ function getInputFormSelection() {
             //map.removeLayer('caair');
             rmSourceCounter++;
             map.removeSource( currentLoadedMapSource );
-            this.className = '';
+            this.className = '';                                //not sure what this does, got it from some web eg.
             feedback.innerHTML = "removeLayer executed";
         }
          
-        
         // maybe split out the mapLayer code to be called separately??   FIXME ## 
-        
         
         currentLoadedMapLayer  = inputFormSelection;       // this is essentially global var
         currentLoadedMapSource = inputFormSelection;       // this is essentially global var
-	addLayerCounter++;
-	addSourceCounter++;
-        map.addLayer({
+        addLayerCounter++;
+        addSourceCounter++;
+        addStatus = map.addLayer({
             id: currentLoadedMapLayer,
             //id: 'caair',
             type: 'fill',
@@ -509,14 +505,10 @@ function getInputFormSelection() {
             source: {
                 type: 'vector',
                 //url: 'mapbox://sn50.aae3dmkj'   // ZWEDC 25x25 sq first test data set (at 10x?)
-                //url: 'mapbox://sn50.SFZWEDCSpringHighAllAreaLine10x' 	// fake 3-5 point data for now
-                //url:   'mapbox://sn50.SfZwedcAllHiBi10x' 	                // 1st csv2gson upload 
                 //url:   'mapbox://sn50.SfZwedcSprHiBi10x' 	                // 2nd csv2gson upload    ... next, try to make way to toggle between them.   hmm. ready to upload em all!
                 url:   'mapbox://' + mapboxUser + "." + inputFormSelection
             },
             //'source-layer': 'ZWEDC_50x50m-29q7xv',	// retrieved from mapbox web site Tile management...  [1st dummy test data]
-            //'source-layer': 'SFZWEDCSpringHighAllAreaLine10x',	// 3-5 point test data FAKE for now (not visible, too faint due to low val?)
-            //'source-layer': 'SfZwedcAllHiBi10x',	// 
             //'source-layer': 'SfZwedcSprHiBi10x',	// no username prefix here!! duh!!
             'source-layer': inputFormSelection,	    //  grab source layer name from parsed input form 
             paint: {
@@ -529,9 +521,20 @@ function getInputFormSelection() {
                     'fill-opacity': styleZwedcOpacity('max') // max attribute just a place holder
             }
         });  // end map.addLayer(...) for zwedc/caair        
+        document.getElementById('featuresDbg').innerHTML = "map.addLayer status:"  + addStatus + "--EndStatus--";  // dont give any info, always just 'Object object'
         feedback.innerHTML = inputFormSelection; // + " - layerAdded";
         this.className = 'active';   // from mapbox layer eg... not sure what it does :(
         currentLoadedMapSource = inputFormSelection;       // this is essentially global var
+        currentSite = document.getElementById("siteSelectorUI").value;
+        // after addLayer, can then panto()
+        if( prevSite != currentSite )  {   
+            //-var pan2loc = {lon: -121.98, lat: 37.66};  // Dublin
+            //-map.panto(pan2loc);   // need more param that i am not sure how to create yet
+            //+ tmp disabled flyTo till get all site lonlat loaded somehow
+            //+map.flyTo({center: [-121.98, 37.66]});   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this works
+            prevSite = currentSite;
+        }
+        
         
         //--    $( "inputPicker" ).select( function() { alert( "select triggered" ); });
 }; //end fn getInputFormSelection 
@@ -630,12 +633,12 @@ map.on('mousemove', function (e) {
       });
       if (features.length > 0) {
             text2display =  
-		      "<H3>Top 2% Odor Exposure (ou/m3)</H3>\n" + 
+		      "<H3>Top 2% Odor Exposure (ou/m³)</H3>\n" + 
 		      //"" + features[0].properties.max 	+ "<BR>\n"  
 		      "" + features[0].properties.max.toExponential(1) 	+ "<BR>\n"  
 		      // + "id: "  + features[0].properties.id 	+ "<BR>\n" 
       } else {
-            text2display = "<H3>Top 2% Odor Exposure (ou/m3)</H3>\n" + "- <BR>\n" 
+            text2display = "<H3>Top 2% Odor Exposure (ou/m³)</H3>\n" + "- <BR>\n" 
             //UiSelection = $("site").val();
             //+ "UI: " + UiSelection ;
       }
