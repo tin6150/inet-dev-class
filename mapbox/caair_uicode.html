@@ -100,8 +100,12 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	}
 
 	/* feature info box in bottom right */
-
-	.map-overlay {
+	.map-overlay-features {
+            visibility: visible; /* hidden */
+            height: 300px;      /* formerly 100px, now adding much more text */
+            margin-top: 10px;
+            margin-bottom: 22px;
+            width: 320px;      /* formerly 220px, 300px - needed more space cuz longer title now */
 	  position: absolute;
 	  /*bottom: 10px;  /* 10px add buffer at bottom for (i) attributes info icon */
 	  bottom: 0;  /* 0 put box on top, other number put on top.  maybe 30px add buffer at bottom */
@@ -113,18 +117,21 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	  overflow: auto;
 	  border-radius: 3px;
 	}
+	
+	/*   simplyfing css 
 	#features { 
-            visibility: visible; /* hidden */
-            top: 110;		/* 0 was at top (right) */
-            height: 100px;      /* formerly 80px, 100px */
+            visibility: visible; /* hidden * /
+            top: 110;		/* 0 was at top (right) * /
+            height: 100px;      /* formerly 80px, 100px * /
             margin-top: 10px;
             margin-bottom: 22px;
-            width: 320px;      /* formerly 220px, 300px - needed more space cuz longer title now */
+            width: 320px;      /* formerly 220px, 300px - needed more space cuz longer title now * /
 	}
+	*/
 
-	/* debug info box to display tileset features info - top right */
+	/* debug info box to display tileset features info - top right - hidden when not in use */
 	.map-overlay-features-dbg {
-          visibility: visible; /*hidden; /* visible */
+          visibility: hidden; /* visible */
 	  position: absolute;
 	  top: 0;
           margin-top: 40px;    /* so that it appears below the drop down selectors */
@@ -285,7 +292,7 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 </div>
 
 <!-- this create the bottom right info box -->
-<div class='map-overlay' id='features'>
+<div class='map-overlay-features' id='features'>
         <h3>Top 2% Odor Exposure (ou/m3):</h3> <!-- this is title of bottom right box -->
         <div id='pd'><p>(Hover)</p></div>   <!-- static text, replaced later by JS -->
 </div>
@@ -346,8 +353,8 @@ var map = new mapboxgl.Map({
     //style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, probably just the base layer map from mapbox.  used in early caair_zwedc
     //style: 'mapbox://styles/sn50/cjrd1zmyy1kds2tp6k4az7apr',    // sites_info_polyg  with satellite street as base layer, too many colors, don't show data well.
     // #### wtf? mapboxstyles change here!
-    style: 'mapbox://styles/sn50/cjreie0fs4o0m2sqghg3ukiqn', 	// sites_info_pt_ctr with cali terrain     as base layer .  pt in center is pretty small, no need for TopLeft position.
-    //style: 'mapbox://styles/sn50/cjrekq65d4o7o2slw5x262rb0',	// sites_info_polyg  + sites_info_pt_topLeft  with cali terrain.  corner point turns out to be bottom left, but whatever. 
+    //style: 'mapbox://styles/sn50/cjreie0fs4o0m2sqghg3ukiqn', 	// sites_info_pt_ctr with cali terrain     as base layer .  pt in center is pretty small, no need for TopLeft position.
+    style: 'mapbox://styles/sn50/cjrekq65d4o7o2slw5x262rb0',	// sites_info_polyg  + sites_info_pt_topLeft  with cali terrain.  corner point turns out to be bottom left, but whatever. 
 
 
     //zoom: 13,
@@ -361,10 +368,10 @@ var map = new mapboxgl.Map({
     //zoom: 14.2  	// zoomed in and good for zwedc demo with many low value data points // 1000 ft
     //zoom: 13.5  	// zoomed in
     //zoom: 12		// see whole coverate area of ZWEDC
-    zoom: 10          // circle filled point data is said to be z0-z10, 10+ will "appear simplified"  // ## TMP
+    //zoom: 10          // circle filled point data is said to be z0-z10, 10+ will "appear simplified"  // ## TMP
     //zoom: 9		// see most of BAAQMD   // 5mi 
     //zoom: 8		// site-info as polygon said to be good at z0-z8.  8+ will "appear simplified"
-    //zoom: 6  		// see most of CA  	// 50mi    ## smelly overview map ## FIXME come back to this after debug
+    zoom: 6  		// see most of CA  	// 50mi    ## smelly overview map ## FIXME come back to this after debug
     //zoom: 5.5		// see whole CA
 });
 
@@ -578,7 +585,8 @@ map.on('mousemove', function (e) {
       if (features.length > 0) {
             text2display = 
 		      "<H3>Top 2% Odor Exposure (ou/m3)</H3>\n" + 
-		      "" + features[0].properties.max 	+ "<BR>\n"  
+		      //"" + features[0].properties.max 	+ "<BR>\n"  
+		      "" + features[0].properties.max.toExponential(1) 	+ "<BR>\n"  
 		      // + "id: "  + features[0].properties.id 	+ "<BR>\n" 
       } else {
             text2display = "<H3>Top 2% Odor Exposure (ou/m3)</H3>\n" + "n/a" 
@@ -588,19 +596,27 @@ map.on('mousemove', function (e) {
 
       // this next one not limited to any layer -- ie query all layers
       // and provide debug info for all fetures
-      //var featuresDbg = map.queryRenderedFeatures(e.point);
-      var featuresDbg = map.queryRenderedFeatures(e.point, { layers: ['sites-info-pt-ctr'] });
-      document.getElementById('featuresDbg').innerHTML = "DBG:" + JSON.stringify(featuresDbg, null, 2);      // this now hopefully display tile data in featuresDbg box at top right) ##
-      if (featuresDbg.length > 0) {
-            text2display += 
-		      "<BR>\n" + featuresDbg[0].properties.airbasin 	+ "<BR>\n"  
-		      // + "id: "  + features[0].properties.id 	+ "<BR>\n" 
+      //var featuresSiteInfo = map.queryRenderedFeatures(e.point);
+      //var featuresSiteInfo = map.queryRenderedFeatures(e.point, { layers: ['sites-info-pt-ctr'] });      
+      var featuresSiteInfo = map.queryRenderedFeatures(e.point, { layers: ['sites-info-polyg'] });                     // may need to restrict to layer after all so that pick feature [0] rather than find it.  
+      document.getElementById('featuresDbg').innerHTML = "DBG:" + JSON.stringify(featuresSiteInfo, null, 2);      // this display  in top right  featuresDbg box 
+      // rest actually want to add to existing bottom right map-overlay-features box
+      if (featuresSiteInfo.length > 0) {
+            text2display += "<BR><BR>\n" 
+		      + "Site: "        + featuresSiteInfo[0].properties.site_name    + "<BR>\n"  
+		      + "Facility: "    + featuresSiteInfo[0].properties.facility     + "<BR>\n"  
+		      + "Air Basin: "   + featuresSiteInfo[0].properties.airbasin     + "<BR>\n"  
+		      + "City: "        + featuresSiteInfo[0].properties.city         + "<BR>\n"  
+		      + "County: "      + featuresSiteInfo[0].properties.county       + "<BR>\n"  
+		      + "Pop Density: " + featuresSiteInfo[0].properties.pop_density.toExponential(1)  + "<BR>\n"  
+		      //+ "Pop Density: " + featuresSiteInfo[0].properties.pop_density  + "<BR>\n"  
+		      + "Terrain: "     + featuresSiteInfo[0].properties.terrain      + "<BR>\n"  
       } 
 
 
-      text2display += " --tin";
+      //text2display += " --TheEnd";
       document.getElementById('features').innerHTML = text2display;
-      ## tinWasHere
+      //## tinWasHere
 
 });
 

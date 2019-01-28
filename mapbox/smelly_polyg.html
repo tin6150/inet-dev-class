@@ -69,7 +69,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	  top: 0;   /* 0 before rotate */
 	  left: 0;    /* 0 before rotate */
 	  /*right: 3;     /* */
-	  /*background: rgba(250, 250, 250, 0.4);  /* 255 255 255 is pure white */
+	  background: rgba(250, 250, 250, 0.6);  /* 255 255 255 is pure white */
 	  margin-left: 2px; 
 	  /*overflow: auto;*/
 	  border-radius: 3px;
@@ -100,8 +100,12 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	}
 
 	/* feature info box in bottom right */
-
-	.map-overlay {
+	.map-overlay-features {
+            visibility: visible; /* hidden */
+            height: 300px;      /* formerly 100px, now adding much more text */
+            margin-top: 10px;
+            margin-bottom: 22px;
+            width: 320px;      /* formerly 220px, 300px - needed more space cuz longer title now */
 	  position: absolute;
 	  /*bottom: 10px;  /* 10px add buffer at bottom for (i) attributes info icon */
 	  bottom: 0;  /* 0 put box on top, other number put on top.  maybe 30px add buffer at bottom */
@@ -113,34 +117,47 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	  overflow: auto;
 	  border-radius: 3px;
 	}
-	#features {
-            visibility: visible; /* hidden */
-            top: 110;		/* 0 was at top (right) */
-            height: 80px;      /* formerly 100px */
+	
+	/*   simplyfing css 
+	#features { 
+            visibility: visible; /* hidden * /
+            top: 110;		/* 0 was at top (right) * /
+            height: 100px;      /* formerly 80px, 100px * /
             margin-top: 10px;
             margin-bottom: 22px;
-            width: 300px;      /* formerly 220px */
+            width: 320px;      /* formerly 220px, 300px - needed more space cuz longer title now * /
 	}
+	*/
 
-	/* debug info box in top right */
-	.map-overlay-dbg {
+	/* debug info box to display tileset features info - top right */
+	.map-overlay-features-dbg {
+          visibility: visible; /*hidden; /* visible */
 	  position: absolute;
 	  top: 0;
+          margin-top: 40px;    /* so that it appears below the drop down selectors */
+          margin-right: 50px;  /* so that it has room for the zoom control buttons */
 	  right: 0;
 	  background: rgba(250, 250, 250, 0.4);  /* 255 255 255 is pure white */
-	  margin-right: 4px; /* choropleth used 20px */
+          width: 440px;      /* formerly 250px */
+          height: 400px;      /* formerly 100px */
+	  overflow: auto;
+	  border-radius: 3px;
+	  font: 14px/14px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
+	  /*font-family: Arial, sans-serif;*/
+	}
+
+	/* feedback debug info box in bottom left */
+	.map-overlay-feedback-dbg {
+	  position: absolute;
+	  bottom: 0;
+	  left: 0;
+	  background: rgba(250, 250, 250, 0.4);  /* 255 255 255 is pure white */
+	  margin-right: 2px; /* choropleth used 20px */
 	  overflow: auto;
 	  border-radius: 3px;
 	  font: 10px/12px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
 	  /*font-family: Arial, sans-serif;*/
 	}
-	#featuresDbg {
-            visibility: hidden; /* visible */
-            top: 110;
-            height: 400px;      /* formerly 100px */
-            margin-top: 20px;
-            width: 500px;      /* formerly 250px */
- 	}
 
 
     </style>
@@ -225,9 +242,9 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 		<option value="All">All</option>
 	</select>
 	<select id="hourSelectorUI"> <!--mixing depends on time of day-->
-		<option value="Hi">High mixing</option>
-		<option value="Al">All hours</option>
+		<option value="Hi">High mixing</option>  <!-- FIXME much data for many sites need to be removed -->
 		<option value="Lo">Low  mixing</option>
+		<option value="Al">All hours</option>
 	</select>
 	<select id="sourceSelectorUI">
 		<option value="Co">Compost</option>
@@ -246,11 +263,6 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 	</select>
 
 </div><!-- end for inputbar -->
-
-<div id='feedback' class='map-overlay-dbg' class='#featuresDbg'>
-    <!-- place holder text.  this text can/will be overwritten by jquery handler for the ui form selection -->
-	.
-</div>
 
 <!-- legends  from https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/ -->
 <!--<div id='legend' class='legend' style='display: none;'> -->
@@ -279,19 +291,24 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
         <div><span style='background-color: #5b08a3'></span>&gt;100</div>-->
 </div>
 
-<!-- this create the bottom? right info box -->
-<div class='map-overlay' id='features'>
+<!-- this create the bottom right info box -->
+<div class='map-overlay-features' id='features'>
         <h3>Top 2% Odor Exposure (ou/m3):</h3> <!-- this is title of bottom right box -->
         <div id='pd'><p>(Hover)</p></div>   <!-- static text, replaced later by JS -->
 </div>
 
-<!-- currently the map-overlay-dbg goes in the bottom right, 
-	placement likely by the css style code
-	though not obvious how it is specified 
-	Comment out block below if don't want to see it.
+<!-- ZWEDC_gson.html still have that debug data box, but at bottom rather than top -->
+<div class='map-overlay-features-dbg' id='featuresDbg' >
+     Temporary debug window - Tileset feature data.
+     <!-- static text, replaced later by JS at map.on('mousemove'...) -->
+</div>
+<!-- wonder if this div 'feedback' prevented the featuresDbg from showing
+changing class to see...
+<div id='feedback' class='map-overlay-dbg' class='#featuresDbg'>
 -->
-<div class='map-overlay-dbg' id='featuresDbg' >
-	<div id='pd'><p>(debug data via mapbox tileset)</p></div>   <!-- static text, replaced later by JS -->
+<div id='feedback' class='map-overlay-feedback-dbg'>
+    <!-- place holder text.  this text can/will be overwritten by jquery handler for the ui form selection -->
+    Map layer loading debug data will appear here.
 </div>
 
 </div> <!-- end div for map-container -->
@@ -335,6 +352,7 @@ var map = new mapboxgl.Map({
     //style: 'mapbox://styles/mapbox/dark-v9',		// alt basemap style
     //style: 'mapbox://styles/sn50/cjq8j89hqavyu2sqs3kctxqjj', 	// cali terrain, probably just the base layer map from mapbox.  used in early caair_zwedc
     //style: 'mapbox://styles/sn50/cjrd1zmyy1kds2tp6k4az7apr',    // sites_info_polyg  with satellite street as base layer, too many colors, don't show data well.
+    // #### wtf? mapboxstyles change here!
     //style: 'mapbox://styles/sn50/cjreie0fs4o0m2sqghg3ukiqn', 	// sites_info_pt_ctr with cali terrain     as base layer .  pt in center is pretty small, no need for TopLeft position.
     style: 'mapbox://styles/sn50/cjrekq65d4o7o2slw5x262rb0',	// sites_info_polyg  + sites_info_pt_topLeft  with cali terrain.  corner point turns out to be bottom left, but whatever. 
 
@@ -350,10 +368,10 @@ var map = new mapboxgl.Map({
     //zoom: 14.2  	// zoomed in and good for zwedc demo with many low value data points // 1000 ft
     //zoom: 13.5  	// zoomed in
     //zoom: 12		// see whole coverate area of ZWEDC
-    //zoom: 10          // circle filled point data is said to be z0-z10, 10+ will "appear simplified"
+    zoom: 10          // circle filled point data is said to be z0-z10, 10+ will "appear simplified"  // ## TMP
     //zoom: 9		// see most of BAAQMD   // 5mi 
     //zoom: 8		// site-info as polygon said to be good at z0-z8.  8+ will "appear simplified"
-    zoom: 6  		// see most of CA  	// 50mi    ## smelly overview map
+    //zoom: 6  		// see most of CA  	// 50mi    ## smelly overview map ## FIXME come back to this after debug
     //zoom: 5.5		// see whole CA
 });
 
@@ -425,7 +443,7 @@ function getInputFormSelection() {
         inputFormSelection += document.getElementById("hourSelectorUI").value;;
         inputFormSelection += document.getElementById("sourceSelectorUI").value;;
         inputFormSelection += document.getElementById("scaleSelectorUI").value;;
-        feedback.innerHTML = inputFormSelection;
+        feedback.innerHTML = inputFormSelection;					
         if( currentLoadedMapLayer != "" ) {
             // https://docs.mapbox.com/mapbox.js/example/v1.0.0/layers/
             //if (map.hasLayer('caair')) {     // err not a fn.  so can't call map.fn here? 
@@ -510,6 +528,13 @@ map.on('load', function () {
             "line-width": 1
         }
     });  // end map.addLayer(...)
+
+    //------------- site_info point LAYER ------------ // ##  need more work here ##
+    // it already done by mapbox style, but cant seems to be able to get tile info out of it... so adding it here
+    // TBA... maybe dont need it after all
+
+
+
     //------------- ZWEDC "point polygon" LAYER ------------ // ##  need more work here ##
     // ^^ moved to getInputFormSelection 
 
@@ -551,25 +576,47 @@ map.on('load', function () {
 // * https://www.mapbox.com/mapbox-gl-js/api/#popup
 // * https://www.mapbox.com/mapbox-gl-js/example/popup-on-hover/
 map.on('mousemove', function (e) {
+      var text2display = "";
+
       var features = map.queryRenderedFeatures(e.point, { layers: 
 	      [currentLoadedMapLayer] 
 	      //['caair'] 
-	      //['zwedc'] 
       });
-      //var features = map.queryRenderedFeatures(e.point, { layers: ['ZWEDC_50x50m-29q7xv'] });  //don't use this ID
-      //document.getElementById('featuresDbg').innerHTML = JSON.stringify(features, null, 2);
-      //document.getElementById('features').innerHTML = JSON.stringify(features, null, 2);
-
       if (features.length > 0) {
-            document.getElementById('features').innerHTML = 
+            text2display = 
 		      "<H3>Top 2% Odor Exposure (ou/m3)</H3>\n" + 
-		      "" + features[0].properties.max 	+ "<BR>\n"  
+		      //"" + features[0].properties.max 	+ "<BR>\n"  
+		      "" + features[0].properties.max.toExponential(1) 	+ "<BR>\n"  
 		      // + "id: "  + features[0].properties.id 	+ "<BR>\n" 
       } else {
-            document.getElementById('features').innerHTML = "<H3>Top 2% Odor Exposure (ou/m3)</H3>\n" + "n/a" 
+            text2display = "<H3>Top 2% Odor Exposure (ou/m3)</H3>\n" + "n/a" 
             //UiSelection = $("site").val();
             //+ "UI: " + UiSelection ;
       }
+
+      // this next one not limited to any layer -- ie query all layers
+      // and provide debug info for all fetures
+      //var featuresSiteInfo = map.queryRenderedFeatures(e.point);
+      //var featuresSiteInfo = map.queryRenderedFeatures(e.point, { layers: ['sites-info-pt-ctr'] });      
+      var featuresSiteInfo = map.queryRenderedFeatures(e.point, { layers: ['sites-info-polyg'] });                     // may need to restrict to layer after all so that pick feature [0] rather than find it.  
+      document.getElementById('featuresDbg').innerHTML = "DBG:" + JSON.stringify(featuresSiteInfo, null, 2);      // this display  in top right  featuresDbg box 
+      // rest actually want to add to existing bottom right map-overlay-features box
+      if (featuresSiteInfo.length > 0) {
+            text2display += "<BR><BR>\n" 
+		      + "Site: "        + featuresSiteInfo[0].properties.site_name    + "<BR>\n"  
+		      + "Facility: "    + featuresSiteInfo[0].properties.facility     + "<BR>\n"  
+		      + "Air Basin: "   + featuresSiteInfo[0].properties.airbasin     + "<BR>\n"  
+		      + "City: "        + featuresSiteInfo[0].properties.city         + "<BR>\n"  
+		      + "County: "      + featuresSiteInfo[0].properties.county       + "<BR>\n"  
+		      + "Pop Density: " + featuresSiteInfo[0].properties.pop_density.toExponential(1)  + "<BR>\n"  
+		      //+ "Pop Density: " + featuresSiteInfo[0].properties.pop_density  + "<BR>\n"  
+		      + "Terrain: "     + featuresSiteInfo[0].properties.terrain      + "<BR>\n"  
+      } 
+
+
+      //text2display += " --TheEnd";
+      document.getElementById('features').innerHTML = text2display;
+      //## tinWasHere
 
 });
 
