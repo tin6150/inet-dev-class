@@ -325,23 +325,6 @@
     { "type":       "Feature", 
       "properties":            
            {"dirId":          0 ,
-            "site_name":     "SanJose_WPCP",
-            "site_abbr":     "TBA",
-            "airbasin_abbr": "SF",
-            "airbasin":      "San Francisco Bay",
-            "facility":      "San Jose/Santa Clara WPCP",
-            "city":          "San Jose",
-            "county":        "Santa Clara",
-            "terrain":       "flat",
-            "pop_density":    5358.643555, 
-            "attr_label":    "flat-coastal-high"}
-      ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.9794086,37.40599167 ], [ -121.9116243,37.40538707], [-121.910841,37.4594599], [-121.978674,37.46006568], [-121.9794086,37.40599167]  ]]}
-    }
-,
-    { "type":       "Feature", 
-      "properties":            
-           {"dirId":          0 ,
             "site_name":     "SOCWA_TP",
             "site_abbr":     "TBA",
             "airbasin_abbr": "SC",
