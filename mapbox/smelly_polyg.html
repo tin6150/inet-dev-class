@@ -33,7 +33,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
         #map { 
 		position:absolute; 
 		top:0; 
-		bottom: 6px; 	/* this affect bottom padding where mapbox logo appears */
+		bottom: 0px; 	/* this affect bottom padding where mapbox logo appears.  Actually leave a horizontal white space gap with no map data. */
 		width: 100%;    /* width of map (?) */
 	} 
 
@@ -52,7 +52,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	    z-index: 1;
 	}
 	.legend h4 {
-	    margin: 0 0 10px;
+	    margin: 0 0 3px;
 	}
 	.legend div span {
 	    border-radius: 50%;
@@ -109,7 +109,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
     /* feature info box in bottom right */
     .map-overlay-features {
         visibility: visible; /* hidden */
-        height: 300px;      /* formerly 100px, now adding much more text */
+        height: 240px;      /* formerly 100px, now adding much more text */
         margin-top: 10px;
         margin-bottom: 22px;
         width: 320px;      /* formerly 220px, 300px - needed more space cuz longer title now */
@@ -117,7 +117,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
         /*bottom: 10px;  /* 10px add buffer at bottom for (i) attributes info icon */
         bottom: 0;  /* 0 put box on top, other number put on top.  maybe 30px add buffer at bottom */
         right:  0;  /* anything other than 0 put box on left */
-        background: rgba(250, 250, 224, 0.5);  /* this is greenish/yellowish */
+        background: rgba(250, 250, 224, 0.8);  /* this is greenish/yellowish */
         margin-left:  10px; 
         margin-right: 10px; /* choropleth used 20px */
         font-family: Arial, sans-serif;
@@ -142,13 +142,13 @@ This version only for zwedc data,  prepping a demo for 2019-0205
         /*font-family: Arial, sans-serif;*/
     }
 
-	/* feedback debug info box in bottom left */
+	/* feedback debug info box in top right -- was bottom left */
 	.map-overlay-feedback-dbg {
 	  position: absolute;
-	  bottom: 0;
-	  left: 0;
+	  /* bottom: 0; left: 0; */
+	  top: 0; right: 0; 
 	  background: rgba(250, 250, 250, 0.4);  /* 255 255 255 is pure white */
-	  margin-right: 2px; /* choropleth used 20px */
+	  margin-right: 2px; 
 	  overflow: auto;
 	  border-radius: 3px;
 	  font: 11px/11px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
@@ -295,7 +295,7 @@ Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.
 <!-- this create the bottom right info box -->
 <div class='map-overlay-features' id='features'>
         <h3>Top 2% Odor Exposure (ou/m3):</h3> <!-- this is title of bottom right box -->
-        <div id='pd'><p>(Hover)</p></div>   <!-- static text, replaced later by JS -->
+        <div id='pd'><p>(Hover over data point)</p></div>   <!-- static text, replaced later by JS -->
 </div>
 
 <!-- ZWEDC_gson.html still have that debug data box, but at bottom rather than top -->
@@ -617,7 +617,7 @@ map.on('mousemove', function (e) {
 		      "" + features[0].properties.max.toExponential(1) 	+ "<BR>\n"  
 		      // + "id: "  + features[0].properties.id 	+ "<BR>\n" 
       } else {
-            text2display = "<H3>Top 2% Odor Exposure (ou/m3)</H3>\n" + "n/a" 
+            text2display = "<H3>Top 2% Odor Exposure (ou/m3)</H3>\n" + "- <BR>\n" 
             //UiSelection = $("site").val();
             //+ "UI: " + UiSelection ;
       }
@@ -630,7 +630,7 @@ map.on('mousemove', function (e) {
       document.getElementById('featuresDbg').innerHTML = "DBG:" + JSON.stringify(featuresSiteInfo, null, 2);      // this display  in top right  featuresDbg box 
       // rest actually want to add to existing bottom right map-overlay-features box
       if (featuresSiteInfo.length > 0) {
-            text2display += "<BR><BR>\n" 
+            text2display += "<BR>\n" 
 		      + "Site: "        + featuresSiteInfo[0].properties.site_name    + "<BR>\n"  
 		      + "Facility: "    + featuresSiteInfo[0].properties.facility     + "<BR>\n"  
 		      + "Air Basin: "   + featuresSiteInfo[0].properties.airbasin     + "<BR>\n"  
