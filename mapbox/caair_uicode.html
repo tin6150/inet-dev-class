@@ -127,15 +127,15 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	
     /* debug info box to display tileset features info - top right - hidden when not in use */
     .map-overlay-features-dbg {
-        visibility: hidden; /* visible */
+        /*visibility: hidden; /* visible */
         position: absolute;
         top: 0;
         margin-top: 40px;    /* so that it appears below the drop down selectors */
         margin-right: 50px;  /* so that it has room for the zoom control buttons */
         right: 0;
         background: rgba(250, 250, 250, 0.4);  /* 255 255 255 is pure white */
-        /* width: 440px;     height: 400px;      /* good for lots of data */
-        width: 300px;     height: 200px;        /* just for map addLayer status */
+        width: 440px;     height: 400px;      /* good for lots of data */
+        /*width: 300px;     height: 200px;        /* just for map addLayer status */
         overflow: auto;
         border-radius: 3px;
         font: 14px/14px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
@@ -354,6 +354,12 @@ var addSourceCounter = 0;
 var rmLayerCounter = 0;
 var rmSourceCounter = 0;
 
+// these aren't global, just DOM-wide object vars :)
+// store parallel hash of lon/lat of sites.   eg lon['sfzwedc'], lat['sfzwedc'] for use with flyTo()/panTo
+// http://www.mojavelinux.com/articles/javascript_hashes.html 
+var lon = {};
+var lat = {}; 
+
 // note there is a map.remove() ... 
 var map = new mapboxgl.Map({
     container: 'map',	// container id
@@ -364,7 +370,11 @@ var map = new mapboxgl.Map({
     // #### wtf? mapboxstyles change here!
     //style: 'mapbox://styles/sn50/cjreie0fs4o0m2sqghg3ukiqn', 	// sites_info_pt_ctr with cali terrain     as base layer .  pt in center is pretty small, no need for TopLeft position.
     style: 'mapbox://styles/sn50/cjrekq65d4o7o2slw5x262rb0',	// sites_info_polyg  + sites_info_pt_topLeft  with cali terrain.  corner point turns out to be bottom left, but whatever. 
-
+    
+   
+    // https://docs.mapbox.com/mapbox-gl-js/api/#attributioncontrol, but see the top part on options.attributionControl 
+    // these are all options for the map object 
+    attributionControl: false,                  // setting to false remove the fine print at bottom.  I still have an info circle that pop up, should be good enough
 
     //zoom: 13,
     //center: [-122.447303, 37.753574]   SF
@@ -373,14 +383,14 @@ var map = new mapboxgl.Map({
     //center: [-121.985287624997,37.4077223978109],  // data point from TMP test, in santa clara!
     //zoom: 19          // odor data tileset is said to be z0-z19, 19+ will "appear simplified"
     //zoom: 16    	// see building shape, needed cuz 50m x 50m (or 25m?)
-    //zoom: 15    	// see buildings, needed cuz 50m x 50m (or 25m?)
+    zoom: 15    	// see buildings, needed cuz 50m x 50m (or 25m?)
     //zoom: 14.2  	// zoomed in and good for zwedc demo with many low value data points // 1000 ft
     //zoom: 13.5  	// zoomed in
     //zoom: 12		// see whole coverate area of ZWEDC
     //zoom: 10          // circle filled point data is said to be z0-z10, 10+ will "appear simplified"  // ## TMP
     //zoom: 9		// see most of BAAQMD   // 5mi 
     //zoom: 8		// site-info as polygon said to be good at z0-z8.  8+ will "appear simplified"
-    zoom: 6  		// see most of CA  	// 50mi    ## smelly overview map ## FIXME come back to this after debug
+    //zoom: 6  		// see most of CA  	// 50mi    ## smelly overview map ## FIXME come back to this after debug
     //zoom: 5.5		// see whole CA
 });
 
@@ -393,9 +403,9 @@ var map = new mapboxgl.Map({
 
 // end of state/county choropleth
 
-// color gradient from choropleth tutorial  https://www.mapbox.com/help/choropleth-studio-gl-pt-2/
-var layers = ['0-10', '10-20', '20-50', '50-100', '100-200', '200-500', '500-1000', '1000+'];
-var colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
+//-color gradient from choropleth tutorial  https://www.mapbox.com/help/choropleth-studio-gl-pt-2/
+//-var layers = ['0-10', '10-20', '20-50', '50-100', '100-200', '200-500', '500-1000', '1000+'];
+//-var colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
 // don't think these below are used anymore
 //var zwedc_layers = ['0-0.01', '0.01-0.1', '0.1-1.0', '1.0-3.0', '3.0-5.0', '5.0-8.0', '8.0-10', '10-15',    '15+'];	// Tyler legend needed by markers
 //var zwedc_colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026', '#000000']; // Tyler legend needed by markers 
@@ -567,6 +577,8 @@ map.on('load', function () {
     // but so far i think i can get what i need as is, so not doing this (yet)
 
     
+    //------------- tried to change attribution, but not too sucessful  ------------ 
+    //   below isn't all that important.
     map.addLayer({
     "id": "attribution-layer",
     "type": "circle",
@@ -603,7 +615,7 @@ map.on('load', function () {
     });
     var hourSelector = document.getElementById("hourSelectorUI");  
     hourSelector.addEventListener('change', function(e) {
-        getInputFormSelection();                                            // FIXME these are the one throwing error about layer
+        getInputFormSelection();                                            // FIXME these are the one throwing error about layer  // should be fine now.
     });
     var sourceSelector = document.getElementById("sourceSelectorUI");  
     sourceSelector.addEventListener('change', function(e) {
@@ -648,7 +660,7 @@ map.on('mousemove', function (e) {
       //var featuresSiteInfo = map.queryRenderedFeatures(e.point);
       //var featuresSiteInfo = map.queryRenderedFeatures(e.point, { layers: ['sites-info-pt-ctr'] });      
       var featuresSiteInfo = map.queryRenderedFeatures(e.point, { layers: ['sites-info-polyg'] });                     // may need to restrict to layer after all so that pick feature [0] rather than find it.  
-      document.getElementById('featuresDbg').innerHTML = "DBG:" + JSON.stringify(featuresSiteInfo, null, 2);      // this display  in top right  featuresDbg box 
+      document.getElementById('featuresDbg').innerHTML = "DBG:" + JSON.stringify(featuresSiteInfo, null, 2);      // this display  in top right  featuresDbg box  inside map-overlay-features-dbg ##
       // rest actually want to add to existing bottom right map-overlay-features box
       if (featuresSiteInfo.length > 0) {
             text2display += "<BR>\n" 
@@ -731,6 +743,35 @@ map.keyboard.enable();
 
 // also see https://beta.observablehq.com/@siggyf/compare-two-maps-example
 
+
+// ## where is main ??
+// everything in script is looped over and over...
+// so after all fn declaration, will run code here?
+
+console.log( 'main of script maybe ...' );
+
+
+// remove indent once verify code in here is good. ##
+    //++ add code to populate lon['site'] lat[] 
+    //##
+    //var featuresSiteInfo = map.queryRenderedFeatures(e.point, { layers: ['sites-info-pt-ctr'] });               // restrict to layer to easier pick feature...
+    // https://docs.mapbox.com/mapbox-gl-js/api/#map#querysourcefeatures
+    //var featuresSiteInfo = this.isSourceLoaded('sites-info-pt-ctr');
+    featuresSiteInfo = {} ; // tmp
+    console.log( featuresSiteInfo );
+     
+    var featuresSiteInfo = map.querySourceFeatures('sites-info-pt-ctr');          
+    featuesSitesInfo_json = JSON.stringify(featuresSiteInfo);
+    sitesCount = featuresSiteInfo;
+    sitesCount = 0; //tmp FIXME
+    console.log( "sitesCount is: " + sitesCount);
+    for (i=0; i<=sitesCount; i++) {
+        console.log( "siteCount at: " + i )
+        lon_tba = featuresSiteInfo[i].properties
+		  //--     "" + features[0].properties.max.toExponential(1) 	+ "<BR>\n"  
+        console.log( lon_tba );
+    }
+ 
 </script>
 
 </body>
