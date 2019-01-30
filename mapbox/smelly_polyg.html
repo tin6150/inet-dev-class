@@ -91,7 +91,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	.inputForm {
 	    /*background-color: rgba(250,224,224,0.65);   /* blue greenish? */
 	    /*border-radius: 3px; */
-	    top: 10px; /*  */  /* thickness of input area */
+	    top: 16px; /* space from top of body, so need to add space for name, but that was 20px font... 14 px was enought... *sigh css* */  /* NOT really: thickness of input area */
 	    /*top: 5px; /* 30px; */  
 	    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
 	    padding: 5px; /* this is the height of the drop down */
@@ -129,14 +129,14 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	
     /* debug info box to display tileset features info - top right - hidden when not in use */
     .map-overlay-features-dbg {
-        /*visibility: hidden; /* visible */
+        visibility: hidden; /* visible */
         position: absolute;
         top: 0;
         margin-top: 40px;    /* so that it appears below the drop down selectors */
         margin-right: 50px;  /* so that it has room for the zoom control buttons */
         right: 0;
         background: rgba(250, 250, 250, 0.4);  /* 255 255 255 is pure white */
-        width: 440px;     height: 400px;      /* good for lots of data */
+        width: 440px;     height: 500px;      /* good for lots of data */
         /*width: 300px;     height: 200px;        /* just for map addLayer status */
         overflow: auto;
         border-radius: 3px;
@@ -147,8 +147,9 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	/* feedback debug info box in top right -- was bottom left */
 	.map-overlay-feedback-dbg {
 	  position: absolute;
-	  /* bottom: 0; left: 0; */
-	  top: 0; right: 0; 
+	  bottom: 0; right: 0;   /**/
+	  /* bottom: 0; left: 0; /**/
+	  /* top: 0; right: 0;   /**/
 	  background: rgba(250, 250, 250, 0.4);  /* 255 255 255 is pure white */
 	  margin-right: 2px; 
 	  overflow: auto;
@@ -378,6 +379,7 @@ var map = new mapboxgl.Map({
     // https://docs.mapbox.com/mapbox-gl-js/api/#attributioncontrol, but see the top part on options.attributionControl 
     // these are all options for the map object 
     attributionControl: false,                  // setting to false remove the fine print at bottom.  I still have an info circle that pop up, should be good enough
+    hash: true,     // change URL with a hash of map zoom/lat/long    eg append: #15/37.434/-121.945   # notice it is lat/long in this url!!
 
     //zoom: 13,
     //center: [-122.447303, 37.753574]   SF
@@ -395,6 +397,7 @@ var map = new mapboxgl.Map({
     //zoom: 8		// site-info as polygon said to be good at z0-z8.  8+ will "appear simplified"
     //zoom: 6  		// see most of CA  	// 50mi    ## smelly overview map ## FIXME come back to this after debug
     //zoom: 5.5		// see whole CA
+    
 });
 
 
@@ -647,11 +650,17 @@ map.on('mousemove', function (e) {
 	      //['caair'] 
       });
       if (features.length > 0) {
-            text2display =  
+           ouVal = features[0].properties.max   ;
+           if( ouVal < 0.01 ) {
+                ouValString = ouVal.toExponential(1) ;
+           } else {
+                ouValString = ouVal.toPrecision(2);
+           }
+           text2display =  
 		      "<H3>Top 2% Odor Exposure (ou/m³)</H3>\n" + 
-		      //"" + features[0].properties.max 	+ "<BR>\n"  
-		      "" + features[0].properties.max.toExponential(1) 	+ "<BR>\n"  
-		      // + "id: "  + features[0].properties.id 	+ "<BR>\n" 
+		      "" + features[0].properties.max.toPrecision(3) 	+ "<BR>\n"  
+		      //"" + features[0].properties.max.toExponential(1) 	+ "<BR>\n"  
+		      //"" + ouValString 	+ "<BR>\n"  
       } else {
             text2display = "<H3>Top 2% Odor Exposure (ou/m³)</H3>\n" + "- <BR>\n" 
             //UiSelection = $("site").val();
@@ -751,7 +760,7 @@ map.keyboard.enable();
 // everything in script is looped over and over...
 // so after all fn declaration, will run code here?
 
-console.log( 'main of script maybe ...' );
+console.log( 'the "main" of script' );
 
 
 // remove indent once verify code in here is good. ##
@@ -762,16 +771,22 @@ console.log( 'main of script maybe ...' );
     //var featuresSiteInfo = this.isSourceLoaded('sites-info-pt-ctr');
     //-featuresSiteInfo = {} ; // tmp
     //-console.log( featuresSiteInfo );
+    
+    var dbgGetLayer = map.getLayer('sites-info-pt-ctr'); 
+    console.log( "dbgGetLayer:" );
+    console.log( dbgGetLayer );         // this is undef in here, but debugger get the right layer.  so not able to get info from style here... may have to addLayer on this manually in this JS to get it.
      
-    var featuresSiteInfo = map.querySourceFeatures('sites-info-pt-ctr');          
-    featuesSitesInfo_json = JSON.stringify(featuresSiteInfo);
-    console.log( "featuresSiteInfo json: " + featuresSiteInfo_json);
-    sitesCount = featuresSiteInfo;
+    var featureSiteInfo = map.querySourceFeatures('sites-info-pt-ctr');   // this is getting blank :(          ##
+    featureSiteInfo_json = JSON.stringify(featureSiteInfo);
+    console.log( "featureSiteInfo json: " + featureSiteInfo_json);
+    console.log( "featureSiteInfo json: end");
+    
+    sitesCount = featureSiteInfo.length;
     sitesCount = 0; //tmp FIXME
     console.log( "sitesCount is: " + sitesCount);
     for (i=0; i<=sitesCount; i++) {
         console.log( "siteCount at: " + i )
-        lon_tba = featuresSiteInfo[i].properties
+        lon_tba = featureSiteInfo[i].properties.site_name ;
 		  //--     "" + features[0].properties.max.toExponential(1) 	+ "<BR>\n"  
         console.log( lon_tba );
     }
