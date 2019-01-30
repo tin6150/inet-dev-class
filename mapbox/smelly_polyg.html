@@ -177,7 +177,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 
 <!-- had to add an extra css to hold this -->
 <div id="attribution2" class="attributionFloat">
-Smelly.  An app from the collaboration of ETA and Sciencie IT, LBNL.  
+<A HREF="https://github.com/tin6150/smelly">Smelly</A>.  An app from the collaboration of ETA and Sciencie IT, LBNL.  
 © 2019 Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington, Corinne Scown.
 </div>
 
@@ -388,14 +388,14 @@ var map = new mapboxgl.Map({
     //center: [-121.985287624997,37.4077223978109],  // data point from TMP test, in santa clara!
     //zoom: 19          // odor data tileset is said to be z0-z19, 19+ will "appear simplified"
     //zoom: 16    	// see building shape, needed cuz 50m x 50m (or 25m?)
-    //zoom: 15    	// see buildings, needed cuz 50m x 50m (or 25m?)
+    zoom: 15    	// see buildings, needed cuz 50m x 50m (or 25m?)
     //zoom: 14.2  	// zoomed in and good for zwedc demo with many low value data points // 1000 ft
     //zoom: 13.5  	// zoomed in
     //zoom: 12		// see whole coverate area of ZWEDC
     //zoom: 10          // circle filled point data is said to be z0-z10, 10+ will "appear simplified"  // ## TMP
     //zoom: 9		// see most of BAAQMD   // 5mi 
     //zoom: 8		// site-info as polygon said to be good at z0-z8.  8+ will "appear simplified"
-    zoom: 6.1  		// see most of CA  	// 50mi    ## smelly overview map ## FIXME come back to this after debug
+    //zoom: 6  		// see most of CA  	// 50mi    ## smelly overview map ## FIXME come back to this after debug
     //zoom: 5.5		// see whole CA
     
 });
@@ -598,7 +598,8 @@ map.on('load', function () {
     }
     });
     //map.style.sourceCaches['attribution-layer']._source.attribution = "Smelly. An app from the collaboration of ETA and Sciencie IT, LBNL. © 2019 Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington, Corinne Scown";
-    map.style.sourceCaches['attribution-layer']._source.attribution = "Smelly";
+    map.style.sourceCaches['attribution-layer']._source.attribution =  '<A HREF="https://github.com/tin6150/smelly">Smelly</A>';
+    // "Smelly";
 
 
 
@@ -681,7 +682,7 @@ map.on('mousemove', function (e) {
 		      + "Air Basin: "   + featuresSiteInfo[0].properties.airbasin     + "<BR>\n"  
 		      + "City: "        + featuresSiteInfo[0].properties.city         + "<BR>\n"  
 		      + "County: "      + featuresSiteInfo[0].properties.county       + "<BR>\n"  
-		      + "Pop Density: " + featuresSiteInfo[0].properties.pop_density.toExponential(1)  + "<BR>\n"  
+		      + "Pop Density: " + featuresSiteInfo[0].properties.pop_density.toPrecision(3)  + "<BR>\n"  
 		      //+ "Pop Density: " + featuresSiteInfo[0].properties.pop_density  + "<BR>\n"  
 		      + "Terrain: "     + featuresSiteInfo[0].properties.terrain      + "<BR>\n"  
       } 
@@ -732,7 +733,7 @@ map.addControl(new StylesControl([{
 map.addControl(new mapboxgl.AttributionControl({
         //compact: true,  // set to false to add an EXTRA line with info below prefixed.  true add an (i) icon
         compact: true,  // set to false to add an EXTRA line with info below prefixed.  true add an (i) icon
-	customAttribution: '© Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington, Corinne Scown @ LBNL'
+        customAttribution: '<A HREF="https://github.com/tin6150/smelly"> © Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington, Corinne Scown @ LBNL</A>'
 }));
 
 
