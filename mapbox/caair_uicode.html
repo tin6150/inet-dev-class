@@ -481,12 +481,12 @@ function styleZwedcOpacity_old10Gradient(attribute) {
 // better to store current layer, then addLayer, removeLayer....
 function getInputFormSelection() {
         getInputSelectorCounter++;
-        inputFormSelection =  document.getElementById("siteSelectorUI").value;
+        inputFormSelection  = document.getElementById("siteSelectorUI").value;
         inputFormSelection += document.getElementById("seasonSelectorUI").value;;
         inputFormSelection += document.getElementById("hourSelectorUI").value;;
         inputFormSelection += document.getElementById("sourceSelectorUI").value;;
         inputFormSelection += document.getElementById("scaleSelectorUI").value;;
-        feedback.innerHTML = inputFormSelection;					
+        feedback.innerHTML  = inputFormSelection;					
         if( currentLoadedMapLayer != "" ) {
             // https://docs.mapbox.com/mapbox.js/example/v1.0.0/layers/
             //if (map.hasLayer('caair')) {     // err not a fn.  so can't call map.fn here? 
@@ -509,12 +509,11 @@ function getInputFormSelection() {
         addLayerCounter++;
         addSourceCounter++;
         addStatus = map.addLayer({
-            id: currentLoadedMapLayer,
-            //id: 'caair',
+            id: currentLoadedMapLayer, //--id: 'caair',
             type: 'fill',
             layout: {
-                //visibility: zwedcPolyVis
                 visibility: 'visible'
+                //visibility: zwedcPolyVis
                 //visibility: 'none'		// can use this to make ZWEDC data disapear ##
             },     
             // sn50.SfZwedcAllHiBi10x need to be in url and source-layer, w/ username in url, NO username in source-layer.  be careful!!
@@ -556,6 +555,13 @@ function getInputFormSelection() {
 }; //end fn getInputFormSelection 
 
 
+// ################################################################################# //
+// ################################################################################# //
+// #### this look like start of execution of javascript code                    #### //
+// #### but start with defining responses to major events related to map action #### //
+// ################################################################################# //
+// ################################################################################# //
+
 map.on('load', function () {
     getInputFormSelection();
     map.addLayer({
@@ -581,21 +587,44 @@ map.on('load', function () {
     // if need more rendering feature than what Mapbox studio styling does, 
     // manually add the layer here
     // but so far i think i can get what i need as is, so not doing this (yet)
+    map.addLayer({
+        "id": "sites-info-pt",      // style from mapbox studio should have a layer called 'sites-info-pt-ctr'
+        "source": {
+            type: "vector",
+            url:  'mapbox://' + mapboxUser + '.' + 'sites_info_pt_ctr' 
+        },
+        'source-layer': 'sites_info_pt_ctr',
+        "layout": { 
+            //"visibility": 'visible'  // could use if don't want to style the data thru mapbox studio
+            visibility: 'none'   // eventually don't need this layer to be visible, just need the data to be avail for query.
+        },
+        //"type": "symbol",
+        //"type": "heatmap",
+        "type": "circle",   // https://docs.mapbox.com/mapbox-gl-js/style-spec/#layers-circle
+        "paint": {
+            //'circle-radius': 50,
+            'circle-stroke-color': "#aa2288",   // magenta
+            'circle-stroke-width': 20
+            //'fill-color': '#000000',  // for type:vector (polygon)
+            //'fill-opacity': 1.0       // for type:vector (polygon)
+        }
+    });
+    //map.style.sourceCaches['attribution-layer']._source.attribution = "Smelly. An app from the collaboration of ETA and Sciencie IT, LBNL. © 2019 Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington, Corinne Scown";
 
     
     //------------- tried to change attribution, but not too sucessful  ------------ 
     //   below isn't all that important.
     map.addLayer({
-    "id": "attribution-layer",
-    "type": "circle",
-    "source": {
-        "type": "geojson",
-        "data": {
-            "type": "Feature",
-            "properties": {},
-            "geometry": null
+        "id": "attribution-layer",
+        "type": "circle",
+        "source": {
+            "type": "geojson",
+            "data": {
+                "type": "Feature",
+                "properties": {},
+                "geometry": null
+            }
         }
-    }
     });
     //map.style.sourceCaches['attribution-layer']._source.attribution = "Smelly. An app from the collaboration of ETA and Sciencie IT, LBNL. © 2019 Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington, Corinne Scown";
     map.style.sourceCaches['attribution-layer']._source.attribution =  '<A HREF="https://github.com/tin6150/smelly">Smelly</A>';
@@ -749,6 +778,12 @@ map.addControl(scale);
 map.keyboard.enable();
 
 
+// ################################################################################# //
+// ################################################################################# //
+// #### code for non-event response 
+// #### think of this as "main", for the "misc" code 
+// ################################################################################# //
+// ################################################################################# //
 
 // sync move, but `require` not understood by chrome engine (??)
 // https://github.com/mapbox/mapbox-gl-sync-move
@@ -765,32 +800,33 @@ console.log( 'the "main" of script' );
 
 
 // remove indent once verify code in here is good. ##
-    //++ add code to populate lon['site'] lat[] 
-    //##
-    //var featuresSiteInfo = map.queryRenderedFeatures(e.point, { layers: ['sites-info-pt-ctr'] });               // restrict to layer to easier pick feature...
-    // https://docs.mapbox.com/mapbox-gl-js/api/#map#querysourcefeatures
-    //var featuresSiteInfo = this.isSourceLoaded('sites-info-pt-ctr');
-    //-featuresSiteInfo = {} ; // tmp
-    //-console.log( featuresSiteInfo );
+//++ add code to populate lon['site'] lat[] 
+//##
+//var featuresSiteInfo = map.queryRenderedFeatures(e.point, { layers: ['sites-info-pt-ctr'] });               // restrict to layer to easier pick feature...
+// https://docs.mapbox.com/mapbox-gl-js/api/#map#querysourcefeatures
+//var featuresSiteInfo = this.isSourceLoaded('sites-info-pt-ctr');
+//-featuresSiteInfo = {} ; // tmp
+//-console.log( featuresSiteInfo );
+
+var dbgGetLayer = map.getLayer('sites-info-pt-ctr'); 
+console.log( "dbgGetLayer:" );
+console.log( dbgGetLayer );         // this is undef in here, but debugger get the right layer.  so not able to get info from style here... may have to addLayer on this manually in this JS to get it.
     
-    var dbgGetLayer = map.getLayer('sites-info-pt-ctr'); 
-    console.log( "dbgGetLayer:" );
-    console.log( dbgGetLayer );         // this is undef in here, but debugger get the right layer.  so not able to get info from style here... may have to addLayer on this manually in this JS to get it.
-     
-    var featureSiteInfo = map.querySourceFeatures('sites-info-pt-ctr');   // this is getting blank :(          ##
-    featureSiteInfo_json = JSON.stringify(featureSiteInfo);
-    console.log( "featureSiteInfo json: " + featureSiteInfo_json);
-    console.log( "featureSiteInfo json: end");
-    
-    sitesCount = featureSiteInfo.length;
-    sitesCount = 0; //tmp FIXME
-    console.log( "sitesCount is: " + sitesCount);
-    for (i=0; i<=sitesCount; i++) {
-        console.log( "siteCount at: " + i )
-        lon_tba = featureSiteInfo[i].properties.site_name ;
-		  //--     "" + features[0].properties.max.toExponential(1) 	+ "<BR>\n"  
-        console.log( lon_tba );
-    }
+var featureSiteInfo = map.querySourceFeatures('sites-info-pt-ctr');   // this is getting blank :(          ##
+featureSiteInfo_json = JSON.stringify(featureSiteInfo);
+console.log( "featureSiteInfo json: " + featureSiteInfo_json);
+console.log( "featureSiteInfo json: end");
+
+sitesCount = featureSiteInfo.length;
+sitesCount = 0; //tmp FIXME
+console.log( "sitesCount is: " + sitesCount);
+lon_tba = "tba";
+for (i=0; i<=sitesCount; i++) {
+    console.log( "siteCount at: " + i )
+    //~~lon_tba = featureSiteInfo[i].properties.site_name ;
+        //--     "" + features[0].properties.max.toExponential(1) 	+ "<BR>\n"  
+    console.log( lon_tba );
+}
  
 </script>
 
