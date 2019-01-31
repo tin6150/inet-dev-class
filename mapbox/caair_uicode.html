@@ -77,12 +77,13 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	  left: 0;    /* 0 before rotate */
 	  /*right: 3;     /* */
 	  /*background: rgba(250, 250, 250, 0.9);  /* 255 255 255 is pure white */
-      background: rgba(250, 250, 224, 0.9);  /* this is greenish/yellowish */
+      background: rgba(250, 250, 224, 0.8);  /* this is greenish/yellowish */
 	  margin-left: 6px; 
+	  margin-right: 60px; 
 	  /*overflow: auto;*/
 	  border-radius: 3px;
 	  font: 20px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
-	  z-index: 4;		/* 1 appear behind copyright link; 5 would cover it. I have another (i) for the link :) */
+	  z-index: 2;		/* 1 appear behind copyright link; 5 would cover it. I have another (i) for the link :) */
 	}
 
 
@@ -103,9 +104,9 @@ This version only for zwedc data,  prepping a demo for 2019-0205
             /*margin-right: 100px;       /* margin-left and width combined to position the slider in center; but mapbox logo is num of pixels :( */
             /*margin-left: 100px;       /* margin-left and width combined to position the slider in center; but mapbox logo is num of pixels :( */
 	    /*width: 300px;       /* create scroll bar when screen is too narrow... 84% seems ok compromise  */
-            opacity: 0.8;
+            opacity: 0.9;
 	    /* right: 10px; */    /* can move scale legend to right with this */
-	    /*z-index: 5;		/* 1 appear behind copyright link; 5 would cover it. I have another (i) for the link :) */
+	    z-index: 5;		/* 1 appear behind copyright link; 5 would cover it. I have another (i) for the link :) */
 	}
 
     /* feature info box in bottom right */
@@ -170,147 +171,151 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 
 <body>
 
-<!-- Tyler had a navbar at top, just trying to be closer to his model, i don't plan to have anything here  -->
+<!-- Tyler had a navbar at top, having some menu, just trying to be closer to his model, i don't plan to have anything here  -->
 <!-- Hmm this does not appear -->
 <div id='navbar'>
 </div>
 
-<!-- had to add an extra css to hold this -->
-<div id="attribution2" class="attributionFloat">
-<A HREF="https://github.com/tin6150/smelly">Smelly</A>.  An app from the collaboration of ETA and Sciencie IT, LBNL.  
-© 2019 Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington, Corinne Scown.
-</div>
 
 
 <!-- Tyler had a map-container below the navbar.  the map-container encloses the map div.  just trying to be closer to his model, i so far dont need this extra div container  -->
 <!-- no special css for map-container, so it falls under the body css styling -->
 <div id='map-container'>
 
-<div id='map'></div>
-<!--
-<div id='mapAlt' class='map'></div>
--->
+  <div id='map'></div>
+    <!--
+    <div id='mapAlt' class='map'></div>
+    -->
 
+    <div id="attribution2+inputbar">
+        <!-- had to add an extra css to hold this -->
+        <div id="attribution2" class="attributionFloat">
+            <A HREF="https://github.com/tin6150/smelly">Smelly</A>.  An app from the collaboration of ETA and Sciencie IT, LBNL.  
+            © 2019 Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington, Corinne Scown.
+        </div>
+        <BR>
+        <div id="inputbar" class="inputForm">
+            <!--html element for drop down picker goes here-->
+            <select id="siteSelectorUI"> <!-- site -->  <!--to emulate Tyler <select id="polygon-layer-selector"> -->
+                <option value="NA"         disabled           >Air Basin: Site</option>	       
+                <option value="SfZwedc"    selected="selected">SF: ZWEDC</option>                                       <!-- San Francisco Bay -->
+                <option value="SfSanJose"       >SF: San Jose WPCP</option>	                              <!-- San Francisco Bay -->
+                <option value="SfZbest"         >SF: Z Best Products</option>                             <!-- San Francisco Bay -->
+                <option value="SfDublin"        >SF: Dublin WWTP</option>                                 <!-- San Francisco Bay -->
+                <option value="SfFairfiled"     >SF: Fairfield-Suisan Sewer District</option>             <!-- San Francisco Bay -->
+                <option value="SfSoutheast"     >SF: Southeast Water Pollution Control Plant</option>     <!-- San Francisco Bay -->
+                
+                <option value="SvVacaville_WWTP">SV: Vacaville WWTP</option>    <!-- Sacramento Valley -->
+                <option value="SvRedding"       >SV: Redding WWTP</option>	
+                <option value="SvSacramento"    >SV: Sacramento Regional County Sanitation District</option>	
+                
+                <option value="SjAtwater"      >SJ: Atwater WWTF</option>           <!-- San Joaquin -->
+                <option value="SjBakersfiled"  >SJ: Bakersfield WWTP #2</option>
+                <option value="SjFresno"       >SJ: Fresno-Clovis Regional Water Reclamation</option>	
+                <option value="SjPorterville"  >SJ: Porterville WWTF</option>	
+                
+                <option value="NcArcata"       >NC: Arcata WWTF</option>  <!-- North Coast -->
+                <option value="NcUkia"         >NC: Ukia WWTP</option>
+                <option value="NcHealdsburg"   >NC: Healdsburg WRF</option>
+                
+                <option value="SsCalexico"     >SS: Calexico WPCP</option>    <!-- Salton Sea -->
+                <option value="SsPalm"         >SS: Palm WPCP</option>        <!-- Salton Sea -->
+                
+                <option value="ScLeua"         >SC: LEUA Plant</option>        <!-- South Coast --> 
+                <option value="ScCorona"       >SC: Corona WWTP #1</option>	
+                <option value="ScJoint"        >SC: Joint WPCA</option>	
+                <option value="ScSocwa"        >SC: SOCWA J B Latham TP</option>
+                
+                <option value="McEldorado"     >MC: El Dorado WPP</option>            <!-- Mountain Counties -->
+                
+                <option value="MdLancaster"    >MD: Lancaster WPP</option>            <!-- Mojave Desert -->
+                
+                <option value="CcMonterey"     >CC: Monterey WPCA</option>             <!-- North Central Coast -->
+                
+                <option value="SdSandiego"     >SD: San Diego Metro</option>           <!-- San Diego -->
+                
+                <option value=""    ></option>
+            </select>
 
-<div id="inputbar" class="inputForm">
-	<!--html element for drop down picker goes here-->
-	<select id="siteSelectorUI"> <!-- site -->  <!--to emulate Tyler <select id="polygon-layer-selector"> -->
-		<option value="NA"         disabled           >Air Basin: Site</option>	       
-		<option value="SfZwedc"    selected="selected">SF: ZWEDC</option>                                       <!-- San Francisco Bay -->
-		<option value="SfSanJose"       >SF: San Jose WPCP</option>	                              <!-- San Francisco Bay -->
-		<option value="SfZbest"         >SF: Z Best Products</option>                             <!-- San Francisco Bay -->
-		<option value="SfDublin"        >SF: Dublin WWTP</option>                                 <!-- San Francisco Bay -->
-		<option value="SfFairfiled"     >SF: Fairfield-Suisan Sewer District</option>             <!-- San Francisco Bay -->
-		<option value="SfSoutheast"     >SF: Southeast Water Pollution Control Plant</option>     <!-- San Francisco Bay -->
-		
-		<option value="SvVacaville_WWTP">SV: Vacaville WWTP</option>    <!-- Sacramento Valley -->
-		<option value="SvRedding"       >SV: Redding WWTP</option>	
-		<option value="SvSacramento"    >SV: Sacramento Regional County Sanitation District</option>	
-		
-		<option value="SjAtwater"      >SJ: Atwater WWTF</option>           <!-- San Joaquin -->
-		<option value="SjBakersfiled"  >SJ: Bakersfield WWTP #2</option>
-		<option value="SjFresno"       >SJ: Fresno-Clovis Regional Water Reclamation</option>	
-		<option value="SjPorterville"  >SJ: Porterville WWTF</option>	
-		
-		<option value="NcArcata"       >NC: Arcata WWTF</option>  <!-- North Coast -->
-		<option value="NcUkia"         >NC: Ukia WWTP</option>
-		<option value="NcHealdsburg"   >NC: Healdsburg WRF</option>
-		
-		<option value="SsCalexico"     >SS: Calexico WPCP</option>    <!-- Salton Sea -->
-		<option value="SsPalm"         >SS: Palm WPCP</option>        <!-- Salton Sea -->
-		
-		<option value="ScLeua"         >SC: LEUA Plant</option>        <!-- South Coast --> 
-		<option value="ScCorona"       >SC: Corona WWTP #1</option>	
-		<option value="ScJoint"        >SC: Joint WPCA</option>	
-		<option value="ScSocwa"        >SC: SOCWA J B Latham TP</option>
-		
-		<option value="McEldorado"     >MC: El Dorado WPP</option>            <!-- Mountain Counties -->
-		
-		<option value="MdLancaster"    >MD: Lancaster WPP</option>            <!-- Mojave Desert -->
-		
-		<option value="CcMonterey"     >CC: Monterey WPCA</option>             <!-- North Central Coast -->
-		
-		<option value="SdSandiego"     >SD: San Diego Metro</option>           <!-- San Diego -->
-		
-		<option value=""    ></option>
-	</select>
+            <select id="seasonSelectorUI">
+                <option value="NA"  disabled >Season</option>	       
+                <option value="Spr">Spring</option>
+                <option value="Sum">Summer</option>
+                <option value="Aut">Autumn</option>
+                <option value="Win" selected="selected">Winter</option>
+                <option value="All">All</option>
+            </select>
+            <select id="hourSelectorUI"> <!--mixing depends on time of day-->
+                <option value="NA"  disabled >Hour</option>	       
+                <option value="Al">All hours</option>
+                <option value="Hi">High mixing</option>  <!-- FIXME much data for many sites need to be removed -->
+                <option value="Lo">Low  mixing</option>
+            </select>
+            <select id="sourceSelectorUI">
+                <option value="NA" disabled >Source</option>	       
+                <option value="Co">Compost</option>
+                <option value="Nc">No Compost</option>
+                <option value="Bi">Biofilter</option>
+                <option value="Re">Receiving</option>
+                <option value="Tr">Truck</option>
+                <option value="Aa">All Area Line</option>
+            </select>
+            <select id="scaleSelectorUI">
+                <option value="NA"  disabled >Capacity</option>	       
+                <option value="Act">Actual/Current</option>
+                <option value="10x" selected='selected' >1.0</option>
+                <option value="05x">0.5</option>
+                <option value="15x">1.5</option>
+                <option value="20x">2.0</option>
+            </select>
 
-	<select id="seasonSelectorUI">
-		<option value="NA"  disabled >Season</option>	       
-		<option value="Spr">Spring</option>
-		<option value="Sum">Summer</option>
-		<option value="Aut">Autumn</option>
-		<option value="Win" selected="selected">Winter</option>
-		<option value="All">All</option>
-	</select>
-	<select id="hourSelectorUI"> <!--mixing depends on time of day-->
-		<option value="NA"  disabled >Hour</option>	       
-		<option value="Al">All hours</option>
-		<option value="Hi">High mixing</option>  <!-- FIXME much data for many sites need to be removed -->
-		<option value="Lo">Low  mixing</option>
-	</select>
-	<select id="sourceSelectorUI">
-		<option value="NA" disabled >Source</option>	       
-		<option value="Co">Compost</option>
-		<option value="Nc">No Compost</option>
-		<option value="Bi">Biofilter</option>
-		<option value="Re">Receiving</option>
-		<option value="Tr">Truck</option>
-		<option value="Aa">All Area Line</option>
-	</select>
-	<select id="scaleSelectorUI">
-		<option value="NA"  disabled >Capacity</option>	       
-		<option value="Act">Actual/Current</option>
-		<option value="10x" selected='selected' >1.0</option>
-		<option value="05x">0.5</option>
-		<option value="15x">1.5</option>
-		<option value="20x">2.0</option>
-	</select>
+        </div><!-- end for inputbar -->
+    </div><!-- end for "attribution2+inputbar"-->
 
-</div><!-- end for inputbar -->
+    <!-- legends  from https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/ -->
+    <!--<div id='legend' class='legend' style='display: none;'> -->
+    <!-- scale wanted by Ling
+    <=0.001, 
+    0.001-0.01, 
+    0.01-0.1, 
+    0.1-1, 
+    1-5, 
+    5-30, 
+    30-100, 
+    >=100
+    (fewer classes than before.  also need to adjust in 'function styleZwedcPolys' 
+    -->
+    <div id='legend' class='legend' >
+        Top 2% Odor Exposure (ou/m³)
+        <div><span style='background-color: #f2f3f4'></span>0.0001</div>
+        <div><span style='background-color: #FED976'></span>0.01</div>
+        <div><span style='background-color: #FEB24C'></span>0.1</div>
+        <div><span style='background-color: #FD8D3C'></span>1.0</div>    <!-- was FD8D3C , thought about changing to FF9900, but not enough diff -->
+        <div><span style='background-color: #FC4E2A'></span>5.0</div>
+        <div><span style='background-color: #E31A1C'></span>30</div>
+        <div><span style='background-color: #BD0026'></span>100</div>
+        <div><span style='background-color: #800026'></span>100+</div>
+        <!--<div><span style='background-color: #7c27c2'></span>tba</div>
+            <div><span style='background-color: #5b08a3'></span>&gt;100</div>-->
+    </div>
 
-<!-- legends  from https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/ -->
-<!--<div id='legend' class='legend' style='display: none;'> -->
-<!-- scale wanted by Ling
-<=0.001, 
-0.001-0.01, 
-0.01-0.1, 
-0.1-1, 
-1-5, 
-5-30, 
-30-100, 
->=100
-(fewer classes than before.  also need to adjust in 'function styleZwedcPolys' 
--->
-<div id='legend' class='legend' >
-    Top 2% Odor Exposure (ou/m³)
-    <div><span style='background-color: #f2f3f4'></span>0.0001</div>
-    <div><span style='background-color: #FED976'></span>0.01</div>
-    <div><span style='background-color: #FEB24C'></span>0.1</div>
-    <div><span style='background-color: #FD8D3C'></span>1.0</div>    <!-- was FD8D3C , thought about changing to FF9900, but not enough diff -->
-    <div><span style='background-color: #FC4E2A'></span>5.0</div>
-    <div><span style='background-color: #E31A1C'></span>30</div>
-    <div><span style='background-color: #BD0026'></span>100</div>
-    <div><span style='background-color: #800026'></span>100+</div>
-    <!--<div><span style='background-color: #7c27c2'></span>tba</div>
-        <div><span style='background-color: #5b08a3'></span>&gt;100</div>-->
-</div>
+    <!-- this create the bottom right info box -->
+    <div class='map-overlay-features' id='features'>
+            <h3>Top 2% Odor Exposure (ou/m³):</h3> <!-- this is title of bottom right box -->
+            <div id='pd'><p>(Hover over data point)</p></div>   <!-- static text, replaced later by JS -->
+    </div>
 
-<!-- this create the bottom right info box -->
-<div class='map-overlay-features' id='features'>
-        <h3>Top 2% Odor Exposure (ou/m³):</h3> <!-- this is title of bottom right box -->
-        <div id='pd'><p>(Hover over data point)</p></div>   <!-- static text, replaced later by JS -->
-</div>
-
-<!-- ZWEDC_gson.html still have that debug data box, but at bottom rather than top -->
-<div class='map-overlay-features-dbg' id='featuresDbg' >
-     Temporary debug window - Tileset feature data.
-     <!-- static text, replaced later by JS at map.on('mousemove'...) -->
-</div>
-<div id='feedback' class='map-overlay-feedback-dbg'>
-    <!-- place holder text.  this text can/will be overwritten by jquery handler for the ui form selection -->
-    Map layer loading debug data will appear here.
-</div>
+    <!-- ZWEDC_gson.html still have that debug data box, but at bottom rather than top -->
+    <div class='map-overlay-features-dbg' id='featuresDbg' >
+        Temporary debug window - Tileset feature data.
+        <!-- static text, replaced later by JS at map.on('mousemove'...) -->
+    </div>
+    
+    <!-- this fit a tiny print in bottom right about what layer is loaded -->
+    <div id='feedback' class='map-overlay-feedback-dbg'>
+        <!-- place holder text.  this text can/will be overwritten by jquery handler for the ui form selection -->
+        Map layer loading debug data will appear here.
+    </div>
 
     <!-- Modify the style: right position so it matches with the mapbox attribution -->
     <!-- https://stackoverflow.com/questions/40382515/how-do-i-add-custom-attribution-to-the-default-mapbox-gl-attribution-control -->
@@ -322,6 +327,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
     </div>
     -->
 
+  </div><!-- id='map'-->
 </div> <!-- end div for map-container -->
 
 
@@ -346,6 +352,7 @@ $( function() {
 
 <script>
 mapboxgl.accessToken =   'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // Sn  (post?) 2018-12-07   pk = public token
+var dbgTracer = "dbgTracerDeclared \t";
 var currentLoadedMapLayer  = "";
 var currentLoadedMapSource = "";
 var prevSite = "";
@@ -539,7 +546,7 @@ function getInputFormSelection() {
         document.getElementById('featuresDbg').innerHTML = "map.addLayer status:"  + addStatus + "--EndStatus--";  // dont give any info, always just 'Object object'
         feedback.innerHTML = inputFormSelection; // + " - layerAdded";
         this.className = 'active';   // from mapbox layer eg... not sure what it does :(
-        currentLoadedMapSource = inputFormSelection;       // this is essentially global var
+        currentLoadedMapSource = inputFormSelection;       // can't use "this." just remember this is "global var"
         currentSite = document.getElementById("siteSelectorUI").value;
         // after addLayer, can then panto()
         if( prevSite != currentSite )  {   
@@ -587,16 +594,18 @@ map.on('load', function () {
     // if need more rendering feature than what Mapbox studio styling does, 
     // manually add the layer here
     // but so far i think i can get what i need as is, so not doing this (yet)
+    console.log("GL JS about to addLayer{ sites_info_pt ...}")
     map.addLayer({
-        "id": "sites-info-pt",      // style from mapbox studio should have a layer called 'sites-info-pt-ctr'
+        "id": "sites_info_pt",      // style from mapbox studio should have a layer called 'sites-info-pt-ctr'
         "source": {
             type: "vector",
             url:  'mapbox://' + mapboxUser + '.' + 'sites_info_pt_ctr' 
+            //url:  'mapbox://' + this.mapboxUser + '.' + 'sites_info_pt_ctr'       // hmm, apparently this.mapboxUser doesn't work here :(
         },
         'source-layer': 'sites_info_pt_ctr',
         "layout": { 
-            //"visibility": 'visible'  // could use if don't want to style the data thru mapbox studio
-            visibility: 'none'   // eventually don't need this layer to be visible, just need the data to be avail for query.
+            "visibility": 'visible'   // could use if don't want to style the data thru mapbox studio
+            //visibility: 'none'   // eventually don't need this layer to be visible, just need the data to be avail for query.
         },
         //"type": "symbol",
         //"type": "heatmap",
@@ -604,13 +613,18 @@ map.on('load', function () {
         "paint": {
             //'circle-radius': 50,
             'circle-stroke-color': "#aa2288",   // magenta
-            'circle-stroke-width': 20
+            'circle-stroke-width': 20,
+            'circle-stroke-opacity': 0.4,
             //'fill-color': '#000000',  // for type:vector (polygon)
             //'fill-opacity': 1.0       // for type:vector (polygon)
         }
     });
     //map.style.sourceCaches['attribution-layer']._source.attribution = "Smelly. An app from the collaboration of ETA and Sciencie IT, LBNL. © 2019 Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington, Corinne Scown";
 
+    this.dbgTracer += " -this- aftAddLayerSite_info_pt \t";
+    console.log(this.dbgTracer);
+    dbgTracer += " -plain- aftAddLayerSite_info_pt \t";     // can't use "this." prefix to seek what I thought was object-wide var.  really just think of it as global then.
+    console.log(dbgTracer);
     
     //------------- tried to change attribution, but not too sucessful  ------------ 
     //   below isn't all that important.
@@ -808,11 +822,13 @@ console.log( 'the "main" of script' );
 //-featuresSiteInfo = {} ; // tmp
 //-console.log( featuresSiteInfo );
 
-var dbgGetLayer = map.getLayer('sites-info-pt-ctr'); 
+//var dbgGetLayer = map.getLayer('sites_info_pt_ctr');    // sites_info_pt_ctr is addLayer manually in this JS, sites-info-pt-ctr is from styling by mapbox studio, which isn't accessible here
+var dbgGetLayer = map.getLayer('sites_info_pt');          // sites_info_pt_ctr is addLayer manually in this JS, sites-info-pt-ctr is from styling by mapbox studio, which isn't accessible here
 console.log( "dbgGetLayer:" );
 console.log( dbgGetLayer );         // this is undef in here, but debugger get the right layer.  so not able to get info from style here... may have to addLayer on this manually in this JS to get it.
     
-var featureSiteInfo = map.querySourceFeatures('sites-info-pt-ctr');   // this is getting blank :(          ##
+//var featureSiteInfo = map.querySourceFeatures('sites_info_pt_ctr');   // this is getting blank :(          ##
+var featureSiteInfo = map.querySourceFeatures('sites_info_pt');   // ?? this is getting blank :(          ##
 featureSiteInfo_json = JSON.stringify(featureSiteInfo);
 console.log( "featureSiteInfo json: " + featureSiteInfo_json);
 console.log( "featureSiteInfo json: end");
@@ -828,6 +844,8 @@ for (i=0; i<=sitesCount; i++) {
     console.log( lon_tba );
 }
  
+dbgTracer += "endOfScript \t";
+console.log(dbgTracer);
 </script>
 
 </body>
