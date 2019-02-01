@@ -92,42 +92,49 @@ def gprint( str1, str2="#" ):
 ## essentially only change from sites_csv2gson.py to sites_lonLat4js.py
 def print_gsonLine( dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :  ## input is 19-tuple.
         site2abbr = {}
-        site2abbr['Arcata_WWTF'] =	 'Arcata_WWTF'
-        site2abbr['Atwater_WWTF'] =	 'Atwater_WWTF'
-        site2abbr['BakersfieldWWTP2'] =	 'BakersfieldWWTP2'
-        site2abbr['Calexico_WPCP'] =	 'Calexico_WPCP'
-        site2abbr['Corona_WWTP1'] =	 'Corona_WWTP1'
-        site2abbr['Dublin_WWTP'] =	 'Dublin_WWTP'
-        site2abbr['El_Dorado_WPP'] =	 'El_Dorado_WPP'
-        site2abbr['Fairfield_Suisan'] =	 'Fairfield_Suisan'
-        site2abbr['Fresno-Clovis'] =	 'Fresno-Clovis'
-        site2abbr['Healdsburg_WRF'] =	 'Healdsburg_WRF'
-        site2abbr['IEUA_Plant'] =	 'IEUA_Plant'
-        site2abbr['Joint_WPCA'] =	 'Joint_WPCA'
-        site2abbr['Lancaster_WPP'] =	 'Lancaster_WPP'
-        site2abbr['MONTEREY_WPCA'] =	 'MONTEREY_WPCA'
-        site2abbr['Palm_WPCP'] =	 'Palm_WPCP'
-        site2abbr['Porterville_WWTF'] =	 'Porterville_WWTF'
-        site2abbr['Redding_WWTP'] =	 'Redding_WWTP'
-        site2abbr['Sacramento'] =	 'Sacramento'
-        site2abbr['SanDiego_Metro'] =	 'SanDiego_Metro'
-        site2abbr['SOCWA_TP'] =	 'SOCWA_TP'
-        site2abbr['Southeast_WPCP'] =	 'Southeast_WPCP'
-        site2abbr['Ukiah_WWTP'] =	 'Ukiah_WWTP'
-        site2abbr['Vacaville_WWTP'] =	 'Vacaville_WWTP'
-        site2abbr['Z-Best_Facility'] =	 'Z-Best_Facility'
-        site2abbr['ZWEDC'] =	 'ZWEDC'
+        site2abbr['Arcata_WWTF'] =	 'NcArcata'
+        site2abbr['Atwater_WWTF'] =	 'SjAtwater'
+        site2abbr['BakersfieldWWTP2'] =	 'SjBakersfield'
+        site2abbr['Calexico_WPCP'] =	 'SsCalexico'
+        site2abbr['Corona_WWTP1'] =	 'ScCorona'
+        site2abbr['Dublin_WWTP'] =	 'SfDublin'
+        site2abbr['El_Dorado_WPP'] =	 'McEldorado'
+        site2abbr['Fairfield_Suisan'] =	 'SfFairfield'
+        site2abbr['Fresno-Clovis'] =	 'SjFresno'
+        site2abbr['Healdsburg_WRF'] =	 'NcHealdsburg'
+        site2abbr['IEUA_Plant'] =	 'ScLeua'
+        site2abbr['LEUA_Plant'] =	 'ScLeua'           # should be L, not i.
+        site2abbr['Joint_WPCA'] =	 'ScJoint'
+        site2abbr['Lancaster_WPP'] =	 'MdLancaster'
+        site2abbr['MONTEREY_WPCA'] =	 'CcMonterey'
+        site2abbr['Palm_WPCP'] =	 'SsPalm'
+        site2abbr['Porterville_WWTF'] =	 'SjPorterville'
+        site2abbr['Redding_WWTP'] =	 'SvRedding'
+        site2abbr['Sacramento'] =	 'SvSacramento'
+        site2abbr['SanDiego_Metro'] =	 'SdSandiego'
+        site2abbr['SOCWA_TP'] =	         'ScSocwa'
+        site2abbr['Southeast_WPCP'] =	 'SfSoutheast'
+        site2abbr['Ukiah_WWTP'] =	 'NcUkiah'
+        site2abbr['Vacaville_WWTP'] =	 'SvVacaville'
+        site2abbr['Z-Best_Facility'] =	 'SfZbest'
+        site2abbr['ZWEDC'] =	         'SfZwedc'
 
-        print( site2abbr['ZWEDC'] )
 
 
         #print( "lon['%s'] = %s ;\t lat['%s'] = %s;"    % ( site_abbr, lon1, site_abbr, lat1 ) )    ## sigh site_abbr is not populated
         ## since site_abbr is not populated
         ## creating a look up table between site_name site_abbr , ie a hash.
-        print( "site2abbr['%s'] =\t '%s'"    % ( site_name, site_name )  )   ## 
-        #print( "lon['%s'] = %s ;\t lat['%s'] = %s;"    % ( site_name, lon1, site_name, lat1 ) )     ## 
+        #-print( site2abbr['ZWEDC'] )
+        site = site2abbr[site_name]       
+        # for verification of the mapping table:
+        #print( "site2abbr['%s'] =\t '%s'"    % ( site_name, site )  )   ## 
+        # atually printing the code snipplet for cut-n-paste into Mapbox GL JS:
+        print( "lon['%s'] = %s ;\t lat['%s'] = %s;"    % ( site, lon1, site, lat1 ) )     ## 
 # print_gsonLine()-end 
-
+"""
+expected output is like:
+lon['SfZbest'] = -121.5240213 ;	 lat['SfZbest'] = 36.9481043;
+"""
 
 # generate a single line of geojson  from a given input arg of 
 # need to be sure points are 4 vertices in seq, something like TL, TR, BR, BL.  will name them seq in case polygon becomes more than just square
