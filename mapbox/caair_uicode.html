@@ -625,6 +625,8 @@ map.on('load', function () {
     console.log(this.dbgTracer);
     dbgTracer += " -plain- aftAddLayerSite_info_pt \t";     // can't use "this." prefix to seek what I thought was object-wide var.  really just think of it as global then.
     console.log(dbgTracer);
+    window.dbgTracer += " -window- aftAddLayerSite_info_pt \t";     // window. is the (optional) special keyword to access global var, usable in browser (but not in server-side code like Node.js).
+    console.log(window.dbgTracer);
     
     //------------- tried to change attribution, but not too sucessful  ------------ 
     //   below isn't all that important.
@@ -675,7 +677,10 @@ map.on('load', function () {
     scaleSelector.addEventListener('change', function(e) {
         getInputFormSelection();
     });
- 
+    
+    
+    // ==== by this part of map.on('load'...) all layers are loaded.  constructing lon/lat hash should work in here.
+    buildLonLatHash();
  
 });  // end map.on('load'...) 
 
@@ -799,6 +804,8 @@ map.keyboard.enable();
 // ################################################################################# //
 // ################################################################################# //
 
+
+
 // sync move, but `require` not understood by chrome engine (??)
 // https://github.com/mapbox/mapbox-gl-sync-move
 // var syncMove = require('mapbox-gl-sync-move');
@@ -810,40 +817,80 @@ map.keyboard.enable();
 // everything in script is looped over and over...
 // so after all fn declaration, will run code here?
 
+// not really looped over. 
+// things are event-based, multi-threaded.
+// this, this section is loaded before may of the above map.on('load'...) etc are loaded.
+// so the lon/lat hash can't be build until the addLayer returns.
+// dig into event?  or
+// have another fn that builds the hash
+// and invoke it from map.on('load'...)
+
+
 console.log( 'the "main" of script' );
 
-
-// remove indent once verify code in here is good. ##
-//++ add code to populate lon['site'] lat[] 
-//##
-//var featuresSiteInfo = map.queryRenderedFeatures(e.point, { layers: ['sites-info-pt-ctr'] });               // restrict to layer to easier pick feature...
-// https://docs.mapbox.com/mapbox-gl-js/api/#map#querysourcefeatures
-//var featuresSiteInfo = this.isSourceLoaded('sites-info-pt-ctr');
-//-featuresSiteInfo = {} ; // tmp
-//-console.log( featuresSiteInfo );
-
-//var dbgGetLayer = map.getLayer('sites_info_pt_ctr');    // sites_info_pt_ctr is addLayer manually in this JS, sites-info-pt-ctr is from styling by mapbox studio, which isn't accessible here
-var dbgGetLayer = map.getLayer('sites_info_pt');          // sites_info_pt_ctr is addLayer manually in this JS, sites-info-pt-ctr is from styling by mapbox studio, which isn't accessible here
-console.log( "dbgGetLayer:" );
-console.log( dbgGetLayer );         // this is undef in here, but debugger get the right layer.  so not able to get info from style here... may have to addLayer on this manually in this JS to get it.
+// == populate lon['site'] lat[] hashes for all refuse processing sites == //
+// store parallel hash of lon/lat of sites.   eg lon['sfzwedc'] lat['sfzwedc'] for use with flyTo()/panTo
+function buildLonLatHash() {
+    console.log( '--dbg-- buildLonLatHash begin' );
+    // this version has hard coded siteName/lon/lat
+    // snipplet of code generated via external script parsing the csv source
     
-//var featureSiteInfo = map.querySourceFeatures('sites_info_pt_ctr');   // this is getting blank :(          ##
-var featureSiteInfo = map.querySourceFeatures('sites_info_pt');   // ?? this is getting blank :(          ##
-featureSiteInfo_json = JSON.stringify(featureSiteInfo);
-console.log( "featureSiteInfo json: " + featureSiteInfo_json);
-console.log( "featureSiteInfo json: end");
+    lon['SfZwedc'] = -121.94;   lat['SfZwedc'] = 37.43;
+  
+    console.log( '--dbg-- buildLonLatHash lon/lat: '  + lon['SfZwedc'] + "/" + lat['SfZwedc'] );
+    console.log( '--dbg-- buildLonLatHash end' );
+} // end buildLonLatHash
 
-sitesCount = featureSiteInfo.length;
-sitesCount = 0; //tmp FIXME
-console.log( "sitesCount is: " + sitesCount);
-lon_tba = "tba";
-for (i=0; i<=sitesCount; i++) {
-    console.log( "siteCount at: " + i )
-    //~~lon_tba = featureSiteInfo[i].properties.site_name ;
+
+
+function buildLonLatHashFromQuery_dontWork_abandoningForNow() {
+    // turns out there is no way to ask the API to return the lon/lat using querySourceFeatures 
+    // maybe use Dataset, but for demo, going to hard code the lon/lat into the function and use that for flyTo
+    // will use python script to generate code snipplet so that don't have to write lot of code each time get new data
+    // http://gregorthemapguy.blogspot.com/2017/11/more-mapbox-using-querysourcefeatures.html
+    
+    console.log( '--dbg-- buildLonLatHashFromQuery begin' );
+
+    //##
+    //var featuresSiteInfo = map.queryRenderedFeatures(e.point, { layers: ['sites-info-pt-ctr'] });               // restrict to layer to easier pick feature...
+    // https://docs.mapbox.com/mapbox-gl-js/api/#map#querysourcefeatures
+    var featuresSiteInfoLoadedQ = map.isSourceLoaded('sites_info_pt');
+    //-featuresSiteInfo = {} ; // tmp
+    console.log( 'featuresSiteInfoLoadedQ ie map.isSourceLoaded :' );
+    console.log( featuresSiteInfoLoadedQ );                                // false.  so, data still not accessible here?  not yet?  wait??
+    // if source is not loaded, then querySourceFeatures would get nothing... which seems to be the current problem :-(                         ## <<< Houston, we got a problem.  
+    // data loaded may also only be visible part of map.  so may not have all the data points i need depending on current view selected by user.
+
+    //var dbgGetLayer = map.getLayer('sites_info_pt_ctr');    // sites_info_pt_ctr is addLayer manually in this JS, sites-info-pt-ctr is from styling by mapbox studio, which isn't accessible here
+    var dbgGetLayer = map.getLayer('sites_info_pt');          // sites_info_pt_ctr is addLayer manually in this JS, sites-info-pt-ctr is from styling by mapbox studio, which isn't accessible here
+    console.log( "dbgGetLayer:" + dbgGetLayer );              // ok, something here now...   
+    console.log( dbgGetLayer );    
+        
+    //var featureSiteInfo = map.querySourceFeatures('sites_info_pt_ctr');   // this is getting blank :(          
+    var featureSiteInfo = map.querySourceFeatures('sites_info_pt');         // this is getting blank still :(   
+    console.log( "featureSiteInfo: " + featureSiteInfo);
+    console.log(  featureSiteInfo);
+    
+    //var   featureSiteInfo = map.getLayer('sites_info_pt');  // dont seems to find lon/lat data, hugely nested obj structure 
+    //featureSiteInfo_json = featureSiteInfo;
+    featureSiteInfo_json = JSON.stringify(featureSiteInfo);
+    console.log( "featureSiteInfo json: " + featureSiteInfo_json);
+    console.log(  featureSiteInfo_json);
+    console.log( "featureSiteInfo json: end");
+
+    sitesCount = featureSiteInfo.length;
+    sitesCount = 0; //tmp, well no more, since can't retrieve the data.  abandoned.
+    console.log( "sitesCount is: " + sitesCount);
+    lon_tba = "tba";
+    for (i=0; i<=sitesCount; i++) {
+        console.log( "siteCount at: " + i )
+        //~~lon_tba = featureSiteInfo[i].properties.site_name ;
         //--     "" + features[0].properties.max.toExponential(1) 	+ "<BR>\n"  
-    console.log( lon_tba );
-}
- 
+        console.log( lon_tba );
+    }
+    console.log( '--dbg-- buildLonLatHashFromQuery end' );
+} // end buildLonLatHashFromQuery
+    
 dbgTracer += "endOfScript \t";
 console.log(dbgTracer);
 </script>

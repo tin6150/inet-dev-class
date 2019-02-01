@@ -74,6 +74,8 @@ Reading list
 * https://www.mapbox.com/help/processing-satellite-imagery/ tools, Turf.js, side-by-side swipe comparison.
   addLayer before/after X, etc 
 
+* https://docs.mapbox.com/mapbox-gl-js/example/query-similar-features/ has eg of popup, overlay that goes away, county boundary map, maybe county population.  saved to mapboxQuerySimilarFeatures.html
+
 Examples
 ========
 
