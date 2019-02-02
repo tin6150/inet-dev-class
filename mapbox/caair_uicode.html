@@ -199,23 +199,23 @@ This version only for zwedc data,  prepping a demo for 2019-0205
             <select id="siteSelectorUI"> <!-- site -->  <!--to emulate Tyler <select id="polygon-layer-selector"> -->
                 <option value="NA"         disabled           >Air Basin: Site</option>	       
                 <option value="SfZwedc"    selected="selected">SF: ZWEDC</option>                                       <!-- San Francisco Bay -->
-                <option value="SfSanJose"       >SF: San Jose WPCP</option>	                              <!-- San Francisco Bay -->
+                <option value="SfSanjose"       >SF: San Jose WPCP</option>	                              <!-- San Francisco Bay -->
                 <option value="SfZbest"         >SF: Z Best Products</option>                             <!-- San Francisco Bay -->
                 <option value="SfDublin"        >SF: Dublin WWTP</option>                                 <!-- San Francisco Bay -->
-                <option value="SfFairfiled"     >SF: Fairfield-Suisan Sewer District</option>             <!-- San Francisco Bay -->
+                <option value="SfFairfield"     >SF: Fairfield-Suisan Sewer District</option>             <!-- San Francisco Bay -->
                 <option value="SfSoutheast"     >SF: Southeast Water Pollution Control Plant</option>     <!-- San Francisco Bay -->
                 
-                <option value="SvVacaville_WWTP">SV: Vacaville WWTP</option>    <!-- Sacramento Valley -->
+                <option value="SvVacaville"     >SV: Vacaville WWTP</option>    <!-- Sacramento Valley -->
                 <option value="SvRedding"       >SV: Redding WWTP</option>	
                 <option value="SvSacramento"    >SV: Sacramento Regional County Sanitation District</option>	
                 
                 <option value="SjAtwater"      >SJ: Atwater WWTF</option>           <!-- San Joaquin -->
-                <option value="SjBakersfiled"  >SJ: Bakersfield WWTP #2</option>
+                <option value="SjBakersfield"  >SJ: Bakersfield WWTP #2</option>
                 <option value="SjFresno"       >SJ: Fresno-Clovis Regional Water Reclamation</option>	
                 <option value="SjPorterville"  >SJ: Porterville WWTF</option>	
                 
                 <option value="NcArcata"       >NC: Arcata WWTF</option>  <!-- North Coast -->
-                <option value="NcUkia"         >NC: Ukia WWTP</option>
+                <option value="NcUkiah"        >NC: Ukiah WWTP</option>
                 <option value="NcHealdsburg"   >NC: Healdsburg WRF</option>
                 
                 <option value="SsCalexico"     >SS: Calexico WPCP</option>    <!-- Salton Sea -->
@@ -233,8 +233,6 @@ This version only for zwedc data,  prepping a demo for 2019-0205
                 <option value="CcMonterey"     >CC: Monterey WPCA</option>             <!-- North Central Coast -->
                 
                 <option value="SdSandiego"     >SD: San Diego Metro</option>           <!-- San Diego -->
-                
-                <option value=""    ></option>
             </select>
 
             <select id="seasonSelectorUI">
@@ -570,7 +568,7 @@ function getInputFormSelection() {
             console.log( " site change eval to true, about to execute fly"  );
             map.flyTo( flyToLoc );   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this works
             // FIXME  something wrong with loc??  map not moving :(
-            //map.flyTo({center: [ lon[currentSite], lat[currentSite] ]} );   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this format don't works
+            map.flyTo({center: [ lon[currentSite], lat[currentSite] ]} );   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this format don't works
             //map.flyTo({center: [ flyToLoc ]} );   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this format don't works
             prevSite = currentSite;
         } else {
@@ -589,7 +587,17 @@ function getInputFormSelection() {
 // ################################################################################# //
 // ################################################################################# //
 
+console.log("--dbg-- before map.on('load'...) , calling buildLonLatHash()" );
+dbgTracer += " MainAftAllFnDeclare_b4map_on_load \t";     
+console.log( dbgTracer );
+buildLonLatHash();
+
+
+
 map.on('load', function () {
+    console.log("--dbg-- at map.on('load'...) start" );
+    dbgTracer += " at_map_on_load \t";   
+    console.log( dbgTracer );
     getInputFormSelection();
     map.addLayer({
         "id": "terrain-data",
@@ -700,8 +708,11 @@ map.on('load', function () {
     
     
     // ==== by this part of map.on('load'...) all layers are loaded.  constructing lon/lat hash should work in here.
-    buildLonLatHash();
- 
+    // ---- no, too late, need this earlier.  try before map.on('load')
+    //buildLonLatHash();
+    
+    dbgTracer += " map_on_load_END \t";
+    console.log(dbgTracer);
 });  // end map.on('load'...) 
 
 
@@ -852,6 +863,8 @@ console.log( 'the "main" of script' );
 // store parallel hash of lon/lat of sites.   eg lon['sfzwedc'] lat['sfzwedc'] for use with flyTo()/panTo
 function buildLonLatHash() {
     console.log( '--dbg-- buildLonLatHash begin' );
+    dbgTracer += " buildLonLatHash() \t";     // can't use "this." prefix to seek what I thought was object-wide var.  really just think of it as global then.
+    console.log( dbgTracer );
     // this version has hard coded siteName/lon/lat
     // snipplet of code generated via external script parsing the csv source
     // from snipplet generated by sites_lonLat4js.py
