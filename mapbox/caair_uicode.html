@@ -3,12 +3,15 @@
 
 
 <!--
-ca air 
+smelly - ca air 
 base on ZWEDC_jq_slider.html and ZWEDC_50x50sq_js.html
 
 drop down to pick sites, scale, season, time
 
-This version only for zwedc data,  prepping a demo for 2019-0205
+it now works for ~25 sites.
+But only ZWEDC has all mixing hours and plant capacity (scale) modeled.
+other sites has more limited simulation data.
+flyTo() works.
 -->
 <head>
     <meta charset='utf-8' />
@@ -79,7 +82,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 	  /*background: rgba(250, 250, 250, 0.9);  /* 255 255 255 is pure white */
       background: rgba(250, 250, 224, 0.8);  /* this is greenish/yellowish */
 	  margin-left: 6px; 
-	  margin-right: 60px; 
+	  margin-right: 46px; 
 	  /*overflow: auto;*/
 	  border-radius: 3px;
 	  font: 20px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12px, not 12 pt!! they turn out to be very small */
@@ -112,17 +115,18 @@ This version only for zwedc data,  prepping a demo for 2019-0205
     /* feature info box in bottom right */
     .map-overlay-features {
         visibility: visible; /* hidden */
+        position: absolute;
         height: 240px;      /* formerly 100px, now adding much more text */
+        width:  300px;      /* formerly 220px, 300px - needed more space cuz longer title now */
         margin-top: 10px;
         margin-bottom: 22px;
-        width: 320px;      /* formerly 220px, 300px - needed more space cuz longer title now */
-        position: absolute;
+        margin-left:  10px; 
+        margin-right: 10px; /* choropleth used 20px */
+        padding-left: 8px;
         /*bottom: 10px;  /* 10px add buffer at bottom for (i) attributes info icon */
         bottom: 0;  /* 0 put box on top, other number put on top.  maybe 30px add buffer at bottom */
         right:  0;  /* anything other than 0 put box on left */
         background: rgba(250, 250, 224, 0.8);  /* this is greenish/yellowish */
-        margin-left:  10px; 
-        margin-right: 10px; /* choropleth used 20px */
         font-family: Arial, sans-serif;
         overflow: auto;
         border-radius: 3px;
@@ -165,7 +169,7 @@ This version only for zwedc data,  prepping a demo for 2019-0205
 
 <!-- ################################################################# -->
 <!-- ################################################################# -->
-<!-- ####   BODY         ############################################# -->
+<!-- ####  HTML  BODY         ######################################## -->
 <!-- ################################################################# -->
 <!-- ################################################################# -->
 
@@ -198,8 +202,8 @@ This version only for zwedc data,  prepping a demo for 2019-0205
             <!--html element for drop down picker goes here-->
             <select id="siteSelectorUI"> <!-- site -->  <!--to emulate Tyler <select id="polygon-layer-selector"> -->
                 <option value="NA"         disabled           >Air Basin: Site</option>	       
-                <option value="SfZwedc"    selected="selected">SF: ZWEDC</option>                                       <!-- San Francisco Bay -->
-                <option value="SfSanjose"       >SF: San Jose WPCP</option>	                              <!-- San Francisco Bay -->
+                <option value="SfZwedc"    selected="selected">SF: ZWEDC</option>                         <!-- San Francisco Bay -->
+                <!--<option value="SfSanjose"       >SF: San Jose WPCP</option>    rm cuz overlap -->     <!-- San Francisco Bay -->
                 <option value="SfZbest"         >SF: Z Best Products</option>                             <!-- San Francisco Bay -->
                 <option value="SfDublin"        >SF: Dublin WWTP</option>                                 <!-- San Francisco Bay -->
                 <option value="SfFairfield"     >SF: Fairfield-Suisan Sewer District</option>             <!-- San Francisco Bay -->
@@ -385,7 +389,6 @@ var map = new mapboxgl.Map({
     // these are all options for the map object 
     attributionControl: false,                  // setting to false remove the fine print at bottom.  I still have an info circle that pop up, should be good enough
     hash: true,     // change URL with a hash of map zoom/lat/long    eg append: #15/37.434/-121.945   # notice it is lat/long in this url!!  so it is zoom/y/x
-    //FIXME not sure if hash change to url is messing up flyTo
 
     //zoom: 13,
     //center: [-122.447303, 37.753574]   SF
@@ -411,7 +414,7 @@ var map = new mapboxgl.Map({
 // begin zoom control for state/county choropleth
 //var zoomThreshold = 4;  // flip beween state vs county density
 //var zoomThresholdAQI = 6;  // flip between county population density vs air quality  (for scale, maybe opacity)
-// oh really dont want to be dealing with population density at this point.
+// maybe useful again later if have bubble for site location, but then don't want to use it when zoom is high to the detail of the simulation data.
 
 // end of state/county choropleth
 
@@ -556,20 +559,18 @@ function getInputFormSelection() {
         console.log( "lon:  (make sure it is not NaN)"  );
         console.log( lon[currentSite]  );
         var flyToLoc = {lon: lon[currentSite], lat: lat[currentSite] };
-        // after addLayer, can then panto()
-        console.log( "about to fly from site: " + prevSite );
-        console.log( "about to fly to   site: " + currentSite );
-        console.log( "about to fly to lon/lat:"  );
+        console.log( "prepping to fly from site: " + prevSite );
+        console.log( "prepping to fly to   site: " + currentSite );
+        console.log( "prepping to fly to lon/lat:"  );
         console.log( flyToLoc  );
         if( prevSite != currentSite )  {   
-            //-var pan2loc = {lon: -121.98, lat: 37.66};  // Dublin
+            //-var pan2loc = {lon: -121.98, lat: 37.66};  // Dublin, but don't work. need more param.
             //-map.panTo(pan2loc);   // need more param that i am not sure how to create yet  ... hmmm it is panTo(), though still take 3 params.
             //~map.flyTo({center: [-121.98, 37.66]});   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this works
             console.log( " site change eval to true, about to execute fly"  );
-            map.flyTo( flyToLoc );   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this works
-            // FIXME  something wrong with loc??  map not moving :(
-            map.flyTo({center: [ lon[currentSite], lat[currentSite] ]} );   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this format don't works
-            //map.flyTo({center: [ flyToLoc ]} );   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this format don't works
+            //map.flyTo( flyToLoc );   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this does NOT works.  
+            //map.flyTo( {center: [ flyToLoc ]} );   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this does NOT works.  
+            map.flyTo({center: [ lon[currentSite], lat[currentSite] ]} );   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this is the one that work
             prevSite = currentSite;
         } else {
             console.log( " site change eval to false, no flying"  );
@@ -709,12 +710,13 @@ map.on('load', function () {
     });  // end map.addLayer(...)
 
     //------------- site_info point LAYER ------------ 
-    // if need more rendering feature than what Mapbox studio styling does, 
-    // manually add the layer here
-    // but so far i think i can get what i need as is, so not doing this (yet)
+    // originally thought needed to manually add the layer with site's coordinate, so then querySourceFeatures() can be used
+    // turn out that cannot work, thus created the buildLonLatHash() 
+    // this is no longer needed, but left it here so can refer to the code for building heatmap
+    // maybe later can have a bubble up icon like google maps location pin thing using this.
     console.log("GL JS about to addLayer{ sites_info_pt ...}")
     map.addLayer({
-        "id": "sites_info_pt",      // style from mapbox studio should have a layer called 'sites-info-pt-ctr'
+        "id": "sites_info_pt__noLongerNeeded",      // style from mapbox studio should have a layer called 'sites-info-pt-ctr'
         "source": {
             type: "vector",
             url:  'mapbox://' + mapboxUser + '.' + 'sites_info_pt_ctr' 
@@ -722,8 +724,7 @@ map.on('load', function () {
         },
         'source-layer': 'sites_info_pt_ctr',
         "layout": { 
-            "visibility": 'visible'   // could use if don't want to style the data thru mapbox studio
-            //visibility: 'none'   // eventually don't need this layer to be visible, just need the data to be avail for query.
+            visibility: 'none'   // dont really need the data to be visible on map at this point.  was using it for easier debugging.  
         },
         //"type": "symbol",
         //"type": "heatmap",
@@ -739,12 +740,13 @@ map.on('load', function () {
     });
     //map.style.sourceCaches['attribution-layer']._source.attribution = "Smelly. An app from the collaboration of ETA and Sciencie IT, LBNL. © 2019 Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington, Corinne Scown";
 
-    this.dbgTracer += " -this- aftAddLayerSite_info_pt \t";
-    console.log(this.dbgTracer);
-    dbgTracer += " -plain- aftAddLayerSite_info_pt \t";     // can't use "this." prefix to seek what I thought was object-wide var.  really just think of it as global then.
-    console.log(dbgTracer);
-    window.dbgTracer += " -window- aftAddLayerSite_info_pt \t";     // window. is the (optional) special keyword to access global var, usable in browser (but not in server-side code like Node.js).
-    console.log(window.dbgTracer);
+    //~ diff between "this.", "window." and just plain variable names.  in summary, don't use "this." to refer to "global", in browser need to use "window." or no prefix for the namespace
+    //~this.dbgTracer += " -this- aftAddLayerSite_info_pt \t";
+    //~console.log(this.dbgTracer);
+    //~dbgTracer += " -plain- aftAddLayerSite_info_pt \t";     // can't use "this." prefix to seek what I thought was object-wide var.  really just think of it as global then.
+    //~console.log(dbgTracer);
+    //~window.dbgTracer += " -window- aftAddLayerSite_info_pt \t";     // window. is the (optional) special keyword to access global var, usable in browser (but not in server-side code like Node.js).
+    //~console.log(window.dbgTracer);
     
     //------------- tried to change attribution, but not too sucessful  ------------ 
     //   below isn't all that important.
@@ -764,10 +766,6 @@ map.on('load', function () {
     map.style.sourceCaches['attribution-layer']._source.attribution =  '<A HREF="https://github.com/tin6150/smelly">Smelly</A>';
     // "Smelly";
 
-
-
-    //------------- ZWEDC "point polygon" LAYER ------------ // ##  need more work here ##
-    // ^^ moved to getInputFormSelection 
 
 
     // ################################################ //
@@ -795,11 +793,6 @@ map.on('load', function () {
     scaleSelector.addEventListener('change', function(e) {
         getInputFormSelection();
     });
-    
-    
-    // ==== by this part of map.on('load'...) all layers are loaded.  constructing lon/lat hash should work in here.
-    // ---- no, too late, need this earlier.  try before map.on('load')
-    //buildLonLatHash();
     
     dbgTracer += " map_on_load_END \t";
     console.log(dbgTracer);
