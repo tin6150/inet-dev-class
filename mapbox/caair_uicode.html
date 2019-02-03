@@ -223,7 +223,7 @@ flyTo() works.
             <!--html element for drop down picker goes here-->
             <select id="siteSelectorUI"> <!-- site -->  <!--to emulate Tyler <select id="polygon-layer-selector"> -->
                 <option value="NA"         disabled           >Air Basin: Site</option>	       
-                <option value="SfZwedc"    selected="selected">SF: ZWEDC</option>                         <!-- San Francisco Bay -->
+                <option value="SfZwedc"         >SF: ZWEDC</option>                         <!-- San Francisco Bay -->  <!-- took out "selected" as it is the first item in list that is enable it will be automatic -->
                 <!--<option value="SfSanjose"       >SF: San Jose WPCP</option>    rm cuz overlap -->     <!-- San Francisco Bay -->
                 <option value="SfZbest"         >SF: Z Best Products</option>                             <!-- San Francisco Bay -->
                 <option value="SfDublin"        >SF: Dublin WWTP</option>                                 <!-- San Francisco Bay -->
@@ -393,6 +393,9 @@ var rmSourceCounter = 0;
 // http://www.mojavelinux.com/articles/javascript_hashes.html 
 var lon = {};
 var lat = {}; 
+//var counterFlyTo = 0;	// count number of flyTo() executed.  mostly for first load not to move since URL may have specific zoom/lat/lon.  hmm... but layer info wouldn't be loaded.  really need url to have that info.  rather have it fly than user think buggy software with no layer!!
+// hmmm... can map find out nearnest site on display and load that layer??  prob lot of work!
+
 
 // note there is a map.remove() ... 
 var map = new mapboxgl.Map({
