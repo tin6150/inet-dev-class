@@ -36,8 +36,8 @@ import re
 # global vars, 
 # kinda kludgy, but just need to generate data once
 # but think of OOP, then these are just obj instance level state data :)
-generatePolygon = True 		# -1 args will overwrite this to false
-useTopLeftCorner = False	# -c set this to true
+generatePolygon = True      # -1 args will overwrite this to false
+useTopLeftCorner = False    # -c set this to true
 
 ### treat them like global :)
 #xxINPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"
@@ -51,42 +51,47 @@ dbgLevel = 0
 
 
 def process_cli() :
-	parser = argparse.ArgumentParser( description='generate geoJSON from CSV, after customization' )
-	parser.add_argument('-d', '--debuglevel', help="Debug mode. Up to -ddd useful for troubleshooting input file parsing. -ddddd intended for coder. ", action="count", default=0)
-	parser.add_argument('-4', '--polygon',    help="Generate polygon (4 points polygon) data (default)",               default="true",  action="store_true"  )
-	parser.add_argument('-1', '--point',      help="Generate point   (1 point) data (and not default of polygon data", dest="polygon",  action="store_false" )
-	parser.add_argument('-t', '--useTopLeftCorner',    help="when using --point, whether to use top left corner--rather than center (def)",  action="store_true" )   # could add code that this is revelant only if specify --point but lazy, this is just a one time conversion tool 
-	parser.add_argument("infile",  help="dummy, always expect STDIN",  nargs='?', type=argparse.FileType('r'), default=sys.stdin )
-	parser.add_argument('outfile', help="dummy, always to     STDOUT", nargs='?', type=argparse.FileType('w'), default=sys.stdout)
-	args = parser.parse_args()
-	#print( "dbgLevel is %s" , args.debuglevel )
-	global dbgLevel  # ie, tell fn to set the global var, not one created locally in this fn
-	dbgLevel = args.debuglevel      # unable to change global here...   this has no effect :(
-	#print( "dbgLevel is %s" , dbgLevel )
+    parser = argparse.ArgumentParser( description='generate geoJSON from CSV, after customization' )
+    parser.add_argument('-d', '--debuglevel', help="Debug mode. Up to -ddd useful for troubleshooting input file parsing. -ddddd intended for coder. ", action="count", default=0)
+    parser.add_argument('-4', '--polygon',    help="Generate polygon (4 points polygon) data (default)",               default="true",  action="store_true"  )
+    parser.add_argument('-1', '--point',      help="Generate point   (1 point) data (and not default of polygon data", dest="polygon",  action="store_false" )
+    parser.add_argument('-t', '--useTopLeftCorner',    help="when using --point, whether to use top left corner--rather than center (def)",  action="store_true" )   # could add code that this is revelant only if specify --point but lazy, this is just a one time conversion tool 
+    parser.add_argument("infile",  help="dummy, always expect STDIN",  nargs='?', type=argparse.FileType('r'), default=sys.stdin )
+    parser.add_argument('outfile', help="dummy, always to     STDOUT", nargs='?', type=argparse.FileType('w'), default=sys.stdout)
+    args = parser.parse_args()
+    #print( "dbgLevel is %s" , args.debuglevel )
+    global dbgLevel  # ie, tell fn to set the global var, not one created locally in this fn
+    dbgLevel = args.debuglevel      # unable to change global here...   this has no effect :(
+    #print( "dbgLevel is %s" , dbgLevel )
 
-        global     generatePolygon
-        global     useTopLeftCorner 
+    global     generatePolygon
+    global     useTopLeftCorner
 
-        if( args.useTopLeftCorner ) :
-		    useTopLeftCorner = True      # global var
-        else :
-		    useTopLeftCorner = False      # global var, False is default, but just to be sure :)
+    if( args.useTopLeftCorner ) :
+        useTopLeftCorner = True      # global var
+    else :
+        useTopLeftCorner = False      # global var, False is default, but just to be sure :)
+    # end-if #?
 
-        if( args.polygon ) :
-            dbg( 1, "Generate 4 points vertices polygon data" )
-            generatePolygon = True      # global var
-            useTopLeftCorner = True     # for polygon, wants to force this to always be using top left corner  (ie, lon1/lat1 later in the input line rather than the earlier lon/lat which might be center point)
-        else :
-            dbg( 1, "Generate point data" )
-            generatePolygon = False      # global var
+    if( args.polygon ) :
+        dbg( 1, "Generate 4 points vertices polygon data" )
+        generatePolygon = True      # global var
+        useTopLeftCorner = True     # for polygon, wants to force this to always be using top left corner  (ie, lon1/lat1 later in the input line rather than the earlier lon/lat which might be center point)
+    else :
+        dbg( 1, "Generate point data" )
+        generatePolygon = False      # global var
+    # end-if #?
 
-        if( useTopLeftCorner ) :
-		    dbg( 1, "Use Top Left Corner for point" )
-        else :
-		    dbg( 1, "Use Center for point" )
- 
 
-	return args
+    if( useTopLeftCorner ) :
+        dbg( 1, "Use Top Left Corner for point" )
+    else :
+        dbg( 1, "Use Center for point" )
+    # end-if #?
+
+
+
+    return args
 # process_cli()-end
 
 
@@ -111,44 +116,44 @@ def gprint( str1, str2="#" ):
 # gson need 5 poionts to close off a square, this fn will print first point last again for that purpose
 #def print_gsonLine( value, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :
 def print_gsonLine( dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :  ## input is 19-tuple.
-	gprint( '    { "type":       "Feature", ', '1' ) 	## 1
-	gprint( '      "properties":            ', '2' ) 	## 2
-	gprint( '           {"dirId":          %s ,'  % dirId , "3-first" )        ## 3
-	gprint( '            "site_name":     "%s",' % site_name , "3-b" )        ## 3   
-	gprint( '            "site_abbr":     "%s",' % site_abbr , "3-c" )        ## 3
-	gprint( '            "airbasin_abbr": "%s",' % airbasin_abbr , "3-d" )        ## 3
+        gprint( '    { "type":       "Feature", ', '1' )    ## 1
+        gprint( '      "properties":            ', '2' )    ## 2
+        gprint( '           {"dirId":          %s ,'  % dirId , "3-first" )        ## 3
+        gprint( '            "site_name":     "%s",' % site_name , "3-b" )        ## 3   
+        gprint( '            "site_abbr":     "%s",' % site_abbr , "3-c" )        ## 3
+        gprint( '            "airbasin_abbr": "%s",' % airbasin_abbr , "3-d" )        ## 3
         gprint( '            "airbasin":      "%s",' % airbasin , "3-e" )        ## 3
-	gprint( '            "facility":      "%s",' % facility , "3-f" )        ## 3
-	gprint( '            "city":          "%s",' % city , "3-g" )        ## 3
-	gprint( '            "county":        "%s",' % county , "3-h" )        ## 3
-	gprint( '            "terrain":       "%s",' % terrain , "3-i" )        ## 3
-	gprint( '            "pop_density":    %s, ' % pop_density , "3-j" )        ## 3
-	gprint( '            "attr_label":    "%s"}' % attr_label , "3-last" )        ## 3
-	gprint( '      ,' , '2')
+        gprint( '            "facility":      "%s",' % facility , "3-f" )        ## 3
+        gprint( '            "city":          "%s",' % city , "3-g" )        ## 3
+        gprint( '            "county":        "%s",' % county , "3-h" )        ## 3
+        gprint( '            "terrain":       "%s",' % terrain , "3-i" )        ## 3
+        gprint( '            "pop_density":    %s, ' % pop_density , "3-j" )        ## 3
+        gprint( '            "attr_label":    "%s"}' % attr_label , "3-last" )        ## 3
+        gprint( '      ,' , '2')
         # check if using center point, ie, specified --point (-1) but not --useTopLeftCorner (-t)
         # the vars are global or Object-wide state :)
         if( generatePolygon ) :
             # normal 4 point vertices case
             dbg( 2, 'print_gsonLine | generatePolygon in THEN ie polygon')
-	    gprint( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ], [ %s,%s], [%s,%s], [%s,%s], [%s,%s]  ]]}' % (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4, lon1,lat1), '2b') 
+            gprint( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ], [ %s,%s], [%s,%s], [%s,%s], [%s,%s]  ]]}' % (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4, lon1,lat1), '2b') 
         #elif( generatePolygon == False and useTopLeftCorner == False ) : 
         else : 
             # don't have to check if useTopLeftCorner here as caller would have done the right thing and fed it the right param.
             # FIXME at least double check if geojson is correct for geometry of single point >>>
             dbg( 2, 'print_gsonLine | generatePolygon in ELSE ie point ')
-	    gprint( '      "geometry": { "type": "Point", "coordinates": [ %s,%s ] }' % (lon1,lat1), '2b-singlePt') 
+            gprint( '      "geometry": { "type": "Point", "coordinates": [ %s,%s ] }' % (lon1,lat1), '2b-singlePt') 
         #endif
-	gprint( '    }', '1' )
+        gprint( '    }', '1' )
 
 # print_gsonLine()-end 
 
 
 def print_opener() :
-	gprint( '{ "type": "FeatureCollection", "features": [', 'top' )	## top
+    gprint( '{ "type": "FeatureCollection", "features": [', 'top' ) ## top
 #print_operner() end
 
 def print_closer() : 
-	gprint( '] }', 'top' )		## top
+    gprint( '] }', 'top' )      ## top
 #print_closer() end
 
 # check input has format that fit req of lon/lat point
@@ -238,7 +243,7 @@ def parse1line( line ) :
     # comment line, blank lines, nothing to process, just return
     if( re.search( '^#', line ) ) :     
         #-return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
-	# return 19-tuples of 'default' values, so that there is no param error to caller.  key is for lon1/lat1 to be "".
+    # return 19-tuples of 'default' values, so that there is no param error to caller.  key is for lon1/lat1 to be "".
         return ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    ) ## 19-tuples of 'blank'
     if( re.search( '^$', line ) ) :     
         #-return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
@@ -323,31 +328,31 @@ def parse1line( line ) :
 # this take stdin
 # read it, generate converged geojson output, write it out to std out
 def run_conversion( args ) :
-	dbg( 5, "converting csv to gson...")
-	print_opener()  # some geojson header 
-	#(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( 0, "","" , "","" , "","" , "",""  )  # 9-tuple initialized to blank    # old odor data
-	(dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    )  # 19-tuple initialized to blank     # new site loc/desc data - polygon format
+    dbg( 5, "converting csv to gson...")
+    print_opener()  # some geojson header 
+    #(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( 0, "","" , "","" , "","" , "",""  )  # 9-tuple initialized to blank    # old odor data
+    (dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( 0,    "Site_namE","Site_abbR","Airbasin_abbR","AirbasiN","Facility","CitY","CountY","TerraiN","Pop_densitY","Attr_labeL", "",""    , "",""    , "",""    , "",""    )  # 19-tuple initialized to blank     # new site loc/desc data - polygon format
 
-	# loop to parse file
-	# maybe should have used  std unix input redirect, but future may need multiple input files
-	# Alt: read whole file into a dataframe.  would use more memory, 
-	# but could then run check for format, count missing values, etc.  (Think R stats)
-	inF = args.infile  # process_cli already have file handle open and ready for use (expect always to be STDIN)
-	lineNum = 0
-	for line in inF:
-		#print line
-		#lineList = line.split( ',' )
-		#(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( parse1line( line ) )  #old ZWEDC odor
-		(dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( parse1line( line ) )
-		if ( lon1 == "" )  :
-			continue		# returned nothing, skipping the line   FIXME
-		if( lineNum > 0 ) :
-			gprint( ",", "//next feature//" )	# print separator iff not first line
-		#print_gsonLine( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )     # old format for ZWEDC odor
-		print_gsonLine( dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  # new site loc/desc data
-		#lineNum =+ 1		# WRONG, this just assign (+1) into the var
-		lineNum += 1		# RIGHT, this increment.  this is almost the equivof c++
-	print_closer() # close out parenthesis...
+    # loop to parse file
+    # maybe should have used  std unix input redirect, but future may need multiple input files
+    # Alt: read whole file into a dataframe.  would use more memory, 
+    # but could then run check for format, count missing values, etc.  (Think R stats)
+    inF = args.infile  # process_cli already have file handle open and ready for use (expect always to be STDIN)
+    lineNum = 0
+    for line in inF:
+        #print line
+        #lineList = line.split( ',' )
+        #(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( parse1line( line ) )  #old ZWEDC odor
+        (dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( parse1line( line ) )
+        if ( lon1 == "" )  :
+            continue        # returned nothing, skipping the line   FIXME
+        if( lineNum > 0 ) :
+            gprint( ",", "//next feature//" )   # print separator iff not first line
+        #print_gsonLine( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )     # old format for ZWEDC odor
+        print_gsonLine( dirId,  site_name,  site_abbr,  airbasin_abbr,  airbasin,  facility,  city,  county,  terrain,  pop_density,  attr_label,  lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  # new site loc/desc data
+        #lineNum =+ 1       # WRONG, this just assign (+1) into the var
+        lineNum += 1        # RIGHT, this increment.  this is almost the equivof c++
+    print_closer() # close out parenthesis...
 # run_conversion()-end
 
 
@@ -364,16 +369,16 @@ def sniff_data(args) :
 ################################################################################
 
 def main():
-	# no args needed, just that i took some old code that open STDIN
-	# -ddddd is supported
-        args = process_cli()
+    # no args needed, just that i took some old code that open STDIN
+    # -ddddd is supported
+    args = process_cli()
 
-	# INPUT csv is from stdin (just cuz caAirCsv2gson.py use that convention now)
-	# OUTPUT is to stdout
-	run_conversion(args)
+    # INPUT csv is from stdin (just cuz caAirCsv2gson.py use that convention now)
+    # OUTPUT is to stdout
+    run_conversion(args)
 
 
-	#sniff_data(args)          # glance over data, find avg, std dev, min, max, missing value, etc # use pandas
+    #sniff_data(args)          # glance over data, find avg, std dev, min, max, missing value, etc # use pandas
 # main()-end
 
 
@@ -390,26 +395,26 @@ desired output
 see README, where i had a simplied pop density gson parsed out.
 
 
-{ "type": "FeatureCollection", "features": [		// this line printed by "print_opener()
+{ "type": "FeatureCollection", "features": [        // this line printed by "print_opener()
 
-							// rest is loop for each record
+                            // rest is loop for each record
 
-							// rec #1 below.   note there is no comma here
+                            // rec #1 below.   note there is no comma here
     { "type":       "Feature", 
-//    "id"  :       "01",				//## new this time, not in ZWEDC/caair ou/m3 odor dataset ##    this maybe string.  is okay, could use dirID here.    this is likely optional, don't want to code for it
+//    "id"  :       "01",               //## new this time, not in ZWEDC/caair ou/m3 odor dataset ##    this maybe string.  is okay, could use dirID here.    this is likely optional, don't want to code for it
       "properties":            
            {"dirID":         1,
-            "site_name":     "Arcata_WWTF",		//## seems like additional feature is comma list here  ##
-	    "site_abbr":     "TBA",			//## was not in INPUT csv, probably don't need it.  but build code for it in case future need it
+            "site_name":     "Arcata_WWTF",     //## seems like additional feature is comma list here  ##
+        "site_abbr":     "TBA",         //## was not in INPUT csv, probably don't need it.  but build code for it in case future need it
             "airbasin_abbr": "NC",
             "airbasin":      "North Coast",
-            "facility":      "Bakersfield WWTP #2",	//   data from various places to show complexity
+            "facility":      "Bakersfield WWTP #2", //   data from various places to show complexity
             "city":          "Arcata",
             "county":        "Humboldt",
             "terrain":       "hilly or ountainous",
             "pop_density":   1894.159,                  //## dont quote it, so that it is treated as number and not text 
-            "attr_label":    "flat-inland-high"		//## 11 feature here, so need a 19-tuple for polygon data, 13-tuple for point data
-	   }
+            "attr_label":    "flat-inland-high"     //## 11 feature here, so need a 19-tuple for polygon data, 13-tuple for point data
+       }
       ,
       "geometry": { "type": "Polygon", "coordinates": [[ [ -121.985287624997,37.4077223978109 ], [ -121.984722734052,37.4077175479308], [-121.984716652544,37.4081681673591], [-121.985281546871,37.4081730173178], [-121.985287624997,37.4077223978109]  ]]}
     }
@@ -418,11 +423,11 @@ see README, where i had a simplied pop density gson parsed out.
 ,                                      // #2 below, not updated from prev ZWEDC odor data.  
     { "type":       "Feature", 
       "properties":            
-           {"max": 0.18817}		//## this changed drastically for site location and description data 
+           {"max": 0.18817}     //## this changed drastically for site location and description data 
       ,
       "geometry": { "type": "Polygon", "coordinates": [[ [ -121.984722734052,37.4077175479308 ], [ -121.984157843243,37.4077126953524], [-121.984151758353,37.4081633147021], [-121.984716652544,37.4081681673591], [-121.984722734052,37.4077175479308]  ]]}
     }
-] }					// this line printed by print_closer()
+] }                 // this line printed by print_closer()
 
 
 
@@ -432,4 +437,4 @@ see README, where i had a simplied pop density gson parsed out.
 
 
 
-# vim: syntax=python noexpandtab nosmarttab noautoindent nosmartinden
+# vim: syntax=python nosmarttab noautoindent nosmartinden  tabstop=4 shiftwidth=2 expandtab
