@@ -40,7 +40,8 @@ fi
 #InputFileList=$( ls -1 *.geojson )			# odor data (450 + 750 tilesets)
 #InputFileList=$( ls -1 sites_info_polyg.geojson )	# site info data as polygon 
 #InputFileList=$( ls -1 sites_info_pt_*.geojson )      	# site info data as point
-InputFileList=$( ls -1 sites_info_p*.geojson )      	# site info data as point and polygon
+#InputFileList=$( ls -1 sites_info_p*.geojson )      	# site info data as point and polygon
+InputFileList=$( ls -1 sites_info_pt_ctr.geojson )     	# only needed to fix coord of this, as only ctr pt of SouthCoast "LA" was wrong
 FileNum=0
 
 #INPUT loop for all files#

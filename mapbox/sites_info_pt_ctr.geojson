@@ -200,7 +200,7 @@
             "pop_density":    4898.166857, 
             "attr_label":    "flat-coastal-high"}
       ,
-      "geometry": { "type": "Point", "coordinates": [ -118.282017,33.831406 ] }
+      "geometry": { "type": "Point", "coordinates": [ -118.28581,33.801326 ] }
     }
 ,
     { "type":       "Feature", 

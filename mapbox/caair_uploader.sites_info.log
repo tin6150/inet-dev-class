@@ -19,3 +19,7 @@ MAPBOX_ACCESS_TOKEN aka SECRET env var not set, exiting
 ++ OK ++ 1: upload of sites_info_pt_ctr.geojson completed successfully.
 {"id":"cjrfgu0kx386j2wn5lmxvuehk","name":"sites_info_pt_topLeft","complete":false,"error":null,"created":"2019-01-27T22:18:28.124Z","modified":"2019-01-27T22:18:28.124Z","tileset":"sn50.sites_info_pt_topLeft","owner":"sn50","progress":0}
 ++ OK ++ 2: upload of sites_info_pt_topLeft.geojson completed successfully.
+MAPBOX_ACCESS_TOKEN aka SECRET env var not set, exiting
+MAPBOX_ACCESS_TOKEN aka SECRET env var not set, exiting
+{"id":"cjroczegs172g2xphe9e0gl44","name":"sites_info_pt_ctr","complete":false,"error":null,"created":"2019-02-03T03:40:36.295Z","modified":"2019-02-03T03:40:36.295Z","tileset":"sn50.sites_info_pt_ctr","owner":"sn50","progress":0}
+++ OK ++ 0: upload of sites_info_pt_ctr.geojson completed successfully.

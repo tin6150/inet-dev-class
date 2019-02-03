@@ -14,6 +14,7 @@
 # ./sites_csv2gson.py -1        < sites_extInfo.csv  >  sites_info_pt_ctr.geojson
 # ./sites_csv2gson.py -dd -1 -t < sites_extInfo.csv  | grep -v '^//--dbg' >  sites_info_pt_topLeft.geojson  # no point to do this, above center point show up nice and well.
 #  -t, --useTopLeft
+#   (as it turn out, the first vertix is bottom left.  but not changing syntax or file name :-P
 
 # validate json output as
 # python -m json.tool < sites_info_polyg.geojson
