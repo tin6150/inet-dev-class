@@ -139,7 +139,7 @@ flyTo() works.
         visibility: visible; /* hidden */
         position: absolute;
         height: 240px;      /* formerly 100px, now adding much more text */
-        width:  300px;      /* formerly 220px, 300px - needed more space cuz longer title now */
+        width:  328px;      /* formerly 220px, 300px - needed more space cuz longer title now */
         margin-top: 10px;
         margin-bottom: 22px;
         margin-left:  10px; 
@@ -309,7 +309,7 @@ flyTo() works.
     (fewer classes than before.  also need to adjust in 'function styleZwedcPolys' 
     -->
     <div id='legend' class='legend' >
-        Top 2% Odor Conc (ou/m³)
+        Top 2% Odor Conc (ou/m³):
         <div><span style='background-color: #f2f3f4'></span>0.0001</div>
         <div><span style='background-color: #FED976'></span>0.01</div>
         <div><span style='background-color: #FEB24C'></span>0.1</div>
@@ -841,12 +841,12 @@ map.on('mousemove', function (e) {
                 ouValString = ouVal.toPrecision(2);
            }
            text2display =  
-		      "<H3>Top 2% Odor Concentration (ou/m³)</H3>\n" + 
+		      "<H3>Top 2% Odor Concentration (ou/m³):</H3>\n" + 
 		      "" + features[0].properties.max.toPrecision(3) 	+ "<BR>\n"  
 		      //"" + features[0].properties.max.toExponential(1) 	+ "<BR>\n"  
 		      //"" + ouValString 	+ "<BR>\n"  
       } else {
-            text2display = "<H3>Top 2% Odor Concentration (ou/m³)</H3>\n" + "- <BR>\n" 
+            text2display = "<H3>Top 2% Odor Concentration (ou/m³):</H3>\n" + "- <BR>\n" 
             //UiSelection = $("site").val();
             //+ "UI: " + UiSelection ;
       }
@@ -859,14 +859,15 @@ map.on('mousemove', function (e) {
       document.getElementById('featuresDbg').innerHTML = "DBG:" + JSON.stringify(featuresSiteInfo, null, 2);      // this display  in top right  featuresDbg box  inside map-overlay-features-dbg ##
       // rest actually want to add to existing bottom right map-overlay-features box
       if (featuresSiteInfo.length > 0) {
+		        popDen2display = Math.round(featuresSiteInfo[0].properties.pop_density/100)*100;  // could not use toPrecision, so tricking it this way to display to nearnest 100s
             text2display += "<BR>\n" 
 		      + "Site: "        + featuresSiteInfo[0].properties.site_name    + "<BR>\n"  
 		      + "Facility: "    + featuresSiteInfo[0].properties.facility     + "<BR>\n"  
 		      + "Air Basin: "   + featuresSiteInfo[0].properties.airbasin     + "<BR>\n"  
 		      + "City: "        + featuresSiteInfo[0].properties.city         + "<BR>\n"  
 		      + "County: "      + featuresSiteInfo[0].properties.county       + "<BR>\n"  
-		      + "Pop Density: " + featuresSiteInfo[0].properties.pop_density.toPrecision(3)  + "<BR>\n"  
-		      //+ "Pop Density: " + featuresSiteInfo[0].properties.pop_density  + "<BR>\n"  
+		      //~ +"Pop Density: " + featuresSiteInfo[0].properties.pop_density.toPrecision(3)  + "<BR>\n"  
+		      + "Pop Density: " + popDen2display + "<BR>\n"  
 		      + "Terrain: "     + featuresSiteInfo[0].properties.terrain      + "<BR>\n"  
       } 
 
