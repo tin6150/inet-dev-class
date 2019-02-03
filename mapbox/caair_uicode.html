@@ -36,7 +36,7 @@ flyTo() works.
         #map { 
 		position:absolute; 
 		top:0;  
-		margin-top: 20; /* attributionFloat use 20px font */
+		margin-top: 20; /* attributionCss use 20px font */
 		bottom: 0px; 	/* this affect bottom padding where mapbox logo appears.  Actually leave a horizontal white space gap with no map data. */
 		width: 100%;    /* width of map (?) */
 	} 
@@ -73,7 +73,7 @@ flyTo() works.
 	}
 	
 	/* top box for attribution -- need more tweaking*/
-	.attributionFloat {
+	.attributionCss {
 	  /*transform: rotate(90deg);  */
 	  position: absolute;
 	  top: 0;   /* 0 before rotate */
@@ -92,7 +92,7 @@ flyTo() works.
 
 
 	/* top box for user input -- need more tweaking*/
-	.inputForm {
+	.inputCss {
 	    /*background-color: rgba(250,224,224,0.65);   /* blue greenish? */
 	    /*border-radius: 3px; */
 	    top: 16px; /* space from top of body, so need to add space for name, but that was 20px font... 14 px was enought... *sigh css* */  /* NOT really: thickness of input area */
@@ -191,14 +191,13 @@ flyTo() works.
     <div id='mapAlt' class='map'></div>
     -->
 
-    <div id="attribution2+inputbar">
+    <div id="attribution2+inputbar" class="attributionCss">
         <!-- had to add an extra css to hold this -->
-        <div id="attribution2" class="attributionFloat">
+        <div id="attribution2" > <!--class="attributionCss">-->
             <A HREF="https://github.com/tin6150/smelly">Smelly</A>.  An app from the collaboration of ETA and Sciencie IT, LBNL.  
             © 2019 Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington, Corinne Scown.
         </div>
-        <BR>
-        <div id="inputbar" class="inputForm">
+        <div id="inputbar"> <!-- class="inputCss"> -->
             <!--html element for drop down picker goes here-->
             <select id="siteSelectorUI"> <!-- site -->  <!--to emulate Tyler <select id="polygon-layer-selector"> -->
                 <option value="NA"         disabled           >Air Basin: Site</option>	       
@@ -265,8 +264,8 @@ flyTo() works.
             <select id="scaleSelectorUI">
                 <option value="NA"  disabled >Capacity</option>	       
                 <option value="Act">Actual/Current</option>
-                <option value="10x" selected='selected' >1.0</option>
                 <option value="05x">0.5</option>
+                <option value="10x" selected='selected' >1.0</option>
                 <option value="15x">1.5</option>
                 <option value="20x">2.0</option>
             </select>
