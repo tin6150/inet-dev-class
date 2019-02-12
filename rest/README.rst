@@ -1,10 +1,12 @@
 
+REST api ref
+============
 
-learning REST
+* coursera class on SOA
 
-one resource is the coursera class on SOA
+Django framework for using REST with python
+-------------------------------------------
 
-another is django REST framework
+* https://www.django-rest-framework.org/tutorial/quickstart/
+* see also bofhbot project
 
-
-see also bofhbot project
