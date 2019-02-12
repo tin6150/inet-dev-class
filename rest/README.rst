@@ -9,5 +9,7 @@ Django framework for using REST with python
 -------------------------------------------
 
 * https://www.django-rest-framework.org/tutorial/quickstart/
+* https://wsvincent.com/official-django-rest-framework-tutorial-beginners-guide/    # check it out, seems good beyond quickstart
 * see also bofhbot project
+
 
