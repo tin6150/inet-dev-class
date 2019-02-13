@@ -13,7 +13,7 @@ original tutorial also just use virtualenv.
 Once-time Per-Host setup
 ------------------------
 
-virtualenv venv4django
+virtualenv --python=python3 venv4django
 source     venv4django/bin/activate
 
 pip install django
