@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_fraemwork',  
+    'snippets',  # tailing comma seems okay, done in tutorial as well
 ]
 
 MIDDLEWARE = [

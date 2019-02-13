@@ -25,9 +25,17 @@ one-time code setup, check into git
 -----------------------------------
 
 django-admin startproject tutorial .    # note tailing dot
-## cd tutorial
 
 
-python manage.py startapp snippets
+## cd tutorial    # wsvincent.com didn't cd ... 
+
+python manage.py startapp snippets   # thus this was created in the same level as the tutorial project 
 
 
+created snippets/model.py
+
+but 
+python manage.py makemigrations snippets 
+fails in bofh, even when vent python default to py3
+
+what's going on??
