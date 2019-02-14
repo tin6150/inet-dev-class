@@ -25,7 +25,10 @@ SECRET_KEY = 'p!%v&8$1e3j_hradqqumb@0drdrmevs54#qm+!q@_+dq(#his_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+##ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['bofh.lbl.gov']   ## strangely this is server hostname, not client
+
+## start server as python manage.py runserver 0.0.0.0:8000 
 
 
 # Application definition
@@ -37,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_fraemwork',  
+    'rest_framework',  
     'snippets',  # tailing comma seems okay, done in tutorial as well
 ]
 

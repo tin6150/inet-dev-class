@@ -31,11 +31,18 @@ django-admin startproject tutorial .    # note tailing dot
 
 python manage.py startapp snippets   # thus this was created in the same level as the tutorial project 
 
-
 created snippets/model.py
 
-but 
-python manage.py makemigrations snippets 
-fails in bofh, even when vent python default to py3
+python manage.py migrate
+ ...
 
-what's going on??
+python anage.py createsuperuser
+  tin  tin@lbl   t 3 
+
+
+python manage.py runserver                  ## localhost only
+python manage.py runserver 0.0.0.0:8000
+
+django is a wsgi server
+
+
