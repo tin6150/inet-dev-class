@@ -1,0 +1,66 @@
+
+
+editor
+======
+
+editors that supports vi mode:
+- vs (visual studio, free from MS, has vi mode!!)  this has support to the code chat program for team slack chat on code, and also as documentation.  Win and Mac, no linux :(
+
+- jetBrain pycharm, ideaVI... plugin then support vi mode.
+
+- kdevelop/kate was the one I have been using.  ok, but 
+
+
+Things learned in conference 
+============================
+
+Tools used by presenter in conference:
+
+- atoms editor
+
+Expo floor:
+
+- git storage
+
+
+
+angular
+=======
+
+* Nic Raboy, HERE tech (some mapping startup, to comese with Google maps, mapbox?)
+  * workshop in github
+  * did not re-display address at the end.  **redisplay contact/url/qr code at end of talk slides**
+  * https://github.com/nraboy/here-devrel-workshops/tree/master/angular
+  * workshop use npm, so maybe good way to learn how npm server, ng, etc works.  **npm**
+* not recommended to use query selector.
+* use like #map instead  (ie #name and explicit call things?)
+* 20 api that "here" offers.
+  here-map
+  (register for raffle)
+  render map as image, route as coordinate and draw polyLine.
+  very capable, getting more features soon.
+  not too fancy.
+- here technologies.  www.here.com which is why he calls use "here-map".  maybe it is map for cars.
+
+
+CI/CD
+=====
+
+* gitKraken - thick client
+* slack is 1000+ employee now
+* gitKraken is much smaller.
+* how to organize repository
+* git 
+  - 2 immutable branches.  master, develop
+  - supporting branches: feature, release, hotfix (for emergency)
+* they use gitKraken to drag and drop the commits and branches for release.  much more visual...
+* Glo is like Trello, an issue board for task management.  like moving post-it around.
+  - https://www.gitkraken.com/glo
+  - charge model: free for open source, and non-commercial.   Commercial, Enterprise is $49-$99/user/year
+  - Trello is Free for commercial use, but $10/user/year for premium feature.
+* suggestion model:
+- Dev/Staging/Prod branches.
+  Staging is used internally in the company.
+
+
+

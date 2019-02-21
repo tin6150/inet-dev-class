@@ -33,3 +33,15 @@ ref: https://dev.to/benprax/flask-vs-django-1l4k
 * https://flask-restful.readthedocs.io/en/latest/
 
 
+
+Terminology
+===========
+
+* cookie: default only domain that wrote cookie can read it.
+  facebook work around by embeding an iframe around the LIKE button, thus even on CNN, can read fb cookie.
+
+* CORS: Cross-origin Resource Sharing.
+  Allows specified domains to resouces.
+  https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+
+
