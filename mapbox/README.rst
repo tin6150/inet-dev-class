@@ -458,8 +458,40 @@ Bounds for Delaware ::
 
 
 
+
+
 Misc
 ====
+
+
+UI, etc
+-------
+
+
+Mapbox says to support React.
+React is JS based.
+Angular is another popular UI component framework.
+Angular is based on TypeScript.
+TypeScript is superset of JS developed by MS.
+        static type, easier for multiple developer to work w/o stepping on each other's toe/variables.
+        transcompile to JS, so browser is just loading JS.
+        some boiler plate pre-declaration so that typescript still parse to java.
+        var H any; 
+                something along such line.
+
+
+HERE.com tutorial
+https://stackoverflow.com/questions/35931380/mapbox-typescript
+talk about, npm, angular.
+HERE is another mapping company.  HD video of area.
+their own car to map the world in many countries.
+fremium, likely more expensive than mapbox.
+and they probably don't have the mapbox studio for science data viz
+data science platform.
+no interest to change, just FYI.
+
+
+
 
 eg_data
 -------

@@ -1,0 +1,333 @@
+
+
+
+
+side note
+https://stackoverflow.com/questions/35931380/mapbox-typescript
+
+talk about mapbox, npm, angular.
+
+angular need typescript, which is static type superset that transcompile to javascript
+
+
+
+Developer Week 2019 conference Day 2 of open pass (Friday 2019.02.22)
+
+
+
+getElementByID() of js ...
+
+Agora.io building video chat 
+============================
+
+9am.
+
+they build their network outside the internet.
+so that they can control the network latency.
+global private network.
+
+for high speed.
+
+all cdn now use https.
+when local is http, but not allowed to mix.
+can use *ngrok* to help work around this.
+
+        ngrok - secure introspectable tunnels to localhost
+        avail on npm
+
+
+agora is all event based.
+
+
+heroku was mentioned a few times.  seems popular.
+
+
+
+
+Your Data Layer: Choosing the right Solution for the Future.  (choose DB) 9:30am
+===========================================================
+
+booth 324 for info on hiring
+
+postgres
+json support
+and other expansion, 
+without sacrificing what orig product was.
+
+commercialization of tech
+open source...  
+but the biz behind want to expand
+even when tech has reached saturation in adoption of the orig purpose of the db.
+so biz add fn...
+but then become bloated.
+sometime the feature add is at expense of the original use case.
+(eg mongoDB support ACID now.  ??did it slow down its core perf??)
+
+
+open source tech is still very healthy on db tech
+as commercialization make db , new open source project take shape and hold.
+
+ployglot persistence.
+
+use multiple db, diff req use diff db, to rip best benefits.
+no longer have expert in house.
+use consulting service
+
+reddis is good for key-value store, cache
+mongoDB is for document
+
+?? is good for search
+
+DBaaS <- objectRocket (part of rackable)
+        lower cost
+        don't be locked to cloud/db vendor.
+        they are consulting service really.
+        recommend the right db for the solution.
+        polyglot.  ie, use many diff db.
+
+
+
+
+Where is headless CMS arch headed
+==================================
+
+10am
+Russ Danner.  Crafter SW.
+
+
+CMS is a pain.
+don't fit in devops model.
+cms is heart of digital management.  but it is slowing a lot of adoption of new tech.
+
+        cms :
+        heavy weight lang and framework backend
+        eg say have angular support, but not for react.
+        monolitic arch
+        hard to scale.  hard to be on demand.
+
+        was created for marketing to publish content.
+        no major innovation in storage layer for long time.
+
+headless CMS - (their product it seems)
+
+multi-channel. 
+api first
+number of traditional CMS created API, but same back end.
+
+serve content as api.
+
+may not be more scalable.  may still be silo'd
+same arch, just diff presentation.
+
+headless cms don't seems to be programmable.
+
+the world is not about static content anymore, but in dynamic content.
+
+where does the content live?
+
+how to create consistent customer experience
+
+agility.  creating a simple web site is still hard with CMS.
+
+authoring experience is going back 1 year.
+no easy way to preview anymore.
+
+CMS headed to hybrid headless
+
+API.  serve content as json.
+
+but authoring experience need to be great.  
+operations.  
+
+DevContentOps.  move code forth, move content back.  need to be seamless.
+
+content need to have branches, multiple team.
+
+need to become elastic and serverless.
+        docker, kubernetes.
+
+        cms is hard to scale when centralized.
+
+
+
+versioning at code line level is bogus.
+repository layer.
+crafter is working to use git, not db.
+need to restore the view of the universe at a certain time.
+
+support scripting on server.
+node.js
+        
+propose share nothing arch.
+want to go serverless (is he saying docker/kubernetes as serverless?)
+        microservices.
+
+
+cms like lambda, need a service that starts quickly.  need high performance.
+
+        
+    
+
+PubNub
+======
+
+OPEN TALK: The Single Most Important Technological Trend Shaping the Human Experience
+Sign up or log in to save this to your schedule and see who's attending!
+
+not sure what is is about...
+Todd Greene
+
+6 years.
+marketing team come up with this topic.
+
+keyhole . acquired by google to become Earth.
+
+The Hollywood Operating System.
+they have trained user to demand a lot.
+
+3.3 billion smartphone live in use.  
+
+India, $6/mo get like 2 GB of LTE data/day.  per day!!!  how is sh1t so expensive in the US??!!
+
+SoC w/ wifi is now < $1 !!
+
+
+pubnub is some 
+web stack 
+
+rest-based arch moves to streaming.
+
+cuz tweeter, pokemon, tried to be real time for large audience and failed.
+
+fake with Request response.
+polling constantly.  
+fake working.
+battery drainage
+bandwidth cost.
+
+
+connect, 
+data stream network.
+pubnet is 
+   like akamai in 90s.
+:set no list
+	30ms across countries.
+real time data
+core messaging bust
+
+75% of company try to do their own.
+xmpp
+and number of other protocols.
+
+company should not try to build their own protocol, but their app.
+100 peep in the company.
+
+deliver data 
+largest dumb messaging bus.
+	ie put data on one end, come out the other.
+
+but increasingly see that need biz logic in the middle.
+so became a control layer problem.
+
+let customer add code
+
+fog computing, edge computing.
+
+now realize need to keep state as well.
+sentiments, leaderboards.
+from 10s of billion of connections
+
+redbull was guy jumping out of ballon.
+was previous big streaming 
+
+
+
+architecture.  trends in storage and memory, that will induce change in sw.
+=================================
+
+Western Digital.
+
+nvram 
+potentially cheaper than dram.
+cuz of higher density.
+use cross point
+
+crosspoint memory, use a diff memory standard.
+
+HPC.  interested in memory bandwidth, this could be a huge boost.
+
+dram has row buffer.
+row buffer is higher perf in 2nd read cuz it is cached.
+
+crosspoint may not need row buffer.
+
+crosspoint may need ecc.  introduce new timing constrain.
+
+crosspoint use two energy wave to write, no need for resistor, so higher density.
+thus cheaper.
+it being non volatile is side effect.
+may not have a lot of effect to current sw arch.
+
+but need new standard to access.
+
+coherency bus.
+make sure cache for process is coherent.
+also need other cpu to use the memory on other socket.
+
+former memory access is independent of other cpu.
+
+memory fabric.
+access memory on another chip ?
+and it is like storage access
+
+RISC-V 
+WD is cofonder.
+they ship such core as HD.
+
+coherent memory
+
+summary
+need new open interface in this space
+memory
+storage
+
+11:30
+solr, spark
+===========
+
+lucidworks
+
+spark as ML
+logistic regression.
+but need a bunch of work in production.
+
+spark is good for building ML
+but don't serve that to prod very well.
+spark was very opinionated.
+
+pytorch
+dl4j
+
+TF becaome the end thing most folks wanted.
+
+main use case.
+search and discovery task.
+
+search engine.  char base predictor.
+eg search for ipa.
+want to intersect with good result, not just a word predictor.
+
+sentiment analysis, recommendation.
+search and recommendation is like two side of the same coin.
+recommendation is search for things that not exactly sure what is looking for
+
+conceirge service.  
+
+logistic regression still good and valuable and do good things.
+
+
+
+
+
+
+# vim: no expandtab 
