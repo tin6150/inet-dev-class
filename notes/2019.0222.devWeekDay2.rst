@@ -327,7 +327,254 @@ logistic regression still good and valuable and do good things.
 
 
 
+XGBoost 
+
+
+MLeap
+shim layer b/w spark and production
+
+general challenges in ML
+not using latest lib.
+
+but JS is challenging as it seems like new framework every week!
+
+lucid try to do everything in solr.
+lucidwork: 
+use blob store as db in s3
+
+search engine become data as a service
+
+solr is good with streaming expression.
+for data warehouse
+scoring and ranking the data.
+feed via spark
+
+
+tomtom booth
+====
+
+first 10,000 transaction per day is free.
+so essentially free to do dev/demo.
+
+one click on map to geocode location is 1 transaction.
+route is one transaction.
+search is a transaction
+
+(so actually can be expensive quickly).
+
+there is way to put data and present as heatmap
+but definately nowhere near mapbox, at least not on demo shown to me.
+
+map as vector, there were like (50?) map tiles to be considered as 1 transaction.
+i guess enough map to fill the screen.
+
+maybe as zoom changes req more tiles and so more transactions.
+
+(again, no motivation to change from mapbox, but good to know what they are up to).
+tomtom moving from device company to API company.
+
+
+atlasian journay thru microservice
+==========
+
+1pm (friday)
+acq eg trello
+
+
+jira and confluence.
+independent, no code sharing.
+hard to scale back in 2015.
+they want to be out of DC biz, 
+want to move to cloud, add value to customer.
+make multi-tenant.
+
+need app layer to be stateless.
+(everyone is talking about going stateless!!)
+
+vertigo proj, largest done in atlassian.
+
+very biz talk, how microservice wreck havoc.
+monolith works well for small size, till it reach a breaking point.
+
+they wanted the engineer to feel the pain of using cloud microservice, so they will solve those problem, 
+so customer can use their servie without those pain.
+
+did not get anything tech out of this talk.
 
 
 
-# vim: no expandtab 
+HERE
+====
+
+location service business.
+the question of "where?" is what they do.
+googele map api.  tomtom, mapbox. 
+
+
+2018 in Google.
+what happened?
+google jack up price to map api dramatically.
+depending on what you look at it, 15x, 9000%
+
+origin of HERE.com
+navtech, then nokia, now an offshoot of nokia.
+was mostly automobile industry.
+now make API avail to everyone.
+
+they were about to make free plan to lower barrier of entry.
+right around time google jacked up the price.
+
+
+client --> lambda --> google maps.
+					  here.com.... swap out google easily if there is a middle layer.
+
+maps is easy app.
+"where" is harder.
+location service is more than visual mapping.
+developer.here.com
+have a blog/tutorial.  chatbot about amazon lex, slack, 
+
+how to create custom chatbot , see if it is geofenced.
+1 hour to do the work.
+cool to do a first chatbot, geofneced app.
+and not a single map use in this app.
+only use gps coordinate.
+
+upload polygon to the tutorial.
+location service is not just a map.
+
+question of "where" is not often addressed in quetsion
+but this can improve answer
+and it does not need a map.
+
+using location as connection.
+it is another dimention to the data.
+
+smart cities.
+new term: (hard word) idetea of cities.
+ideatea
+expand, beyond human, 
+location is important.
+
+idinvest? 
+
+
+3pm nintendo switch.
+sign up at their booth to be in drawing.
+
+
+kubernetes/security
+=====
+
+2pm
+Redhat
+
+hybrid cloud, multitenancy
+
+security was aftertought, as hindrance.
+
+DevSecOps
+
+open container initiative
+CI open
+
+kubernetes.
+std for managing container across hybrid env.
+a way to standardize process and tooling anywhere.
+
+automation at scale
+declarative dev
+
+front end pod with service
+
+selector and lable method 
+for swapping bad container
+
+treat container as immutable.
+this improve security.
+
+config maps
+
+openSCAP security scan
+foreman
+security scan as part of CI/CD pipeline
+
+A/B testing.
+eg marketting testing different idea.
+can use 
+version label of kubernetes.
+version=A
+version=B
+then use kubernetes to deploy in certain %
+
+swtich b/w dev and prod db.
+don't hard code into container image
+or in kube cluster.
+
+create a db service with cluster ip
+
+those external have routable IP.
+
+kubernetes assoc endpoint (assoc name with ip).
+
+change endpoint ip to prod instance when needed.
+no need to bring down the app tier
+change endpoint obj in kubernetes.
+switch from dev to prod db just like that.
+
+stateful set
+it is a sticky network name
+eg mongo-0, mongo-1, 
+allow for persistent storage
+
+
+db migration
+
+
+DJI
+====
+
+drones. api for collecting data, controlling drone.
+Ares could use this to collect data?
+
+drone mostly fly itself, just take "desire" from user where to go.
+avoid obstacle (fly in dense forest, avoid ladder, pickup truck).
+how does it know what is at ground level?)
+
+payload.  could be lidar.  capture survey quality data.
+
+api allow develop of routes to loop around building to ensure cover complete area.
+many sw dev indeed to go with the hw drones they have could be develope to build new feature/capabilities.
+
+tool for surveyor.
+rail, wind turbine, 
+etc.  they see drone as the new hammer.  but very stringent req, if not met, don't use it at all. 
+not a toy.
+
+
+
+
+developer.here.com boot
+====
+
+could not find the studio .
+
+
+
+switchtohere as project name
+for drawing
+used personal email
+token, locked to the domain.
+so api respond only when within that domain.
+actually still not sure.  
+client is web client.
+maybe means that it is server side call to the app?
+
+
+
+
+
+
+
+
+
