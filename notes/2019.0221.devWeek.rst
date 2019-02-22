@@ -63,4 +63,527 @@ CI/CD
   Staging is used internally in the company.
 
 
+Graph Data - 11am
+=================
+
+* whitepages' journey to Model Terabytes of Graph Data in Cost Effective Flat Data Store
+* find people
+* premium --> background search
+* b2b: see if transaction between parties are fraudulent
+* most work are large graph db work
+* state of industry in graph db
+* how to map their problem into graph db search
+* igraph
+* Casantra... then number of commercial graph db.
+  lots of problems
+  latency problem.  also stability problem.
+* B2c, 100ms delay is okay, but not b2b
+* graph store with adjacency list.  absolute key:value pair.
+* simple key:val pair also make it easy to move to diff db.
+* amazon elastiCache + redis.  then to redislabs.
+- redis everything sit in RAM.  so needed 11 TB of RAM.
+   * partition db simply by first leter of alphabet.  very artificial.  a, b, c, ... 
+     they didn't have better way to partition
+- redislabs use NVMe, almost same latency as RAM.
+* second ID store , seond index, use a diff key-value pair.
+  but only few key-value pair that can get
+* shape language
+  try to find landscape, see if address is related to fraud.  not just the person, but person related to it.
+
+* graphQA, cypher... 
+  performance QA, they were all 10x slower than their implementation.
+  they need very small part, only id, and where related.
+  many other db , graphQL grammer, provide many other things.
+
+- implementation
+  elasticache, max to 30 nodes, single instance copy.
+  they outgrew that and needed new solution.
+  6B links, 10s TB of data.
+  need latency of <10ms 
+- 200K req/sec
+
+- data sci analysis.  batch process.  know what's cheap, what's expensive
+  limit 1 or 2 depth for expensive queries
+  provide answer with such restricted timing queries.
+
+- couchbase
+  ram 
+  need 22 nodes cluster to fit keys in ram
+  rest of data in flash
+  latency when scaling out.
+
+- elastiCache, self hosted redis
+
+- settle on Redis on Flash
+- redis is single thread.
+- "dead" node in cluster do nothing but still eating cash
+- redis lab, 20% in ram, but high hit, 96%, 
+  strong pattern in ecommerce.  huge % is international.
+  way more on biz than on person.
+  query pattern for US and Canada... certain actor is popular.
+  many buyers are "popular" so most queries are on these person.
+  other folks don't shop online, so biz don't query for such user, 
+  data sit in db but not queried.
+
+
+REST vs WARP
+
+* rest is centered on stateless.
+  but real world is stateful.
+  autonomous behaviour is more stateful.
+  being stateless limitation becomes harder.
+
+* rest was easy , easier to scale DB.  
+  great for serving many static content.
+  increasingly, this is less the case.
+  world is massively parallel.
+  large number of autonomous agent to do intelligent thing.
+  db is like a brick wall when sw tries to collaborate.
+
+* warp scale executinon of stateful sw
+  program tend to have lot of states.
+  grrew custom to this world.
+  need lots of boilerplate to marshal/unmarshal calls to db.
+  as rate of activity increase, 
+  cpu operate on ns timescale.
+  db on tens to 100s of ms 
+  8x of magnintude.
+
+* cpu work.  need network, then wait to go to moon and back.
+  can't make this go away with stateless architecture.
+
+* rpc.  
+  request/response framework.
+  2 fundamental limitation.
+  - don't get response unless know to ask.
+    most of web don't exist most of the time.
+    eg.  new sneaker in amazon didn't exist for 99.9% of time.
+    then when queried, the web page is build on the fly, responded, and threw away.
+
+  - difficult to build sw when procedural lan is stateful.
+
+  - what happen when message is in flight.
+    will have to poll over and over for update.
+    **REST can never get to realtime.** 
+    RPC need to poll inifinitly fast to get close to real time.
+
+- the right awy to build distributed app is to use streams.
+  continued consistency model.
+  queueing introduce buffer bloat.
+
+- rpc is only consisten for a few ms.  
+  b/w req and response.
+  state may not b
+
+- p2p streaming, pic is consistent,
+  only when pkg is inflight in network is slight out of state.
+  cluster of machine that is aware of their nvironment.
+
+* rest api.
+  they are limited to collaborative and autononoums.
+  duplex.  can't respond when still sending request.
+  - break msg into pieces.
+  - protocol like web socket helps, but don't solve multiplexing prlblem.
+
+
+* twetter... stream data about one thing or everything.
+  not an effective way to pick a (multibag)
+
+* manage traffic.  stateful.
+
+* WARP 
+  allow full duplex of streams.
+  natural for developer.
+  like subscription.
+  UI developer.  don't poll when button is clicked or not constantly.
+  just want event to notify button was clicked.
+  stateful is better really for such occassion.
+
+* true multiplex, bidirectionally.
+  REST has slight tweak to be close to that, but not ture multiplex.
+
+* swim
+  web agent.
+  virtual sw program.
+  look like autonomus process.
+  f
+
+* *wasp*
+  remember and don't forget.
+  CRuD...
+   - problem maybe too new, who knows where it will end up in 5 years.
+   - used by one company?  not web opensource standard?
+
+* erling.
+  hard to manage buffer.
+  controlled version problem.
+
+* swin ai
+  p2p subscription.
+
+* eg web agent.  
+  live stream data on traffic for palo alto
+  pedestrian button, lanes of traffic.
+  talks to traffic controller.
+  don't need to know higher up.
+
+
+* publishes images to subscribers.
+  dev model is like writting OOP.
+  very close to what OOP is supposed to be.
+
+* http://ripple.swim.ai
+  eg of using swim, wasp, 
+  real time learning, right away.
+  no db.
+  quick
+
+
+
+
+
+hazelcast 2pm talk
+=========
+
+JET
+* spark
+* avoid interdependencies (microservice)
+* scale independently.  
+* 
+* if microservice coupled to db, hard to scale.
+  cuz hard to scale DB on demand.
+* hazelcast.
+  simple programming mode.  java based api.  eg hashmap.
+  queues, etc.  data type that was common in java.
+  (heaven't hear of GO yet, i guess that's OS dev programming lang, eg by docker, singularity, not general developers).
+
+* hazelcast.  allow for stateful response?
+
+* microservice.  want to be very lightweight, want to be very fast.
+  some maybe in diff language.
+  separate scaling of app layer.
+
+
+* near cache.  bring data closer to client.
+  (not likely useful for greta)
+
+* data grid with microservice.
+  as transition to microservice, add a data layer in.
+  start with client server arch
+  may move to embeded arch, which give futher isolation.
+  (don't know which angle he is coming from)
+
+* need a hazelcast cluster in each data cneter
+* there is no talk whether it is REST or *SOAP*.  just say it is microservice.
+
+- ( *WSRF* web services resource framework)
+
+* support for container, all the microservice friendly approach.
+
+* embeded will be in JVM of teh app.
+* cache will be in JVM
+* as off-heap, so don't have to worry about garbage collection
+* high desity off-heap store.
+ 
+* server run on java
+* client on, c#, c++, go, node.js, python.  js.
+
+
+
+Misty - robotics api
+====================
+
+* Python, REST api
+* so really program in any language
+
+
+
+Beyond Real-Time: why we need straming-first web - 3pm
+======================================================
+
+by same guy who did the earlier talk of REST not being stateful.
+want swim.
+
+Chris Scachs.
+
+* real time view of traffic in palo alto
+* blink of eye latency.
+* 50 MB/s of signal data (300k sensors?)
+* app partially run on the edge.  low power hw.
+  partly ihn cloud.  azure.
+  app is swim end to end.
+  not http.
+  use multi stream protocol WARP
+
+
+* created a digital twin of each traffic intersection.
+  real time model of the city.
+  web agent.
+
+* 300 ms or less end to end pic.
+
+* self training ML model.
+
+* swim is self contained sw platform.  2MB.
+  app that is stateful.
+  swim provide persistnece, w/o external db.
+  p2p messaing w/o message broker.
+  run analytics w/o a separate job manager.
+  run biz logic, full enterprise app, w/o app server.
+  (what??... too thick?)
+  http://swim.ai
+
+
+* need collaborative app, need real time to work effectively.
+
+* if can't operate in real time, can't really be autonomous.
+
+* ML 
+
+* 2005... first google maps.
+  before then, web was just really docs.
+  some doc was dynamic, but was very much a doc.
+  mapquest ... click east, screen go blank and retrieved a new doc.
+  google maps changed this.  dynamic load map tiles.  
+  this kicked web 2.0 movement, and drove cloud movement.
+
+* swim.ai ... challenging current REST-based web dev.
+  - created a new protocol... how big is the company??
+
+* old dogma
+  - in order to build scalable, need to be stateless
+  - sw will scale as exchange to the DB.
+        - but is this still avid assumption
+  - rest became universal API
+
+* centralization is really simpler.
+   - things are complex, so only reasonable way was to centralize.
+   - he is challenging that centralization.
+
+   - CROPs on REST api.
+     skin on DB
+
+* decentralized.
+    blockchain is math decentralized, but rely on central infrastructure.
+    on req.   google now... 
+    frontier of app dev is rubbing against sw dev.
+
+* new assumptions
+  - stateful scale better
+  - real time is cheaper
+  - decentralized is simpler
+      if able to decentralize, then this is better
+  - sireaming api
+  - supercomputer is everywhere
+
+  - solve a number of caching problem, things that 
+
+
+* rt is chaper, cuz no waiting for round trip back and forth with other request calls.
+* stateful scales better cuz cpu are 8x faster than network (but is this legit comparison of stateful vs stateless???)
+
+
+* stateful is about data locality.  
+  compute is high up in the stack.  state is stored at network layer...
+
+* centralized isn't simple.
+  sateless cuz db is slow, need caching layer.  which make things really complex.
+  
+
+* *WARP* streams everyting.
+  stateful, streaming, upgrade to HTTP.
+
+* change how to do persistency
+  stre things in memory.
+  swim application is similar to web application.
+  didn't want award  chimera
+  sw that is naturally distributable.
+  ORM.  flattened it to Relational model.
+  instead of make dev write sw on how infrastructure.
+
+* want distributed object.
+  small talk, web object.  was fun, but somehow never took off.
+  actor system.
+  erlang.  acta?  single threaded actor with mailbox, a queue to receive msg.
+  acta is used well in network, but didn't scale too well, cuz of bloating and queueing... always up against picking up msg rate so not overflow queue.
+
+
+  - www is great cuz 
+      - universal addressability (URI?)
+      - naming, caching, and off by one error.  (2 really hard problem in cs).  (quote by ?  Turing??)
+
+* SWIM is distributed approach.
+   - OO in nature, classes that are polymorphic, swim call wing
+   - actors, run single threaded at a time, but don't have a dedicated thread.
+   - both an API to distributed ... lanes of objects.
+   - swim agents.... as web agents.  make the autonomous and continuously operate.
+
+- URI, some run close to traffic intersection.  uniq address that represent obj, which can really run anywhere.  edge, traffic controller, cloud,
+
+
+
+* web agent, rather than queues...
+   - some lane maybe able to absorb traffic faster than other...
+
+
+3 simple principles in swim
+   web agent.  like 
+   lanes.  like ???
+   links.  they are like ref.  but instead of memory, they are URI.
+   get stateful 
+   no one is listening, cuz no traffic.
+   copicous number of web agent.  no cost till subscriber listen to them.
+
+   expose 
+
+   meta agent.  watch timer expire.  page misses.
+   automate lot of web ops.
+   enhances security.  
+   hard to secure db cuz it knows very little , about who is... what is doing.
+
+   consistency is biggest bottleneck.
+
+   clustering is build in, p2p, w/o middleware.
+   materialize a view event locally when open link to external uri
+   eventual consistency.
+
+
+   WARP.  like a stateful upgrade to HTTP.
+   typescript compatible.  other tba.
+   streaming API.
+
+   swim.ai for the last 4 year.
+   building stack from first priciple of web requirements.
+
+   avail in github.
+   primary implementation in scala.
+   current implementation in java, but no java dep.
+   written in functional style.
+   bytecode as universal (use jvm)
+
+   in use in production in smart cities.
+
+   want developer to use it and see if it works for other app.
+
+   streaming www a reality.
+
+
+persistent model... how to go back and see it...
+
+30k data point / sec in palo alto.
+
+1000s of tweaks per sec .  can't store them.  most are thrown away.  (not for tweeter!)
+store statistically rep bucket.
+        this is what allow to go back.  1000-fold reduction.
+
+not same as sub-sampling.
+
+every intersection has its own NN.
+try to predict for itself.
+but need to get as much context ad you can get.
+link to every traffic intersection w/in 1km.
+large data, but delta are small.
+it remembers things, so only need delta.
+thus has giant state info.
+each intersection just model for itself.
+since not spending lot of time to wait for network for state data to arrive all the time, can spare cpu cycle to spend on learning the env, to train itself.
+
+have a natual source of truth.  
+
+
+web api... 
+        traffic app 
+        city transit app
+        quite simple
+        oop natively executed.
+        github
+
+
+swim smart city
+
+(
+sounds like he build the thing for smart city, palo alto city was the client.
+needed to be stateful, so wrote teh WARD protocol
+and now pushig, advertisig for it to be adopted
+not sure of motivation
+)
+
+
+
+tomtom
+======
+
+later, maybe TomTom map, grand Ballroom stage A.
+till 4:30.
+hands on.
+didn't go
+
+
+
+OPEN TALK: Containers, Kernels, and Serverless: A Look at Modern Application Platforms - 4pm
+============================================================================================
+
+        abstract from web:
+
+        There are many new developments in ways of running modern applications, and each has their own strengths and weaknesses which need to be considered. These methods all have a common underlying theme however - developers want to run their applications without the administration and resources required for managing traditional operating systems, whether it's through sharing one across many applications, minimizing the work involved, or outsourcing it to a platform provider. We'll look at these methods, their evolution from previous advancements, and why we believe the Vorteil approach can provide the best outcomes for security, portability, speed, and efficiency.
+
+
+
+vortile.io
+
+* diff b/w them, why pick one vs the other (container, vs serverless?)
+
+* driver for infrastucture
+
+* essentiallt see app as natural movement from hw, vm, cloud.  next step: serverless app.
+
+* pay for the bit to run the app.
+  microservice.
+  immutable arch
+
+* monolithic approach is not good.
+  everything in one stack, hard to change.  risk to biz.
+  big risk to change the whole stack all at once.
+  microservice allow touching small piece w/o changing the whole stack.
+
+
+Kernels
+  * good performance.
+  * visibility ... no shell
+  * compatibility... need to compile to the specific kernel
+  * big monolithic app, not appropriate app to run in this kind of framework.
+
+container
+  * eg docker.
+  * container idea is long time.  from isolated namespace.  chroot.  container is extension of that, not just FS isolation, but everything.
+  * container allow deploy of app w/o deploy OS.  developer can largely then ignore OS diff.  just get it to run in one os, let OS folks deal with OS.
+  * scalability.  faster than VM.
+  * kernel still faster than container , but that's a diff story.
+  * one port 80.  if need lots of them, need Port translation.  need to keep track of this.  the management add complexity.  tool avail to do this.  
+  * security.  need to be careful with namespace.  they are in shared memory and name space.  hacks exist that escape out of the container.
+  * there are tools to make container more secure.
+    the thing about runC and singularity saying break out is not escalation cuz it is sys admin running trusted vs untrusted code.  but VM does a much better job in sand boxing the untrusted app.  break out only gain acc of root on the VM, not above it.  
+
+
+serverless
+  * outsource mgnt of OS to someone else (eg cloud provider)
+  * pay less
+  * simplicity.  only need to write a fn.
+  * security and privacy.  no idea of where code is running.  
+  * performance could be a problem.  if not used often, it get spun down.  seldom user will have a wait.
+    some dev add polling to keep fn provisioned on server, but this add complexity.
+  * portability is lacking.  locked to say aws lambda.
+
+
+Vorteil.
+* kernel.  not linux, but understand 64-bit linux.
+* build to be run as hypervisor.  can run in google, azure, VMware, kvm, xen.
+* tiny, 1M in size for the whole os.  build in ms.  secure.  no shell.
+* 2 other piece.  studio and "app store".
+  push images out to the store is the dev model.
+* no shell, log 
+* POSIX ... linux 64 compatibile, so can run any linux app.
+* no worry about web facing attack.
+
+
 
