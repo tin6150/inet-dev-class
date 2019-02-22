@@ -553,12 +553,24 @@ not a toy.
 
 
 
+OSS sw license
+=====
+
+*fossa-analyze*
+crate a build for project
+tell dependencies
+create a list of license used.
+list dependendies... all compiled, help make sure is in correct permissive open source license 
+(for project that want to be commercialized).
+
+
+
+
+
+
 
 developer.here.com boot
 ====
-
-could not find the studio .
-
 
 
 switchtohere as project name
@@ -570,6 +582,19 @@ actually still not sure.
 client is web client.
 maybe means that it is server side call to the app?
 
+could not find the studio .
+use direct URL
+https://explore.xyz.here.com/
+(oh, it is in beta)
+need dob, 1975.0101
+
+add data, can update geojson.
+
+don't like it.  too rudimentary, not much feature.
+
+uploaded ZWEDC 50x50 geojson, 
+could not see the data on map.
+no styling gui like mapbox studio has.
 
 
 
@@ -577,4 +602,42 @@ maybe means that it is server side call to the app?
 
 
 
+
+
+squirel.ai learning
+==========
+
+3:15pm
+(are they chinese company??  had chinese char in name
+speaker is american)
+
+said to be widely avail.
+
+want student to learn as quickly as they can.
+adaptive teaching.
+key metric: PKS.
+probability  knowledge state.
+
+how likely student learned the material correctly.
+PKS is from 3 factor.  kinda like PCA.
+
+PKS of 0 is neutral
+
+
+whole talk is about how PKS is calculated, which is a central to their learning system.
+seems to compete with former employer ALEKS.
+
+not sure what's the point of this talk.
+and it was a keynote.
+
+there is no talk about AI.
+it is a formula Dan Bindman came up with.
+whatever.
+
+
+
+
+
+3:40 closing ceremony
+=====================
 
