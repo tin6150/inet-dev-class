@@ -208,7 +208,7 @@ REST vs WARP
   look like autonomus process.
   f
 
-* *wasp*
+* *warp*
   remember and don't forget.
   CRuD...
    - problem maybe too new, who knows where it will end up in 5 years.
@@ -237,6 +237,27 @@ REST vs WARP
   real time learning, right away.
   no db.
   quick
+
+
+		post notes
+		----------
+			* swim.ai is company doing real time traffic modeling for SF, Palo Alto.  Digital Twin.  so devices would do their own thing, just modeling them.
+			  the talk has mention of the WARP protocol, not sure if it is their proprietary or used Apache code...
+
+			* other streaming real time protocol:
+			  	- XMPP
+				- CoAP
+				- MQTT
+			  these were developed for instant messaging apps.  
+			  suitable for IoT
+
+			* typical problem for messaging chat apps:
+			    - Publish-subscribe model.  first connection need a phone book to be downloaded, large data set
+				- subsequent connection is stateful?  so smaller data xfer amount
+				- XMPP is actually distributed model like email, no centralized server, multiple clients, multiple servers.
+				- CoAP has a centralized server.  client use GET, PUT, POST, DELETE, similar to REST.  but run over UDP.  do a lot of work to make packet small so small IoT device can use them.
+
+			* so real time nature of protocol, being stateful, maybe nice for GRETA.  but small devices, small packet, no so much.
 
 
 
