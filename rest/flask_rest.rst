@@ -9,8 +9,8 @@ source     venv4flask/bin/activate
 
 pip install flask-restful
 
-python api.py 0:5000    # don't think 0:5000 works
-						# need to change app.py with specific param.
+python api.py 	# def run on port 5000
+				# need to change app.py to listen to 0.0.0.0
 
 
 

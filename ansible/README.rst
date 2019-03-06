@@ -249,7 +249,7 @@ The list of playbook keywords is the closest thing.  But I am still very fuzzy w
 http://docs.ansible.com/ansible/latest/playbooks_keywords.html#task
 
 
-YAML constructs/keywords
+Ansible constructs/keywords
 ************************
 
 - lineinfile
@@ -268,6 +268,15 @@ YAML constructs/keywords
 
 
 
+index of constructs
+*******************
+
+* shell with redirect and variables: hpcs-cf :: roles/mount/tasks/main.yml
+* nesting quotes  '"foo" bar' is allowed.  -vvv may also help?
+* escaping quotes: maybe easier to go hang yourself.   Maybe a Jinja2 issue...
+* default variable for a role:    roles/mount/default/main.yml
+* lineinfile, regex replace: roles/usercfg_standalone/tasks/sysAdmin.yml 
+
 ref
 ---
 
@@ -278,6 +287,11 @@ ref
 
 * http://galaxy.ansible.com - Find pre-built playbook roles from the community.
 
+* https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#local-facts-facts-d - Jinja2, facts, using (hierachical) variable
+* https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#accessing-information-about-other-hosts-with-magic-variables - if and for loops using jinja2
+* https://www.dasblinkenlichten.com/ansible-roles-and-variables/ - vars declaration in various places, use diff delimters.  ansible yaml is so annyoning!  in playbook, vars is under "hosts" section.  but unlike tasks, do not prefix vars with - !
+
+* ansible yaml is like a f'ing castrated language.  why can't i just have if-else and for loop and all that regular stuff??!!
 
 
 Installing Ansible
