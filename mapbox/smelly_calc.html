@@ -253,6 +253,7 @@ flyTo() works.
 		<div id="attribution2"> <!-- class="attributionCss"> -->
             <A HREF="https://github.com/lbnl-scienceit/smelly">Smelly</A>.  An app from the collaboration of ETA and Science IT, LBNL.  
             © 2019 Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington, Corinne Scown.
+			<BUTTON id="ShowCalculator">Show Calculator</BUTTON>
 		</div>
 
 
@@ -337,12 +338,8 @@ flyTo() works.
 	<!-- calculator -->
 
 	<div id="calc" class="calc_Css">
-		<BR><BR>
-		<BR><BR>
-		<BR><BR>
-		<BR><BR>
-
-		Calculator here.  TBA.  play with html margin to position it in center...
+		<center>
+			<h3>Odor Estimation Calculator</h3>
 		<BR>
 		<BR>
 		<TABLE>
@@ -353,7 +350,7 @@ flyTo() works.
 			</TR>
 		</TABLE>
 		<BR>
-		<TABLE>
+		<TABLE border="1">
 			<TR>
 				<TD></TD>
 				<TD>Low Mixing</TD>
@@ -370,6 +367,8 @@ flyTo() works.
 				<TD><DIV ID="calc_result_highMixing_summer">Result</DIV></TD>
 			</TR>
 		</TABLE>
+		<BR><BR>
+		</center>
 	</div>   <!-- end div for calculator -->
 
 
@@ -456,6 +455,26 @@ $( function() {
 ////////////////////////////////////////////////////////////////////////////////
 //////////////////////// calculator code below /////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+var odorCalculatorVisible = true;
+
+$("#ShowCalculator").click( function() {
+	console.log("#ShowCalculator was clicked" );
+	if ( odorCalculatorVisible == true ) {
+	    odorCalculatorVisible = false;
+	    //document.getElementById('#ShowCalculator span').text = "Hide Calculator";
+	    $('#ShowCalculator span').text = "Hide Calculator";
+	} else {
+	    odorCalculatorVisible = true;
+	    //document.getElementById('#ShowCalculator span').text = "Show Calculator";
+	    $('#ShowCalculator span').text = "Show Calculator";
+	}
+	$("#calc").visible = odorCalculatorVisible;
+	//currVal = document.getElementById("#calc");
+	currVal = $("#calc").visible;		// undefined
+	console.log("odorCalculatorVisible is: " + odorCalculatorVisible );
+	console.log("div #calc is: " + currVal );  
+	// not hiding, not changing button text yet.  FIXME
+});
 
 $("#CalculateButton").click( function() {
 	console.log("#CalculateButton was clicked" );
@@ -471,9 +490,8 @@ $("#CalculateButton").click( function() {
 	document.getElementById('calc_result_lowMixing_summer').innerHTML = lowMixing_summer;
 	document.getElementById('calc_result_highMixing_summer').innerHTML = highMixing_summer;
 });
-$("bla#calc").click( function() {
-	console.log("#calc was clicked" );
-});
+//$("bla#calc").click( function() {
+//	console.log("#calc was clicked" );     });
 
 </script>
 <!-- tmp end so not load map -->
