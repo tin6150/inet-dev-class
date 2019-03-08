@@ -43,6 +43,7 @@ adhoc::
 
 execute playbook::
 
+	export ANSIBLE_NOCOWS=1
     ansible-playbook myplaybook.yml -i inventory.ini -u root
     sudo ansible-playbook -vvv myplaybook.yml -i inventory.ini 
 
@@ -125,8 +126,8 @@ that's probaly the next insanity that need to be memorized.
 * - hosts: ...   if hosts: clause is allowed, it is always with '-' prefix?
 
 
-YAML, example of craziness  
---------------------------
+YAML, example of craziness/insanity
+-----------------------------------
 
 - pay very careful attention to indent level and when to use '-' and when NOT to use '-'.
 
@@ -225,6 +226,18 @@ So, I take my hate against YAML, and not Ansible.  Crazy eh?
 Did someone say Salt??  Never mind, it has the partner in crime.
 
 
+Ansible pitfalls
+****************
+
+Be careful with these...
+
+* handlers are executed at the end, after all tasks are done.
+   - this means when there are multiple roles, and each have their handlers, 
+	 they are all executed after tasks/* of all roles are done.
+	 Which means later roles can NOT depend on previous role handlers having been completed with their actions.
+	 It also means potential side effects (or malicious?) tasks/* from other role will affect the state when the handler get executed.
+
+
 Other example of crazy syntax in Ansible YAML
 *********************************************
 
@@ -276,6 +289,19 @@ index of constructs
 * escaping quotes: maybe easier to go hang yourself.   Maybe a Jinja2 issue...
 * default variable for a role:    roles/mount/default/main.yml
 * lineinfile, regex replace: roles/usercfg_standalone/tasks/sysAdmin.yml 
+* notify... with_items: mount/main/exalearn.yml, iptables maybe better...
+* 
+* search for *sigh* and/or :( in yml files for complains (in other repos as well)
+* no easy way to do block.  how to have a single named handler invoke multiple function? 
+
+* debugging a role, run only 1 role
+  https://stackoverflow.com/questions/38350674/ansible-can-i-execute-role-from-command-line
+  eg site.exalearn.yml for mount role
+
+* ansible facts hierarchy and access via variable
+  https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#accessing-complex-variable-data
+
+
 
 ref
 ---
