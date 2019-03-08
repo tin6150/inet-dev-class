@@ -1,0 +1,217 @@
+
+
+CS 161 Computer Security
+
+TW 12:30-2pm
+
+Nick
+
+(pasted from OneNotes)
+
+2019.0307
+
+
+Syn DOS
+SYN_cookies
+	Delay allocation of state till after SYN-ACK
+HMAC
+
+	It looks random, but does not cost server a lot of resrouce to generate
+
+
+Trust.
+	Scaling trust.
+		Delegate the trust
+	PGP signing parties
+	Cert Auth.
+
+	Trust anchors
+	Root trust is hardest
+	Publish everywhere, write on walls, coins, etc
+	Then use this to bootstrap.
+	X509.  utter nightmare.
+
+	Overall, rely on root not to sign trust for other willy nilly
+	This is not a math problem,
+
+
+Security
+	Getting things correctly is not too hard.
+	But What happen when things screw up
+
+	Expiration date
+	Cert Revokation  list (CRL) (user has to check this list before "validating" a cert that he sees and use.
+	List can get large, and list need to be authenticated itself (ie signed by the CA)
+
+	There is no good solution to "when CA is offline"
+
+
+	Alt.
+	Web of trust PGP signing party style
+	Everyone end up using the MIT server, which became the CA (effectively)
+
+
+Trust is a really hard problem.
+	It is a human level problem.
+	Trust is easier if the entity list is small and number known ahead of time.
+	Repercusion when such entity fail the trust.
+
+	Sealed blob (project 2 for the class).
+
+
+	TLS.  Secure channel.
+	Can call this level 6.5.
+	It is really app layer, but other app depends on it.
+
+	End2end channel that is secure.
+
+
+	MAC msg auth code
+	Also need replay protection.
+
+	TLS … don't have availability.
+	SSL is old name, the predecessor.
+
+	Email b/w servers.  Starttls.
+		Downgrade attack.
+		Man in the middle inject and say don't encrypt.
+		(or pretend to request a protocol the other party don't know, cuz it is called "foo" and don't actually exist.
+
+	VPN essentually use TLS.
+
+	Secure channel.
+
+	Lock.
+	Client to server.   Encrypted and authenticated.
+
+
+	TLS.
+
+
+	End2end is good
+		 Does not care about dns security
+		 Cuz if send to wrong server, it can't encrypt correctly.
+		 Mitm can only dor drop, rst, ie DOS
+
+	TLS.
+	Clie ts.  10s of ms.  Of cpu
+	So for server, scaling is harder.
+
+	Modern processor has code to optimize TLS.
+
+	Let's encrypt
+		Run on web server.
+		Generate private/public key pair.
+		This makes buying cert almost automatic.
+		It is free.
+		(but bad guy, go to dns, redirect traffic.
+		Can get valid certificate.
+
+		This is often biggest cost.
+		Https
+		If main pay is encrypted, all subpage will need to be encrypted.
+
+		Newspaper didn't want to encrypt.
+		Cuz they use Ads network.
+		Web page, go thru multiple option.  Require fetching stuff from many domains.
+		Took lot of time for ads network to figure out for https to work for news website.
+
+		Round trip time.
+		TLS…
+			End up with like 5 round trip…. To get protocol going.
+
+			No encryption.  200ms
+			If encrypted, more like 600ms.
+			Eg is for west coast cient connecting to east coast server.
+
+	Revocation problem.
+		Browser, check for list of things to ignore.
+		Online protocol… oscp.
+		Sslstripping
+		Amazon finally fixed.
+
+
+		Most traffic unecrypted is not good.
+		Mitm can render most pages for user.
+
+
+
+		Chrome
+			Has a diff list of CA it trust for *.google.com
+		Safary trust some 181 CA.
+
+		For now,
+		Every CA can speak for every site.
+
+		Chrome does pinning for
+
+		Nord…
+		WoSign
+
+		CA that were killed when browser stopped trusting them.
+
+
+		Cert pinning and
+
+		Chrome
+			Some sites trust only certain CA.
+			To compromise google, need to attack CA that google use.
+			Grossly reduced attack domain.
+
+	Modern design.
+		Leap of faith.
+		First connection, trust everything.
+		But subsequently limited to what agreed on the first time.
+
+		If victim has contacted to host before, future change would likely be detected.
+
+	Certificate transparency.
+		CA need to publish everything they sign.
+		So folks can look at it and audit it.
+		Google can tell if other CA signed for it when it never asked for.
+
+		HPKP.
+
+			This is how we handle trust in CA
+			Large web of trust
+			Expect them to behave trustworthy.
+
+
+	Created a robust CA
+
+	Have created large scale trust
+	Scaled it.
+
+	Chrome moving to "not secure" when not https.
+	Punish sites that don't encrypt.
+
+	Need to make encryption cheaper
+	And make unencrypted traffic more expensive (by saying it is insecure).
+
+
+	Let's encrypt.
+		Expire short time
+		Once a month
+		Don't have to pay for it.
+
+		Old days, a cert was a couple of hundred dollars.
+
+		Couple of years ago was $10, it was still a hassle.
+
+
+		Let's encrypt is free
+		It is now ~30% of web site
+		It is a non profit.
+		It doesn't cost that much for them to operate.
+
+
+
+
+
+~~~~
+
+Let's encrypt.
+that would be a good source for use in internal server.
+instead of self-signed cert.
+why use GoDaddy?
+

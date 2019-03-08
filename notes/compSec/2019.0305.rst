@@ -1,0 +1,79 @@
+
+
+CS 161 Computer Security
+
+TW 12:30-2pm
+
+Nick
+
+(pasted from OneNotes)
+
+2019.0305
+
+Network security
+
+
+DNS and RRSETs
+
+2^16=65,536
+
+China does operationally, race a fake answer to the user,
+For google.com or facebook.com
+DNS server in china
+Operationally, ie routinely,
+
+
+Routing
+Autonomous system
+Relatively small.
+Tier1  provider.
+Really small.
+Get together 3 times a hear, drink beer and listen to talk.
+
+So, the human overlay on top is doing the good job to make routing work, even when BGP is a trust based AS that is bound to have a disaster (since actor are not trust worthy all the time).
+
+Run sppofing on edge-AS.
+
+
+TCP attack tool:
+Airpwn
+Quantum
+
+RST injection - send reset packet.
+About 10% of all connection in inet is closed with RESET, not FIN.
+
+CHINA…
+Great firewall look at all unencrypted traffic.
+They will inject RST to anything they don't like it.
+
+
+Guessing initial TCP seq number
+(random 32-bit in good protocol, so harder to guest).
+
+Old tcp protocol, seq number is 1 more than the last seq.
+
+Check if victim will reply to RST packet.
+
+If attacker can see tcp traffic, it is screwed.  Can send RST, or spoof the traffic.
+
+Joker on wifi.
+Dnssec.
+China.
+
+Encrypt traffic with TLS
+Does not help from getting RST by attacker.
+
+Https server.
+
+If predict seq number, can do blind spoof.
+
+Ddos
+10 to 100,000 machines as attack.
+
+Record for DDOS
+150 Gbps
+Big enough that it disrupted akamai.
+
+Minecraft server.
+
+
