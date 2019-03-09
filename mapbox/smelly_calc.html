@@ -255,12 +255,12 @@ flyTo() works.
 		<div id="attribution2"> <!-- class="attributionCss"> -->
             <A HREF="https://github.com/lbnl-scienceit/smelly">Smelly</A>.  An app from the collaboration of ETA and Science IT, LBNL.  
             © 2019 Tin Ho, Wei Zhou, Ling Jin, Tyler Huntington, Corinne Scown.
-			<BUTTON id="ShowCalculator">Show Calculator</BUTTON>
 		</div>
 
 
 
 	<div id="inputbar"><!-- class="inputCss"> -->
+			<BUTTON id="ShowCalculator">Show Calculator</BUTTON>
             <!--html element for drop down picker goes here-->
             <select id="siteSelectorUI"> <!-- site -->  <!--to emulate Tyler <select id="polygon-layer-selector"> -->
                 <option value="NA"         disabled           >Air Basin: Site</option>	       
@@ -340,30 +340,36 @@ flyTo() works.
 	<!-- calculator -->
 	<!-- https://photos.app.goo.gl/iANhYY6xAcnW96hp8 -->
 
-	<div id="calc" class="calc_Css">
+	<div id="distanceCalc" class="calc_Css">
 		<center>
-			<h3>Odor Dispersion Calculator <BR>
-				Separation Distance
-			</h3>
+		<h3>Odor Dispersion Distance Calculator <BR>
+		</h3>
 		<BR>
 		<BR>
 		<TABLE>
 			<TR>
 				<TD>Enter emission rate </TD>
-				<TD><input type="text" name="CalculatorInput" id="CalculatorInput" value="5.0"> </TD>
+				<TD><input type="text" name="CalculatorInput" id="CalculatorInput" size="6" value="5.0"> </TD>
 				<TD>ou/s</TD>
 			</TR>
+		</TABLE>
+		<TABLE>
 			<TR>
-				<TD><button id="CalculateButton">Calculate</button></TD>
+				<TD></TD>
+				<TD><BUTTON id="CalculateButton">Calculate</BUTTON></TD>
+				<TD></TD>
 			<TR>
 		</TABLE>
+		<h3>
+			Separation Distance for <EM><DIV ID="siteLocation">SiteLocation</DIV></EM>
+		</h3>
 		<BR>
 		<TABLE border="1">
 			<TR>
 				<TD></TD>
 				<TD>Low Mixing</TD>
 				<TD>High Mixing</TD>
-				<TD>L&apm;H/Ext Mixing</TD>
+				<TD>Ext Mixing</TD>
 			</TR>
 			<TR>
 				<TD>Spring</TD>
@@ -378,7 +384,7 @@ flyTo() works.
 				<TD><DIV ID="calc_result_extMixing_summer">Result</DIV> m</TD>
 			</TR>
 			<TR>
-				<TD>Authum</TD>
+				<TD>Autum</TD>
 				<TD><DIV ID="calc_result_lowMixing_autum">Result</DIV> m</TD>
 				<TD><DIV ID="calc_result_highMixing_autum">Result</DIV> m</TD>
 				<TD><DIV ID="calc_result_extMixing_autum">Result</DIV> m</TD>
@@ -397,9 +403,67 @@ flyTo() works.
 			</TR>
 		</TABLE>
 		<BR><BR>
+		<TABLE>
+			<TR>
+				<TD></TD>
+				<TD><BUTTON id="ShowRateCalculateButton">Change to Rate Calculator</BUTTON></TD>
+				<TD></TD>
+			</TR>
+		</TABLE>
 		</center>
 	</div>   <!-- end div for calculator -->
 
+	<!-- being div for RATE calculator -->
+	<div id="rateCalc" class="calc_Css">
+		<center>
+		<h3>Allowable Odor Rate for stated distance<BR>
+		</h3>
+		<BR>
+		<BR>
+		<TABLE>
+			<TR>
+				<TD>Enter desired separation distance </TD>
+				<TD><input type="text" name="RateCalculatorInput" id="RateCalculatorInput" size="6" value="1000"> </TD>
+				<TD> m</TD>
+			</TR>
+		</TABLE>
+		<TABLE>
+			<TR>
+				<TD></TD>
+				<TD><BUTTON id="RateCalculateButton">Calculate</BUTTON></TD>
+				<TD></TD>
+			<TR>
+		</TABLE>
+		<h3>
+			Allowed Max Emission Rate for <EM><DIV ID="siteLocation">SiteLocation</DIV></EM>
+		</h3>
+		<BR>
+		<TABLE border="1">
+			<TR>
+				<TD></TD>
+				<TD></TD>
+				<TD></TD>
+			</TR>
+			<TR>
+				<TD>Spring</TD>
+				<TD><DIV ID="calc_result_distance_spring">Result</DIV> ou/s</TD>
+			</TR>
+			<TR>
+				<TD>All Seasons</TD>
+				<TD><DIV ID="calc_result_distance_allSeasons">Result</DIV> ou/s</TD>
+			</TR>
+		</TABLE>
+		<BR><BR>
+		<TABLE>
+			<TR>
+				<TD></TD>
+				<TD><BUTTON id="ShowDistanceCalculateButton">Switch to Distance Calculator</BUTTON></TD>
+				<TD></TD>
+			</TR>
+		</TABLE>
+		<BR><BR>
+		</center>
+	</div>   <!-- end div for RATE calculator -->
 
     <!-- legends  from https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/ -->
     <!--<div id='legend' class='legend' style='display: none;'> -->
@@ -485,23 +549,50 @@ $( function() {
 //////////////////////// calculator code below /////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 var odorCalculatorVisible = true;
+var calculatorMode = "distance";  // "rate" is the other calculator
 
 $("#ShowCalculator").click( function() {
 	console.log("#ShowCalculator was clicked" );
 	if ( odorCalculatorVisible == true ) {
 	    odorCalculatorVisible = false;
 	    $("button#ShowCalculator").html("Hide Calculator");
-		$("#calc.calc_Css").show("slow");
+		calculateSeparationDistance();
+		$("#distanceCalc.calc_Css").show("slow");
 	} else {
 	    odorCalculatorVisible = true;
 	    $("#ShowCalculator").html("Show Calculator");
-		$("#calc.calc_Css").hide("slow");
+		$("#distanceCalc.calc_Css").hide("slow");
 	}
 	console.log("odorCalculatorVisible is: " + odorCalculatorVisible );
 });
 
+$("#ShowRateCalculator").click( function() {
+	console.log("#ShowRateCalculator was clicked" );
+	$("#distanceCalc.calc_Css").hide("slow");
+	//++calculateRate();
+	$("#rateCalc.calc_Css").show("slow");
+});
+
+$("#ShowDistanceCalculator").click( function() {
+	console.log("#ShowDistanceCalculator was clicked" );
+	$("#rateCalc.calc_Css").hide("slow");
+	calculateSeparationDistance();
+	$("#distanceCalc.calc_Css").show("slow");
+});
+
 $("#CalculateButton").click( function() {
-	console.log("#CalculateButton was clicked" );
+		calculateSeparationDistance();
+});
+
+function getCurrentSite() {
+	// retrieve site name, so that formula knows which set of weights to use, 
+	// also set text of calculator accordingly
+	currentSite = document.getElementById("siteSelectorUI").value;
+	return currentSite;
+};
+
+function calculateSeparationDistance() {
+	console.log("#CalculateButton was triggered" );
 	var inputNum = document.getElementById('CalculatorInput').value;
 	var lowMixing_spring  = inputNum * 10;
 	var highMixing_spring = inputNum * 20;
@@ -509,15 +600,14 @@ $("#CalculateButton").click( function() {
 	var highMixing_summer = inputNum * 40;
 	console.log("inputNum was:" + inputNum );
 
+	document.getElementById('siteLocation').innerHTML = getCurrentSite();
 	document.getElementById('calc_result_lowMixing_spring').innerHTML = lowMixing_spring;
 	document.getElementById('calc_result_highMixing_spring').innerHTML = highMixing_spring;
 	document.getElementById('calc_result_lowMixing_summer').innerHTML = lowMixing_summer;
 	document.getElementById('calc_result_highMixing_summer').innerHTML = highMixing_summer;
-});
+};
 
 </script>
-</body>
-</HTML>
 <!-- tmp exit -->
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -949,6 +1039,7 @@ map.on('load', function () {
     poly_selector.addEventListener('change', function(e) {
         //var testTin = "test123";
         getInputFormSelection();
+		calculateSeparationDistance();  // update calculator siteLocation info 
     });
     var seasonSelector = document.getElementById("seasonSelectorUI");  
     seasonSelector.addEventListener('change', function(e) {
