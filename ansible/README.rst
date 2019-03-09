@@ -136,8 +136,7 @@ YAML, example of craziness/insanity
 - "block" probably throw a wrench into this whole thing.  This thing is quite fuzzy.  Maybe I am using it wrong.  
   Have a look at http://docs.ansible.com/ansible/latest/playbooks_blocks.html
 
-::
-
+.. code:: yaml
 
     - hosts: all
       vars:
@@ -183,7 +182,7 @@ A LOT of unintended errors are not catched when .yml is "compiled".
 
 Have a look at this block:
 
-::
+.. code:: yaml
 
           notify:
                - Create new initramfs
@@ -197,7 +196,7 @@ YAML treated it as any string, not special keyword/clause for Ansible to act on.
 
 Now have a look at this other block:
 
-::
+.. code:: yaml
 
 	- hosts: none
 	  tasks:
@@ -301,6 +300,21 @@ index of constructs
 * ansible facts hierarchy and access via variable
   https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#accessing-complex-variable-data
 
+
+
+Jinja2 and Ansbile
+******************
+
+* https://stackoverflow.com/questions/35407822/how-can-i-test-jinja2-templates-in-ansible
+  
+.. code:: yaml
+
+    - name: Test jinja2template
+	  template: src=test.j2 dest=test.conf
+
+.. code:: bash
+
+	ansible-playbook jinja2test.yml --check --diff --connection=local
 
 
 ref
@@ -573,7 +587,6 @@ indent of block above with === header trip github parser.
 
 dotdot comment block are NOT liked by github -- maybe trips the parser, maybe just not render them as comment.
 not even when as footnote notation (cuz lacked ref?)  just avoid them for github rst parsing.
-
 
 ~~~~
 

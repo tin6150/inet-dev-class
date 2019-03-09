@@ -338,18 +338,24 @@ flyTo() works.
 
 
 	<!-- calculator -->
+	<!-- https://photos.app.goo.gl/iANhYY6xAcnW96hp8 -->
 
 	<div id="calc" class="calc_Css">
 		<center>
-			<h3>Odor Estimation Calculator</h3>
+			<h3>Odor Dispersion Calculator <BR>
+				Separation Distance
+			</h3>
 		<BR>
 		<BR>
 		<TABLE>
 			<TR>
-				<TD>number </TD>
-				<TD><input type="text" name="CalculatorInput" id="CalculatorInput"> </TD>
-				<TD><button id="CalculateButton">Calculate</button></TD>
+				<TD>Enter emission rate </TD>
+				<TD><input type="text" name="CalculatorInput" id="CalculatorInput" value="5.0"> </TD>
+				<TD>ou/s</TD>
 			</TR>
+			<TR>
+				<TD><button id="CalculateButton">Calculate</button></TD>
+			<TR>
 		</TABLE>
 		<BR>
 		<TABLE border="1">
@@ -357,16 +363,37 @@ flyTo() works.
 				<TD></TD>
 				<TD>Low Mixing</TD>
 				<TD>High Mixing</TD>
+				<TD>L&apm;H/Ext Mixing</TD>
 			</TR>
 			<TR>
 				<TD>Spring</TD>
-				<TD><DIV ID="calc_result_lowMixing_spring">Result</DIV></TD>
-				<TD><DIV ID="calc_result_highMixing_spring">Result</DIV></TD>
+				<TD><DIV ID="calc_result_lowMixing_spring">Result</DIV> m</TD>
+				<TD><DIV ID="calc_result_highMixing_spring">Result</DIV> m</TD>
+				<TD><DIV ID="calc_result_extMixing_spring">Result</DIV></TD>
 			</TR>
 			<TR>
 				<TD>Summer</TD>
-				<TD><DIV ID="calc_result_lowMixing_summer">Result</DIV></TD>
-				<TD><DIV ID="calc_result_highMixing_summer">Result</DIV></TD>
+				<TD><DIV ID="calc_result_lowMixing_summer">Result</DIV> m</TD>
+				<TD><DIV ID="calc_result_highMixing_summer">Result</DIV> m</TD>
+				<TD><DIV ID="calc_result_extMixing_summer">Result</DIV> m</TD>
+			</TR>
+			<TR>
+				<TD>Authum</TD>
+				<TD><DIV ID="calc_result_lowMixing_autum">Result</DIV> m</TD>
+				<TD><DIV ID="calc_result_highMixing_autum">Result</DIV> m</TD>
+				<TD><DIV ID="calc_result_extMixing_autum">Result</DIV> m</TD>
+			</TR>
+			<TR>
+				<TD>Winter</TD>
+				<TD><DIV ID="calc_result_lowMixing_winter">Result</DIV> m</TD>
+				<TD><DIV ID="calc_result_highMixing_winter">Result</DIV> m</TD>
+				<TD><DIV ID="calc_result_extMixing_winter">Result</DIV> m</TD>
+			</TR>
+			<TR>
+				<TD>All Seasons</TD>
+				<TD><DIV ID="calc_result_lowMixing_allSeasons">Result</DIV> m</TD>
+				<TD><DIV ID="calc_result_highMixing_allSeasons">Result</DIV> m</TD>
+				<TD><DIV ID="calc_result_extMixing_allSeasons">Result</DIV> m</TD>
 			</TR>
 		</TABLE>
 		<BR><BR>
@@ -488,6 +515,10 @@ $("#CalculateButton").click( function() {
 	document.getElementById('calc_result_highMixing_summer').innerHTML = highMixing_summer;
 });
 
+</script>
+</body>
+</HTML>
+<!-- tmp exit -->
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////// mapbox code below ///////////////////////////////////
