@@ -83,7 +83,11 @@ flyTo() works.
 	    margin-right: 5px;
 	    width: 10px;
 	}
-
+	
+	/* this one is used in div for calculator result so units appear next to number, instead of new line */
+	.noNewLine {
+		display:inline;
+	}
 	/* trying to format the now customized attribution feature, but don't seems to get it to work  */
 	#attribution-layer {
        	    margin-left: 1000px;	
@@ -118,8 +122,11 @@ flyTo() works.
       /*background-color: rgba(250, 250, 224, 0.6);  /* this is greenish/yellowish */
       background-color: rgba(30, 250, 30, 0.8);  /* this is lime green */
       /*background: rgba(250, 250, 224, 0.8);  /* this is greenish/yellowish */
-	  margin-left: 6px; 
-	  margin-right: 46px; 
+	  margin-left:  1px; 
+	  /*margin-right: 1px; */
+	  padding-left:   20pt;    /* this give some space around the results table */
+	  padding-right:  20pt; 
+	  padding-bottom: 20pt; 
 	  /*overflow: auto;*/
 	  border-radius: 3px;
 	  font: 12pt/12pt 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12pt here, not px  */
@@ -373,33 +380,33 @@ flyTo() works.
 			</TR>
 			<TR>
 				<TD>Spring</TD>
-				<TD><DIV ID="calc_result_lowMixing_spring">Result</DIV> m</TD>
-				<TD><DIV ID="calc_result_highMixing_spring">Result</DIV> m</TD>
-				<TD><DIV ID="calc_result_extMixing_spring">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_spring">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_spring">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_spring">Result</DIV> m</TD>
 			</TR>
 			<TR>
 				<TD>Summer</TD>
-				<TD><DIV ID="calc_result_lowMixing_summer">Result</DIV> m</TD>
-				<TD><DIV ID="calc_result_highMixing_summer">Result</DIV> m</TD>
-				<TD><DIV ID="calc_result_extMixing_summer">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_summer">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_summer">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_summer">Result</DIV> m</TD>
 			</TR>
 			<TR>
 				<TD>Autum</TD>
-				<TD><DIV ID="calc_result_lowMixing_autum">Result</DIV> m</TD>
-				<TD><DIV ID="calc_result_highMixing_autum">Result</DIV> m</TD>
-				<TD><DIV ID="calc_result_extMixing_autum">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_autum">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_autum">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_autum">Result</DIV> m</TD>
 			</TR>
 			<TR>
 				<TD>Winter</TD>
-				<TD><DIV ID="calc_result_lowMixing_winter">Result</DIV> m</TD>
-				<TD><DIV ID="calc_result_highMixing_winter">Result</DIV> m</TD>
-				<TD><DIV ID="calc_result_extMixing_winter">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_winter">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_winter">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_winter">Result</DIV> m</TD>
 			</TR>
 			<TR>
 				<TD>All Seasons</TD>
-				<TD><DIV ID="calc_result_lowMixing_allSeasons">Result</DIV> m</TD>
-				<TD><DIV ID="calc_result_highMixing_allSeasons">Result</DIV> m</TD>
-				<TD><DIV ID="calc_result_extMixing_allSeasons">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_allSeasons">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_allSeasons">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_allSeasons">Result</DIV> m</TD>
 			</TR>
 		</TABLE>
 		<BR><BR>
@@ -446,11 +453,26 @@ flyTo() works.
 			</TR>
 			<TR>
 				<TD>Spring</TD>
-				<TD><DIV ID="calc_result_distance2rate_spring">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_spring">Result</DIV> ou/s</TD>
 			</TR>
 			<TR>
+				<TD>Summer</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_summer">Result</DIV> ou/s</TD>
+			</TR>
+
+			<TR>
+				<TD>Autum</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_autum">Result</DIV> ou/s</TD>
+			</TR>
+
+			<TR>
+				<TD>Winter</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_winter">Result</DIV> ou/s</TD>
+			</TR>
+
+			<TR>
 				<TD>All Seasons</TD>
-				<TD><DIV ID="calc_result_distance2rate_allSeasons">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_allSeasons">Result</DIV> ou/s</TD>
 			</TR>
 		</TABLE>
 		<BR><BR>
@@ -619,10 +641,10 @@ function calculateSeparationDistance() {
 function calculateRate() {
 	console.log("#CalculateRate4rateCalc was triggered" );
 	var rateCalculatorInput = document.getElementById('rateCalculatorInput').value;
-	var rate4spring  = rateCalculatorInput * 10;
-	var rate4summer  = rateCalculatorInput * 20;
+	var rate4spring  = rateCalculatorInput / 100;
+	var rate4summer  = rateCalculatorInput / 200;
 	//... ++
-	var rate4allSeasons  = rateCalculatorInput * 50;
+	var rate4allSeasons  = rateCalculatorInput / 500;
 
 	//document.getElementById('siteLocation').innerHTML = getCurrentSite();
 	$('#siteLocation4rateCalc').text( getCurrentSite() );
@@ -630,8 +652,6 @@ function calculateRate() {
 	document.getElementById('calc_result_distance2rate_allSeasons').innerHTML = rate4allSeasons;
 };
 
-</script>
-<!-- tmp exit -->
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////// mapbox code below ///////////////////////////////////
@@ -1063,6 +1083,7 @@ map.on('load', function () {
         //var testTin = "test123";
         getInputFormSelection();
 		calculateSeparationDistance();  // update calculator siteLocation info 
+		calculateRate();  // update calculator siteLocation info 
     });
     var seasonSelector = document.getElementById("seasonSelectorUI");  
     seasonSelector.addEventListener('change', function(e) {
