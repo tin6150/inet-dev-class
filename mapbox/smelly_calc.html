@@ -349,19 +349,19 @@ flyTo() works.
 		<TABLE>
 			<TR>
 				<TD>Enter emission rate </TD>
-				<TD><input type="text" name="CalculatorInput" id="CalculatorInput" size="6" value="5.0"> </TD>
+				<TD><input type="text" name="distanceCalculatorInput" id="distanceCalculatorInput" size="6" value="5.0"> </TD>
 				<TD>ou/s</TD>
 			</TR>
 		</TABLE>
 		<TABLE>
 			<TR>
 				<TD></TD>
-				<TD><BUTTON id="CalculateButton">Calculate</BUTTON></TD>
+				<TD><BUTTON id="CalculateButton4distCalc">Calculate</BUTTON></TD>
 				<TD></TD>
 			<TR>
 		</TABLE>
 		<h3>
-			Separation Distance for <EM><DIV ID="siteLocation">SiteLocation</DIV></EM>
+			Separation Distance for <EM><DIV ID="siteLocation4distCalc">SiteLocation</DIV></EM>
 		</h3>
 		<BR>
 		<TABLE border="1">
@@ -406,7 +406,7 @@ flyTo() works.
 		<TABLE>
 			<TR>
 				<TD></TD>
-				<TD><BUTTON id="ShowRateCalculateButton">Change to Rate Calculator</BUTTON></TD>
+				<TD><BUTTON id="ShowRateCalculatorButton">Change to Rate Calculator</BUTTON></TD>
 				<TD></TD>
 			</TR>
 		</TABLE>
@@ -423,19 +423,19 @@ flyTo() works.
 		<TABLE>
 			<TR>
 				<TD>Enter desired separation distance </TD>
-				<TD><input type="text" name="RateCalculatorInput" id="RateCalculatorInput" size="6" value="1000"> </TD>
+				<TD><input type="text" name="rateCalculatorInput" id="rateCalculatorInput" size="6" value="1000"> </TD>
 				<TD> m</TD>
 			</TR>
 		</TABLE>
 		<TABLE>
 			<TR>
 				<TD></TD>
-				<TD><BUTTON id="RateCalculateButton">Calculate</BUTTON></TD>
+				<TD><BUTTON id="CalculateButton4rateCalc">Calculate</BUTTON></TD>  <!-- cannot be overloaded, duplicate id find fird first match and stops -->
 				<TD></TD>
 			<TR>
 		</TABLE>
 		<h3>
-			Allowed Max Emission Rate for <EM><DIV ID="siteLocation">SiteLocation</DIV></EM>
+			Allowed Max Emission Rate for <EM><DIV ID="siteLocation4rateCalc">SiteLocation</DIV></EM>
 		</h3>
 		<BR>
 		<TABLE border="1">
@@ -446,18 +446,18 @@ flyTo() works.
 			</TR>
 			<TR>
 				<TD>Spring</TD>
-				<TD><DIV ID="calc_result_distance_spring">Result</DIV> ou/s</TD>
+				<TD><DIV ID="calc_result_distance2rate_spring">Result</DIV> ou/s</TD>
 			</TR>
 			<TR>
 				<TD>All Seasons</TD>
-				<TD><DIV ID="calc_result_distance_allSeasons">Result</DIV> ou/s</TD>
+				<TD><DIV ID="calc_result_distance2rate_allSeasons">Result</DIV> ou/s</TD>
 			</TR>
 		</TABLE>
 		<BR><BR>
 		<TABLE>
 			<TR>
 				<TD></TD>
-				<TD><BUTTON id="ShowDistanceCalculateButton">Switch to Distance Calculator</BUTTON></TD>
+				<TD><BUTTON id="ShowDistanceCalculatorButton">Switch to Distance Calculator</BUTTON></TD>
 				<TD></TD>
 			</TR>
 		</TABLE>
@@ -548,40 +548,48 @@ $( function() {
 ////////////////////////////////////////////////////////////////////////////////
 //////////////////////// calculator code below /////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-var odorCalculatorVisible = true;
+var odorCalculatorVisible = false;
 var calculatorMode = "distance";  // "rate" is the other calculator
+
+// actually no need to store this.  HTML DOM automatically store unless page reloaded
+//var rateInput4distCalc = 5.0;   		  // in ou/s     
+//var distInput4rateCalc = 1000;		  // in m
 
 $("#ShowCalculator").click( function() {
 	console.log("#ShowCalculator was clicked" );
-	if ( odorCalculatorVisible == true ) {
-	    odorCalculatorVisible = false;
+	if ( odorCalculatorVisible == false ) {
+	    odorCalculatorVisible = true;
 	    $("button#ShowCalculator").html("Hide Calculator");
 		calculateSeparationDistance();
 		$("#distanceCalc.calc_Css").show("slow");
 	} else {
-	    odorCalculatorVisible = true;
+	    odorCalculatorVisible = false;
 	    $("#ShowCalculator").html("Show Calculator");
 		$("#distanceCalc.calc_Css").hide("slow");
+		$("#rateCalc.calc_Css").hide("slow");
 	}
-	console.log("odorCalculatorVisible is: " + odorCalculatorVisible );
+	console.log("odorCalculatorVisible is now: " + odorCalculatorVisible );
 });
 
-$("#ShowRateCalculator").click( function() {
+$("#ShowRateCalculatorButton").click( function() {
 	console.log("#ShowRateCalculator was clicked" );
 	$("#distanceCalc.calc_Css").hide("slow");
-	//++calculateRate();
+	calculateRate();
 	$("#rateCalc.calc_Css").show("slow");
 });
 
-$("#ShowDistanceCalculator").click( function() {
+$("#ShowDistanceCalculatorButton").click( function() {
 	console.log("#ShowDistanceCalculator was clicked" );
 	$("#rateCalc.calc_Css").hide("slow");
 	calculateSeparationDistance();
 	$("#distanceCalc.calc_Css").show("slow");
 });
 
-$("#CalculateButton").click( function() {
+$("#CalculateButton4distCalc").click( function() {
 		calculateSeparationDistance();
+});
+$("#CalculateButton4rateCalc").click( function() {
+		calculateRate();
 });
 
 function getCurrentSite() {
@@ -592,19 +600,34 @@ function getCurrentSite() {
 };
 
 function calculateSeparationDistance() {
-	console.log("#CalculateButton was triggered" );
-	var inputNum = document.getElementById('CalculatorInput').value;
+	console.log("#CalculateButton4distCalc was triggered" );
+	var inputNum = document.getElementById('distanceCalculatorInput').value;
 	var lowMixing_spring  = inputNum * 10;
 	var highMixing_spring = inputNum * 20;
 	var lowMixing_summer  = inputNum * 30;
 	var highMixing_summer = inputNum * 40;
 	console.log("inputNum was:" + inputNum );
 
-	document.getElementById('siteLocation').innerHTML = getCurrentSite();
+	//document.getElementById('siteLocation').innerHTML = getCurrentSite();
+	$('#siteLocation4distCalc').text( getCurrentSite() );
 	document.getElementById('calc_result_lowMixing_spring').innerHTML = lowMixing_spring;
 	document.getElementById('calc_result_highMixing_spring').innerHTML = highMixing_spring;
 	document.getElementById('calc_result_lowMixing_summer').innerHTML = lowMixing_summer;
 	document.getElementById('calc_result_highMixing_summer').innerHTML = highMixing_summer;
+};
+
+function calculateRate() {
+	console.log("#CalculateRate4rateCalc was triggered" );
+	var rateCalculatorInput = document.getElementById('rateCalculatorInput').value;
+	var rate4spring  = rateCalculatorInput * 10;
+	var rate4summer  = rateCalculatorInput * 20;
+	//... ++
+	var rate4allSeasons  = rateCalculatorInput * 50;
+
+	//document.getElementById('siteLocation').innerHTML = getCurrentSite();
+	$('#siteLocation4rateCalc').text( getCurrentSite() );
+	document.getElementById('calc_result_distance2rate_spring').innerHTML = rate4spring;
+	document.getElementById('calc_result_distance2rate_allSeasons').innerHTML = rate4allSeasons;
 };
 
 </script>
