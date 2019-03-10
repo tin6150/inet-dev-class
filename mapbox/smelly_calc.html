@@ -114,23 +114,25 @@ flyTo() works.
 	.calc_Css {
 	  /*visibility: hidden;*/
 	  display: none;
-	  position: absolute;
+	  position: absolute; 
+	  /* position: relative; */
+	  max-width: 400px;
 	  top:  10%; 
-	  left: 10%; 
+	  left: 0; 
 	  /*right: 3;     /* */
-	  /*background: rgba(250, 250, 250, 0.9);  /* 255 255 255 is pure white */
-      /*background-color: rgba(250, 250, 224, 0.6);  /* this is greenish/yellowish */
-      background-color: rgba(30, 250, 30, 0.8);  /* this is lime green */
-      /*background: rgba(250, 250, 224, 0.8);  /* this is greenish/yellowish */
-	  /*margin-left:  1px;  no need for margins*/
+	  margin-left:  12px;  /* 10px match all other overlay boxes, give a few pixel to click "hide calculator" in small screen */
 	  /*margin-right: 1px; */
 	  padding-left:   20pt;    /* this give some space around the results table */
 	  padding-right:  20pt; 
 	  padding-bottom: 20pt; 
 	  /*overflow: auto;*/
-	  border-radius: 3px;
-	  font: 12pt/12pt 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12pt here, not px  */
 	  z-index: 5;		/* 1 appear behind copyright link; 5 would cover it. I have another (i) for the link :) */
+	  border-radius: 3px;
+	  /*background: rgba(250, 250, 250, 0.9);  /* 255 255 255 is pure white */
+      /*background-color: rgba(250, 250, 224, 0.6);  /* this is greenish/yellowish */
+      background-color: rgba(30, 250, 30, 0.8);  /* this is lime green */
+      /*background: rgba(250, 250, 224, 0.8);  /* this is greenish/yellowish */
+	  font: 12pt/12pt 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12pt here, not px  */
 	}
 
 
@@ -342,9 +344,12 @@ flyTo() works.
 
         </div><!-- end for inputbar -->
     </div><!-- end for "attribution2+inputbar"-->
+    <BR>
+    <BR>
+    <BR>
+    <BR>
 
-
-	<!-- calculator -->
+	<!-- calculator.  position: relative, so above BR will govern where it pop up -->
 	<!-- https://photos.app.goo.gl/iANhYY6xAcnW96hp8 -->
 
 	<div id="distanceCalc" class="calc_Css">
