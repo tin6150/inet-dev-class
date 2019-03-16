@@ -292,6 +292,7 @@ index of constructs
 * 
 * search for *sigh* and/or :( in yml files for complains (in other repos as well)
 * no easy way to do block.  how to have a single named handler invoke multiple function? 
+    + block/when inside a role: roles/container_stack/tasks/RedHat.yml  
 
 * debugging a role, run only 1 role
   https://stackoverflow.com/questions/38350674/ansible-can-i-execute-role-from-command-line

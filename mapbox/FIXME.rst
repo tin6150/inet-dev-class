@@ -5,7 +5,8 @@ smelly:
 Eidorado in filename->tilename.  
 eL, not eI.  
 
-leua in site name description (sites_extInfo.csv?)
+ieua in site name description (sites_extInfo.csv?)  (eye, not L)
+
 
 Sanjose, not SanJose.  (lower case j for consistency).
 

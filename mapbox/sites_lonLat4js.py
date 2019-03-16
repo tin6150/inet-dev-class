@@ -1,5 +1,8 @@
 #!/usr/bin/env python 
 
+# INPUT: 
+# OUTPUT: sites_extInfo.csv <- snipplet of js/html for flyTo()
+
 # take many sites across CA 
 # take lon/lat pair for each site, generate javascript snipplet for use in html, for use with flyTo()
 
@@ -462,4 +465,4 @@ see README, where i had a simplied pop density gson parsed out.
 
 
 
-# vim: syntax=python noexpandtab nosmarttab noautoindent nosmartinden
+# vim: syntax=python noexpandtab nosmarttab noautoindent nosmartindent

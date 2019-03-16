@@ -6,7 +6,7 @@
 # and generate correct output filename.
 
 # example run:
-# ./caAirCsv2gson.sh | tee caAirCsv2gson.25-sites-Al.log
+# ./caAirCsv2gson.sh | tee caAirCsv2gson.25-sites-Al.2019.03.log   # Al was for "all" season or mixing hours...
 
 # after this is upload to mapbox using zwedc_uploader.sh 
 

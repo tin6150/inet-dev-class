@@ -10,8 +10,9 @@
 
 
 # example run
-# Actually, use caAirCsv2gson.sh 
-# which loop over many input file, and generate output filename
+# don't run this python script, use the wrapper shell script:
+# ./caAirCsv2gson.sh 
+# it loop over many input file, and generate appropriate output filename
 
 
 # json rant #
@@ -35,6 +36,7 @@ import re
 #-INPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"  #-- no longer needed
 #INPUT="ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.head10.csv"
 InDir="/home/wzhou/csv/"
+##InDir="/home/wzhou/csv-25sites/"
 
 # dbgLevel 1 (ie -d  ) is good for telling when input fails to pass parser
 # dbgLevel 3 (ie -ddd) is expected by user troubleshooting problem parsing input file
@@ -238,7 +240,7 @@ def sniff_data(args) :
 
 
 def main():
-        args = process_cli()
+	args = process_cli()
 	run_conversion(args)
 	#sniff_data(args)          # glance over data, find avg, std dev, min, max, missing value, etc # use pandas
 # main()-end
@@ -277,4 +279,4 @@ example output for 2 record:
 
 
 
-# vim: syntax=python noexpandtab nosmarttab noautoindent nosmartinden
+# vim: syntax=python noexpandtab nosmarttab noautoindent nosmartindent

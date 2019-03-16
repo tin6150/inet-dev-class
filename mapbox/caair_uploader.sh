@@ -8,7 +8,12 @@
 # example run
 # cd DATA_zwedc
 # ../zwedc_uploader.sh | tee ../zwedc_uploader.log2  2>&1 	
-# ../caair_uploader.sh | tee -a ../caair_uploader.25-sites-Al.log  2>&1 
+
+
+# cd DATA_caair_Al   # 750 files, 3.2 GB, start: 2017.0315 17:41   end ...
+# cd DATA_caair_Hi   # 750 files, 3.0 GB
+# cd DATA_caair_Lo   # 750 files, 2.9 GB
+# ../caair_uploader.sh | tee -a ../caair_uploader.25-sites-Al.2019.03.log  2>&1 
 
 # for the CA state map overview of all sites:
 # ++FIXME++ Change INPUT file first!!
@@ -35,13 +40,16 @@ fi
 #TilesetName=$( echo $F | awk -F\. '{print $2}' | sed 's/_//g' )   # this version strip _ ; but gson created by my no longer have _
 
 
+## ++FIXME++ choose the right input!!
+## may need to cd to data dir... be careful!!  ++
 #InputFileList=$( ls -1 SfZbestSprHiCo10x.geojson )
 #InputFileList=$( ls -1 SfZbestSprAlCo10x.geojson )
 #InputFileList=$( ls -1 *.geojson )			# odor data (450 + 750 tilesets)
+InputFileList=$( ls -1 *.geojson )			# odor data 2019.0315 2250 files
 #InputFileList=$( ls -1 sites_info_polyg.geojson )	# site info data as polygon 
 #InputFileList=$( ls -1 sites_info_pt_*.geojson )      	# site info data as point
 #InputFileList=$( ls -1 sites_info_p*.geojson )      	# site info data as point and polygon
-InputFileList=$( ls -1 sites_info_pt_ctr.geojson )     	# only needed to fix coord of this, as only ctr pt of SouthCoast "LA" was wrong
+#InputFileList=$( ls -1 sites_info_pt_ctr.geojson )     	# only needed to fix coord of this, as only ctr pt of SouthCoast "LA" was wrong
 FileNum=0
 
 #INPUT loop for all files#

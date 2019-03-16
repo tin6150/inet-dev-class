@@ -3,7 +3,10 @@ EXAMPLE/
 TMP_DATA/
 DATA_zwedc/
 DATA_caair_Al/
+DATA_caair_Hi/
+DATA_caair_Lo/
 DATA_caair_Al_0123/
+DATA_caair_Al_0125_misspell/
 DATA_caair_BadName_Hi/
 node_modules/
 sitesinfo.unix.csv

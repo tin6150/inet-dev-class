@@ -1,11 +1,15 @@
 #!/usr/bin/env python 
 
-# take many sites across CA from csv to gson
-# this version to polygon ("square") gson data first, cuz template was generating polygon 
+# produce a geojson file with coordinates for the sites 
+# (as point or polyg depend on arg)
+# input file is a join i did 
 
+# take many sites across CA from csv 
+# convert them to gson
+# this version to polygon ("square") gson data first, 
+# cuz template was generating polygon 
 # once this done, easy to trim to have single point.
 
-# input file is a join i did 
 
 
 # run as
@@ -438,4 +442,4 @@ see README, where i had a simplied pop density gson parsed out.
 
 
 
-# vim: syntax=python nosmarttab noautoindent nosmartinden  tabstop=4 shiftwidth=2 expandtab
+# vim: syntax=python nosmarttab noautoindent nosmartindent  tabstop=4 shiftwidth=2 expandtab
