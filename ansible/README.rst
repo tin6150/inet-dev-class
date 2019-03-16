@@ -1,8 +1,6 @@
-.. figure:: xkcd_usb_cables.png
+.. figure:: o-rly-ansible-yaml.png
     :align: center
-    :alt: https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables
 
-    `s/usb cables/config management/ :) <https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables>`_
 
 
 
@@ -520,6 +518,12 @@ Troubleshooting
 
 ansible localhost -m setup 			# run ansible, print out all "facts" it gather.  eg grep os_family
 
+
+.. figure:: xkcd_usb_cables.png
+    :align: center
+    :alt: https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables
+
+    `s/usb cables/config management/ :) <https://www.explainxkcd.com/wiki/index.php/1892:_USB_Cables>`_
 
 
 Books
