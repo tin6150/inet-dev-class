@@ -1,6 +1,6 @@
 .. figure:: o-rly-ansible-yaml.png
     :align: center
-
+    :alt: https://dev.to/rly 
 
 
 
