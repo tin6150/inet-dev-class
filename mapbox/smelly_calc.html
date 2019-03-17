@@ -296,12 +296,12 @@ flyTo() works.
                 <option value="SsCalexico"     >SS: Calexico WPCP</option>    <!-- Salton Sea -->
                 <option value="SsPalm"         >SS: Palm WPCP</option>        <!-- Salton Sea -->
                 
-                <option value="ScLeua"         >SC: LEUA Plant</option>        <!-- South Coast ## FIXME site description says ieua, not L. (which one is it really??) --> 
+                <option value="ScIeua"         >SC: IEUA Plant</option>        <!-- South Coast "I" (eye)  --> 
                 <option value="ScCorona"       >SC: Corona WWTP #1</option>	
                 <option value="ScJoint"        >SC: Joint WPCA</option>	
                 <option value="ScSocwa"        >SC: SOCWA J B Latham TP</option>
                 
-                <option value="McEidorado"     >MC: El Dorado WPP</option>            <!-- Mountain Counties ## FIXME El and not Ei as used in the filename -->
+                <option value="McEldorado"     >MC: El Dorado WPP</option>            <!-- Mountain Counties  Fixed (not Ei)-->
                 
                 <option value="MdLancaster"    >MD: Lancaster WPP</option>            <!-- Mojave Desert -->
                 
@@ -321,7 +321,7 @@ flyTo() works.
             <select id="hourSelectorUI"> <!--mixing depends on time of day-->
                 <option value="NA"  disabled >Hour</option>	       
                 <option value="Al">All hours</option>
-                <option value="Hi">High mixing</option>  <!-- FIXME much data for many sites need to be removed -->
+                <option value="Hi">High mixing</option>  <!-- FIXME much data for many sites need to be removed.  3/15 got new data should have overwritten them -->
                 <option value="Lo">Low  mixing</option>
             </select>
             <select id="sourceSelectorUI">
@@ -379,9 +379,9 @@ flyTo() works.
 		<TABLE border="1">
 			<TR>
 				<TD></TD>
-				<TD>Low Mixing</TD>
-				<TD>High Mixing</TD>
-				<TD>Ext Mixing</TD>
+				<TD>Low Mixing <BR> 7-8am; 6-9pm</TD>
+				<TD>High Mixing<BR> 9am-5pm</TD>
+				<TD>Ext Mixing <BR> 7am-9pm</TD>
 			</TR>
 			<TR>
 				<TD>Spring</TD>
@@ -906,11 +906,11 @@ function buildLonLatHash() {
     lon['SsCalexico'] = -115.505188 ;	 lat['SsCalexico'] = 32.671926;
     lon['ScCorona'] = -117.604756 ;	 lat['ScCorona'] = 33.927683;
     lon['SfDublin'] = -121.915158 ;	 lat['SfDublin'] = 37.68713;
-    lon['McEidorado'] = -121.060204 ;	 lat['McEidorado'] = 38.637366;
+    lon['McEldorado'] = -121.060204 ;	 lat['McEldorado'] = 38.637366;
     lon['SfFairfield'] = -122.078372 ;	 lat['SfFairfield'] = 38.222534;
     lon['SjFresno'] = -119.893086 ;	 lat['SjFresno'] = 36.702497;
     lon['NcHealdsburg'] = -122.862719 ;	 lat['NcHealdsburg'] = 38.583622;
-    lon['ScLeua'] = -117.601852 ;	 lat['ScLeua'] = 34.028642;
+    lon['ScIeua'] = -117.601852 ;	 lat['ScIeua'] = 34.028642;
     lon['ScJoint'] = -118.28581 ;	 lat['ScJoint'] = 33.801326;
     lon['MdLancaster'] = -118.155984 ;	 lat['MdLancaster'] = 34.785119;
     lon['CcMonterey'] = -121.769894 ;	 lat['CcMonterey'] = 36.70564;
