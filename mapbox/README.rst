@@ -389,6 +389,10 @@ ImageSource - map.addSource(...)
 CanvasSource
 
 addLayer(...) - https://www.mapbox.com/help/analysis-with-turf/  (early part cover addLayer() )
+	Turf is a java script (client side) lib
+	turf.nearest(...)  to find beeline closest feature
+		example load features with point coordinates (likely mapbox gl js api provision), 
+		should be able to load polygon and do colorpleth like rendering.
 
 
 Also read before coding
@@ -482,8 +486,10 @@ TypeScript is superset of JS developed by MS.
 React maybe easier for jQuery user, Angular use a very diff control mechanism.
 
 
-Mirthil.  
-A smaller/simpler UI framework, full page oriented, fast, render only the screen currently visible. 
+* Mithril.  
+  A smaller/simpler UI framework, full page oriented, fast, render only the screen currently visible. 
+  https://mithril.js.org/
+
 
 
 HERE.com tutorial
