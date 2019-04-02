@@ -13,11 +13,13 @@
 # cd DATA_caair_Al   # 750 files, 3.2 GB, start: 2017.0315 17:41   end before 19:45.  storage went from 7.8 to 8.3, so 0.5 GB.  strange.
 # cd DATA_caair_Hi   # 750 files, 3.0 GB, start: 19:47, end: 20:42.  8.9 GB hmm... storage not updated yet cuz still processing in background?
 # cd DATA_caair_Lo   # 750 files, 2.9 GB, start: 00:04, end: 
-# ../caair_uploader.sh | tee -a ../caair_uploader.25-sites-Al.2019.03.log  2>&1 
+# ./caair_uploader.sh | tee -a ../caair_uploader.25-sites-Al.2019.03.log  2>&1 
 
+#+cd DATA_caair_0329   # 2250 files, 9.1 GB (exclude zwedc), start: 19:55, end: 22:37
+#+cd DATA_caair_0329_zwedc   # 90 files, start:  end: 
 # for the CA state map overview of all sites:
-# ++FIXME++ Change INPUT file first!!
-# ./caair_uploader.sh | tee -a  caair_uploader.sites_info.log
+# ++TODO++ cd to the desired dir before starting upload script
+# ../caair_uploader.sh | tee -a  caair_uploader.log
 
 # renamed from zwedc_uploader.sh to caair_uploader.sh since it works for all sites geojson.  2019-01-23
 # maybe should have renamed it to smelley_uploader :)
