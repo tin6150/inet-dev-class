@@ -1,6 +1,6 @@
 
 
-smelly:
+smelly (done):
 
 Eidorado in filename->tilename.  
 eL, not eI.  
@@ -24,6 +24,8 @@ Tilesets: 7.7 GB
 (maybe old tiles not overwritten?)
 else, it expanded by 3.5x and we may run out of space.
 
+
+after round 2 of 25-sites, at 12.1 GB.
 
 Datasets: 5 MB
 
