@@ -133,7 +133,7 @@ flyTo() works.
 	  display: none;
 	  position: absolute; 
 	  /* position: relative; */
-	  max-width: 400px;
+	  max-width: 550px;
 	  top:  10%; 
 	  left: 0; 
 	  /*right: 3;     /* */
@@ -378,8 +378,8 @@ flyTo() works.
 		<TABLE>
 			<TR>
 				<TD>Enter emission rate </TD>
-				<TD><input type="text" name="distanceCalculatorInput" id="distanceCalculatorInput" size="6" value="5.0"> </TD>
-				<TD>ou/s</TD>
+				<TD><input type="text" name="distanceCalculatorInput" id="distanceCalculatorInput" size="6" value="100"> </TD> <!-- 100 ou/s/m2 -->
+				<TD>ou/s/m2</TD> <!-- square -->
 			</TR>
 		</TABLE>
 		<TABLE>
@@ -399,36 +399,42 @@ flyTo() works.
 				<TD>Low Mixing <BR> 7-8am; 6-9pm</TD>
 				<TD>High Mixing<BR> 9am-5pm</TD>
 				<TD>Ext Mixing <BR> 7am-9pm</TD>
+				<TD>R^2<BR>(model fitness)</TD> <!--R-square-->
 			</TR>
 			<TR>
 				<TD>Spring</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_spring">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_spring">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_spring">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_R2_spring">Result</DIV> </TD>
 			</TR>
 			<TR>
 				<TD>Summer</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_summer">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_summer">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_summer">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_R2_summer">Result</DIV> </TD>
 			</TR>
 			<TR>
 				<TD>Autum</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_autum">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_autum">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_autum">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_R2_autum">Result</DIV> </TD>
 			</TR>
 			<TR>
 				<TD>Winter</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_winter">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_winter">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_winter">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_R2_winter">Result</DIV> </TD>
 			</TR>
 			<TR>
 				<TD>All Seasons</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_allSeasons">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_allSeasons">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_allSeasons">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_R2_allSeasons">Result</DIV> </TD>
 			</TR>
 		</TABLE>
 		<BR><BR>
@@ -464,7 +470,7 @@ flyTo() works.
 		<BR>
 		<TABLE>
 			<TR>
-				<TD>Enter desired separation distance </TD>
+				<TD>Enter desired separation distance (500-3000m):</TD>
 				<TD><input type="text" name="rateCalculatorInput" id="rateCalculatorInput" size="6" value="1000"> </TD>
 				<TD> m</TD>
 			</TR>
@@ -482,9 +488,9 @@ flyTo() works.
 		<BR>
 		<TABLE border="1">
 			<TR>
-				<TD></TD>
-				<TD></TD>
-				<TD></TD>
+				<TD>Season</TD>
+				<TD>Emission Rate</TD>
+				<TD>R^2 (model fitness)</TD>
 			</TR>
 			<TR>
 				<TD>Spring</TD>
@@ -608,9 +614,9 @@ $( function() {
 var odorCalculatorVisible = false;
 var calculatorMode = "distance";  // "rate" is the other calculator
 
-// actually no need to store this.  HTML DOM automatically store unless page reloaded
-//var rateInput4distCalc = 5.0;   		  // in ou/s     
-//var distInput4rateCalc = 1000;		  // in m
+// actually no need to store these below.  HTML DOM automatically store unless page reloaded
+//-var rateInput4distCalc = 5.0;   		  // in ou/s     
+//-var distInput4rateCalc = 1000;		  // in m
 
 $("#ShowCalculator").click( function() {
 	console.log("#ShowCalculator was clicked" );
@@ -667,6 +673,14 @@ function getCurrentSite() {
 
 function calculateSeparationDistance() {
 	console.log("#CalculateButton4distCalc was triggered" );
+	// ++ TODO add table of constant inside this fn.  no need for them to be global
+	// could generate double hash, but not sure how to do that in javascript, so parallelel hash like lat/lon for site;s coordinate
+	// log10(y) =a*  log10(x) + b,  Coefficients are in the 26sites.emis.dist_fit_new.csv file.
+	// https://photos.google.com/album/AF1QipOt3uaEZ2J8fE-SLf6M1r-Q9z827abnWp-QhyZc
+	var calc_const_a = {};
+	calc_const_a['NcArcata'] = 0.53596043;
+	// var calc_const['NcArcata']{'All'}{'Al'}{'10x'}{'a'} = 0.53596043 ;  ##  do i need season, hours, scale, top as param defining the constant FIXME
+
 	var inputNum = document.getElementById('distanceCalculatorInput').value;
 	var lowMixing_spring  = inputNum * 10;
 	var highMixing_spring = inputNum * 20;
@@ -676,6 +690,7 @@ function calculateSeparationDistance() {
 
 	//document.getElementById('siteLocation').innerHTML = getCurrentSite();
 	$('#siteLocation4distCalc').text( getCurrentSite() );
+	// ++ TODO add table of constant inside this fn.  no need for them to be global
 	document.getElementById('calc_result_lowMixing_spring').innerHTML = lowMixing_spring;
 	document.getElementById('calc_result_highMixing_spring').innerHTML = highMixing_spring;
 	document.getElementById('calc_result_lowMixing_summer').innerHTML = lowMixing_summer;
