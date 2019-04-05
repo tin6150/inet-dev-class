@@ -15,13 +15,13 @@ flyTo() works.
 -->
 <head>
     <meta charset='utf-8' />
-    <title>Smelly - ETA + Science IT Collaboration</title>
+    <title>Smelly - ETA + Science IT Collaboration (dev0404)</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
 
     <!-- Global site tag (gtag.js) - Google Analytics tin@lbl - to track user interest and future development effort -->
-		<!--
+	<!-- gtag begin - - >
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-134625383-1"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -30,7 +30,7 @@ flyTo() works.
 
       gtag('config', 'UA-134625383-2');
     </script>
-		-->
+	< ! - - gtag end -->
 
 
     <!--
@@ -286,7 +286,9 @@ flyTo() works.
 
 
 	<div id="inputbar"><!-- class="inputCss"> -->
+		<!--   disable calculator feature till code is done ## FIXME   -->
 			<BUTTON id="ShowCalculator">Show Calculator</BUTTON>
+				<!-- -->
             <!--html element for drop down picker goes here-->
             <select id="siteSelectorUI"> <!-- site -->  <!--to emulate Tyler <select id="polygon-layer-selector"> -->
                 <option value="NA"         disabled           >Air Basin: Site</option>	       
@@ -457,7 +459,7 @@ flyTo() works.
 	</div>   <!-- end div for warningbox -->
 
 	<!-- being div for RATE calculator -->
-	<div id="rateCalc" class="calc_Css">
+	<div id="rateCalc" class="calc_Css">   
 		<center>
 		<h3>Allowable Odor Rate for stated distance<BR>
 		</h3>
@@ -626,7 +628,9 @@ var calculatorMode = "distance";  // "rate" is the other calculator
 
 // state wide map only have capacity=1.0 thus need to disable this html drop down choice.  
 // no way to do this in html, thus doing it here in jQuery 
-document.getElementById("scaleSelectorUI").style.display = 'none';
+document.getElementById("scaleSelectorUI").style.display = 'none'; 
+//document.getElementById("rateCalc").style.display = 'none';   // dont display calculator button till code is complete
+//--xx document.getElementById("ShowRateCalculatorButton").style.display = 'none';   // dont display calculator button till code is complete
 
 $("#ShowCalculator").click( function() {
 	console.log("#ShowCalculator was clicked" );
