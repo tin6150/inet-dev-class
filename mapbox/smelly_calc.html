@@ -113,7 +113,7 @@ flyTo() works.
 	
 	.warningCss {
 	  position: absolute;
-	  top: 46px;   /*  top: 20 (no unit) was ok, but not great */
+	  top: 50px;   /*  top: 20 (no unit) was ok, but not great */
 	  left: 0;    /* */
 	  /*right: 3;     /* */
 	  /*background: rgba(250, 250, 250, 0.9);  /* 255 255 255 is pure white */
@@ -350,7 +350,8 @@ flyTo() works.
                 <option value="Tr">Truck</option>
                 <option value="Aa">All Area Line</option>
             </select>
-            <select id="scaleSelectorUI">
+			<select id="scaleSelectorUI">             <!-- disabling of  capacity choice need to be done in jQuery, see code below with this line -->
+				<!-- document.getElementById("scaleSelectorUI").style.display = 'none'; -->
                 <option value="NA"  disabled >Capacity</option>	       
                 <option value="Act">Actual/Current</option>
                 <option value="05x">0.5</option>
@@ -399,42 +400,36 @@ flyTo() works.
 				<TD>Low Mixing <BR> 7-8am; 6-9pm</TD>
 				<TD>High Mixing<BR> 9am-5pm</TD>
 				<TD>Ext Mixing <BR> 7am-9pm</TD>
-				<TD>R^2<BR>(model fitness)</TD> <!--R-square-->
 			</TR>
 			<TR>
 				<TD>Spring</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_spring">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_spring">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_spring">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_R2_spring">Result</DIV> </TD>
 			</TR>
 			<TR>
 				<TD>Summer</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_summer">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_summer">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_summer">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_R2_summer">Result</DIV> </TD>
 			</TR>
 			<TR>
 				<TD>Autum</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_autum">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_autum">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_autum">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_R2_autum">Result</DIV> </TD>
 			</TR>
 			<TR>
 				<TD>Winter</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_winter">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_winter">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_winter">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_R2_winter">Result</DIV> </TD>
 			</TR>
 			<TR>
 				<TD>All Seasons</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_allSeasons">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_allSeasons">Result</DIV> m</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_allSeasons">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_R2_allSeasons">Result</DIV> </TD>
 			</TR>
 		</TABLE>
 		<BR><BR>
@@ -488,32 +483,43 @@ flyTo() works.
 		<BR>
 		<TABLE border="1">
 			<TR>
-				<TD>Season</TD>
-				<TD>Emission Rate</TD>
-				<TD>R^2 (model fitness)</TD>
+				<TD></TD>
+				<TD>Low Mixing <BR> 7-8am; 6-9pm</TD>
+				<TD>High Mixing<BR> 9am-5pm</TD>
+				<TD>Ext Mixing <BR> 7am-9pm</TD>
 			</TR>
 			<TR>
 				<TD>Spring</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_spring">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_lowMixing_spring">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_highMixing_spring">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_extMixing_spring">Result</DIV> ou/s</TD>
 			</TR>
 			<TR>
 				<TD>Summer</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_summer">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_lowMixing_summer">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_highMixing_summer">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_extMixing_summer">Result</DIV> ou/s</TD>
 			</TR>
 
 			<TR>
 				<TD>Autum</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_autum">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_lowMixing_autum">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_highMixing_autum">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_extMixing_autum">Result</DIV> ou/s</TD>
 			</TR>
 
 			<TR>
 				<TD>Winter</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_winter">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_lowMixing_winter">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_highMixing_winter">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_extMixing_winter">Result</DIV> ou/s</TD>
 			</TR>
 
 			<TR>
 				<TD>All Seasons</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_allSeasons">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_lowMixing_allSeasons">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_highMixing_allSeasons">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_extMixing_allSeasons">Result</DIV> ou/s</TD>
 			</TR>
 		</TABLE>
 		<BR><BR>
@@ -618,6 +624,10 @@ var calculatorMode = "distance";  // "rate" is the other calculator
 //-var rateInput4distCalc = 5.0;   		  // in ou/s     
 //-var distInput4rateCalc = 1000;		  // in m
 
+// state wide map only have capacity=1.0 thus need to disable this html drop down choice.  
+// no way to do this in html, thus doing it here in jQuery 
+document.getElementById("scaleSelectorUI").style.display = 'none';
+
 $("#ShowCalculator").click( function() {
 	console.log("#ShowCalculator was clicked" );
 	if ( odorCalculatorVisible == false ) {
@@ -707,8 +717,8 @@ function calculateRate() {
 
 	//document.getElementById('siteLocation').innerHTML = getCurrentSite();
 	$('#siteLocation4rateCalc').text( getCurrentSite() );
-	document.getElementById('calc_result_distance2rate_spring').innerHTML = rate4spring;
-	document.getElementById('calc_result_distance2rate_allSeasons').innerHTML = rate4allSeasons;
+	document.getElementById('calc_result_distance2rate_lowMixing_spring').innerHTML = rate4spring;
+	document.getElementById('calc_result_distance2rate_highMixing_allSeasons').innerHTML = rate4allSeasons;
 };
 
 
