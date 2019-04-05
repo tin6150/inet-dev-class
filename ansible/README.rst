@@ -286,8 +286,10 @@ index of constructs
 * escaping quotes: maybe easier to go hang yourself.   Maybe a Jinja2 issue...
 * default variable for a role:    roles/mount/default/main.yml
 * lineinfile, regex replace: roles/usercfg_standalone/tasks/sysAdmin.yml 
+* ini_file module: roles/container_stack/tasks/RedHat.yml
+* block...when (so that multiple task can be run with single "if" condition): roles/container_stack/tasks/RedHat.yml
 * notify... with_items: mount/main/exalearn.yml, iptables maybe better...
-* 
+ 
 * search for *sigh* and/or :( in yml files for complains (in other repos as well)
 * no easy way to do block.  how to have a single named handler invoke multiple function? 
     + block/when inside a role: roles/container_stack/tasks/RedHat.yml  
