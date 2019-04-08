@@ -392,11 +392,21 @@
   <div id="csvTester" >   
   csvTester div here
   </div><!-- id='csvTester'-->
+  <BR><HR><BR>
+  <div id="csvTester2" >   
+  csvTester2 div here
+  </div><!-- id='csvTester2'-->
+  <BR><HR><BR>
+  <div id="csvTester3" >   
+  csvTester3 div here
+  </div><!-- id='csvTester3'-->
+  
+  
   
   <BR><HR><BR>
   
   jquery-csv test result space: <BR>
-  <textarea id="result" style="height: 300px;"></textarea>
+  <textarea id="result" style="height: 700px;"></textarea>
 
 
   </div><!-- id='map'-->
@@ -734,15 +744,13 @@ function getSiteAbbr( siteName ) {
 //1       Arcata        Arcata_WWTF    0.53596043      0.341263213     0.976225497     All     All Hours       scale_1x        Top 2%
 
 //-
-var csvData = {};    // have to declare this as global to extract data out of d3.csv() , could not figure out other way :-/
+//var csvData = {};    // have to declare this as global to extract data out of d3.csv() , could not figure out other way :-/
 
 //function parse() {
 function buildCalcParamTable() {
 	// https://smelly.lbl.gov/data/rate_distance_table.csv   // open in google sheets !!
     console.log("*** inside buildCalcParamTable ***");
-	//csvData = d3.csv("https://smelly.lbl.gov/data/rate_distance_table.csv").then(function(data) { console.log(data[0]); });
-	//localCsvData = d3.csv("https://smelly.lbl.gov/data/rate_distance_table.csv",function(d) {
-	//var localCsvData; // = {};
+	var localCsvData; // = {};
 	
     //const input = $('#input').val();
 	//localCsvData = d3.csv("https://smelly.lbl.gov/data/rate_distance_table.csv",function(d) {
@@ -764,45 +772,33 @@ function buildCalcParamTable() {
     input += "\n";
     
 	//var csvData = {};   // already exist as global
-    csvData = $.csv.toArrays(input);
+    localCsvData = $.csv.toArrays(input);
     //const data = $.csv.toArrays(input);
     
-   $('#result').empty();
-   $('#result').html(JSON.stringify(csvData, null, 2));
+    var data = localCsvData; // tmp for the console.log()
+    console.log(typeof data);       // obj
+    console.log(data.length);       
+    console.log(data);
+    console.log(typeof data[0]);   // obj
+    console.log(data[0]);
+    console.log(data[1]);
+    console.log(data[1][2]);
+    
+    //localCsvData = JSON.parse(JSON.stringify(data));  // deep copy https://stackoverflow.com/questions/42523881/how-to-clone-a-javascript-array-of-objects
+    console.log( "*** inside parser, after copy:" + localCsvData);
+    console.log( "*** inside parser, after copy (lenght):" + localCsvData.length);
+    
 
-        var data = csvData; // tmp for the console.log()
-        console.log(typeof data);       // obj
-        console.log(data.length);       // 26
-        console.log(data);
-        console.log(typeof data[0]);   // obj
-        console.log(data[0]);
-        console.log(data[1]);
-        //console.log(data[2]);
-        
-        //localCsvData = data;   // dont work
-        //localCsvData = data.slice();   // make a (shallow) copy , still not usable
-        //csvData = data.slice();   // make a (shallow) copy , still not usable
-        //localCsvData = JSON.parse(JSON.stringify(data));  // deep copy https://stackoverflow.com/questions/42523881/how-to-clone-a-javascript-array-of-objects
-        console.log( "*** inside d3csv, after copy:" + csvData);
-        console.log( "*** inside d3csv, after copy (lenght):" + csvData.length);
-        
-        // *sigh* d3 intend for chart drawing code in here
-        // and i cant find a way to copy the array data out for later use of data :-/
-        // after this block ends, all data seems to vanish :-/
-        //return clone;  //
-        //return localCsvData;  //
-        //return data;  // dont work
-
-	// why after deep copy/clone, still no data??
-    document.getElementById('csvTester').innerHTML += "<BR>\n *** inside buildCalcParamTable but after d3.csv() *csvData: " + csvData;   // undef
-    //document.getElementById('csvTester').innerHTML += "<BR>\n inside buildCalcParamTable but after d3.csv csvData: " + csvData;
-    //document.getElementById('csvTester').innerHTML += "<BR>\n inside buildCalcParamTable but after d3.csv data: " + data;
-    console.log( "*** buildCalcParamTable after d3.csv(), about to return csvData ***");  
-    console.log( "*** still inside buildCalcParamTable :" + csvData );  
+    document.getElementById('csvTester').innerHTML  = "*** inside buildCalcParamTable <BR><BR>\n"; 
+    document.getElementById('csvTester').innerHTML += "<BR>\n *** inside buildCalcParamTable but after parser (local) csvData: " + localCsvData;   
+    document.getElementById('csvTester').innerHTML += "<BR>\n inside buildCalcParamTable (local) csvData[1]: " + localCsvData[1];
+    document.getElementById('csvTester').innerHTML += "<BR>\n inside buildCalcParamTable (local) csvData[1][5]: " + localCsvData[1][5];
+    console.log( "*** still inside buildCalcParamTable :" + localCsvData );  
+    console.log( "*** buildCalcParamTable after parse, about to return csvData ***");  
     console.log( "*** *** " );  
     //console.log(data);
     //console.log(data[4]);
-    return csvData;   // now that csvData is global, no need to actually use a return!  But code use assignment call...
+    return localCsvData;   // now that csvData is global, no need to actually use a return!  But code use assignment call...
 } // end buildCalParamTable()
 
 
@@ -811,27 +807,35 @@ function buildCalcParamTable() {
 $(document).ready(() => {
     //parse();
     console.log( '~~doc.ready() -- call buildCalcParamTable' );
-    csvData = buildCalcParamTable();    
+    var csvData = buildCalcParamTable();    
     console.log( '~~doc.ready() -- done call buildCalcParamTable' );
     
-    
-    //csvData = buildCalcParamTable();    // declared "earlier" to have it serve as global.  nope, no data :-/
-    document.getElementById('csvTester').innerHTML += "<BR>\n typeof csvData (after cal buildCalcParamTable) : " + typeof csvData;      // object Promise
-    //document.getElementById('csvTester').innerHTML += "<BR>\n csvData[0]: " + csvData[0];   // undef
-    document.getElementById('csvTester').innerHTML += "<BR>\n csvData          : " + csvData;      // object 
-    document.getElementById('csvTester').innerHTML += "<BR>\n csvData.length   : " + csvData.length;      // undef
-    //document.getElementById('csvTester').innerHTML += "<BR>\n data      : " + data;         // exception
-    //document.getElementById('csvTester').innerHTML += "<BR>\n csvData{siteName}   : " + csvData{siteName};      // object Promise
-
-
-    //console.log( 'test buildCalcParamTable csvData[0]   :: ' + csvData[0] );   // undef :()
-    console.log( 'test buildCalcParamTable typeof csvData  :: ' + typeof csvData );      // 
-    console.log( 'test buildCalcParamTable csvData         :: ' + csvData );      
-    console.log( 'test buildCalcParamTable csvData.length  :: ' + csvData.length );         // need newline in input to define row
+    console.log( '~~test buildCalcParamTable csvData[0]   :: ' + csvData[0] ); 
+    console.log( '~~test buildCalcParamTable typeof csvData  :: ' + typeof csvData );      // 
+    console.log( '~~test buildCalcParamTable csvData         :: ' + csvData );      
+    console.log( '~~test buildCalcParamTable csvData.length  :: ' + csvData.length );         // need newline in input to define row
     //console.log( 'test buildCalcParamTable localCsvData :: ' + localCsvData ); // object Promise  // ie all vars are global in JS!!
-    console.log( 'end buildCalcParamTable' );
+    console.log( '~~end buildCalcParamTable' );
+    
+    document.getElementById('csvTester2').innerHTML  = "~~ inside docReady ~~  <BR><BR>\n";
+    document.getElementById('csvTester2').innerHTML += "<BR>\n typeof csvData (after cal buildCalcParamTable) : " + typeof csvData;      
+    document.getElementById('csvTester2').innerHTML += "<BR>\n csvData          : " + csvData;      // object 
+    document.getElementById('csvTester2').innerHTML += "<BR><BR>\n ";
+    document.getElementById('csvTester2').innerHTML += "<BR>\n csvData.length   : " + csvData.length;    
+    document.getElementById('csvTester2').innerHTML += "<BR>\n csvData[0]       : " + csvData[0];   
+    document.getElementById('csvTester2').innerHTML += "<BR>\n csvData[0][0]    : " + csvData[0][0];      
+    document.getElementById('csvTester2').innerHTML += "<BR>\n csvData[0][1]    : " + csvData[0][1];      
+    document.getElementById('csvTester2').innerHTML += "<BR>\n csvData[1][0]    : " + csvData[1][0];      
+    document.getElementById('csvTester2').innerHTML += "<BR>\n csvData[1][1]    : " + csvData[1][1];      
+    document.getElementById('csvTester2').innerHTML += "<BR>\n csvData[1][2]    : " + csvData[1][2];      
+    //document.getElementById('csvTester2').innerHTML += "<BR>\n csvData{siteName}   : " + csvData{siteName};     // not here 
 
-    //   $('#result').html(JSON.stringify(csvData, null, 2));
+    const jsonStr = JSON.stringify(csvData, null, 2);
+    document.getElementById('csvTester2').innerHTML += "<BR>\n ~~~~ @@@@ ~~~~ <BR><BR>\n"
+    document.getElementById('csvTester2').innerHTML += "jsonified string of csv data : " + jsonStr 
+
+    $('#result').empty();
+    $('#result').html(JSON.stringify(localCsvData, null, 2));
     //$('#csvTester').html(JSON.stringify(csvData, null, 2));
 
     console.log( '~~doc.ready() -- done end of doc.ready()' );
@@ -862,13 +866,10 @@ console.log( 'the "main" of script' );
 
 var testAbbr = getSiteAbbr("ZWEDC");
 console.log( 'test:: result of site2abbr:: ' + testAbbr );
-document.getElementById('csvTester').innerHTML = testAbbr;
+document.getElementById('csvTester3').innerHTML = testAbbr;
 
 //console.log( 'testing CORS grabbing file from URI');
 //d3.image("https://smelly.lbl.gov/figures/smelly_tablet.jpg", {crossOrigin: "anonymous"}).then(function(img) { console.log(img); });
-
-
-
 
 
 dbgTracer += "endOfScript \t";
