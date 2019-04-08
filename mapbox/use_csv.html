@@ -7,6 +7,12 @@
 	 	 may use D3
 
 		 many things need to be cleaned up below, formerly smelly_calc.html
+		 
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        //   even using global csvData, somehow after this fn ends, still looses all data.  abandoning D3 :-/
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
 	-->
 
 
@@ -727,7 +733,7 @@ function getSiteAbbr( siteName ) {
 //dirID   file_name    site_name       a                b               R2              season  hour           plant.scale     top
 //1       Arcata        Arcata_WWTF    0.53596043      0.341263213     0.976225497     All     All Hours       scale_1x        Top 2%
 
-var localCsvData = {};
+var csvData = {};    // have to declare this as global to extract data out of d3.csv() , could not figure out other way :-/
 
 function buildCalcParamTable() {
 	// https://smelly.lbl.gov/data/rate_distance_table.csv   // open in google sheets !!
@@ -755,26 +761,32 @@ function buildCalcParamTable() {
         
         //localCsvData = data;   // dont work
         //localCsvData = data.slice();   // make a (shallow) copy , still not usable
-        localCsvData = JSON.parse(JSON.stringify(data));  // deep copy https://stackoverflow.com/questions/42523881/how-to-clone-a-javascript-array-of-objects
-        console.log( "*** inside d3csv, after copy:" + localCsvData);
-        console.log( "*** inside d3csv, after copy (lenght):" + localCsvData.length);
+        csvData = data.slice();   // make a (shallow) copy , still not usable
+        //localCsvData = JSON.parse(JSON.stringify(data));  // deep copy https://stackoverflow.com/questions/42523881/how-to-clone-a-javascript-array-of-objects
+        console.log( "*** inside d3csv, after copy:" + csvData);
+        console.log( "*** inside d3csv, after copy (lenght):" + csvData.length);
         
         // *sigh* d3 intend for chart drawing code in here
         // and i cant find a way to copy the array data out for later use of data :-/
         // after this block ends, all data seems to vanish :-/
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        //   even using global csvData, somehow after this fn ends, still looses all data.  abandoning D3 :-/
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
         //return clone;  //
         //return localCsvData;  //
         //return data;  // dont work
 	});
 	// why after deep copy/clone, still no data??
-    document.getElementById('csvTester').innerHTML += "<BR>\n *** inside buildCalcParamTable but after d3.csv() localCsvData: " + localCsvData;   // undef
+    document.getElementById('csvTester').innerHTML += "<BR>\n *** inside buildCalcParamTable but after d3.csv() *csvData: " + csvData;   // undef
     //document.getElementById('csvTester').innerHTML += "<BR>\n inside buildCalcParamTable but after d3.csv csvData: " + csvData;
     //document.getElementById('csvTester').innerHTML += "<BR>\n inside buildCalcParamTable but after d3.csv data: " + data;
-    console.log( "*** buildCalcParamTable after d3.csv(), about to return localCsvData ***");  
-    console.log( "*** after d3.csv() -- csvLocalData:" + localCsvData );  // why is this undef???
+    console.log( "*** buildCalcParamTable after d3.csv(), about to return csvData ***");  
+    console.log( "*** after d3.csv() -- csvLocalData:" + csvData );  // why is this undef???
     //console.log(data);
     //console.log(data[4]);
-    return localCsvData;
+    //return csvData;   // now that csvData is global, no need to actually use a return!  But code use assignment call...
 } // end buildCalParamTable()
  
 // ################################################################################# //
@@ -807,10 +819,12 @@ document.getElementById('csvTester').innerHTML = testAbbr;
 //d3.image("https://smelly.lbl.gov/figures/smelly_tablet.jpg", {crossOrigin: "anonymous"}).then(function(img) { console.log(img); });
 
 console.log( 'call buildCalcParamTable' );
-var csvData = buildCalcParamTable();
+//csvData = buildCalcParamTable();    // declared "earlier" to have it serve as global.  nope, no data :-/
+buildCalcParamTable();    // use side effect of global update to csvData.    // still no good.  *sigh*
 document.getElementById('csvTester').innerHTML += "<BR>\n typeof csvData (after cal buildCalcParamTable) : " + typeof csvData;      // object Promise
 //document.getElementById('csvTester').innerHTML += "<BR>\n csvData[0]: " + csvData[0];   // undef
-document.getElementById('csvTester').innerHTML += "<BR>\n csvData   : " + csvData;      // object Promise
+document.getElementById('csvTester').innerHTML += "<BR>\n csvData          : " + csvData;      // object 
+document.getElementById('csvTester').innerHTML += "<BR>\n csvData.length   : " + csvData.length;      // undef
 //document.getElementById('csvTester').innerHTML += "<BR>\n data      : " + data;         // exception
 //document.getElementById('csvTester').innerHTML += "<BR>\n csvData{siteName}   : " + csvData{siteName};      // object Promise
 

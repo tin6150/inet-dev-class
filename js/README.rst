@@ -10,7 +10,10 @@ There was also the taxonomy reporter html page that called jQuery to provide som
 Node.js
 =======
 
-some server that use js on the server-side...
+server-side JS (instead of client-side).
+
+server is Node.js. 
+Can add plugin (library) via npm.
 event based, not multi-threaded, but can fork children.
 said to be fast, so long as don't do a lot of work in each event, then serve large number of requests.
 
@@ -81,4 +84,10 @@ so, forked the documentation/example
 https://tin6150.github.io/mapbox-gl-controls
 and try from there.
 
+
+Ref
+---
+
+* https://tin6150.github.io/psg/javascript.html
+  Quick output
 
