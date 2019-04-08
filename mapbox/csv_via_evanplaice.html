@@ -835,7 +835,7 @@ $(document).ready(() => {
     document.getElementById('csvTester2').innerHTML += "jsonified string of csv data : " + jsonStr 
 
     $('#result').empty();
-    $('#result').html(JSON.stringify(localCsvData, null, 2));
+    $('#result').html(JSON.stringify(csvData, null, 2));
     //$('#csvTester').html(JSON.stringify(csvData, null, 2));
 
     console.log( '~~doc.ready() -- done end of doc.ready()' );
