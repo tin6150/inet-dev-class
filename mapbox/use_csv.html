@@ -17,6 +17,11 @@
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
 
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <!--
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    -->
+
 
     <!--
     below is for form inputForm
@@ -401,6 +406,8 @@
 
 <script>
 
+"use strict"     // all variables must be declared.  trying to use less global...
+
 ////////////////////////////////////////////////////////////////////////////////
 //////////////////////// calculator code below /////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -452,14 +459,6 @@ $("#CalculateButton4distCalc").click( function() {
 });
 $("#CalculateButton4rateCalc").click( function() {
 		calculateRate();
-});
-
-// Warning box about data being preliminary
-//<BUTTON id="DismissWarningButton">Dismiss</BUTTON>
-//$("#DismissWarningButton.warningCss").click( function() {
-$("#DismissWarningButton").click( function() {
-	$("#warningBox.warningCss").hide("slow");
-    
 });
 
 
@@ -514,7 +513,7 @@ function calculateRate() {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////// mapbox code below ///////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-mapboxgl.accessToken =   'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // Sn  (post?) 2018-12-07   pk = public token
+//mapboxgl.accessToken =   'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // Sn  (post?) 2018-12-07   pk = public token
 var dbgTracer = "dbgTracerDeclared \t";
 var currentLoadedMapLayer  = "";
 var currentLoadedMapSource = "";
@@ -537,19 +536,11 @@ var lat = {};
 // hmmm... can map find out nearnest site on display and load that layer??  prob lot of work!
 
 
-// note there is a map.remove() ... 
-var map = new mapboxgl.Map({
-    container: 'map',	// container id
-    style: 'mapbox://styles/sn50/cjrekq65d4o7o2slw5x262rb0',	// sites_info_polyg  + sites_info_pt_topLeft  with cali terrain.  corner point turns out to be bottom left, but whatever. 
-    
-   
-    attributionControl: false,                  // setting to false remove the fine print at bottom.  I still have an info circle that pop up, should be good enough
-    hash: true,     // change URL with a hash of map zoom/lat/long    eg append: #15/37.434/-121.945   # notice it is lat/long in this url!!  so it is zoom/y/x
-
-    center: [-121.945, 37.434],  // alviso ZWEDC
-    zoom: 6.1  		// see most of CA  	// 50mi    ## smelly overview map ## FIXME come back to this after debug
-    
-});
+//var map = new mapboxgl.Map({
+//    container: 'map',	// container id
+//    style: 'mapbox://styles/sn50/cjrekq65d4o7o2slw5x262rb0',	// sites_info_polyg  + sites_info_pt_topLeft  with cali terrain.  corner point turns out to be bottom left, but whatever. 
+//    center: [-121.945, 37.434],  // alviso ZWEDC
+//});
 
 
 // find out what combination is selected in the form selections UI ... eventually trigger loading maplayer...   
@@ -696,7 +687,7 @@ function getSiteAbbr( siteName ) {
         dbgTracer += " getSiteAbbr() \t"; 
         console.log( dbgTracer );
 
-        site2abbr = {}
+        var site2abbr = {}
         site2abbr['Arcata_WWTF'] =       'NcArcata'
         site2abbr['Atwater_WWTF'] =      'SjAtwater'
         site2abbr['BakersfieldWWTP2'] =  'SjBakersfield'
@@ -708,7 +699,7 @@ function getSiteAbbr( siteName ) {
         site2abbr['Fresno-Clovis'] =     'SjFresno'
         site2abbr['Healdsburg_WRF'] =    'NcHealdsburg'
         site2abbr['IEUA_Plant'] =        'ScLeua'
-        site2abbr['LEUA_Plant'] =        'ScLeua'           # should be L, not i.
+        site2abbr['LEUA_Plant'] =        'ScLeua'           // should be L, not i.
         site2abbr['Joint_WPCA'] =        'ScJoint'
         site2abbr['Lancaster_WPP'] =     'MdLancaster'
         site2abbr['MONTEREY_WPCA'] =     'CcMonterey'
@@ -728,6 +719,63 @@ function getSiteAbbr( siteName ) {
         return site2abbr[siteName];
 } // end getSiteAbbr()
 
+
+// read csv file (hard coded from web URI)
+// create a table with all the constant/prameter for the rate/emission distance calculator
+// ref http://learnjsdata.com/read_data.html
+// draft input format (tab instead of comma for easier reading):
+//dirID   file_name    site_name       a                b               R2              season  hour           plant.scale     top
+//1       Arcata        Arcata_WWTF    0.53596043      0.341263213     0.976225497     All     All Hours       scale_1x        Top 2%
+
+var localCsvData = {};
+
+function buildCalcParamTable() {
+	// https://smelly.lbl.gov/data/rate_distance_table.csv   // open in google sheets !!
+    console.log("*** inside buildCalcParamTable ***");
+	//csvData = d3.csv("https://smelly.lbl.gov/data/rate_distance_table.csv").then(function(data) { console.log(data[0]); });
+	//localCsvData = d3.csv("https://smelly.lbl.gov/data/rate_distance_table.csv",function(d) {
+	//var localCsvData; // = {};
+	d3.csv("https://smelly.lbl.gov/data/rate_distance_table.csv",function(d) {
+        return {
+            siteName : d.site_name,
+            a        : +d.a,
+            b        : +d.b,
+            season   : d.season,
+            hour     : d.hour
+        };
+	}).then(function(data) {
+        console.log(typeof data);       // obj
+        console.log(data.length);       // 26
+        console.log(data);
+        console.log(typeof data[0]);   // obj
+        console.log(data[0].length);       // 26
+        console.log(data[0]);
+        console.log(data[1]);
+        //console.log(data[2]);
+        
+        //localCsvData = data;   // dont work
+        //localCsvData = data.slice();   // make a (shallow) copy , still not usable
+        localCsvData = JSON.parse(JSON.stringify(data));  // deep copy https://stackoverflow.com/questions/42523881/how-to-clone-a-javascript-array-of-objects
+        console.log( "*** inside d3csv, after copy:" + localCsvData);
+        console.log( "*** inside d3csv, after copy (lenght):" + localCsvData.length);
+        
+        // *sigh* d3 intend for chart drawing code in here
+        // and i cant find a way to copy the array data out for later use of data :-/
+        // after this block ends, all data seems to vanish :-/
+        //return clone;  //
+        //return localCsvData;  //
+        //return data;  // dont work
+	});
+	// why after deep copy/clone, still no data??
+    document.getElementById('csvTester').innerHTML += "<BR>\n *** inside buildCalcParamTable but after d3.csv() localCsvData: " + localCsvData;   // undef
+    //document.getElementById('csvTester').innerHTML += "<BR>\n inside buildCalcParamTable but after d3.csv csvData: " + csvData;
+    //document.getElementById('csvTester').innerHTML += "<BR>\n inside buildCalcParamTable but after d3.csv data: " + data;
+    console.log( "*** buildCalcParamTable after d3.csv(), about to return localCsvData ***");  
+    console.log( "*** after d3.csv() -- csvLocalData:" + localCsvData );  // why is this undef???
+    //console.log(data);
+    //console.log(data[4]);
+    return localCsvData;
+} // end buildCalParamTable()
  
 // ################################################################################# //
 // ################################################################################# //
@@ -736,11 +784,10 @@ function getSiteAbbr( siteName ) {
 // ################################################################################# //
 // ################################################################################# //
 
-console.log("--dbg-- 'main' of JS... before map.on('load'...) , calling buildLonLatHash()" );
+console.log("--dbg-- 'main' of JS...  calling buildLonLatHash()" );
 dbgTracer += " MainAftAllFnDeclare_b4map_on_load \t";     
 console.log( dbgTracer );
 buildLonLatHash();
-
 
 
 // ################################################################################# //
@@ -752,10 +799,28 @@ buildLonLatHash();
 
 console.log( 'the "main" of script' );
 
-testAbbr = site2abbr("ZWEDC");
+var testAbbr = getSiteAbbr("ZWEDC");
 console.log( 'test:: result of site2abbr:: ' + testAbbr );
-
 document.getElementById('csvTester').innerHTML = testAbbr;
+
+//console.log( 'testing CORS grabbing file from URI');
+//d3.image("https://smelly.lbl.gov/figures/smelly_tablet.jpg", {crossOrigin: "anonymous"}).then(function(img) { console.log(img); });
+
+console.log( 'call buildCalcParamTable' );
+var csvData = buildCalcParamTable();
+document.getElementById('csvTester').innerHTML += "<BR>\n typeof csvData (after cal buildCalcParamTable) : " + typeof csvData;      // object Promise
+//document.getElementById('csvTester').innerHTML += "<BR>\n csvData[0]: " + csvData[0];   // undef
+document.getElementById('csvTester').innerHTML += "<BR>\n csvData   : " + csvData;      // object Promise
+//document.getElementById('csvTester').innerHTML += "<BR>\n data      : " + data;         // exception
+//document.getElementById('csvTester').innerHTML += "<BR>\n csvData{siteName}   : " + csvData{siteName};      // object Promise
+
+
+//console.log( 'test buildCalcParamTable csvData[0]   :: ' + csvData[0] );   // undef :()
+console.log( 'test buildCalcParamTable typeof csvData      :: ' + typeof csvData );      // undef ?
+console.log( 'test buildCalcParamTable csvData      :: ' + csvData );      // object Promise
+//console.log( 'test buildCalcParamTable localCsvData :: ' + localCsvData ); // object Promise  // ie all vars are global in JS!!
+console.log( 'end buildCalcParamTable' );
+
 
 dbgTracer += "endOfScript \t";
 console.log(dbgTracer);
