@@ -734,7 +734,7 @@ function getSiteAbbr( siteName ) {
 //1       Arcata        Arcata_WWTF    0.53596043      0.341263213     0.976225497     All     All Hours       scale_1x        Top 2%
 
 //-
-	var csvData = {};    // have to declare this as global to extract data out of d3.csv() , could not figure out other way :-/
+var csvData = {};    // have to declare this as global to extract data out of d3.csv() , could not figure out other way :-/
 
 //function parse() {
 function buildCalcParamTable() {
@@ -748,14 +748,29 @@ function buildCalcParamTable() {
 	//localCsvData = d3.csv("https://smelly.lbl.gov/data/rate_distance_table.csv",function(d) {
 	// ++ FIXME ++  jquery-csv probably can't read input from url... 
 	// need to read file, store in variable, then set that as input...
-    const input = "https://smelly.lbl.gov/data/rate_distance_table.csv";
-	var data = {};
-    data = $.csv.toArrays(input);
+    //const input = "https://smelly.lbl.gov/data/rate_distance_table.csv";
+    var input = "";
+    input += "dirID,file_name,site_name,a,b,R2,season,hour,plant.scale,top";
+    input += "\n";
+    input += "1,Arcata,Arcata_WWTF,0.53596043,0.341263213,0.976225497,All,All Hours,scale_1x,Top 2%";
+    input += "\n";
+    input += "2,Atwater,Atwater_WWTF,0.536017451,0.339092809,0.980400732,All,All Hours,scale_1x,Top 2%";
+    input += "\n";
+    input += "3,Bakersfield,BakersfieldWWTP2,0.479376116,0.673750877,0.978816593,All,All Hours,scale_1x,Top 2%";
+    input += "\n";
+    input += "4,Calexico,Calexico_WPCP,0.592465531,-0.006489793,0.988205301,All,All Hours,scale_1x,Top 2%";
+    input += "\n";
+    input += "5,Corona,Corona_WWTP1,0.635018972,0.253917585,0.976545537,All,All Hours,scale_1x,Top 2%";
+    input += "\n";
+    
+	//var csvData = {};   // already exist as global
+    csvData = $.csv.toArrays(input);
     //const data = $.csv.toArrays(input);
     
    $('#result').empty();
-   $('#result').html(JSON.stringify(data, null, 2));
+   $('#result').html(JSON.stringify(csvData, null, 2));
 
+        var data = csvData; // tmp for the console.log()
         console.log(typeof data);       // obj
         console.log(data.length);       // 26
         console.log(data);
@@ -774,11 +789,6 @@ function buildCalcParamTable() {
         // *sigh* d3 intend for chart drawing code in here
         // and i cant find a way to copy the array data out for later use of data :-/
         // after this block ends, all data seems to vanish :-/
-        /////////////////////////////////////////////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////////////////////////////////
-        //   even using global csvData, somehow after this fn ends, still looses all data.  abandoning D3 :-/
-        /////////////////////////////////////////////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////////////////////////////////
         //return clone;  //
         //return localCsvData;  //
         //return data;  // dont work
@@ -788,10 +798,11 @@ function buildCalcParamTable() {
     //document.getElementById('csvTester').innerHTML += "<BR>\n inside buildCalcParamTable but after d3.csv csvData: " + csvData;
     //document.getElementById('csvTester').innerHTML += "<BR>\n inside buildCalcParamTable but after d3.csv data: " + data;
     console.log( "*** buildCalcParamTable after d3.csv(), about to return csvData ***");  
-    console.log( "*** after d3.csv() -- csvLocalData:" + csvData );  // why is this undef???
+    console.log( "*** still inside buildCalcParamTable :" + csvData );  
+    console.log( "*** *** " );  
     //console.log(data);
     //console.log(data[4]);
-    //return csvData;   // now that csvData is global, no need to actually use a return!  But code use assignment call...
+    return csvData;   // now that csvData is global, no need to actually use a return!  But code use assignment call...
 } // end buildCalParamTable()
 
 
@@ -799,9 +810,31 @@ function buildCalcParamTable() {
 
 $(document).ready(() => {
     //parse();
-    console.log( 'call buildCalcParamTable' );
+    console.log( '~~doc.ready() -- call buildCalcParamTable' );
     csvData = buildCalcParamTable();    
-    console.log( 'done call buildCalcParamTable' );
+    console.log( '~~doc.ready() -- done call buildCalcParamTable' );
+    
+    
+    //csvData = buildCalcParamTable();    // declared "earlier" to have it serve as global.  nope, no data :-/
+    document.getElementById('csvTester').innerHTML += "<BR>\n typeof csvData (after cal buildCalcParamTable) : " + typeof csvData;      // object Promise
+    //document.getElementById('csvTester').innerHTML += "<BR>\n csvData[0]: " + csvData[0];   // undef
+    document.getElementById('csvTester').innerHTML += "<BR>\n csvData          : " + csvData;      // object 
+    document.getElementById('csvTester').innerHTML += "<BR>\n csvData.length   : " + csvData.length;      // undef
+    //document.getElementById('csvTester').innerHTML += "<BR>\n data      : " + data;         // exception
+    //document.getElementById('csvTester').innerHTML += "<BR>\n csvData{siteName}   : " + csvData{siteName};      // object Promise
+
+
+    //console.log( 'test buildCalcParamTable csvData[0]   :: ' + csvData[0] );   // undef :()
+    console.log( 'test buildCalcParamTable typeof csvData  :: ' + typeof csvData );      // 
+    console.log( 'test buildCalcParamTable csvData         :: ' + csvData );      
+    console.log( 'test buildCalcParamTable csvData.length  :: ' + csvData.length );         // need newline in input to define row
+    //console.log( 'test buildCalcParamTable localCsvData :: ' + localCsvData ); // object Promise  // ie all vars are global in JS!!
+    console.log( 'end buildCalcParamTable' );
+
+    //   $('#result').html(JSON.stringify(csvData, null, 2));
+    //$('#csvTester').html(JSON.stringify(csvData, null, 2));
+
+    console.log( '~~doc.ready() -- done end of doc.ready()' );
 });
 
  
@@ -836,21 +869,6 @@ document.getElementById('csvTester').innerHTML = testAbbr;
 
 
 
-
-//csvData = buildCalcParamTable();    // declared "earlier" to have it serve as global.  nope, no data :-/
-document.getElementById('csvTester').innerHTML += "<BR>\n typeof csvData (after cal buildCalcParamTable) : " + typeof csvData;      // object Promise
-//document.getElementById('csvTester').innerHTML += "<BR>\n csvData[0]: " + csvData[0];   // undef
-document.getElementById('csvTester').innerHTML += "<BR>\n csvData          : " + csvData;      // object 
-document.getElementById('csvTester').innerHTML += "<BR>\n csvData.length   : " + csvData.length;      // undef
-//document.getElementById('csvTester').innerHTML += "<BR>\n data      : " + data;         // exception
-//document.getElementById('csvTester').innerHTML += "<BR>\n csvData{siteName}   : " + csvData{siteName};      // object Promise
-
-
-//console.log( 'test buildCalcParamTable csvData[0]   :: ' + csvData[0] );   // undef :()
-console.log( 'test buildCalcParamTable typeof csvData      :: ' + typeof csvData );      // undef ?
-console.log( 'test buildCalcParamTable csvData      :: ' + csvData );      // object Promise
-//console.log( 'test buildCalcParamTable localCsvData :: ' + localCsvData ); // object Promise  // ie all vars are global in JS!!
-console.log( 'end buildCalcParamTable' );
 
 
 dbgTracer += "endOfScript \t";
