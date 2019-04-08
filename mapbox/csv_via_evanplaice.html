@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html>
+
+	<!-- https://raw.githubusercontent.com/lbnl-scienceit/smelly/master/data/rate_distance_table.csv -->
+
+	<!-- figuring out how best to read csv into a table on constant/parameter for the smelly emission calculator
+
+		 many things need to be cleaned up below, formerly smelly_calc.html
+		 
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+		// this version uses evanplaice jquery-csv
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		hopefully works out better than the failed attempt using D3.csv()
+
+
+	-->
+
+
+<head>
+    <meta charset='utf-8' />
+    <title>Smelly - ETA + Science IT Collaboration (devTBA)</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+
+
+	<script src="http://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
+	<script src="https://smelly.lbl.gov/src/jquery.csv.js" crossorigin="anonymous"></script>
+
+    <!--
+    <script src="../src/jquery.csv.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    -->
+
+
+    <style>
+        body { margin:0; padding:0; }   /* map cover whole page, map-containe no special styling, fall under this body style  */
+        /*#map { position:absolute; top:0; bottom:20px; width:100%; } */
+        #map { 
+		position:absolute; 
+		top:0;  
+		margin-top: 20; /* attributionCss use 20px font */
+		bottom: 0px; 	/* this affect bottom padding where mapbox logo appears.  Actually leave a horizontal white space gap with no map data. */
+		width: 100%;    /* width of map (?) */
+	} 
+
+	/* from https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/ for population density legend */
+	.legend {
+	    /*background-color: rgba(255,255,255,0.65);   /* #fff;*/
+            background-color: rgba(250, 250, 224, 0.8);  /* this is greenish/yellowish */
+	    border-radius: 3px;
+	    bottom: 60px; /* 30px; */  /* use 60px if have scale, 30px w/o scale ruler bar */
+	    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+	    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	    padding: 10px;
+	    position: absolute;
+	    /*right: 10px; */
+	    left: 10px;  
+	    /* right: 10px; */    /* can move scale legend to right with this */
+	    z-index: 1;
+	}
+	.legend h4 {
+	    margin: 0 0 3px;
+	}
+	.legend div span {
+	    border-radius: 50%;
+	    display: inline-block;
+	    height: 10px;
+	    margin-right: 5px;
+	    width: 10px;
+	}
+	
+	/* this one is used in div for calculator result so units appear next to number, instead of new line */
+	.noNewLine {
+		display:inline;
+	}
+	/* trying to format the now customized attribution feature, but dont seems to get it to work  */
+	#attribution-layer {
+       	    margin-left: 1000px;	
+            background: rgba(30, 30, 30, 0.6);  /* this should be dark to black...  255 255 255 is pure white */
+	}
+	
+
+	.calc_Css {
+	  /*visibility: hidden;*/
+	  display: none;
+	  position: absolute; 
+	  /* position: relative; */
+	  max-width: 550px;
+	  top:  10%; 
+	  left: 0; 
+	  /*right: 3;     /* */
+	  margin-left:  12px;  /* 10px match all other overlay boxes, give a few pixel to click "hide calculator" in small screen */
+	  /*margin-right: 1px; */
+	  padding-left:   20pt;    /* this give some space around the results table */
+	  padding-right:  20pt; 
+	  padding-bottom: 20pt; 
+	  /*overflow: auto;*/
+	  z-index: 5;		/* 1 appear behind copyright link; 5 would cover it. I have another (i) for the link :) */
+	  border-radius: 3px;
+	  /*background: rgba(250, 250, 250, 0.9);  /* 255 255 255 is pure white */
+      /*background-color: rgba(250, 250, 224, 0.6);  /* this is greenish/yellowish */
+      background-color: rgba(30, 250, 30, 0.8);  /* this is lime green */
+      /*background: rgba(250, 250, 224, 0.8);  /* this is greenish/yellowish */
+	  font: 12pt/12pt 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12pt here, not px  */
+	}
+
+
+	/* top box for user input -- need more tweaking*/
+	.inputCss {
+	    /*background-color: rgba(250,224,224,0.65);   /* blue greenish? */
+	    /*border-radius: 3px; */
+	    top: 16px; /* space from top of body, so need to add space for name, but that was 20px font... 14 px was enought... *sigh css* */  /* NOT really: thickness of input area */
+	    /*top: 5px; /* 30px; */  
+	    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+	    padding: 5px; /* this is the height of the drop down */
+	    /*right: 10px; */
+	    /*left: 100px;  /* this leaves a gap to the left where slider start */
+	    /*height: 100%;   /* use this if doing vertically positioned slider bar*/
+	    position: absolute;
+            margin-top: 6px;
+            /*margin-right: 100px;       /* margin-left and width combined to position the slider in center; but mapbox logo is num of pixels :( */
+            /*margin-left: 100px;       /* margin-left and width combined to position the slider in center; but mapbox logo is num of pixels :( */
+	    /*width: 300px;       /* create scroll bar when screen is too narrow... 84% seems ok compromise  */
+            opacity: 0.9;
+	    /* right: 10px; */    /* can move scale legend to right with this */
+	    z-index: 5;		/* 1 appear behind copyright link; 5 would cover it. I have another (i) for the link :) */
+	}
+
+    </style>
+</head>
+
+<!-- ################################################################# -->
+<!-- ################################################################# -->
+<!-- ####  HTML  BODY         ######################################## -->
+<!-- ################################################################# -->
+<!-- ################################################################# -->
+
+<body>
+
+
+
+<!-- Tyler had a map-container below the navbar.  the map-container encloses the map div.  just trying to be closer to his model, i so far dont need this extra div container  -->
+<!-- no special css for map-container, so it falls under the body css styling -->
+<div id='map-container'>
+
+  <div id='map'></div>
+
+	<div id="inputbar"><!-- class="inputCss"> -->
+		<!--   disable calculator feature till code is done ## FIXME   -->
+			<BUTTON id="ShowCalculator">Show Calculator</BUTTON>
+				<!-- -->
+            <!--html element for drop down picker goes here-->
+            <select id="siteSelectorUI"> <!-- site -->  <!--to emulate Tyler <select id="polygon-layer-selector"> -->
+                <option value="NA"         disabled           >Air Basin: Site</option>	       
+                <option value="SfZwedc"         >SF: ZWEDC</option>                         <!-- San Francisco Bay -->  <!-- took out "selected" as it is the first item in list that is enable it will be automatic -->
+                <!--<option value="SfSanjose"       >SF: San Jose WPCP</option>    rm cuz overlap -->     <!-- San Francisco Bay -->
+                <option value="SfZbest"         >SF: Z Best Products</option>                             <!-- San Francisco Bay -->
+                <option value="SfDublin"        >SF: Dublin WWTP</option>                                 <!-- San Francisco Bay -->
+                <option value="SfFairfield"     >SF: Fairfield-Suisan Sewer District</option>             <!-- San Francisco Bay -->
+                <option value="SfSoutheast"     >SF: Southeast Water Pollution Control Plant</option>     <!-- San Francisco Bay -->
+                
+                <option value="SvVacaville"     >SV: Vacaville WWTP</option>    <!-- Sacramento Valley -->
+                <option value="SvRedding"       >SV: Redding WWTP</option>	
+                <option value="SvSacramento"    >SV: Sacramento Regional County Sanitation District</option>	
+                
+                <option value="SjAtwater"      >SJ: Atwater WWTF</option>           <!-- San Joaquin -->
+                <option value="SjBakersfield"  >SJ: Bakersfield WWTP #2</option>
+                <option value="SjFresno"       >SJ: Fresno-Clovis Regional Water Reclamation</option>	
+                <option value="SjPorterville"  >SJ: Porterville WWTF</option>	
+                
+                <option value="NcArcata"       >NC: Arcata WWTF</option>  <!-- North Coast -->
+                <option value="NcUkiah"        >NC: Ukiah WWTP</option>
+                <option value="NcHealdsburg"   >NC: Healdsburg WRF</option>
+                
+                <option value="SsCalexico"     >SS: Calexico WPCP</option>    <!-- Salton Sea -->
+                <option value="SsPalm"         >SS: Palm WPCP</option>        <!-- Salton Sea -->
+                
+                <option value="ScIeua"         >SC: IEUA Plant</option>        <!-- South Coast "I" (eye)  --> 
+                <option value="ScCorona"       >SC: Corona WWTP #1</option>	
+                <option value="ScJoint"        >SC: Joint WPCA</option>	
+                <option value="ScSocwa"        >SC: SOCWA J B Latham TP</option>
+                
+                <option value="McEldorado"     >MC: El Dorado WPP</option>            <!-- Mountain Counties  Fixed (not Ei)-->
+                
+                <option value="MdLancaster"    >MD: Lancaster WPP</option>            <!-- Mojave Desert -->
+                
+                <option value="CcMonterey"     >CC: Monterey WPCA</option>             <!-- North Central Coast -->
+                
+                <option value="SdSandiego"     >SD: San Diego Metro</option>           <!-- San Diego -->
+            </select>
+
+            <select id="seasonSelectorUI">
+                <option value="NA"  disabled >Season</option>	       
+                <option value="Spr">Spring</option>
+                <option value="Sum">Summer</option>
+                <option value="Aut">Autumn</option>
+                <option value="Win" selected="selected">Winter</option>
+                <option value="All">All</option>
+            </select>
+            <select id="hourSelectorUI"> <!--mixing depends on time of day-->
+                <option value="NA"  disabled >Hour</option>	       
+                <option value="Al">All hours</option>
+                <option value="Hi">High mixing</option>  <!-- FIXME much data for many sites need to be removed.  3/15 got new data should have overwritten them -->
+                <option value="Lo">Low  mixing</option>
+            </select>
+            <select id="sourceSelectorUI">
+                <option value="NA" disabled >Source</option>	       
+                <option value="Co">Compost</option>
+                <option value="Nc">No Compost</option>
+                <option value="Bi">Biofilter</option>
+                <option value="Re">Receiving</option>
+                <option value="Tr">Truck</option>
+                <option value="Aa">All Area Line</option>
+            </select>
+			<select id="scaleSelectorUI">             <!-- disabling of  capacity choice need to be done in jQuery, see code below with this line -->
+				<!-- document.getElementById("scaleSelectorUI").style.display = 'none'; -->
+                <option value="NA"  disabled >Capacity</option>	       
+                <option value="Act">Actual/Current</option>
+                <option value="05x">0.5</option>
+                <option value="10x" selected='selected' >1.0</option>
+                <option value="15x">1.5</option>
+                <option value="20x">2.0</option>
+            </select>
+
+        </div><!-- end for inputbar -->
+    </div><!-- end for "attribution2+inputbar"-->
+    <BR>
+    <BR>
+    <BR>
+    <BR>
+
+	<!-- calculator.  position: relative, so above BR will govern where it pop up -->
+	<!-- https://photos.app.goo.gl/iANhYY6xAcnW96hp8 -->
+
+	<div id="distanceCalc" class="calc_Css">
+		<center>
+		<h3>Odor Dispersion Distance Calculator <BR>
+		</h3>
+		<BR>
+		<BR>
+		<TABLE>
+			<TR>
+				<TD>Enter emission rate </TD>
+				<TD><input type="text" name="distanceCalculatorInput" id="distanceCalculatorInput" size="6" value="100"> </TD> <!-- 100 ou/s/m2 -->
+				<TD>ou/s/m2</TD> <!-- square -->
+			</TR>
+		</TABLE>
+		<TABLE>
+			<TR>
+				<TD></TD>
+				<TD><BUTTON id="CalculateButton4distCalc">Calculate</BUTTON></TD>
+				<TD></TD>
+			<TR>
+		</TABLE>
+		<h3>
+			Separation Distance for <EM><DIV ID="siteLocation4distCalc">SiteLocation</DIV></EM>
+		</h3>
+		<BR>
+		<TABLE border="1">
+			<TR>
+				<TD></TD>
+				<TD>Low Mixing <BR> 7-8am; 6-9pm</TD>
+				<TD>High Mixing<BR> 9am-5pm</TD>
+				<TD>Ext Mixing <BR> 7am-9pm</TD>
+			</TR>
+			<TR>
+				<TD>Spring</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_spring">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_spring">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_spring">Result</DIV> m</TD>
+			</TR>
+			<TR>
+				<TD>Summer</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_summer">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_summer">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_summer">Result</DIV> m</TD>
+			</TR>
+			<TR>
+				<TD>Autum</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_autum">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_autum">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_autum">Result</DIV> m</TD>
+			</TR>
+			<TR>
+				<TD>Winter</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_winter">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_winter">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_winter">Result</DIV> m</TD>
+			</TR>
+			<TR>
+				<TD>All Seasons</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_allSeasons">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_allSeasons">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_allSeasons">Result</DIV> m</TD>
+			</TR>
+		</TABLE>
+		<BR><BR>
+		<TABLE>
+			<TR>
+				<TD></TD>
+				<TD><BUTTON id="ShowRateCalculatorButton">Change to Rate Calculator</BUTTON></TD>
+				<TD></TD>
+			</TR>
+		</TABLE>
+		</center>
+	</div>   <!-- end div for calculator -->
+
+	<!-- being div for RATE calculator -->
+	<div id="rateCalc" class="calc_Css">   
+		<center>
+		<h3>Allowable Odor Rate for stated distance<BR>
+		</h3>
+		<BR>
+		<BR>
+		<TABLE>
+			<TR>
+				<TD>Enter desired separation distance (500-3000m):</TD>
+				<TD><input type="text" name="rateCalculatorInput" id="rateCalculatorInput" size="6" value="1000"> </TD>
+				<TD> m</TD>
+			</TR>
+		</TABLE>
+		<TABLE>
+			<TR>
+				<TD></TD>
+				<TD><BUTTON id="CalculateButton4rateCalc">Calculate</BUTTON></TD>  <!-- cannot be overloaded, duplicate id find fird first match and stops -->
+				<TD></TD>
+			<TR>
+		</TABLE>
+		<h3>
+			Allowed Max Emission Rate for <EM><DIV ID="siteLocation4rateCalc">SiteLocation</DIV></EM>
+		</h3>
+		<BR>
+		<TABLE border="1">
+			<TR>
+				<TD></TD>
+				<TD>Low Mixing <BR> 7-8am; 6-9pm</TD>
+				<TD>High Mixing<BR> 9am-5pm</TD>
+				<TD>Ext Mixing <BR> 7am-9pm</TD>
+			</TR>
+			<TR>
+				<TD>Spring</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_lowMixing_spring">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_highMixing_spring">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_extMixing_spring">Result</DIV> ou/s</TD>
+			</TR>
+			<TR>
+				<TD>Summer</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_lowMixing_summer">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_highMixing_summer">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_extMixing_summer">Result</DIV> ou/s</TD>
+			</TR>
+
+			<TR>
+				<TD>Autum</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_lowMixing_autum">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_highMixing_autum">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_extMixing_autum">Result</DIV> ou/s</TD>
+			</TR>
+
+			<TR>
+				<TD>Winter</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_lowMixing_winter">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_highMixing_winter">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_extMixing_winter">Result</DIV> ou/s</TD>
+			</TR>
+
+			<TR>
+				<TD>All Seasons</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_lowMixing_allSeasons">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_highMixing_allSeasons">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_extMixing_allSeasons">Result</DIV> ou/s</TD>
+			</TR>
+		</TABLE>
+		<BR><BR>
+		<TABLE>
+			<TR>
+				<TD></TD>
+				<TD><BUTTON id="ShowDistanceCalculatorButton">Switch to Distance Calculator</BUTTON></TD>
+				<TD></TD>
+			</TR>
+		</TABLE>
+		<BR><BR>
+		</center>
+	</div>   <!-- end div for RATE calculator -->
+
+
+  <div id="csvTester" >   
+  csvTester div here
+  </div><!-- id='csvTester'-->
+  
+  <BR><HR><BR>
+  
+  jquery-csv test result space: <BR>
+  <textarea id="result" style="height: 300px;"></textarea>
+
+
+  </div><!-- id='map'-->
+</div> <!-- end div for map-container -->
+
+
+<!-- ########################################################### -->
+<!-- ########################################################### -->
+<!-- ###### JavaScript below     ############################### -->
+<!-- ########################################################### -->
+<!-- ########################################################### -->
+
+
+<script>
+
+"use strict"     // all variables must be declared.  trying to use less global...
+
+////////////////////////////////////////////////////////////////////////////////
+//////////////////////// calculator code below /////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+var odorCalculatorVisible = false;
+var calculatorMode = "distance";  // "rate" is the other calculator
+
+// actually no need to store these below.  HTML DOM automatically store unless page reloaded
+//-var rateInput4distCalc = 5.0;   		  // in ou/s     
+//-var distInput4rateCalc = 1000;		  // in m
+
+// state wide map only have capacity=1.0 thus need to disable this html drop down choice.  
+// no way to do this in html, thus doing it here in jQuery 
+document.getElementById("scaleSelectorUI").style.display = 'none'; 
+//document.getElementById("rateCalc").style.display = 'none';   // dont display calculator button till code is complete
+//--xx document.getElementById("ShowRateCalculatorButton").style.display = 'none';   // dont display calculator button till code is complete
+
+$("#ShowCalculator").click( function() {
+	console.log("#ShowCalculator was clicked" );
+	if ( odorCalculatorVisible == false ) {
+	    odorCalculatorVisible = true;
+	    $("button#ShowCalculator").html("Hide Calculator");
+		calculateSeparationDistance();
+		$("#distanceCalc.calc_Css").show("slow");
+	} else {
+	    odorCalculatorVisible = false;
+	    $("#ShowCalculator").html("Show Calculator");
+		$("#distanceCalc.calc_Css").hide("slow");
+		$("#rateCalc.calc_Css").hide("slow");
+	}
+	console.log("odorCalculatorVisible is now: " + odorCalculatorVisible );
+});
+
+$("#ShowRateCalculatorButton").click( function() {
+	console.log("#ShowRateCalculator was clicked" );
+	$("#distanceCalc.calc_Css").hide("slow");
+	calculateRate();
+	$("#rateCalc.calc_Css").show("slow");
+});
+
+$("#ShowDistanceCalculatorButton").click( function() {
+	console.log("#ShowDistanceCalculator was clicked" );
+	$("#rateCalc.calc_Css").hide("slow");
+	calculateSeparationDistance();
+	$("#distanceCalc.calc_Css").show("slow");
+});
+
+$("#CalculateButton4distCalc").click( function() {
+		calculateSeparationDistance();
+});
+$("#CalculateButton4rateCalc").click( function() {
+		calculateRate();
+});
+
+
+function getCurrentSite() {
+	// retrieve site name, so that formula knows which set of weights to use, 
+	// also set text of calculator accordingly
+	currentSite = document.getElementById("siteSelectorUI").value;
+	return currentSite;
+};
+
+function calculateSeparationDistance() {
+	console.log("#CalculateButton4distCalc was triggered" );
+	// ++ TODO add table of constant inside this fn.  no need for them to be global
+	// could generate double hash, but not sure how to do that in javascript, so parallelel hash like lat/lon for site;s coordinate
+	// log10(y) =a*  log10(x) + b,  Coefficients are in the 26sites.emis.dist_fit_new.csv file.
+	// https://photos.google.com/album/AF1QipOt3uaEZ2J8fE-SLf6M1r-Q9z827abnWp-QhyZc
+	var calc_const_a = {};
+	calc_const_a['NcArcata'] = 0.53596043;
+	// var calc_const['NcArcata']{'All'}{'Al'}{'10x'}{'a'} = 0.53596043 ;  ##  do i need season, hours, scale, top as param defining the constant FIXME
+
+	var inputNum = document.getElementById('distanceCalculatorInput').value;
+	var lowMixing_spring  = inputNum * 10;
+	var highMixing_spring = inputNum * 20;
+	var lowMixing_summer  = inputNum * 30;
+	var highMixing_summer = inputNum * 40;
+	console.log("inputNum was:" + inputNum );
+
+	//document.getElementById('siteLocation').innerHTML = getCurrentSite();
+	$('#siteLocation4distCalc').text( getCurrentSite() );
+	// ++ TODO add table of constant inside this fn.  no need for them to be global
+	document.getElementById('calc_result_lowMixing_spring').innerHTML = lowMixing_spring;
+	document.getElementById('calc_result_highMixing_spring').innerHTML = highMixing_spring;
+	document.getElementById('calc_result_lowMixing_summer').innerHTML = lowMixing_summer;
+	document.getElementById('calc_result_highMixing_summer').innerHTML = highMixing_summer;
+};
+
+function calculateRate() {
+	console.log("#CalculateRate4rateCalc was triggered" );
+	var rateCalculatorInput = document.getElementById('rateCalculatorInput').value;
+	var rate4spring  = rateCalculatorInput / 100;
+	var rate4summer  = rateCalculatorInput / 200;
+	//... ++
+	var rate4allSeasons  = rateCalculatorInput / 500;
+
+	//document.getElementById('siteLocation').innerHTML = getCurrentSite();
+	$('#siteLocation4rateCalc').text( getCurrentSite() );
+	document.getElementById('calc_result_distance2rate_lowMixing_spring').innerHTML = rate4spring;
+	document.getElementById('calc_result_distance2rate_highMixing_allSeasons').innerHTML = rate4allSeasons;
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////// mapbox code below ///////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//mapboxgl.accessToken =   'pk.eyJ1Ijoic241MCIsImEiOiJjam8weWl0dm0wNWVhM3dubmgyb3hwaTZsIn0.2Cvl-nnhZAoavESou_RqiQ'; // Sn  (post?) 2018-12-07   pk = public token
+var dbgTracer = "dbgTracerDeclared \t";
+var currentLoadedMapLayer  = "";
+var currentLoadedMapSource = "";
+var prevSite = "";
+var currentSite = "";
+var mapboxUser = "sn50";
+// below are mostly for debuging use
+var getInputSelectorCounter = 0;
+var addLayerCounter = 0;
+var addSourceCounter = 0;
+var rmLayerCounter = 0;
+var rmSourceCounter = 0;
+
+// these arent global, just DOM-wide object vars :)
+// store parallel hash of lon/lat of sites.   eg lon['sfzwedc'], lat['sfzwedc'] for use with flyTo()/panTo
+// http://www.mojavelinux.com/articles/javascript_hashes.html 
+var lon = {};
+var lat = {}; 
+//var counterFlyTo = 0;	// count number of flyTo() executed.  mostly for first load not to move since URL may have specific zoom/lat/lon.  hmm... but layer info wouldnt be loaded.  really need url to have that info.  rather have it fly than user think buggy software with no layer!!
+// hmmm... can map find out nearnest site on display and load that layer??  prob lot of work!
+
+
+//var map = new mapboxgl.Map({
+//    container: 'map',	// container id
+//    style: 'mapbox://styles/sn50/cjrekq65d4o7o2slw5x262rb0',	// sites_info_polyg  + sites_info_pt_topLeft  with cali terrain.  corner point turns out to be bottom left, but whatever. 
+//    center: [-121.945, 37.434],  // alviso ZWEDC
+//});
+
+
+// find out what combination is selected in the form selections UI ... eventually trigger loading maplayer...   
+// depending on combination, unload and load new layer data, then update map.  no need to do new map
+function getInputFormSelection() {
+        getInputSelectorCounter++;
+        inputFormSelection  = document.getElementById("siteSelectorUI").value;
+        inputFormSelection += document.getElementById("seasonSelectorUI").value;;
+        inputFormSelection += document.getElementById("hourSelectorUI").value;;
+        inputFormSelection += document.getElementById("sourceSelectorUI").value;;
+        inputFormSelection += document.getElementById("scaleSelectorUI").value;;
+        feedback.innerHTML  = inputFormSelection;					
+        if( currentLoadedMapLayer != "" ) {
+            // https://docs.mapbox.com/mapbox.js/example/v1.0.0/layers/
+            //if (map.hasLayer('caair')) {     // err not a fn.  so cant call map.fn here? 
+            //    map.removeLayer('caair');
+            //    this.className = '';
+            //} 
+            rmLayerCounter++;
+            map.removeLayer(  currentLoadedMapLayer );
+            //map.removeLayer('caair');
+            rmSourceCounter++;
+            map.removeSource( currentLoadedMapSource );
+            this.className = '';                                //not sure what this does, got it from some web eg.
+            feedback.innerHTML = "removeLayer executed";
+        }
+         
+        // maybe split out the mapLayer code to be called separately??   meh, it is okay here ## 
+        
+        currentLoadedMapLayer  = inputFormSelection;       // this is essentially global var
+        currentLoadedMapSource = inputFormSelection;       // this is essentially global var
+        addLayerCounter++;
+        addSourceCounter++;
+        addStatus = map.addLayer({
+            id: currentLoadedMapLayer, //--id: 'caair',
+            type: 'fill',
+            layout: {
+                visibility: 'visible'
+                //visibility: zwedcPolyVis
+                //visibility: 'none'		// can use this to make ZWEDC data disapear ##
+            },     
+            // sn50.SfZwedcAllHiBi10x need to be in url and source-layer, w/ username in url, NO username in source-layer.  be careful!!
+            source: {
+                type: 'vector',
+                //url: 'mapbox://sn50.aae3dmkj'   // ZWEDC 25x25 sq first test data set (at 10x?)
+                //url:   'mapbox://sn50.SfZwedcSprHiBi10x' 	                // 2nd csv2gson upload    ... next, try to make way to toggle between them.   hmm. ready to upload em all!
+                url:   'mapbox://' + mapboxUser + "." + inputFormSelection
+            },
+            //'source-layer': 'ZWEDC_50x50m-29q7xv',	// retrieved from mapbox web site Tile management...  [1st dummy test data]
+            //'source-layer': 'SfZwedcSprHiBi10x',	// no username prefix here!! duh!!
+            'source-layer': inputFormSelection,	    //  grab source layer name from parsed input form 
+            paint: {
+                    'fill-antialias': false,    // remove gridline
+                    //'fill-color': 'rgba(61,153,80,0.55)',                    // https://www.mapbox.com/help/how-web-apps-work/#use-mapbox-gl-js-with-react ##
+                    // see git log 1dff205 for older version that had 'table' and in-place code here for fill-color and fill-opacity
+                    'fill-color': styleZwedcPolys('max'),
+                    //'fill-opacity': polyLayerOpacity,
+                    //'fill-opacity': 0.2
+                    'fill-opacity': styleZwedcOpacity('max') // max attribute just a place holder
+            }
+        });  // end map.addLayer(...) for zwedc/caair        
+        document.getElementById('featuresDbg').innerHTML = "map.addLayer status:"  + addStatus + "--EndStatus--";  // dont give any info, always just 'Object object'
+        feedback.innerHTML = inputFormSelection; // + " - layerAdded";
+        this.className = 'active';   // from mapbox layer eg... not sure what it does :(
+        
+        // above to load layer and draw
+        // depending on combination, unload and load new layer data, then update map.  no need to do new map
+        
+        // below for flyTo specific site, if it has changed
+        currentLoadedMapSource = inputFormSelection;       // cant use "this." just remember this is "global var"
+        currentSite = document.getElementById("siteSelectorUI").value;
+        console.log( "currentSite  (make sure it is defined):"  );
+        console.log( currentSite  );
+        console.log( "lon:  (make sure it is not NaN)"  );
+        console.log( lon[currentSite]  );
+        var flyToLoc = {lon: lon[currentSite], lat: lat[currentSite] };
+        console.log( "prepping to fly from site: " + prevSite );
+        console.log( "prepping to fly to   site: " + currentSite );
+        console.log( "prepping to fly to lon/lat:"  );
+        console.log( flyToLoc  );
+        if( prevSite != currentSite )  {   
+            //-var pan2loc = {lon: -121.98, lat: 37.66};  // Dublin, but dont work. need more param.
+            //-map.panTo(pan2loc);   // need more param that i am not sure how to create yet  ... hmmm it is panTo(), though still take 3 params.
+            //~map.flyTo({center: [-121.98, 37.66]});   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this works
+            console.log( " site change eval to true, about to execute fly"  );
+            //map.flyTo( flyToLoc );   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this does NOT works.  
+            //map.flyTo( {center: [ flyToLoc ]} );   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this does NOT works.  
+            map.flyTo({center: [ lon[currentSite], lat[currentSite] ]} );   // https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto   // this is the one that work
+            prevSite = currentSite;
+        } else {
+            console.log( " site change eval to false, no flying"  );
+        }
+        
+        
+        //--    $( "inputPicker" ).select( function() { alert( "select triggered" ); });
+}; //end fn getInputFormSelection 
+
+// == populate lon['site'] lat[] hashes for all refuse processing sites == //
+// store parallel hash of lon/lat of sites.   eg lon['sfzwedc'] lat['sfzwedc'] for use with flyTo()/panTo
+function buildLonLatHash() {
+    console.log( '--dbg-- buildLonLatHash begin' );
+    dbgTracer += " buildLonLatHash() \t";     // cant use "this." prefix to seek what I thought was object-wide var.  really just think of it as global then.
+    console.log( dbgTracer );
+    // this version has hard coded siteName/lon/lat
+    // snipplet of code generated via external script parsing the csv source
+    // from snipplet generated by sites_lonLat4js.py
+    lon['NcArcata'] = -124.090124 ;	 lat['NcArcata'] = 40.85562;
+    lon['SjAtwater'] = -120.63169 ;	 lat['SjAtwater'] = 37.276403;
+    lon['SjBakersfield'] = -118.973238 ;	 lat['SjBakersfield'] = 35.32572;
+    lon['SsCalexico'] = -115.505188 ;	 lat['SsCalexico'] = 32.671926;
+    lon['ScCorona'] = -117.604756 ;	 lat['ScCorona'] = 33.927683;
+    lon['SfDublin'] = -121.915158 ;	 lat['SfDublin'] = 37.68713;
+    lon['McEldorado'] = -121.060204 ;	 lat['McEldorado'] = 38.637366;
+    lon['SfFairfield'] = -122.078372 ;	 lat['SfFairfield'] = 38.222534;
+    lon['SjFresno'] = -119.893086 ;	 lat['SjFresno'] = 36.702497;
+    lon['NcHealdsburg'] = -122.862719 ;	 lat['NcHealdsburg'] = 38.583622;
+    lon['ScIeua'] = -117.601852 ;	 lat['ScIeua'] = 34.028642;
+    lon['ScJoint'] = -118.28581 ;	 lat['ScJoint'] = 33.801326;
+    lon['MdLancaster'] = -118.155984 ;	 lat['MdLancaster'] = 34.785119;
+    lon['CcMonterey'] = -121.769894 ;	 lat['CcMonterey'] = 36.70564;
+    lon['SsPalm'] = -116.498436 ;	 lat['SsPalm'] = 33.80629;
+    lon['SjPorterville'] = -119.048096 ;	 lat['SjPorterville'] = 36.076366;
+    lon['SvRedding'] = -122.369441 ;	 lat['SvRedding'] = 40.50298;
+    lon['SvSacramento'] = -121.463686 ;	 lat['SvSacramento'] = 38.448653;
+    lon['SdSandiego'] = -117.159168 ;	 lat['SdSandiego'] = 32.841723;
+    lon['ScSocwa'] = -117.683919 ;	 lat['ScSocwa'] = 33.466431;
+    lon['SfSoutheast'] = -122.391201 ;	 lat['SfSoutheast'] = 37.740667;
+    lon['NcUkiah'] = -123.191581 ;	 lat['NcUkiah'] = 39.112339;
+    lon['SvVacaville'] = -121.903879 ;	 lat['SvVacaville'] = 38.343537;
+    lon['SfZbest'] = -121.5240213 ;	 lat['SfZbest'] = 36.9481043;
+    lon['SfZwedc'] = -121.9507 ;	 lat['SfZwedc'] = 37.43469;
+
+    // manual entry: lon['SfZwedc'] = -121.94;   lat['SfZwedc'] = 37.43;
+  
+    console.log( '--dbg-- buildLonLatHash lon/lat: '  + lon['SfZwedc'] + "/" + lat['SfZwedc'] );
+    console.log( '--dbg-- buildLonLatHash end' );
+} // end buildLonLatHash
+
+
+//function buildSite2AbbrHash() {
+function getSiteAbbr( siteName ) {
+       
+        console.log( '--dbg-- getSiteAbbr begin' );
+        dbgTracer += " getSiteAbbr() \t"; 
+        console.log( dbgTracer );
+
+        var site2abbr = {}
+        site2abbr['Arcata_WWTF'] =       'NcArcata'
+        site2abbr['Atwater_WWTF'] =      'SjAtwater'
+        site2abbr['BakersfieldWWTP2'] =  'SjBakersfield'
+        site2abbr['Calexico_WPCP'] =     'SsCalexico'
+        site2abbr['Corona_WWTP1'] =      'ScCorona'
+        site2abbr['Dublin_WWTP'] =       'SfDublin'
+        site2abbr['El_Dorado_WPP'] =     'McEldorado'
+        site2abbr['Fairfield_Suisan'] =  'SfFairfield'
+        site2abbr['Fresno-Clovis'] =     'SjFresno'
+        site2abbr['Healdsburg_WRF'] =    'NcHealdsburg'
+        site2abbr['IEUA_Plant'] =        'ScLeua'
+        site2abbr['LEUA_Plant'] =        'ScLeua'           // should be L, not i.
+        site2abbr['Joint_WPCA'] =        'ScJoint'
+        site2abbr['Lancaster_WPP'] =     'MdLancaster'
+        site2abbr['MONTEREY_WPCA'] =     'CcMonterey'
+        site2abbr['Palm_WPCP'] =         'SsPalm'
+        site2abbr['Porterville_WWTF'] =  'SjPorterville'
+        site2abbr['Redding_WWTP'] =      'SvRedding'
+        site2abbr['Sacramento'] =        'SvSacramento'
+        site2abbr['SanDiego_Metro'] =    'SdSandiego'
+        site2abbr['SOCWA_TP'] =          'ScSocwa'
+        site2abbr['Southeast_WPCP'] =    'SfSoutheast'
+        site2abbr['Ukiah_WWTP'] =        'NcUkiah'
+        site2abbr['Vacaville_WWTP'] =    'SvVacaville'
+        site2abbr['Z-Best_Facility'] =   'SfZbest'
+        site2abbr['ZWEDC'] =             'SfZwedc'
+
+        console.log( '--dbg-- getSiteAbbr begin' );
+        return site2abbr[siteName];
+} // end getSiteAbbr()
+
+
+// read csv file (hard coded from web URI)
+// create a table with all the constant/prameter for the rate/emission distance calculator
+// ref http://learnjsdata.com/read_data.html
+// draft input format (tab instead of comma for easier reading):
+//dirID   file_name    site_name       a                b               R2              season  hour           plant.scale     top
+//1       Arcata        Arcata_WWTF    0.53596043      0.341263213     0.976225497     All     All Hours       scale_1x        Top 2%
+
+//-
+	var csvData = {};    // have to declare this as global to extract data out of d3.csv() , could not figure out other way :-/
+
+//function parse() {
+function buildCalcParamTable() {
+	// https://smelly.lbl.gov/data/rate_distance_table.csv   // open in google sheets !!
+    console.log("*** inside buildCalcParamTable ***");
+	//csvData = d3.csv("https://smelly.lbl.gov/data/rate_distance_table.csv").then(function(data) { console.log(data[0]); });
+	//localCsvData = d3.csv("https://smelly.lbl.gov/data/rate_distance_table.csv",function(d) {
+	//var localCsvData; // = {};
+	
+    //const input = $('#input').val();
+	//localCsvData = d3.csv("https://smelly.lbl.gov/data/rate_distance_table.csv",function(d) {
+	// ++ FIXME ++  jquery-csv probably can't read input from url... 
+	// need to read file, store in variable, then set that as input...
+    const input = "https://smelly.lbl.gov/data/rate_distance_table.csv";
+	var data = {};
+    data = $.csv.toArrays(input);
+    //const data = $.csv.toArrays(input);
+    
+   $('#result').empty();
+   $('#result').html(JSON.stringify(data, null, 2));
+
+        console.log(typeof data);       // obj
+        console.log(data.length);       // 26
+        console.log(data);
+        console.log(typeof data[0]);   // obj
+        console.log(data[0]);
+        console.log(data[1]);
+        //console.log(data[2]);
+        
+        //localCsvData = data;   // dont work
+        //localCsvData = data.slice();   // make a (shallow) copy , still not usable
+        //csvData = data.slice();   // make a (shallow) copy , still not usable
+        //localCsvData = JSON.parse(JSON.stringify(data));  // deep copy https://stackoverflow.com/questions/42523881/how-to-clone-a-javascript-array-of-objects
+        console.log( "*** inside d3csv, after copy:" + csvData);
+        console.log( "*** inside d3csv, after copy (lenght):" + csvData.length);
+        
+        // *sigh* d3 intend for chart drawing code in here
+        // and i cant find a way to copy the array data out for later use of data :-/
+        // after this block ends, all data seems to vanish :-/
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        //   even using global csvData, somehow after this fn ends, still looses all data.  abandoning D3 :-/
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        //return clone;  //
+        //return localCsvData;  //
+        //return data;  // dont work
+
+	// why after deep copy/clone, still no data??
+    document.getElementById('csvTester').innerHTML += "<BR>\n *** inside buildCalcParamTable but after d3.csv() *csvData: " + csvData;   // undef
+    //document.getElementById('csvTester').innerHTML += "<BR>\n inside buildCalcParamTable but after d3.csv csvData: " + csvData;
+    //document.getElementById('csvTester').innerHTML += "<BR>\n inside buildCalcParamTable but after d3.csv data: " + data;
+    console.log( "*** buildCalcParamTable after d3.csv(), about to return csvData ***");  
+    console.log( "*** after d3.csv() -- csvLocalData:" + csvData );  // why is this undef???
+    //console.log(data);
+    //console.log(data[4]);
+    //return csvData;   // now that csvData is global, no need to actually use a return!  But code use assignment call...
+} // end buildCalParamTable()
+
+
+
+
+$(document).ready(() => {
+    //parse();
+    console.log( 'call buildCalcParamTable' );
+    csvData = buildCalcParamTable();    
+    console.log( 'done call buildCalcParamTable' );
+});
+
+ 
+// ################################################################################# //
+// ################################################################################# //
+// #### this look like start of execution of javascript code                    #### //
+// #### but start with defining responses to major events related to map action #### //
+// ################################################################################# //
+// ################################################################################# //
+
+console.log("--dbg-- 'main' of JS...  calling buildLonLatHash()" );
+dbgTracer += " MainAftAllFnDeclare_b4map_on_load \t";     
+console.log( dbgTracer );
+buildLonLatHash();
+
+
+// ################################################################################# //
+// ################################################################################# //
+// #### code for non-event response 
+// #### think of this as "main", for the "misc" code 
+// ################################################################################# //
+// ################################################################################# //
+
+console.log( 'the "main" of script' );
+
+var testAbbr = getSiteAbbr("ZWEDC");
+console.log( 'test:: result of site2abbr:: ' + testAbbr );
+document.getElementById('csvTester').innerHTML = testAbbr;
+
+//console.log( 'testing CORS grabbing file from URI');
+//d3.image("https://smelly.lbl.gov/figures/smelly_tablet.jpg", {crossOrigin: "anonymous"}).then(function(img) { console.log(img); });
+
+
+
+
+//csvData = buildCalcParamTable();    // declared "earlier" to have it serve as global.  nope, no data :-/
+document.getElementById('csvTester').innerHTML += "<BR>\n typeof csvData (after cal buildCalcParamTable) : " + typeof csvData;      // object Promise
+//document.getElementById('csvTester').innerHTML += "<BR>\n csvData[0]: " + csvData[0];   // undef
+document.getElementById('csvTester').innerHTML += "<BR>\n csvData          : " + csvData;      // object 
+document.getElementById('csvTester').innerHTML += "<BR>\n csvData.length   : " + csvData.length;      // undef
+//document.getElementById('csvTester').innerHTML += "<BR>\n data      : " + data;         // exception
+//document.getElementById('csvTester').innerHTML += "<BR>\n csvData{siteName}   : " + csvData{siteName};      // object Promise
+
+
+//console.log( 'test buildCalcParamTable csvData[0]   :: ' + csvData[0] );   // undef :()
+console.log( 'test buildCalcParamTable typeof csvData      :: ' + typeof csvData );      // undef ?
+console.log( 'test buildCalcParamTable csvData      :: ' + csvData );      // object Promise
+//console.log( 'test buildCalcParamTable localCsvData :: ' + localCsvData ); // object Promise  // ie all vars are global in JS!!
+console.log( 'end buildCalcParamTable' );
+
+
+dbgTracer += "endOfScript \t";
+console.log(dbgTracer);
+
+</script>
+
+</body>
+</html>
