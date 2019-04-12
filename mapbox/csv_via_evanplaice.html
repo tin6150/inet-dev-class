@@ -743,11 +743,14 @@ function getSiteAbbr( siteName ) {
 //dirID   file_name    site_name       a                b               R2              season  hour           plant.scale     top
 //1       Arcata        Arcata_WWTF    0.53596043      0.341263213     0.976225497     All     All Hours       scale_1x        Top 2%
 
+
+// ref: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Fetching_data
+
 //-
 //var csvData = {};    // have to declare this as global to extract data out of d3.csv() , could not figure out other way :-/
 
 
-var input = "";  // making it global to see...
+var input = "brand_new";  // making it global, data still lost outside async block
 
 //function parse() {
 function buildCalcParamTable() {
@@ -756,7 +759,8 @@ function buildCalcParamTable() {
 	const rateConstantUri = "https://smelly.lbl.gov/data/rate_distance_table.head5.csv";   // open in google sheets !!
 	// const rateConstantUri = "https://smelly.lbl.gov/data/rate_distance_table.csv";   // open in google sheets !!
     console.log("*** inside buildCalcParamTable ***");
-	var localCsvData; // = {};
+    console.log("*** inside buildCalcParamTable.  input has value of: " + input );
+	let localCsvData; // = {};
 	
     //const input = $('#input').val();
 	//localCsvData = d3.csv("https://smelly.lbl.gov/data/rate_distance_table.csv",function(d) {
@@ -765,7 +769,8 @@ function buildCalcParamTable() {
 	// await + async  so that it can wait for result! 
 	// https://dev.to/johnpaulada/synchronous-fetch-with-asyncawait
 	// this does seems to work!!  no more errors.  hopefully fully propagated outside of this fn.
-	var request = async () => {
+	let request = async () => {
+		console.log( "** ** await block at the top.  input is:" + input );
 		var asyncResponse = await fetch( rateConstantUri );
 		var responseTxt = await asyncResponse.text();
 		console.log( "** ** await " + responseTxt );
@@ -781,13 +786,13 @@ function buildCalcParamTable() {
 		// arrggg... what if i build the data structure here?
 		// FIXME ++ continue here 
 	};
-	request();
+	request();   // ++ wait, did request fn itself is async, which is why content below hasn'be been fetched yet?! 
 
 	// arggg!!! same sh1tty problem as happend to D3 ?!?  data is vaporized by this point :(
-    console.log("** await + async fetch/promise **"); 
+    console.log("** await + async fetch/promise block just ended **"); 
     console.log(typeof input);       // obj
     console.log(input.length);       
-    console.log("** content of input: " + input);       		// empty :(
+    console.log("** (just after await + async block - content of input: " + input);       		// 'brand new', so not updated by async block
     console.log("** 4 console log'ed -  await + async fetch/promise **"); 
 
 
@@ -796,8 +801,8 @@ function buildCalcParamTable() {
     localCsvData = $.csv.toArrays(input);   // this works, produce array[][]  (when input was static string, not yet for reading from http file)
 	localCsvData = $.csv.toObjects(input);  //  hope to get array[][{header:value}]  // https://github.com/tin6150/jquery-csv/blob/sn_test/docs/api.md
     
-    var data = localCsvData; // tmp for the console.log()
-    console.log(typeof data);       // obj
+    let data = localCsvData; // tmp for the console.log()
+    console.log("** typeof data: " + typeof data);       // obj
     console.log(data.length);       
     console.log(data);
     console.log(typeof data[0]);   // obj
@@ -814,7 +819,8 @@ function buildCalcParamTable() {
     document.getElementById('csvTester').innerHTML += "<BR>\n *** inside buildCalcParamTable but after parser (local) csvData: " + localCsvData;   
     document.getElementById('csvTester').innerHTML += "<BR>\n inside buildCalcParamTable (local) csvData[1]: " + localCsvData[1];
     document.getElementById('csvTester').innerHTML += "<BR>\n inside buildCalcParamTable (local) csvData[1][5]: " + localCsvData[1][5];
-    console.log( "*** still inside buildCalcParamTable :" + localCsvData );  
+    console.log( "*** still inside buildCalcParamTable - input:" + input );  
+    console.log( "*** still inside buildCalcParamTable - localCsvData:" + localCsvData );  
     console.log( "*** buildCalcParamTable after parse, about to return csvData ***");  
     console.log( "*** *** " );  
     //console.log(data);
