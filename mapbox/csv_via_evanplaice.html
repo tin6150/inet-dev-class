@@ -747,40 +747,7 @@ function getSiteAbbr( siteName ) {
 //var csvData = {};    // have to declare this as global to extract data out of d3.csv() , could not figure out other way :-/
 
 
-// there maybe some library to read file, but found this on stack overflow
-// https://stackoverflow.com/questions/28828029/html-read-txt-file-from-url-location-in-javascript
-function getText( uriSource ){
-    // read text from URL location
-    var retrievedContent;
-    var request = new XMLHttpRequest();
-    //request.open('GET', 'http://www.puzzlers.org/pub/wordlists/pocket.txt', true);
-    //request.open('GET', uriSource, true);
-	// const rateConstantUri = "https://smelly.lbl.gov/data/rate_distance_table.head5.csv";   // open in google sheets !!
-    request.open('GET', "https://smelly.lbl.gov/data/rate_distance_table.head5.csv", true); //true=async
-    //request.open('GET', "https://smelly.lbl.gov/data/rate_distance_table.head5.csv", false);  // false hopefully block till load completes?
-	// read the whole handling of ajax and file fetching  in https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Fetching_data
-    request.responseType = 'text';
-    request.send(null);
-    request.onreadystatechange = function () {
-        if (request.readyState === 4 && request.status === 200) {
-            var type = request.getResponseHeader('Content-Type');
-            if (type.indexOf("text") !== 1) {
-				console.log( "$$$ inside getText and got responseText: " + request.responseText );
-				console.log( "$$$ inside getText data type is: " + typeof request.responseText );  // string
-                //return request.responseText;
-                retrievedContent = (' ' +  request.responseText).slice(1);  // hopefully deep copy of string
-                //return retrievedContent;
-			} else {
-				console.log( "$$$ $$$ inside getText responseText was not text (never here?)" );
-			}
-        }
-		console.log( "$$$ inside getText outside after the if");
-    }
-	request.onload = function() {
-    	console.log( "$$$ inside getText about to return " + request.responseText );
-    	return retrievedContent;
-	}
-}
+var input = "";  // making it global to see...
 
 //function parse() {
 function buildCalcParamTable() {
@@ -793,34 +760,7 @@ function buildCalcParamTable() {
 	
     //const input = $('#input').val();
 	//localCsvData = d3.csv("https://smelly.lbl.gov/data/rate_distance_table.csv",function(d) {
-	// ++ FIXME ++  jquery-csv probably can't read input from url... 
-	// need to read file, store in variable, then set that as input...
-    //const input = "https://smelly.lbl.gov/data/rate_distance_table.csv";
-    var input = "";
-    input += "dirID,file_name,site_name,a,b,R2,season,hour,plant.scale,top";
-    input += "\n";
-    input += "1,Arcata,Arcata_WWTF,0.53596043,0.341263213,0.976225497,All,All Hours,scale_1x,Top 2%";
-    input += "\n";
-    input += "2,Atwater,Atwater_WWTF,0.536017451,0.339092809,0.980400732,All,All Hours,scale_1x,Top 2%";
-    input += "\n";
-    input += "3,Bakersfield,BakersfieldWWTP2,0.479376116,0.673750877,0.978816593,All,All Hours,scale_1x,Top 2%";
-    input += "\n";
-    input += "4,Calexico,Calexico_WPCP,0.592465531,-0.006489793,0.988205301,All,All Hours,scale_1x,Top 2%";
-    input += "\n";
-    input += "5,Corona,Corona_WWTP1,0.635018972,0.253917585,0.976545537,All,All Hours,scale_1x,Top 2%";
-    input += "\n";
-    
-    //input = getText( rateConstantUri );      // old method, but ajax return before content is avail :(
-    //console.log("** getText() **"); 
-	// modern fetch, return Promise, don't work in old ie.  doc at https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Fetching_data
-	//input = fetch( rateConstantUri );
-	//input.then(function(response) {
-	//	response.text().then(function(text) {
-			// how to wait till fetch completes??!
-	//		console.log( "** ** fetched content " + response.text );
-	//	});
-	//});
-
+    //var input = "";  // making it global to see...
 
 	// await + async  so that it can wait for result! 
 	// https://dev.to/johnpaulada/synchronous-fetch-with-asyncawait
@@ -829,24 +769,31 @@ function buildCalcParamTable() {
 		var asyncResponse = await fetch( rateConstantUri );
 		var responseTxt = await asyncResponse.text();
 		console.log( "** ** await " + responseTxt );
+		//input = responseTxt ; 
+        //input = JSON.parse(JSON.stringify(responseTxt));  // deep copy https://stackoverflow.com/questions/42523881/how-to-clone-a-javascript-array-of-objects
+        input = (' ' + responseTxt).slice(1);    // *sigh* deep copy still not getting anything :(
+		// is input constrained as local to this block?  need to make it global??
+		// arggg!!! same sh1tty problem as happend to D3 ?!?  data is vaporized after this block!!
+    	console.log("** ** still inside async block, type  is: " + typeof input);       
+    	console.log("** ** still inside async block, length is: " + input.length);       
+		console.log( "** ** await :input: " + input );
+
+		// arrggg... what if i build the data structure here?
+		// FIXME ++ continue here
 	};
 	request();
 
-
-		//return response.text()
-	//}).then(function(text) {
-	//	console.log( "** ** fetched content " + respose.text );
-	//});
-
-    console.log("** fetch/Promise **"); 
+	// arggg!!! same sh1tty problem as happend to D3 ?!?  data is vaporized by this point :(
+    console.log("** await + async fetch/promise **"); 
     console.log(typeof input);       // obj
-	// how to wait till fetch completes??!
-    console.log(input);       	
+    console.log(input.length);       
+    console.log("** content of input: " + input);       		// empty :(
+    console.log("** 4 console log'ed -  await + async fetch/promise **"); 
 
 
 	//var csvData = {};   // already exist as global
     //const data = $.csv.toArrays(input);
-    localCsvData = $.csv.toArrays(input);   // this works, produce array[][]
+    localCsvData = $.csv.toArrays(input);   // this works, produce array[][]  (when input was static string, not yet for reading from http file)
 	localCsvData = $.csv.toObjects(input);  //  hope to get array[][{header:value}]  // https://github.com/tin6150/jquery-csv/blob/sn_test/docs/api.md
     
     var data = localCsvData; // tmp for the console.log()
