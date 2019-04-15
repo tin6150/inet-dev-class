@@ -15,7 +15,7 @@ flyTo() works.
 -->
 <head>
     <meta charset='utf-8' />
-    <title>Smelly - ETA + Science IT Collaboration (dev0404)</title>
+    <title>Smelly - ETA + Science IT Collaboration (dev0414)</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
@@ -715,6 +715,7 @@ function calculateSeparationDistance() {
 	var calc_const_a = {};
 	calc_const_a['NcArcata'] = 0.53596043;
 	// var calc_const['NcArcata']{'All'}{'Al'}{'10x'}{'a'} = 0.53596043 ;  ##  do i need season, hours, scale, top as param defining the constant FIXME
+
 	
     // async fetch constant from URL and get it ready for use 
     let calcParamTbl = fetchCsvFile(rateConstantUrl)
@@ -751,16 +752,20 @@ function calculateSeparationDistance() {
 
     //calcParamTbl.then( (dataTbl) function(tbl){
     calcParamTbl.then( (dataTbl) => function(dataTbl){
-        console.log( " ** please work" );
+        console.log( " ** please work" );   // nope, not sure why, stupid Promise wont get here, seems stuck at earlier code
     });
     
     console.log( "beyond Promise async code block -- " );
-    //-console.log( "beyond Promise async code block -- tbl (global) is:" + tbl );
+    console.log( "beyond Promise async code block -- (global tbl) is:", gtbl );
+    
+    // can keep these var to directly represent the UI element that need update
+    // but SiteLocation isnt getting updated now :-/
+    // FIXME continue here
 
-	var lowMixing_spring  = inputNum * 10;
-	var highMixing_spring = inputNum * 20;
-	var lowMixing_summer  = inputNum * 30;
-	var highMixing_summer = inputNum * 40;
+	let lowMixing_spring  = inputNum * 10;
+	let highMixing_spring = inputNum * 20;
+	let lowMixing_summer  = inputNum * 30;
+	let highMixing_summer = inputNum * 40;
 	console.log("inputNum was:" + inputNum );
 
 	//document.getElementById('siteLocation').innerHTML = getCurrentSite();
@@ -894,6 +899,49 @@ function buildCalcParamTable(constantArray){
     console.log( "inside buildCalcParamTable, generated Table is:", tbl );
     return( tbl );
 }
+
+
+// After failed Promise (it is too weired, maybe just dont work in my existing jQuery structure...
+// manually coding the table in here
+var gtbl = {};  
+function buildCalcParamHash() {
+    dbgTracer += " buildCalcParamHash() \t";  
+    console.log( 'dbtTracer chain is:', dbgTracer );
+    console.log( '--dbg-- buildCalcParamHash begin, 4D hash, coded in this JS file, not loaded via URL');
+    console.log( '--dbg-- buildCalcParamHash being, gtbl currently is: ', gtbl );
+    gtbl['sfZwedc'] = {};
+    gtbl['sfZwedc']['Spr'] = {};
+    gtbl['sfZwedc']['Sum'] = {};
+    gtbl['sfZwedc']['Aut'] = {};
+    gtbl['sfZwedc']['Win'] = {};
+    gtbl['sfZwedc']['All'] = {};
+    //gtbl['sfZwedc']['spring']['Hi']['a'] = a: 0.545068423937434;
+    gtbl['sfZwedc']['Spr']['Hi'] = {a: 0.442872194633513, b: 0.395557414661807};
+    gtbl['sfZwedc']['Spr']['Lo'] = {a: 0.591166584709239, b: 0.387765746773035};
+    gtbl['sfZwedc']['Spr']['Al'] = {a: 0.564028039911314, b: 0.200181981736158};
+    
+    gtbl['sfZwedc']['Sum']['Hi'] = {a: 0.459250483876518, b: 0.264823019523493};
+    gtbl['sfZwedc']['Sum']['Lo'] = {a: 0.622437722881143, b: 0.0273895772803282};
+    gtbl['sfZwedc']['Sum']['Al'] = {a: 0.589815388976665, b: 0.00500273447269173};
+   
+    gtbl['sfZwedc']['Aut']['Hi'] = {a: 0.591443573975132, b: -0.277624068037645};
+    gtbl['sfZwedc']['Aut']['Lo'] = {a: 0.702658424586768, b: 0.130741364704308};
+    gtbl['sfZwedc']['Aut']['Al'] = {a: 0.541673645647293, b: 0.540783670051477};
+    
+    gtbl['sfZwedc']['Win']['Hi'] = {a: 0.642919710070241, b: -0.393776765661342};
+    gtbl['sfZwedc']['Win']['Lo'] = {a: 0.680703504325007, b: 0.280842935575785};
+    gtbl['sfZwedc']['Win']['Al'] = {a: 0.530164246999804, b: 0.668631617739197};
+    
+    gtbl['sfZwedc']['All']['Hi'] = {a: 0.545068423937434, b: -0.0860491302079822};
+    gtbl['sfZwedc']['All']['Lo'] = {a: 0.58710960852359,  b:  0.490552468935941};
+    gtbl['sfZwedc']['All']['Al'] = {a: 0.552349075735268, b:  0.327879617804563};
+    
+    console.log( '--dbg-- buildCalcParamHash, entry for sfZwedc:' + gtbl['sfZwedc']['Spr']['Hi']['a'] );
+    console.log( '--dbg-- buildCalcParamHash, entry for sfZwedc:' + gtbl['sfZwedc']['Sum']['Hi']['b'] );
+    console.log( '--dbg-- buildCalcParamHash, populated gtbl as:', gtbl );
+} // end function buildCalcParamHash()
+buildCalcParamHash();  // invoking it (presumably) on load
+
 
 // this next one likely not needed anymore   
 // well, was hoping to abandone it, but may still need it :-/
