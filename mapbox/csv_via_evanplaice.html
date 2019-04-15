@@ -16,6 +16,7 @@
 
 		hopefully works out better than the failed attempt using D3.csv()
 
+		2019.04.14 Using Promise appraoch, so that it is async (parallel) safe.  Fetch (url) is async based and return Promise in modern JS.
 
 	-->
 
@@ -486,6 +487,7 @@ function getCurrentSite() {
 	return currentSite;
 };
 
+// ++ FIXME 
 function calculateSeparationDistance() {
 	console.log("#CalculateButton4distCalc was triggered" );
 	// ++ TODO add table of constant inside this fn.  no need for them to be global
@@ -525,6 +527,8 @@ function calculateRate() {
 	document.getElementById('calc_result_distance2rate_lowMixing_spring').innerHTML = rate4spring;
 	document.getElementById('calc_result_distance2rate_highMixing_allSeasons').innerHTML = rate4allSeasons;
 };
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -815,8 +819,8 @@ function fetchCsvFile(url) {
   });
 }
 
-// think this fn no longer used
-function buildCalcParamTable() {
+// think this fn no longer used   // this version takes no arg
+function BORRAR_buildCalcParamTable() {
 	const rateConstantUri = "https://smelly.lbl.gov/data/rate_distance_table.head5.csv";   // open in google sheets !!
 	// const rateConstantUri = "https://smelly.lbl.gov/data/rate_distance_table.csv";   // open in google sheets !!
     console.log("*** inside buildCalcParamTable ***");
@@ -950,9 +954,9 @@ function parseCsvFile( csvDat ) {
 // "1","Spring (MAM)","All Hours","scale_1x","Top 2%",0.572781584311465,-0.11966523965903,0.967234007216081,"Arcata_WWTF"
 // "2","Spring (MAM)","High Mixing Hours","scale_1x","Top 2%",0.453561594602808,0.327341954139423,0.943265341142336,"Arcata_WWTF"
 
+//++ this version take param.  works in this csv_via_evanplaice, but somehow not in smelly_calc :-/
 function buildCalcParamTable(constantArray){
     console.log( "inside buildCalcParamTable, input arg is:", constantArray );
-    // ++ FIXME 
     let konst = constantArray;   // alias to input param
     let tbl = {};               // 5D hash that will be returned to caller
     
@@ -992,7 +996,8 @@ function buildCalcParamTable(constantArray){
 
 function runCalculator( constantTbl ) {
     console.log( "inside runCalculator, input arg is:", constantTbl );
-    $('#csvTester2').html( constantTbl );
+    $('#csvTester1').html( "tin was here" + constantTbl );
+    $('#csvTester2').html( "tin was here" + constantTbl );
     
 }
 
