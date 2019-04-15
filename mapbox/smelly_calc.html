@@ -397,6 +397,7 @@ flyTo() works.
 		</TABLE>
 		<h3>
 			Separation Distance for <EM><DIV ID="siteLocation4distCalc">SiteLocation</DIV></EM>
+			<!-- maye better named as ou2distance calculator -->
 		</h3>
 		<BR>
 		<TABLE border="1">
@@ -408,33 +409,33 @@ flyTo() works.
 			</TR>
 			<TR>
 				<TD>Spring</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_spring">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_spring">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_spring">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Spr_Lo">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Spr_Hi">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Spr_Al">Result</DIV> m</TD>
 			</TR>
 			<TR>
 				<TD>Summer</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_summer">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_summer">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_summer">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Sum_Lo">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Sum_Hi">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Sum_Al">Result</DIV> m</TD>
 			</TR>
 			<TR>
 				<TD>Autum</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_autum">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_autum">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_autum">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Aut_Lo">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Aut_Hi">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Aut_Al">Result</DIV> m</TD>
 			</TR>
 			<TR>
 				<TD>Winter</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_winter">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_winter">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_winter">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Win_Lo">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Win_Hi">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Win_Al">Result</DIV> m</TD>
 			</TR>
 			<TR>
 				<TD>All Seasons</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_lowMixing_allSeasons">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_highMixing_allSeasons">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_extMixing_allSeasons">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_All_Lo">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_All_Hi">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_All_Al">Result</DIV> m</TD>
 			</TR>
 		</TABLE>
 		<BR><BR>
@@ -768,14 +769,16 @@ function calculateSeparationDistance() {
 	let highMixing_summer = inputNum * 40;
 	console.log("inputNum was:" + inputNum );
 
+	// maybe double nested for loop of 3x5 ++ FIXME
+	
 	//document.getElementById('siteLocation').innerHTML = getCurrentSite();
 	//$('#siteLocation4distCalc').text( getCurrentSite() );
 	// ++ TODO add table of constant inside this fn.  no need for them to be global
-	$('calc_result_lowMixing_spring').html( lowMixing_spring );
-	//document.getElementById('calc_result_lowMixing_spring').innerHTML = lowMixing_spring;
-	document.getElementById('calc_result_highMixing_spring').innerHTML = highMixing_spring;
-	document.getElementById('calc_result_lowMixing_summer').innerHTML = lowMixing_summer;
-	document.getElementById('calc_result_highMixing_summer').innerHTML = highMixing_summer;
+	$("#calc_result_Spr_Lo").html( lowMixing_spring );
+	$('#calc_result_Spr_Hi').html( highMixing_spring );
+	//document.getElementById('calc_result_Spr_Hi').innerHTML = highMixing_spring;
+	document.getElementById('calc_result_Sum_Lo').innerHTML = lowMixing_summer;
+	document.getElementById('calc_result_Sum_Hi').innerHTML = highMixing_summer;
 	
 	console.log("#CalculateButton4distCalc code block ends" );
 };
