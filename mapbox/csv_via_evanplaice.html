@@ -753,8 +753,111 @@ function getSiteAbbr( siteName ) {
 
 var input = "brand_new";  // making it global, data still lost outside async block
 
-//function parse() {
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await
+//async function asyncReadFileAsPromise( fileUrl ) {
+async function asyncFileRead( rateConstantUri ) {
+    //let request = async () => {
+		console.log( "@@ @@ asyncFileRead start.  input is:" + input );
+		//let asyncResponse = fetch( rateConstantUri ).then(function(response){return response.text()});
+		let asyncResponse = fetch( rateConstantUri );
+		asyncResponse.then(function(response){
+            console.log( "@@ @@ @@ asyncFileRead fetch... " + response );
+            console.log( "@@ @@ @@ asyncFileRead fetch... " + response.text );
+            return response.text()
+        });
+		//var responseTxt = await asyncResponse.text();
+		//let responseTxt =  asyncResponse.text();
+		let responseTxt =  asyncResponse;
+		console.log( "@@ @@ await " + responseTxt );
+		//input = responseTxt ; 
+        //input = JSON.parse(JSON.stringify(responseTxt));  // deep copy https://stackoverflow.com/questions/42523881/how-to-clone-a-javascript-array-of-objects
+        input = (' ' + responseTxt).slice(1);    // *sigh* deep copy still not getting anything :(
+		// is input constrained as local to this block?  need to make it global??
+		// arggg!!! same sh1tty problem as happend to D3 ?!?  data is vaporized after this block!!
+    	console.log("@@ ** still inside async block, type  is: " + typeof input);       
+    	console.log("@@ ** still inside async block, length is: " + input.length);       
+		console.log("@@ ** await :input: " + input );
+        return responseTxt;
+}
+
+
+// google post Promixifying XMLHttpRequest
+// https://developers.google.com/web/fundamentals/primers/promises
+function fetchCsvFile(url) {
+//function get(url) {
+  // Return a new promise.
+  return new Promise(function(resolve, reject) {
+    // Do the usual XHR stuff
+    var req = new XMLHttpRequest();
+    req.open('GET', url);
+
+    req.onload = function() {
+      // This is called even on 404 etc
+      // so check the status
+      if (req.status == 200) {
+        // Resolve the promise with the response text
+        resolve(req.response);
+      }
+      else {
+        // Otherwise reject with the status text
+        // which will hopefully be a meaningful error
+        reject(Error(req.statusText));
+      }
+    };
+
+    // Handle network errors
+    req.onerror = function() {
+      reject(Error("Network Error"));
+    };
+
+    // Make the request
+    req.send();
+  });
+}
+
+// think this fn no longer used
 function buildCalcParamTable() {
+	const rateConstantUri = "https://smelly.lbl.gov/data/rate_distance_table.head5.csv";   // open in google sheets !!
+	// const rateConstantUri = "https://smelly.lbl.gov/data/rate_distance_table.csv";   // open in google sheets !!
+    console.log("*** inside buildCalcParamTable ***");
+	let localCsvData; // = {};
+	//localCsvData = asyncFileRead( rateConstantUri );
+	localCsvData = get( rateConstantUri ).then(function(response) {   // this start async fn get and returns right away
+        console.log("*** Success", response);
+        input = response;
+        console.log("*** inside buildCalcParamTable.  input has value of: " + input );
+        return response;
+    }, function(error) {     // treat this like the "else" part of then()
+      console.log("*** Failed", error); 
+	});    // this is reached and next lines run before the "body" get to run, which is why next few lines don't have the actual data.
+	//input = localCsvData;
+    //console.log("*** inside buildCalcParamTable.  input has value of: " + input );
+    //localCsvData = response;
+    
+    // JS is internally single threaded!  use .then() to ensure Promise has been fulfilled so that JS does not busy wait/spin and block
+    localCsvData.then(function(fnArg){
+        console.log("*** inside buildCalcParamTable, after get call; inside a then.  so here Promise should be resolved. fnArg has value of: " + fnArg ); 
+        console.log("*** inside buildCalcParamTable, after get call; inside a then.  so here Promise should be resolved. input has value of: " + input ); 
+    });
+    // even when the next two lines are after the .then(),  the above was parallelized, thus below still execute first and dont have the data filled yet.
+    // calculator simply have to use .then() to display output... 
+    // the idea is to use Promise everywhere... no more single threaded sequential code!!
+    // https://stackoverflow.com/questions/28921127/how-to-wait-for-a-javascript-promise-to-resolve-before-resuming-function
+    console.log("*** inside buildCalcParamTable, after get call.  localCsvData has value of: " + localCsvData ); 
+    console.log("*** inside buildCalcParamTable, after get call.  input has value of: " + input ); 
+    localCsvData.then(fnArg => {
+        console.log("*** inside buildCalcParamTable, after get call; inside a then.  so here Promise should be resolved. arrow notation.  fnArg has value of: " + fnArg );  
+    })
+    console.log("*** inside buildCalcParamTable, after get call.  localCsvData has value of: " + localCsvData ); 
+    localCsvData.then(data => {
+        console.log("*** inside buildCalcParamTable, after get call; inside a then.  so here Promise should be resolved. arrow notation.  data has value of: " + data );  
+    })
+	
+}
+
+
+//function parse() {
+function LikelyAbandone__buildCalcParamTable() {
 	// https://smelly.lbl.gov/data/rate_distance_table.csv   // open in google sheets !!
 	// FIXME tmp head 5 only 
 	const rateConstantUri = "https://smelly.lbl.gov/data/rate_distance_table.head5.csv";   // open in google sheets !!
@@ -772,8 +875,9 @@ function buildCalcParamTable() {
 	// this does seems to work!!  no more errors.  hopefully fully propagated outside of this fn.
 	let request = async () => {
 		console.log( "** ** await block at the top.  input is:" + input );
-		var asyncResponse = await fetch( rateConstantUri );
-		var responseTxt = await asyncResponse.text();
+		let asyncResponse = await fetch( rateConstantUri );
+		//var responseTxt = await asyncResponse.text();
+		let responseTxt =  asyncResponse.text();
 		console.log( "** ** await " + responseTxt );
 		//input = responseTxt ; 
         //input = JSON.parse(JSON.stringify(responseTxt));  // deep copy https://stackoverflow.com/questions/42523881/how-to-clone-a-javascript-array-of-objects
@@ -830,9 +934,70 @@ function buildCalcParamTable() {
 } // end buildCalParamTable()
 
 
+function parseCsvFile( csvDat ) {
+    console.log( "inside parseCsvFile, input arg is:", csvDat );
+    return $.csv.toObjects(csvDat);
+} // end parseCsvFile
 
+// generate table on constant for use by the calculator
+// input is csv file, converted by a parser into array of objects
+// should have pre-processed the csv file to clean things out
+// eg season name to use autumn instead of fall
+// mixing hours to be 'hi', 'lo', 'al'
+// but then this script already parsed into field names, so less coding to do it here, and i am in a rush
+// for this version, expect csv to be like:
+// "","season","hour","plant.scale","top","a","b","R2","site_name"
+// "1","Spring (MAM)","All Hours","scale_1x","Top 2%",0.572781584311465,-0.11966523965903,0.967234007216081,"Arcata_WWTF"
+// "2","Spring (MAM)","High Mixing Hours","scale_1x","Top 2%",0.453561594602808,0.327341954139423,0.943265341142336,"Arcata_WWTF"
 
-$(document).ready(() => {
+function buildCalcParamTable(constantArray){
+    console.log( "inside buildCalcParamTable, input arg is:", constantArray );
+    // ++ FIXME 
+    let konst = constantArray;   // alias to input param
+    let tbl = {};               // 5D hash that will be returned to caller
+    
+    console.log( konst[0] );
+    console.log( konst[0]['site_name'] );
+    console.log( (konst[0]['season']).split(" ")[0].toLowerCase() );        // get spring instead of Spring (MAM)
+    console.log( konst[0]['hour'] );
+    console.log( konst[0]['a'] );
+    console.log( konst[0]['b'] );
+    console.log( konst.length );
+    // 2D hash ref  https://stackoverflow.com/questions/4329092/multi-dimensional-associative-arrays-in-javascript
+    for( let row=0; row < konst.length; row++ ){
+        const site_name = konst[row]['site_name'];                              // use site2abbr  ++ FIXME
+        let season = (konst[row]['season']).split(" ")[0].toLowerCase() ;        // get spring instead of Spring (MAM)
+        if( season === "fall" ) { season = "autumn"; }                          // fix inconsistent season naming 
+        const mixingHour = (konst[row]['hour']).substring(0,2);
+        if( site_name in tbl === false ) {
+            tbl[site_name] = {};    // initialize sub-obj in hash level 1 element
+        } else {
+            //-- console.log( "buildCalcParamTable found dublicate site name in input file, skipping" );
+            // site previously seen, no need to initialize the sub-object
+        }
+        if( season in tbl[site_name] === false ) {
+            tbl[site_name][season] = {};    // initialize sub-obj in the hash level 2 element
+        }
+        if( mixingHour in tbl[site_name][season] === false ) {
+            tbl[site_name][season][mixingHour] = {};    // initialize sub-obj in the hash level 3 element
+        }
+        
+        // tbl['Arcata_WWTF']['Autum']['hi(hour)']['a'] = (some number)
+        tbl[site_name][season][mixingHour]['a'] = konst[row]['a'];  
+        tbl[site_name][season][mixingHour]['b'] = konst[row]['b'];
+    }
+    console.log( "inside buildCalcParamTable, generated Table is:", tbl );
+    return( tbl );
+}
+
+function runCalculator( constantTbl ) {
+    console.log( "inside runCalculator, input arg is:", constantTbl );
+    $('#csvTester2').html( constantTbl );
+    
+}
+
+//$(document).ready(() => {
+function DollarDocReady_DISABLED_ready(  bla ) {
     //parse();
     console.log( '~~doc.ready() -- call buildCalcParamTable' );
     var csvData = buildCalcParamTable();    
@@ -867,6 +1032,23 @@ $(document).ready(() => {
     $('#result').empty();
     $('#result').html(JSON.stringify(csvData, null, 2));
     //$('#csvTester').html(JSON.stringify(csvData, null, 2));
+//});
+};
+    
+$(document).ready(() => {
+    
+    console.log( '~~doc.ready() -- using Promise apprach now...' );
+	const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.csv";   // open in google sheets !!
+    
+    // ## new Promise based approach, using .then() to wait for data being avail
+    
+    //-- const calcParamTbl = buildCalcParamTable();   // async fetch constant from URL and get it ready for use
+    // async fetch constant from URL and get it ready for use 
+    const calcParamTbl = fetchCsvFile(rateConstantUrl)
+        .then((csvDat) => parseCsvFile(csvDat))  
+        .then((parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult)) ;
+        
+    calcParamTbl.then( (dataTbl) => runCalculator(dataTbl) ); // use dataTbl and update UI
 
     console.log( '~~doc.ready() -- done end of doc.ready()' );
 });
