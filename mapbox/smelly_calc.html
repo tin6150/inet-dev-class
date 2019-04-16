@@ -756,30 +756,44 @@ function calculateSeparationDistance() {
     console.log( "beyond Promise async code block -- " );
     console.log( "beyond Promise async code block -- (global tbl) is:", gtbl );
     
-    // can keep these var to directly represent the UI element that need update
-    // but SiteLocation isnt getting updated now :-/
-    // FIXME continue here
-
-	let lowMixing_spring  = inputNum * 10;
-	let highMixing_spring = inputNum * 20;
-	let lowMixing_summer  = inputNum * 30;
-	let highMixing_summer = inputNum * 40;
-	console.log("inputNum was:" + inputNum );
-
-	// maybe double nested for loop of 3x5 ++ FIXME
-	// create global seasonList and mixingHourList
-	
+    // ^^^ most of above using Promise to load constant table will likely be abandoned.  not workable.
+    
 	//document.getElementById('siteLocation').innerHTML = getCurrentSite();
 	//$('#siteLocation4distCalc').text( getCurrentSite() );
-	// ++ TODO add table of constant inside this fn.  no need for them to be global
-	$("#calc_result_Spr_Lo").html( lowMixing_spring );
-	$('#calc_result_Spr_Hi').html( highMixing_spring );
-	//document.getElementById('calc_result_Spr_Hi').innerHTML = highMixing_spring;
-	document.getElementById('calc_result_Sum_Lo').innerHTML = lowMixing_summer;
-	document.getElementById('calc_result_Sum_Hi').innerHTML = highMixing_summer;
+	let site = 'SfZwedc';   // TMP FIXME
+	console.log("inputNum was:" + inputNum );
+
+
+    // formula for distance:
+    // y = 10^b * x^a 
+    // y is in m
+    // x is ou/m^3/s
+    // in array construct below doesnt work :-/
+    //for( let season in seasonCodeList ) {
+    for( let s = 0; s++; s < seasonCodeList.length ) {
+        //for( let mixHr in mixingHourCodeList ) {
+        for( let m = 0; m++; m < mixingHourCodeList.length ) {
+            let season = seasonCodeList[s];
+            let mixHr = mixingHourCodeList[m];
+            let htmlElementId = '#calc_result_' + season + "_" + mixHr ;
+            let x = inputNum;
+            console.log( "--dbg--distance calc season: ", season );
+            console.log( "--dbg--distance calc mixHr: " + mixHr );
+            console.log( "--dbg--distance calc gtbl: ", gtbl );
+            console.log( "--dbg--distance calc gtbl length: ", gtbl.length );
+            console.log( "--dbg--distance calc vars: ", htmlElementId, x, site );
+            let a = gtbl[site][season][mixHr]['a'];
+            let b = gtbl[site][season][mixHr]['b'];
+            let y = 10^b * x^a;
+            console.log( "--dbg--y calculated to be:", y );
+            $(htmlElementId).html( y );     // use jQuery to update result table
+            //$('#calc_result_Spr_Hi').html( highMixing_spring );
+            //document.getElementById('calc_result_Spr_Hi').innerHTML = highMixing_spring;
+        }
+    } // end double nested for-loop
 	
 	console.log("#CalculateButton4distCalc code block ends" );
-};
+};  // end fn calculateSeparationDistance 
 
 function calculateRate() {
 	console.log("#CalculateRate4rateCalc was triggered" );
@@ -788,9 +802,13 @@ function calculateRate() {
 	var rate4summer  = rateCalculatorInput / 200;
 	//... ++
 	var rate4allSeasons  = rateCalculatorInput / 500;
+	
+	// formula for max emission rate x is:
+	// x = 10^-b * y ^(1/a)
 
 	//document.getElementById('siteLocation').innerHTML = getCurrentSite();
 	$('#siteLocation4rateCalc').text( getCurrentSite() );
+	// change html below with abbreviated naming
 	document.getElementById('calc_result_distance2rate_lowMixing_spring').innerHTML = rate4spring;
 	document.getElementById('calc_result_distance2rate_highMixing_allSeasons').innerHTML = rate4allSeasons;
 };
@@ -910,35 +928,35 @@ function buildCalcParamHash() {
     console.log( 'dbtTracer chain is:', dbgTracer );
     console.log( '--dbg-- buildCalcParamHash begin, 4D hash, coded in this JS file, not loaded via URL');
     console.log( '--dbg-- buildCalcParamHash being, gtbl currently is: ', gtbl );
-    gtbl['sfZwedc'] = {};
-    gtbl['sfZwedc']['Spr'] = {};
-    gtbl['sfZwedc']['Sum'] = {};
-    gtbl['sfZwedc']['Aut'] = {};
-    gtbl['sfZwedc']['Win'] = {};
-    gtbl['sfZwedc']['All'] = {};
+    gtbl['SfZwedc'] = {};
+    gtbl['SfZwedc']['Spr'] = {};
+    gtbl['SfZwedc']['Sum'] = {};
+    gtbl['SfZwedc']['Aut'] = {};
+    gtbl['SfZwedc']['Win'] = {};
+    gtbl['SfZwedc']['All'] = {};
     //gtbl['sfZwedc']['spring']['Hi']['a'] = a: 0.545068423937434;
-    gtbl['sfZwedc']['Spr']['Hi'] = {a: 0.442872194633513, b: 0.395557414661807};
-    gtbl['sfZwedc']['Spr']['Lo'] = {a: 0.591166584709239, b: 0.387765746773035};
-    gtbl['sfZwedc']['Spr']['Al'] = {a: 0.564028039911314, b: 0.200181981736158};
+    gtbl['SfZwedc']['Spr']['Hi'] = {a: 0.442872194633513, b: 0.395557414661807};
+    gtbl['SfZwedc']['Spr']['Lo'] = {a: 0.591166584709239, b: 0.387765746773035};
+    gtbl['SfZwedc']['Spr']['Al'] = {a: 0.564028039911314, b: 0.200181981736158};
     
-    gtbl['sfZwedc']['Sum']['Hi'] = {a: 0.459250483876518, b: 0.264823019523493};
-    gtbl['sfZwedc']['Sum']['Lo'] = {a: 0.622437722881143, b: 0.0273895772803282};
-    gtbl['sfZwedc']['Sum']['Al'] = {a: 0.589815388976665, b: 0.00500273447269173};
+    gtbl['SfZwedc']['Sum']['Hi'] = {a: 0.459250483876518, b: 0.264823019523493};
+    gtbl['SfZwedc']['Sum']['Lo'] = {a: 0.622437722881143, b: 0.0273895772803282};
+    gtbl['SfZwedc']['Sum']['Al'] = {a: 0.589815388976665, b: 0.00500273447269173};
    
-    gtbl['sfZwedc']['Aut']['Hi'] = {a: 0.591443573975132, b: -0.277624068037645};
-    gtbl['sfZwedc']['Aut']['Lo'] = {a: 0.702658424586768, b: 0.130741364704308};
-    gtbl['sfZwedc']['Aut']['Al'] = {a: 0.541673645647293, b: 0.540783670051477};
+    gtbl['SfZwedc']['Aut']['Hi'] = {a: 0.591443573975132, b: -0.277624068037645};
+    gtbl['SfZwedc']['Aut']['Lo'] = {a: 0.702658424586768, b: 0.130741364704308};
+    gtbl['SfZwedc']['Aut']['Al'] = {a: 0.541673645647293, b: 0.540783670051477};
     
-    gtbl['sfZwedc']['Win']['Hi'] = {a: 0.642919710070241, b: -0.393776765661342};
-    gtbl['sfZwedc']['Win']['Lo'] = {a: 0.680703504325007, b: 0.280842935575785};
-    gtbl['sfZwedc']['Win']['Al'] = {a: 0.530164246999804, b: 0.668631617739197};
+    gtbl['SfZwedc']['Win']['Hi'] = {a: 0.642919710070241, b: -0.393776765661342};
+    gtbl['SfZwedc']['Win']['Lo'] = {a: 0.680703504325007, b: 0.280842935575785};
+    gtbl['SfZwedc']['Win']['Al'] = {a: 0.530164246999804, b: 0.668631617739197};
     
-    gtbl['sfZwedc']['All']['Hi'] = {a: 0.545068423937434, b: -0.0860491302079822};
-    gtbl['sfZwedc']['All']['Lo'] = {a: 0.58710960852359,  b:  0.490552468935941};
-    gtbl['sfZwedc']['All']['Al'] = {a: 0.552349075735268, b:  0.327879617804563};
+    gtbl['SfZwedc']['All']['Hi'] = {a: 0.545068423937434, b: -0.0860491302079822};
+    gtbl['SfZwedc']['All']['Lo'] = {a: 0.58710960852359,  b:  0.490552468935941};
+    gtbl['SfZwedc']['All']['Al'] = {a: 0.552349075735268, b:  0.327879617804563};
     
-    console.log( '--dbg-- buildCalcParamHash, entry for sfZwedc:' + gtbl['sfZwedc']['Spr']['Hi']['a'] );
-    console.log( '--dbg-- buildCalcParamHash, entry for sfZwedc:' + gtbl['sfZwedc']['Sum']['Hi']['b'] );
+    console.log( '--dbg-- buildCalcParamHash, entry for SfZwedc:' + gtbl['SfZwedc']['Spr']['Hi']['a'] );
+    console.log( '--dbg-- buildCalcParamHash, entry for SfZwedc:' + gtbl['SfZwedc']['Sum']['Hi']['b'] );
     console.log( '--dbg-- buildCalcParamHash, populated gtbl as:', gtbl );
 } // end function buildCalcParamHash()
 buildCalcParamHash();  // invoking it (presumably) on load
@@ -1005,6 +1023,8 @@ var lat = {};
 //var counterFlyTo = 0;	// count number of flyTo() executed.  mostly for first load not to move since URL may have specific zoom/lat/lon.  hmm... but layer info wouldnt be loaded.  really need url to have that info.  rather have it fly than user think buggy software with no layer!!
 // hmmm... can map find out nearnest site on display and load that layer??  prob lot of work!
 
+var seasonCodeList = [ "Spr", "Sum", "Aut", "Win", "All"];
+var mixingHourCodeList = [ "Hi", "Lo", "Al"];  // Al = All aka Extended Mixing hours.
 
 // note there is a map.remove() ... 
 var map = new mapboxgl.Map({
