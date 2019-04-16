@@ -148,10 +148,7 @@ flyTo() works.
 	  /*overflow: auto;*/
 	  z-index: 5;		/* 1 appear behind copyright link; 5 would cover it. I have another (i) for the link :) */
 	  border-radius: 3px;
-	  /*background: rgba(250, 250, 250, 0.9);  /* 255 255 255 is pure white */
-      /*background-color: rgba(250, 250, 224, 0.6);  /* this is greenish/yellowish */
-      background-color: rgba(30, 250, 30, 0.8);  /* this is lime green */
-      /*background: rgba(250, 250, 224, 0.8);  /* this is greenish/yellowish */
+      background-color: rgba(4, 109, 35, 0.9);      /* this is dark green */
 	  font: 12pt/12pt 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12pt here, not px  */
 	}
 
@@ -348,7 +345,7 @@ flyTo() works.
             </select>
             <select id="sourceSelectorUI">
                 <option value="NA" disabled >Source</option>	       
-                <option value="Co">Compost</option>
+                <option value="Co">Windrow Compost</option>
                 <option value="Nc">No Compost</option>
                 <option value="Bi">Biofilter</option>
                 <option value="Re">Receiving</option>
@@ -453,7 +450,7 @@ flyTo() works.
 		<TABLE>
 			<TR>
 				<TD>
-		Warning: Odor data presented is very preliminary, it is used for demo purpose.  Additional data collection, modeling and research needed to provide more accurate data.
+		Warning: Odor data presented is very preliminary, it is used for demo purpose.  Additional data collection, modeling and research needed to provide more accurate data.  Current model asume organic waste processing capacity of 90,000 tons/year.  Additional backgound info about what the data represent can be found in <A HREF="https://github.com/lbnl-scienceit/smelly">Smelly Github</A>.
 				</TD>
 				<TD>
 	    			<BUTTON id="DismissWarningButton">Dismiss</BUTTON>
@@ -770,6 +767,7 @@ function calculateSeparationDistance() {
 	console.log("inputNum was:" + inputNum );
 
 	// maybe double nested for loop of 3x5 ++ FIXME
+	// create global seasonList and mixingHourList
 	
 	//document.getElementById('siteLocation').innerHTML = getCurrentSite();
 	//$('#siteLocation4distCalc').text( getCurrentSite() );
