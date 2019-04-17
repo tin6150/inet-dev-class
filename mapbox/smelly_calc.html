@@ -12,6 +12,10 @@ it now works for ~25 sites.
 But only ZWEDC has all mixing hours and plant capacity (scale) modeled.
 other sites has more limited simulation data.
 flyTo() works.
+
+
+check out vscode from github, works for linux
+async() will do the smart thing and generate return as promise when needed
 -->
 <head>
     <meta charset='utf-8' />
@@ -723,20 +727,19 @@ function calculateSeparationDistance() {
 	
     // async fetch constant from URL and get it ready for use 
     let calcParamTbl = fetchCsvFile(rateConstantUrl)
-      .then((csvDat) => parseCsvFile(csvDat)) ;   // or is the probem here now??!! 
-      
-    //calcParamTbl.then((parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult)) ;    // this spin forever or somehow have probelm with the return ... FIXME  ++
+      .then(async(csvDat) => parseCsvFile(csvDat))    // or is the probem here now??!! 
+   
+    .then(async(parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult))     // this spin forever or somehow have probelm with the return ... FIXME  ++
       
       
       // this chain seems funny, dont seems to get executed
       // promise .then() never gets to run somehow
-    calcParamTbl.then((tabl) => function(tabl){ 
+    .then(async(tabl) => function(tabl){ 
         console.log( "debugging point -- " );
         console.log( "debugging point -- " + inputNum );
         console.log( "debugging point -- " + tabl );
-      }) ; 
-      
-    calcParamTbl.then((Xtbl) => function(Xtbl){
+      }) 
+    .then(async(Xtbl) => function(Xtbl){
         console.log( "need update calculator output.  user inputNum is:" + inputNum );
         //console.log( "need update calculator output.  constant tbl is:" + tbl );
         
@@ -752,10 +755,9 @@ function calculateSeparationDistance() {
         //+ $('#siteLocation4distCalc').text( "FIXME" + getCurrentSite() );
         //+ $('calc_result_lowMixing_spring').html( "TBA lowMixing_spring TBA" );
         // ++ FIXME
-      });
-
+      })
     //calcParamTbl.then( (dataTbl) function(tbl){
-    calcParamTbl.then( (dataTbl) => function(dataTbl){
+    .then( async(dataTbl) => function(dataTbl){
         console.log( " ** please work" );   // nope, not sure why, stupid Promise wont get here, seems stuck at earlier code
     });
     
