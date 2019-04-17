@@ -493,36 +493,36 @@ flyTo() works.
 			</TR>
 			<TR>
 				<TD>Spring</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_lowMixing_spring">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_highMixing_spring">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_extMixing_spring">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Spr_Lo">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Spr_Hi">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Spr_Al">Result</DIV> ou/s</TD>
 			</TR>
 			<TR>
 				<TD>Summer</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_lowMixing_summer">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_highMixing_summer">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_extMixing_summer">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Sum_Lo">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Sum_Hi">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Sum_Al">Result</DIV> ou/s</TD>
 			</TR>
 
 			<TR>
 				<TD>Autum</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_lowMixing_autum">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_highMixing_autum">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_extMixing_autum">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Aut_Lo">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Aut_Hi">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Aut_Al">Result</DIV> ou/s</TD>
 			</TR>
 
 			<TR>
 				<TD>Winter</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_lowMixing_winter">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_highMixing_winter">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_extMixing_winter">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Win_Lo">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Win_Hi">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Win_Al">Result</DIV> ou/s</TD>
 			</TR>
 
 			<TR>
 				<TD>All Seasons</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_lowMixing_allSeasons">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_highMixing_allSeasons">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_extMixing_allSeasons">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_All_Lo">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_All_Hi">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_All_Al">Result</DIV> ou/s</TD>
 			</TR>
 		</TABLE>
 		<BR><BR>
@@ -758,11 +758,10 @@ function calculateSeparationDistance() {
     
     // ^^^ most of above using Promise to load constant table will likely be abandoned.  not workable.
     
-	//document.getElementById('siteLocation').innerHTML = getCurrentSite();
-	//$('#siteLocation4distCalc').text( getCurrentSite() );
+	//++let site = getCurrentSite(); 
 	let site = 'SfZwedc';   // TMP FIXME
-	console.log("inputNum was:" + inputNum );
-
+	$('#siteLocation4distCalc').text( site );
+	console.log("--dbg-- distance calc inputNum was:" + inputNum );
 
     // formula for distance:
     // y = 10^b * x^a 
@@ -770,23 +769,26 @@ function calculateSeparationDistance() {
     // x is ou/m^3/s
     // in array construct below doesnt work :-/
     //for( let season in seasonCodeList ) {
-    for( let s = 0; s++; s < seasonCodeList.length ) {
+    for( let s = 0; s < seasonCodeList.length; s++ ) {
         //for( let mixHr in mixingHourCodeList ) {
-        for( let m = 0; m++; m < mixingHourCodeList.length ) {
+        for( let m = 0; m < mixingHourCodeList.length; m++ ) {
             let season = seasonCodeList[s];
             let mixHr = mixingHourCodeList[m];
             let htmlElementId = '#calc_result_' + season + "_" + mixHr ;
             let x = inputNum;
             console.log( "--dbg--distance calc season: ", season );
             console.log( "--dbg--distance calc mixHr: " + mixHr );
-            console.log( "--dbg--distance calc gtbl: ", gtbl );
-            console.log( "--dbg--distance calc gtbl length: ", gtbl.length );
-            console.log( "--dbg--distance calc vars: ", htmlElementId, x, site );
+            //console.log( "--dbg--distance calc gtbl: ", gtbl );
+            //console.log( "--dbg--distance calc gtbl length: ", gtbl.length );
             let a = gtbl[site][season][mixHr]['a'];
             let b = gtbl[site][season][mixHr]['b'];
-            let y = 10^b * x^a;
+            //let y = 10^b * x^a;
+            let y = Math.pow(10,b) * Math.pow(x,a);
+            let y2 = Math.pow(10, (a*Math.log10(x)+b)  );
+            console.log( "--dbg--distance calc vars: ", htmlElementId, site, x, a, b );
             console.log( "--dbg--y calculated to be:", y );
-            $(htmlElementId).html( y );     // use jQuery to update result table
+            console.log( "--dbg--y2 calculated to be:", y2 );
+            $(htmlElementId).html( y2.toPrecision(2) );     // use jQuery to update result table
             //$('#calc_result_Spr_Hi').html( highMixing_spring );
             //document.getElementById('calc_result_Spr_Hi').innerHTML = highMixing_spring;
         }
@@ -797,21 +799,43 @@ function calculateSeparationDistance() {
 
 function calculateRate() {
 	console.log("#CalculateRate4rateCalc was triggered" );
-	var rateCalculatorInput = document.getElementById('rateCalculatorInput').value;
-	var rate4spring  = rateCalculatorInput / 100;
-	var rate4summer  = rateCalculatorInput / 200;
-	//... ++
-	var rate4allSeasons  = rateCalculatorInput / 500;
-	
+	let rateCalculatorInput = document.getElementById('rateCalculatorInput').value;
 	// formula for max emission rate x is:
 	// x = 10^-b * y ^(1/a)
 
-	//document.getElementById('siteLocation').innerHTML = getCurrentSite();
-	$('#siteLocation4rateCalc').text( getCurrentSite() );
-	// change html below with abbreviated naming
-	document.getElementById('calc_result_distance2rate_lowMixing_spring').innerHTML = rate4spring;
-	document.getElementById('calc_result_distance2rate_highMixing_allSeasons').innerHTML = rate4allSeasons;
-};
+    //++let site = getCurrentSite();
+    let site = 'SfZwedc'; // TMP FIXME
+    $('#siteLocation4rateCalc').text( site );
+    for( let s = 0; s < seasonCodeList.length; s++ ) {
+        //for( let mixHr in mixingHourCodeList ) {
+        for( let m = 0; m < mixingHourCodeList.length; m++ ) {
+            let season = seasonCodeList[s];
+            let mixHr = mixingHourCodeList[m];
+            let htmlElementId = '#calc_result_distance2rate_' + season + "_" + mixHr ;
+            let y = rateCalculatorInput;
+            //console.log( "--dbg--rate calc season: ", season );
+            //console.log( "--dbg--rate calc mixHr: " + mixHr );
+            //console.log( "--dbg--rate calc gtbl: ", gtbl );
+            let a = gtbl[site][season][mixHr]['a'];
+            let b = gtbl[site][season][mixHr]['b'];
+            let x = Math.pow(10,(-1*b)) * Math.pow(y,(1/a));
+            let x2 = Math.pow( 10,(  (Math.log10(y)-b) /a) ) ;
+            console.log( "--dbg--distance calc vars: ", htmlElementId, site, y, a, b );
+            console.log( "--dbg--x calculated to be:", x );
+            console.log( "--dbg--x2 calculated to be:", x2 );
+            //console.log( "--dbg--JS test 10^b:", (10^b) );
+            //console.log( "--dbg--JS test 10^(b):",  10^(b) );
+            //console.log( "--dbg--JS test 10^b:", 10^(-b) );
+            //console.log( "--dbg--JS test 10^(-1*b):", (10^(-1*b)) );
+            //JSsucks = Math.pow(10,b) ;
+            //console.log( "--dbg--JS test pow(10,b):", JSsucks );
+            //JSsucks2 = Math.pow(10,(-1*b)) ;
+            //console.log( "--dbg--JS test 10^(-1*b):", JSsucks2 );
+            $(htmlElementId).html( x2.toPrecision(2) );     // use jQuery to update result table
+            //document.getElementById('calc_result_distance2rate_highMixing_allSeasons').innerHTML = rate4allSeasons;
+        }
+    } // end double nested for-loop
+}; // end calculateRate fn
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -1023,8 +1047,8 @@ var lat = {};
 //var counterFlyTo = 0;	// count number of flyTo() executed.  mostly for first load not to move since URL may have specific zoom/lat/lon.  hmm... but layer info wouldnt be loaded.  really need url to have that info.  rather have it fly than user think buggy software with no layer!!
 // hmmm... can map find out nearnest site on display and load that layer??  prob lot of work!
 
-var seasonCodeList = [ "Spr", "Sum", "Aut", "Win", "All"];
-var mixingHourCodeList = [ "Hi", "Lo", "Al"];  // Al = All aka Extended Mixing hours.
+const seasonCodeList     = [ "Spr", "Sum", "Aut", "Win", "All"];
+const mixingHourCodeList = [ "Hi", "Lo", "Al"];  // Al = All aka Extended Mixing hours.
 
 // note there is a map.remove() ... 
 var map = new mapboxgl.Map({
