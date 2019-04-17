@@ -48,6 +48,8 @@ flyTo() works.
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
 	<script src="http://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
 	<script src="https://smelly.lbl.gov/src/jquery.csv.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     
 
     <style>
@@ -397,7 +399,8 @@ flyTo() works.
 			<!-- maye better named as ou2distance calculator -->
 		</h3>
 		<BR>
-		<TABLE border="1">
+		<DIV ID="calcTableResult4distanceDiv">
+		<TABLE border="1" id="calcTableResult4distance">
 			<TR>
 				<TD></TD>
 				<TD>Low Mixing <BR> 7-8am; 6-9pm</TD>
@@ -435,6 +438,7 @@ flyTo() works.
 				<TD><DIV CLASS="noNewLine" ID="calc_result_All_Al">Result</DIV> m</TD>
 			</TR>
 		</TABLE>
+		</DIV>
 		<BR><BR>
 		<TABLE>
 			<TR>
@@ -484,7 +488,8 @@ flyTo() works.
 			Allowed Max Emission Rate for <EM><DIV ID="siteLocation4rateCalc">SiteLocation</DIV></EM>
 		</h3>
 		<BR>
-		<TABLE border="1">
+		<DIV ID="calcTableResult4rateDiv">
+		<TABLE border="1" id="calcTableResult4rate">
 			<TR>
 				<TD></TD>
 				<TD>Low Mixing <BR> 7-8am; 6-9pm</TD>
@@ -525,6 +530,7 @@ flyTo() works.
 				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_All_Al">Result</DIV> ou/s</TD>
 			</TR>
 		</TABLE>
+		</DIV>
 		<BR><BR>
 		<TABLE>
 			<TR>
@@ -831,7 +837,9 @@ function calculateRate() {
             //console.log( "--dbg--JS test pow(10,b):", JSsucks );
             //JSsucks2 = Math.pow(10,(-1*b)) ;
             //console.log( "--dbg--JS test 10^(-1*b):", JSsucks2 );
-            $(htmlElementId).html( x2.toPrecision(2) );     // use jQuery to update result table
+            x2 = Math.round( x2 / 1000 ) * 1000 ;     // trying to make output less messy.  .toPrecision and .toExponential seems too messy.
+            $(htmlElementId).html( x2 );     // use jQuery to update result table
+            //$(htmlElementId).html( x2.toPrecision(2) );     // use jQuery to update result table
             //document.getElementById('calc_result_distance2rate_highMixing_allSeasons').innerHTML = rate4allSeasons;
         }
     } // end double nested for-loop
@@ -1015,6 +1023,13 @@ $(document).ready(() => {
     //calcParamTbl.then( (dataTbl) => function(dataTbl) {
     //    console.log( '~~doc.ready() -- inside a .then().  dataTbl is:' + dataTbl );     // dont get run in here either :-/
     //}); 
+    
+    
+    console.log( '~~doc.ready() -- invoking dataTAbles to jazz up the calculator result table' );
+    
+    // dont like the resulting format, need to tweak, at least the bg color to match...
+    //$('#calcTableResult4distance').DataTable();
+    //$('#calcTableResult4rate').DataTable();
 
     console.log( '~~doc.ready() -- done end of doc.ready()' );
 });
