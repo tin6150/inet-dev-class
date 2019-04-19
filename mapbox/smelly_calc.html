@@ -19,7 +19,7 @@ async() will do the smart thing and generate return as promise when needed
 -->
 <head>
     <meta charset='utf-8' />
-    <title>Smelly - ETA + Science IT Collaboration (dev0414)</title>
+    <title>Smelly - ETA + Science IT Collaboration (0418b)</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
@@ -34,7 +34,7 @@ async() will do the smart thing and generate return as promise when needed
 
       gtag('config', 'UA-134625383-2');
     </script>
-	< ! - - gtag end -->
+	<! - - gtag end -->
 
 
     <!--
@@ -52,9 +52,11 @@ async() will do the smart thing and generate return as promise when needed
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
 	<script src="http://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
 	<script src="https://smelly.lbl.gov/src/jquery.csv.js" crossorigin="anonymous"></script>
+
+	<!-- DataTables.net, never used , thus disabling
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    
+	--> 
 
     <style>
         body { margin:0; padding:0; }   /* map cover whole page, map-containe no special styling, fall under this body style  */
@@ -159,7 +161,65 @@ async() will do the smart thing and generate return as promise when needed
 	  font: 14pt/14pt 'Arial', Arial, Helvetica, sans-serif;  /* 12pt here, not px  */
 	}
 
+    /*  calculator table formatting from https://divtable.com/table-styler/ */
+        table.blueTable {
+        border: 1px solid #0B6FA4;/*#1C6EA4;*/
+        background-color: #EEEEEE;
+        width: 100%;
+        text-align: left;
+        border-collapse: collapse;
+        }
+        table.blueTable td, table.blueTable th {
+        border: 1px solid #AAAAAA;
+        padding: 6px 6px;
+        }
+        table.blueTable tbody td {
+        font-size: 13px;
+        }
+        table.blueTable tr:nth-child(even) {
+        background: #D0E4F5;
+        }
+        table.blueTable thead {
+        background: #1C6EA4;
+        background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+        background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+        background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+        border-bottom: 2px solid #444444;
+        }
+        table.blueTable thead th {
+        font-size: 15px;
+        font-weight: bold;
+        color: #FFFFFF;
+        border-left: 2px solid #D0E4F5;
+        }
+        table.blueTable thead th:first-child {
+        border-left: none;
+        }
 
+        table.blueTable tfoot {
+        font-size: 14px;
+        font-weight: bold;
+        color: #FFFFFF;
+        background: #D0E4F5;
+        background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+        background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+        background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+        border-top: 2px solid #444444;
+        }
+        table.blueTable tfoot td {
+        font-size: 14px;
+        }
+        table.blueTable tfoot .links {
+        text-align: right;
+        }
+        table.blueTable tfoot .links a{
+        display: inline-block;
+        background: #1C6EA4;
+        color: #FFFFFF;
+        padding: 2px 8px;
+        border-radius: 5px;
+        }
+    /* end calculator table formatting */
 
 
 	.attrib2_input_Css {
@@ -401,18 +461,21 @@ async() will do the smart thing and generate return as promise when needed
 			<TR>
 		</TABLE>
 		<h3>
-            Max Separation Distance (meter)  <EM><DIV ID="siteLocation4distCalc">SiteLocation</DIV></EM><BR>
+            Max Separation Distance (meter)  <EM><DIV ID="siteLocation4distCalc">SiteLocation</DIV></EM>
 			<!-- maye better named as ou2distance calculator -->
 		</h3>
 		<BR>
 		<DIV ID="calcTableResult4distanceDiv">
-		<TABLE border="1" id="calcTableResult4distance" cellpadding="6">
+		<TABLE border="1" id="calcTableResult4distance" cellpadding="6" class="blueTable">
+			<THEAD>
 			<TR>
 				<TD></TD>
 				<TD>Low Mixing <BR> 7-8am; 6-9pm</TD>
 				<TD>High Mixing<BR> 9am-5pm</TD>
 				<TD>All Hours<BR> 7am-9pm</TD>
 			</TR>
+            </THEAD>
+            <TBODY>
 			<TR>
 				<TD>Spring</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_Spr_Lo">Result</DIV></TD>
@@ -443,6 +506,7 @@ async() will do the smart thing and generate return as promise when needed
 				<TD><DIV CLASS="noNewLine" ID="calc_result_All_Hi">Result</DIV></TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_All_Al">Result</DIV></TD>
 			</TR>
+            </TBODY>
 		</TABLE>
 		</DIV>
 		<BR><BR>
@@ -482,13 +546,16 @@ async() will do the smart thing and generate return as promise when needed
 		</h3>
 		<BR>
 		<DIV ID="calcTableResult4rateDiv">
-		<TABLE border="1" id="calcTableResult4rate" cellpadding="6">
+		<TABLE border="1" id="calcTableResult4rate" cellpadding="6" class="blueTable">
+			<THEAD>
 			<TR>
 				<TD></TD>
 				<TD>Low Mixing <BR> 7-8am; 6-9pm</TD>
 				<TD>High Mixing<BR> 9am-5pm</TD>
 				<TD>All Hours<BR> 7am-9pm</TD>
 			</TR>
+            </THEAD>
+			<TBODY>
 			<TR>
 				<TD>Spring</TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Spr_Lo">Result</DIV></TD>
@@ -522,6 +589,7 @@ async() will do the smart thing and generate return as promise when needed
 				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_All_Hi">Result</DIV></TD>
 				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_All_Al">Result</DIV></TD>
 			</TR>
+            </TBODY>
 		</TABLE>
 		</DIV>
 		<BR><BR>
@@ -762,6 +830,7 @@ async function calculateSeparationDistance() {
     
     // ^^^ most of above using Promise to load constant table will likely be abandoned.  not workable.
     
+	// calculator 1: ou to distance 
 	//++let site = getCurrentSite(); 
 	let site = 'SfZwedc';   // TMP FIXME
 	//$('#siteLocation4distCalc').text( site );
@@ -769,11 +838,9 @@ async function calculateSeparationDistance() {
 	console.log("--dbg-- distance calc inputNum was:" + inputNum );
 
 	// log10(y) =a*  log10(x) + b,  Coefficients are in the 26sites.emis.dist_fit_new.csv file.
-	// https://photos.google.com/album/AF1QipOt3uaEZ2J8fE-SLf6M1r-Q9z827abnWp-QhyZc
-    // formula for distance:
-    // y = 10^b * x^a 
     // y is in m
     // x is ou/m^3/s
+	// https://photos.google.com/album/AF1QipOt3uaEZ2J8fE-SLf6M1r-Q9z827abnWp-QhyZc
     // in array construct below doesnt work :-/
     for( let s = 0; s < seasonCodeList.length; s++ ) {
         //for( let mixHr in mixingHourCodeList ) {
@@ -782,7 +849,7 @@ async function calculateSeparationDistance() {
             let mixHr = mixingHourCodeList[m];
             let htmlElementId = '#calc_result_' + season + "_" + mixHr ;
             let x = inputNum;
-            console.log( "--dbg--distance calc season, mixHr, gtbl: ", season, mixHr, gtbl );
+            //console.log( "--dbg--distance calc season, mixHr, gtbl: ", season, mixHr, gtbl );
             //console.log( "--dbg--distance calc gtbl: ", gtbl );
             //console.log( "--dbg--distance calc gtbl length: ", gtbl.length );
             let a = gtbl[site][season][mixHr]['a'];
@@ -791,8 +858,8 @@ async function calculateSeparationDistance() {
             let y = Math.pow(10,b) * Math.pow(x,a);
             let y2 = Math.pow(10, (a*Math.log10(x)+b)  );
             let yw = Math.pow(10, b) * Math.pow(x,a);
-            console.log( "--dbg--distance calc vars: ", htmlElementId, site, x, a, b );
-            console.log( "--dbg--y,y2,yw calculated to be:", y, y2, yw );
+            //console.log( "--dbg--distance calc vars: ", htmlElementId, site, x, a, b );
+            //console.log( "--dbg--y,y2,yw calculated to be:", y, y2, yw );
             yw = Math.round( yw / 10 ) * 10;
             $(htmlElementId).html( yw );     // use jQuery to update result table
             //$(htmlElementId).html( y2.toPrecision(2) );     // use jQuery to update result table
@@ -805,9 +872,8 @@ async function calculateSeparationDistance() {
 function calculateRate() {
 	console.log("#CalculateRate4rateCalc was triggered" );
 	let rateCalculatorInput = document.getElementById('rateCalculatorInput').value;
-	// formula for max emission rate x is:
-	// x = 10^-b * y ^(1/a)
 
+	// calculator 2: distance to ou rate
     //++let site = getCurrentSite();
     let site = 'SfZwedc'; // TMP FIXME
     //$('#siteLocation4rateCalc').text( site );
@@ -825,8 +891,8 @@ function calculateRate() {
             let x = Math.pow(10,(-1*b)) * Math.pow(y,(1/a));
             let x2 = Math.pow( 10,(  (Math.log10(y)-b) /a) ) ;
             let xw = Math.pow( 10, (-b/a) ) * Math.pow(y, (1/a)) ;
-            console.log( "--dbg--distance calc vars: ", htmlElementId, site, y, a, b );
-            console.log( "--dbg--x,x2,xw calculated to be:", x,x2,xw );
+            //console.log( "--dbg--distance calc vars: ", htmlElementId, site, y, a, b );
+            //console.log( "--dbg--x,x2,xw calculated to be:", x,x2,xw );
             x2 = Math.round( x2 / 1000 ) * 1000 ;     // trying to make output less messy.  .toPrecision and .toExponential seems too messy.
             //xw = Math.round( xw / 1000 ) * 1000 ;     // trying to make output less messy.  .toPrecision and .toExponential seems too messy.
             //$(htmlElementId).html( xw );     // use jQuery to update result table
