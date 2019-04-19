@@ -154,9 +154,11 @@ async() will do the smart thing and generate return as promise when needed
 	  /*overflow: auto;*/
 	  z-index: 5;		/* 1 appear behind copyright link; 5 would cover it. I have another (i) for the link :) */
 	  border-radius: 3px;
-      background-color: rgba(4, 109, 35, 0.9);      /* this is dark green */
-	  font: 12pt/12pt 'Helvetica Neue', Arial, Helvetica, sans-serif;  /* 12pt here, not px  */
+      background-color: rgb(190, 243, 196);      /* this is dark green */
+	  /*font: 12pt/12pt 'Helveticaw Neue', Arial, Helvetica, sans-serif;  /* 12pt here, not px  */
+	  font: 14pt/14pt 'Arial', Arial, Helvetica, sans-serif;  /* 12pt here, not px  */
 	}
+
 
 
 
@@ -387,8 +389,8 @@ async() will do the smart thing and generate return as promise when needed
 		<TABLE>
 			<TR>
 				<TD>Enter emission rate </TD>
-				<TD><input type="text" name="distanceCalculatorInput" id="distanceCalculatorInput" size="6" value="100"> </TD> <!-- 100 ou/s/m2 -->
-				<TD>ou/s/m2</TD> <!-- square -->
+				<TD><input type="text" name="distanceCalculatorInput" id="distanceCalculatorInput" size="6" value="26000"> </TD> <!-- 100 ou/s -->
+				<TD>ou/s</TD> <!-- just ou/s, not cube or square -->
 			</TR>
 		</TABLE>
 		<TABLE>
@@ -399,7 +401,7 @@ async() will do the smart thing and generate return as promise when needed
 			<TR>
 		</TABLE>
 		<h3>
-			Separation Distance for <EM><DIV ID="siteLocation4distCalc">SiteLocation</DIV></EM>
+            Max Separation Distance (meter)  <EM><DIV ID="siteLocation4distCalc">SiteLocation</DIV></EM><BR>
 			<!-- maye better named as ou2distance calculator -->
 		</h3>
 		<BR>
@@ -409,37 +411,37 @@ async() will do the smart thing and generate return as promise when needed
 				<TD></TD>
 				<TD>Low Mixing <BR> 7-8am; 6-9pm</TD>
 				<TD>High Mixing<BR> 9am-5pm</TD>
-				<TD>Ext Mixing <BR> 7am-9pm</TD>
+				<TD>All Hours<BR> 7am-9pm</TD>
 			</TR>
 			<TR>
 				<TD>Spring</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_Spr_Lo">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_Spr_Hi">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_Spr_Al">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Spr_Lo">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Spr_Hi">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Spr_Al">Result</DIV></TD>
 			</TR>
 			<TR>
 				<TD>Summer</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_Sum_Lo">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_Sum_Hi">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_Sum_Al">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Sum_Lo">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Sum_Hi">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Sum_Al">Result</DIV></TD>
 			</TR>
 			<TR>
 				<TD>Autum</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_Aut_Lo">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_Aut_Hi">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_Aut_Al">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Aut_Lo">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Aut_Hi">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Aut_Al">Result</DIV></TD>
 			</TR>
 			<TR>
 				<TD>Winter</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_Win_Lo">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_Win_Hi">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_Win_Al">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Win_Lo">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Win_Hi">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_Win_Al">Result</DIV></TD>
 			</TR>
 			<TR>
 				<TD>All Seasons</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_All_Lo">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_All_Hi">Result</DIV> m</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_All_Al">Result</DIV> m</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_All_Lo">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_All_Hi">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_All_Al">Result</DIV></TD>
 			</TR>
 		</TABLE>
 		</DIV>
@@ -454,29 +456,16 @@ async() will do the smart thing and generate return as promise when needed
 		</center>
 	</div>   <!-- end div for calculator -->
 
-	<div id="warningBox" class="warningCss">
-		<TABLE>
-			<TR>
-				<TD>
-		Warning: Odor data presented is very preliminary, it is used for demo purpose.  Additional data collection, modeling and research needed to provide more accurate data.  Current model asume organic waste processing capacity of 90,000 tons/year.  Additional backgound info about what the data represent can be found in <A HREF="https://github.com/lbnl-scienceit/smelly">Smelly Github</A>.
-				</TD>
-				<TD>
-	    			<BUTTON id="DismissWarningButton">Dismiss</BUTTON>
-				</TD>
-			</TR>
-		</TABLE>
-	</div>   <!-- end div for warningbox -->
-
 	<!-- being div for RATE calculator -->
 	<div id="rateCalc" class="calc_Css">   
 		<center>
-		<h3>Allowable Odor Rate for stated distance<BR>
+        <h3>Allowable Odor Emission Rates<BR>
 		</h3>
 		<BR>
 		<BR>
 		<TABLE>
 			<TR>
-				<TD>Enter desired separation distance (500-3000m):</TD>
+				<TD>Enter desired separation distance (meter):</TD>
 				<TD><input type="text" name="rateCalculatorInput" id="rateCalculatorInput" size="6" value="1000"> </TD>
 				<TD> m</TD>
 			</TR>
@@ -489,7 +478,7 @@ async() will do the smart thing and generate return as promise when needed
 			<TR>
 		</TABLE>
 		<h3>
-			Allowed Max Emission Rate for <EM><DIV ID="siteLocation4rateCalc">SiteLocation</DIV></EM>
+			Allowed Max Emission Rate (ou/s) <EM><DIV ID="siteLocation4rateCalc">SiteLocation</DIV></EM>
 		</h3>
 		<BR>
 		<DIV ID="calcTableResult4rateDiv">
@@ -498,40 +487,40 @@ async() will do the smart thing and generate return as promise when needed
 				<TD></TD>
 				<TD>Low Mixing <BR> 7-8am; 6-9pm</TD>
 				<TD>High Mixing<BR> 9am-5pm</TD>
-				<TD>Ext Mixing <BR> 7am-9pm</TD>
+				<TD>All Hours<BR> 7am-9pm</TD>
 			</TR>
 			<TR>
 				<TD>Spring</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Spr_Lo">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Spr_Hi">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Spr_Al">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Spr_Lo">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Spr_Hi">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Spr_Al">Result</DIV></TD>
 			</TR>
 			<TR>
 				<TD>Summer</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Sum_Lo">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Sum_Hi">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Sum_Al">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Sum_Lo">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Sum_Hi">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Sum_Al">Result</DIV></TD>
 			</TR>
 
 			<TR>
 				<TD>Autum</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Aut_Lo">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Aut_Hi">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Aut_Al">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Aut_Lo">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Aut_Hi">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Aut_Al">Result</DIV></TD>
 			</TR>
 
 			<TR>
 				<TD>Winter</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Win_Lo">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Win_Hi">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Win_Al">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Win_Lo">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Win_Hi">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_Win_Al">Result</DIV></TD>
 			</TR>
 
 			<TR>
 				<TD>All Seasons</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_All_Lo">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_All_Hi">Result</DIV> ou/s</TD>
-				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_All_Al">Result</DIV> ou/s</TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_All_Lo">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_All_Hi">Result</DIV></TD>
+				<TD><DIV CLASS="noNewLine" ID="calc_result_distance2rate_All_Al">Result</DIV></TD>
 			</TR>
 		</TABLE>
 		</DIV>
@@ -545,7 +534,21 @@ async() will do the smart thing and generate return as promise when needed
 		</TABLE>
 		<BR><BR>
 		</center>
-	</div>   <!-- end div for RATE calculator -->
+    </div>   <!-- end div for RATE calculator -->
+
+	<div id="warningBox" class="warningCss">
+		<TABLE>
+			<TR>
+				<TD>
+		Warning: Odor data presented is very preliminary, it is used for demo purpose.  Additional data collection, modeling and research needed to provide more accurate data.  Current model asume organic waste processing capacity of 90,000 tons/year.  Additional backgound info about what the data represent can be found in <A HREF="https://github.com/lbnl-scienceit/smelly">Smelly Github</A>.
+				</TD>
+				<TD>
+	    			<BUTTON id="DismissWarningButton">Dismiss</BUTTON>
+				</TD>
+			</TR>
+		</TABLE>
+	</div>   <!-- end div for warningbox -->
+
 
     <!-- legends  from https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/ -->
     <!--<div id='legend' class='legend' style='display: none;'> -->
@@ -642,7 +645,7 @@ var calculatorMode = "distance";  // "rate" is the other calculator
 
 // state wide map only have capacity=1.0 thus need to disable this html drop down choice.  
 // no way to do this in html, thus doing it here in jQuery 
-document.getElementById("scaleSelectorUI").style.display = 'none'; 
+//~~document.getElementById("scaleSelectorUI").style.display = 'none'; 
 //document.getElementById("rateCalc").style.display = 'none';   // dont display calculator button till code is complete
 //--xx document.getElementById("ShowRateCalculatorButton").style.display = 'none';   // dont display calculator button till code is complete
 
@@ -711,36 +714,28 @@ function getCurrentSite() {
 	return currentSite;
 };
 
-function calculateSeparationDistance() {
-	console.log("#CalculateButton4distCalc was triggered" );
+async function calculateSeparationDistance() {
+	console.log("--dbg-- #CalculateButton4distCalc was triggered" );
 	
 	var inputNum = document.getElementById('distanceCalculatorInput').value;
 	
 	// ++ TODO add table of constant inside this fn.  no need for them to be global
-	// could generate double hash, but not sure how to do that in javascript, so parallelel hash like lat/lon for site;s coordinate
-	// log10(y) =a*  log10(x) + b,  Coefficients are in the 26sites.emis.dist_fit_new.csv file.
-	// https://photos.google.com/album/AF1QipOt3uaEZ2J8fE-SLf6M1r-Q9z827abnWp-QhyZc
-	var calc_const_a = {};
-	calc_const_a['NcArcata'] = 0.53596043;
-	// var calc_const['NcArcata']{'All'}{'Al'}{'10x'}{'a'} = 0.53596043 ;  ##  do i need season, hours, scale, top as param defining the constant FIXME
 
 	
     // async fetch constant from URL and get it ready for use 
-    let calcParamTbl = fetchCsvFile(rateConstantUrl)
-      .then(async(csvDat) => parseCsvFile(csvDat))    // or is the probem here now??!! 
-   
-    .then(async(parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult))     // this spin forever or somehow have probelm with the return ... FIXME  ++
+    let calcParamTbl = await fetchCsvFile(rateConstantUrl)
+    .then((csvDat) => parseCsvFile(csvDat))    // or is the probem here now??!! 
+    .then((parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult))     // this spin forever or somehow have probelm with the return ... FIXME  ++
       
       
       // this chain seems funny, dont seems to get executed
       // promise .then() never gets to run somehow
-    .then(async(tabl) => function(tabl){ 
-        console.log( "debugging point -- " );
-        console.log( "debugging point -- " + inputNum );
-        console.log( "debugging point -- " + tabl );
-      }) 
-    .then(async(Xtbl) => function(Xtbl){
-        console.log( "need update calculator output.  user inputNum is:" + inputNum );
+    .then((tabl) => async function(tabl){ 
+        await tabl;
+        console.log( " ** @@@@@@@@@@@@@@@@ debugging point -- inputNum, tabl ", inputNum, tabl );
+    }) 
+    .then((Xtbl) => async function(Xtbl){
+        console.log( " ** need update calculator output.  user inputNum is:" + inputNum );
         //console.log( "need update calculator output.  constant tbl is:" + tbl );
         
         let konst = Xtbl;   // alias to input param
@@ -755,28 +750,31 @@ function calculateSeparationDistance() {
         //+ $('#siteLocation4distCalc').text( "FIXME" + getCurrentSite() );
         //+ $('calc_result_lowMixing_spring').html( "TBA lowMixing_spring TBA" );
         // ++ FIXME
-      })
+    })
     //calcParamTbl.then( (dataTbl) function(tbl){
-    .then( async(dataTbl) => function(dataTbl){
-        console.log( " ** please work" );   // nope, not sure why, stupid Promise wont get here, seems stuck at earlier code
+    .then( (dataTbl) => async function(dataTbl){
+        await dataTbl;
+        console.log( " ** @@@@@@@@@@@ please work" );   // nope, not sure why, stupid Promise wont get here, seems stuck at earlier code
     });
     
-    console.log( "beyond Promise async code block -- " );
-    console.log( "beyond Promise async code block -- (global tbl) is:", gtbl );
+    console.log( "--dbg-- beyond Promise async code block -- " );
+    console.log( "--dbg-- beyond Promise async code block -- (global tbl) is:", gtbl );
     
     // ^^^ most of above using Promise to load constant table will likely be abandoned.  not workable.
     
 	//++let site = getCurrentSite(); 
 	let site = 'SfZwedc';   // TMP FIXME
-	$('#siteLocation4distCalc').text( site );
+	//$('#siteLocation4distCalc').text( site );
+	$('#siteLocation4distCalc').text( "ZWEDC" );
 	console.log("--dbg-- distance calc inputNum was:" + inputNum );
 
+	// log10(y) =a*  log10(x) + b,  Coefficients are in the 26sites.emis.dist_fit_new.csv file.
+	// https://photos.google.com/album/AF1QipOt3uaEZ2J8fE-SLf6M1r-Q9z827abnWp-QhyZc
     // formula for distance:
     // y = 10^b * x^a 
     // y is in m
     // x is ou/m^3/s
     // in array construct below doesnt work :-/
-    //for( let season in seasonCodeList ) {
     for( let s = 0; s < seasonCodeList.length; s++ ) {
         //for( let mixHr in mixingHourCodeList ) {
         for( let m = 0; m < mixingHourCodeList.length; m++ ) {
@@ -784,8 +782,7 @@ function calculateSeparationDistance() {
             let mixHr = mixingHourCodeList[m];
             let htmlElementId = '#calc_result_' + season + "_" + mixHr ;
             let x = inputNum;
-            console.log( "--dbg--distance calc season: ", season );
-            console.log( "--dbg--distance calc mixHr: " + mixHr );
+            console.log( "--dbg--distance calc season, mixHr, gtbl: ", season, mixHr, gtbl );
             //console.log( "--dbg--distance calc gtbl: ", gtbl );
             //console.log( "--dbg--distance calc gtbl length: ", gtbl.length );
             let a = gtbl[site][season][mixHr]['a'];
@@ -793,12 +790,12 @@ function calculateSeparationDistance() {
             //let y = 10^b * x^a;
             let y = Math.pow(10,b) * Math.pow(x,a);
             let y2 = Math.pow(10, (a*Math.log10(x)+b)  );
+            let yw = Math.pow(10, b) * Math.pow(x,a);
             console.log( "--dbg--distance calc vars: ", htmlElementId, site, x, a, b );
-            console.log( "--dbg--y calculated to be:", y );
-            console.log( "--dbg--y2 calculated to be:", y2 );
-            $(htmlElementId).html( y2.toPrecision(2) );     // use jQuery to update result table
-            //$('#calc_result_Spr_Hi').html( highMixing_spring );
-            //document.getElementById('calc_result_Spr_Hi').innerHTML = highMixing_spring;
+            console.log( "--dbg--y,y2,yw calculated to be:", y, y2, yw );
+            yw = Math.round( yw / 10 ) * 10;
+            $(htmlElementId).html( yw );     // use jQuery to update result table
+            //$(htmlElementId).html( y2.toPrecision(2) );     // use jQuery to update result table
         }
     } // end double nested for-loop
 	
@@ -813,7 +810,8 @@ function calculateRate() {
 
     //++let site = getCurrentSite();
     let site = 'SfZwedc'; // TMP FIXME
-    $('#siteLocation4rateCalc').text( site );
+    //$('#siteLocation4rateCalc').text( site );
+    $('#siteLocation4rateCalc').text( "ZWEDC" );
     for( let s = 0; s < seasonCodeList.length; s++ ) {
         //for( let mixHr in mixingHourCodeList ) {
         for( let m = 0; m < mixingHourCodeList.length; m++ ) {
@@ -821,28 +819,18 @@ function calculateRate() {
             let mixHr = mixingHourCodeList[m];
             let htmlElementId = '#calc_result_distance2rate_' + season + "_" + mixHr ;
             let y = rateCalculatorInput;
-            //console.log( "--dbg--rate calc season: ", season );
-            //console.log( "--dbg--rate calc mixHr: " + mixHr );
             //console.log( "--dbg--rate calc gtbl: ", gtbl );
             let a = gtbl[site][season][mixHr]['a'];
             let b = gtbl[site][season][mixHr]['b'];
             let x = Math.pow(10,(-1*b)) * Math.pow(y,(1/a));
             let x2 = Math.pow( 10,(  (Math.log10(y)-b) /a) ) ;
+            let xw = Math.pow( 10, (-b/a) ) * Math.pow(y, (1/a)) ;
             console.log( "--dbg--distance calc vars: ", htmlElementId, site, y, a, b );
-            console.log( "--dbg--x calculated to be:", x );
-            console.log( "--dbg--x2 calculated to be:", x2 );
-            //console.log( "--dbg--JS test 10^b:", (10^b) );
-            //console.log( "--dbg--JS test 10^(b):",  10^(b) );
-            //console.log( "--dbg--JS test 10^b:", 10^(-b) );
-            //console.log( "--dbg--JS test 10^(-1*b):", (10^(-1*b)) );
-            //JSsucks = Math.pow(10,b) ;
-            //console.log( "--dbg--JS test pow(10,b):", JSsucks );
-            //JSsucks2 = Math.pow(10,(-1*b)) ;
-            //console.log( "--dbg--JS test 10^(-1*b):", JSsucks2 );
+            console.log( "--dbg--x,x2,xw calculated to be:", x,x2,xw );
             x2 = Math.round( x2 / 1000 ) * 1000 ;     // trying to make output less messy.  .toPrecision and .toExponential seems too messy.
-            $(htmlElementId).html( x2 );     // use jQuery to update result table
-            //$(htmlElementId).html( x2.toPrecision(2) );     // use jQuery to update result table
-            //document.getElementById('calc_result_distance2rate_highMixing_allSeasons').innerHTML = rate4allSeasons;
+            //xw = Math.round( xw / 1000 ) * 1000 ;     // trying to make output less messy.  .toPrecision and .toExponential seems too messy.
+            //$(htmlElementId).html( xw );     // use jQuery to update result table
+            $(htmlElementId).html( xw.toPrecision(2) );     // use jQuery to update result table
         }
     } // end double nested for-loop
 }; // end calculateRate fn
@@ -858,7 +846,7 @@ function calculateRate() {
 
 // google post Promixifying XMLHttpRequest
 // https://developers.google.com/web/fundamentals/primers/promises
-function fetchCsvFile(url) {
+async function fetchCsvFile(url) {
 //function get(url) {
   console.log("fetchCsvFile begin");
   // Return a new promise.
@@ -895,7 +883,7 @@ function fetchCsvFile(url) {
 
 
 
-function parseCsvFile( csvDat ) {
+async function parseCsvFile( csvDat ) {
     console.log( "inside parseCsvFile, input arg is:", csvDat );
     return $.csv.toObjects(csvDat);
 } // end parseCsvFile
@@ -912,7 +900,7 @@ function parseCsvFile( csvDat ) {
 // "1","Spring (MAM)","All Hours","scale_1x","Top 2%",0.572781584311465,-0.11966523965903,0.967234007216081,"Arcata_WWTF"
 // "2","Spring (MAM)","High Mixing Hours","scale_1x","Top 2%",0.453561594602808,0.327341954139423,0.943265341142336,"Arcata_WWTF"
 //  something is spinning here in smelly_calc and never return thus block future .then() :-/   FIXME ++
-function buildCalcParamTable(constantArray){
+async function buildCalcParamTable(constantArray){
     console.log( "inside buildCalcParamTable, input arg is:", constantArray );
     let konst = constantArray;   // alias to input param
     let tbl = {};               // 5D hash that will be returned to caller  // made global cuz Promise remain  a mistery
@@ -950,7 +938,7 @@ function buildCalcParamTable(constantArray){
         console.log( "inside buildCalcParamTable, constructed entry is:" + tbl[site_name][season][mixingHour]['b'] );
     }
     console.log( "inside buildCalcParamTable, generated Table is:", tbl );
-    return( tbl );
+    return( tbl );    // FIXME does this need to be constructed as a Promise??
 }
 
 
