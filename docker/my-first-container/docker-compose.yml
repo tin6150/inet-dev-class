@@ -1,12 +1,27 @@
 version: '2'
 services:
   app:
-    image: my-first-container-app
+    #image: my-first-container-app
+    image: registry.spin.nersc.gov/tin/my-first-container-app:latest
+    retain_ip: true
+    cap_drop:
+      - ALL
     environment: 
       - WHO=elvis
   web:
-    image: my-first-container-nginx
+    #image: my-first-container-nginx
+    image: registry.spin.nersc.gov/tin/my-first-container-nginx:latest
     ports:
-    - "80:8080"
+      - "60000:8080"
+      #- "80:8080"
     volumes:
-    - ./web/nginx-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+      #- ./web/nginx-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+      - /global/project/projectdirs/m669/tin-first-stack
+    user: 
+      - 80115:41334
+      # uid=80115(tin) gid=80115(tin) groups=80115(tin),41334(m669)
+    group_add: 
+      - nginx
+    cap_drop:
+      - ALL 
+
