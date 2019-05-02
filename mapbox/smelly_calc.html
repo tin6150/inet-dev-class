@@ -796,13 +796,16 @@ async function calculateSeparationDistance() {
     let calcParamTbl =         fetchCsvFile(rateConstantUrl)
     calcParamTbl.then( (csvDat) => parseCsvFile(csvDat),                    (e) => console.log("## promise .then for parseCsvFile error handling (ie rejected) portion",    e) )    // error portion is triggered
     .then( (parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult), (e) => console.log("## promise .then for buildParamTable error handling portion", e) )    // error portion is triggered FIXME
+    //calcParamTbl.then( (csvDat) => parseCsvFile(csvDat) )        
+    //.then( (parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult) )
     .catch( (e) => console.log( "--promise-catch--:", e) )
       
       // this chain seems funny, dont seems to get executed
       // promise .then() never gets to run somehow
-    .then((tabl) => async function(tabl){ 
-        await tabl;
+    .then((tabl) => function(tabl){ 
         console.log( " ** @@@@@@@@@@@@@@@@ debugging point -- inputNum, tabl ", inputNum, tabl );
+        //tabl;
+        return tabl;
     }) 
     .then((Xtbl) => async function(Xtbl){
         console.log( " ** need update calculator output.  user inputNum is:" + inputNum );
@@ -820,24 +823,29 @@ async function calculateSeparationDistance() {
         //+ $('#siteLocation4distCalc').text( "FIXME" + getCurrentSite() );
         //+ $('calc_result_lowMixing_spring').html( "TBA lowMixing_spring TBA" );
         // ++ FIXME
+        return Xtbl;
     })
     //calcParamTbl.then( (dataTbl) function(tbl){
-    .then( (dataTbl) => 
-        async function(dataTbl){
-            await dataTbl;
-            console.log( " ** @@@@@@@@@@@ please work" );   // nope, not sure why, stupid Promise wont get here, seems stuck at earlier code
+    .then( (dataTbl) => async function(dataTbl){
+        await dataTbl;
+        console.log( " ** @@@@@@@@@@@ please work" );   // nope, not sure why, stupid Promise wont get here, seems stuck at earlier code
+        return dataTbl;
         }, 
         (e) => console.log( "@@@@@@ begging promise regject portion", e )     // neither @@@ get to console log
     )
+    .catch( err => console.log( `@@@@ end of long chain, catch block:  ${e}`));
 
-    console.log( "--dbg-- beyond Promise async code block -- " );
-    console.log( "--dbg-- beyond Promise async code block -- (global tbl) is:", gtbl );
-    console.log( "--dbg-- ## beyond Promise async code block -- (promise calcParamTbl is), ", calcParamTbl );    // this takes a long time, in debug win eventually return a promise (which may need unwrapping)
+    console.log( "--tmp-- beyond Promise async code block -- " );
+    console.log( "--tmp-- beyond Promise async code block -- (global tbl) is:", gtbl );
+    console.log( "--tmp-- ## beyond Promise async code block -- (promise calcParamTbl is), ", calcParamTbl );    // this takes a long time, in debug win eventually return a promise (which may need unwrapping)
     await calcParamTbl.then( (m) => console.log( "await calcParamTbl .then portion in here", m))
+    .then( console.log(`--tmp--## will eval of site here works?, hopefully when all promise is done, so can draw calc result table here? NOPE: $ {site}`))
+    // really just need the .then() to invoke another fn, which contain the code below...   ++ CONTINUE FIXME here ++ 
     // ^^^ most of above using Promise to load constant table is buggy and not yet usable.
+
     
 	// calculator 1: ou to distance 
-	//++let site = getCurrentSite(); 
+    //++let site = getCurrentSite(); 
 	let site = 'SfZwedc';   // TMP FIXME
 	//$('#siteLocation4distCalc').text( site );
 	$('#siteLocation4distCalc').text( "ZWEDC" );
@@ -1006,10 +1014,10 @@ async function buildCalcParamTable(constantArray){
         // tbl['Arcata_WWTF']['Autum']['hi(hour)']['a'] = (some number)
         tbl[site_name][season][mixingHour]['a'] = konst[row]['a'];  
         tbl[site_name][season][mixingHour]['b'] = konst[row]['b'];
-        console.log( "inside buildCalcParamTable, row=" + row );
-        console.log( "inside buildCalcParamTable, constructed entry is:" + tbl[site_name][season][mixingHour]['b'] );
+        //console.log( "inside buildCalcParamTable, row=" + row );
+        //console.log( "inside buildCalcParamTable, constructed entry is:" + tbl[site_name][season][mixingHour]['b'] );
     }
-    console.log( "inside buildCalcParamTable, generated Table is:", tbl );
+    console.log( "inside buildCalcParamTable about to return, generated Table is:", tbl );
     return( tbl );    // FIXME does this need to be constructed as a Promise??
 } // end buildCalcParamTable()
 
@@ -1065,7 +1073,8 @@ function runCalculator( constantTbl ) {
 }
 
 
-const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.head5.csv";   // open in google sheets !!
+//const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.head5.csv";   // version starts with alcarta
+const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.csv";          // open in google sheets !! 
 
 
 // old smelly_calc didnt have this document-ready defined...     
