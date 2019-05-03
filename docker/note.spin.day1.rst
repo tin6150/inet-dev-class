@@ -47,6 +47,8 @@ this help if web server is compromised, it cant really have much access.
 
 ~~~~
 
+( cd /project/projectdirs/isguser/SpinUp/tin-first-stack )
+
 rancher up --render	# read docker-compose file, check most syntax error
 
 unset RANCHER_ENVIRONMENT
@@ -288,7 +290,7 @@ it is similar than docker-compose config --quiet
 
 
 rancher stop tin-first-container
-             ^^^ service name
+             ^^^^^^^^^^^^^^^^^^^ service name
 
 
 can't have rancher cli on laptop
