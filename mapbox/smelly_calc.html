@@ -785,25 +785,31 @@ function getCurrentSite() {
 async function calculateSeparationDistance() {
 	console.log("--dbg-- #CalculateButton4distCalc was triggered" );
 	
-	var inputNum = document.getElementById('distanceCalculatorInput').value;
+	//var inputNum = document.getElementById('distanceCalculatorInput').value;  // no longer needed in here
 	
 	// ++ TODO add table of constant inside this fn.  no need for them to be global
 
 	
     // async fetch constant from URL and get it ready for use 
-    let calcParamTbl = await fetchCsvFile(rateConstantUrl)
-    .then((csvDat) => parseCsvFile(csvDat))    // or is the probem here now??!! 
-    .then((parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult))     // this spin forever or somehow have probelm with the return ... FIXME  ++
-      
+    //let calcParamTbl = await fetchCsvFile(rateConstantUrl)
+    //.then( (csvDat) => parseCsvFile(csvDat) )    // or is the probem here now??!! 
+    let calcParamTbl =         fetchCsvFile(rateConstantUrl)
+    calcParamTbl.then( (csvDat) => parseCsvFile(csvDat),                    (e) => console.log("## promise .then for parseCsvFile error handling (ie rejected) portion",    e) )    // error portion is triggered
+    .then( (parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult), (e) => console.log("## promise .then for buildParamTable error handling portion", e) )    // error portion is triggered FIXME
+    //calcParamTbl.then( (csvDat) => parseCsvFile(csvDat) )        
+    //.then( (parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult) )
+    .catch( (e) => console.log( "--promise-catch--:", e) )
+    .then( (ktbl) => renderSepDistResultTbl( ktbl )  )          // this seems to do the trick!!  many of the .then() below should be erased.  FIXME 
       
       // this chain seems funny, dont seems to get executed
       // promise .then() never gets to run somehow
-    .then((tabl) => async function(tabl){ 
-        await tabl;
-        console.log( " ** @@@@@@@@@@@@@@@@ debugging point -- inputNum, tabl ", inputNum, tabl );
+    .then((tabl) => function(tabl){ 
+        console.log( " ** @@@@@@@@@@@@@@@@ debugging point -- tabl ", tabl );
+        //tabl;
+        return tabl;
     }) 
     .then((Xtbl) => async function(Xtbl){
-        console.log( " ** need update calculator output.  user inputNum is:" + inputNum );
+        //console.log( " ** need update calculator output.  user inputNum is:" + inputNum );
         //console.log( "need update calculator output.  constant tbl is:" + tbl );
         
         let konst = Xtbl;   // alias to input param
@@ -818,24 +824,37 @@ async function calculateSeparationDistance() {
         //+ $('#siteLocation4distCalc').text( "FIXME" + getCurrentSite() );
         //+ $('calc_result_lowMixing_spring').html( "TBA lowMixing_spring TBA" );
         // ++ FIXME
+        return Xtbl;
     })
     //calcParamTbl.then( (dataTbl) function(tbl){
     .then( (dataTbl) => async function(dataTbl){
         await dataTbl;
         console.log( " ** @@@@@@@@@@@ please work" );   // nope, not sure why, stupid Promise wont get here, seems stuck at earlier code
-    });
+        return dataTbl;
+        }, 
+        (e) => console.log( "@@@@@@ begging promise, in reject portion", e )     // neither @@@ get to console log
+    )
+    .catch( err => console.log( `@@@@ end of long chain, catch block:  ${e}`));
+
+    console.log( "--tmp-- beyond Promise async code block -- " );
+    //console.log( "--tmp-- beyond Promise async code block -- (global tbl) is:", gtbl );
+    console.log( "--tmp-- ## beyond Promise async code block -- (promise calcParamTbl is), ", calcParamTbl );    // this takes a long time, in debug win eventually return a promise (which may need unwrapping)
+    await calcParamTbl.then( (m) => console.log( "await calcParamTbl .then portion in here", m))
+    .then( console.log(`--tmp--## will eval of site here works?, hopefully when all promise is done, so can draw calc result table here? NOPE: $ {site}`))
+};  // end fn calculateSeparationDistance 
     
-    console.log( "--dbg-- beyond Promise async code block -- " );
-    console.log( "--dbg-- beyond Promise async code block -- (global tbl) is:", gtbl );
-    
-    // ^^^ most of above using Promise to load constant table will likely be abandoned.  not workable.
-    
-	// calculator 1: ou to distance 
-	//++let site = getCurrentSite(); 
+
+// calculator 1: ou to distance 
+// input param ktbl is the constant table, (formerly gtbl , which was global kludge)
+async function renderSepDistResultTbl( ktbl ) {
+    console.log(`~~renderSepDistResultTbl called with param of: ${ktbl}`);
+    console.log('~~renderSepDistResultTbl called with param of:', ktbl);
+	var inputNum = document.getElementById('distanceCalculatorInput').value;  
+    //++let site = getCurrentSite(); 
 	let site = 'SfZwedc';   // TMP FIXME
 	//$('#siteLocation4distCalc').text( site );
 	$('#siteLocation4distCalc').text( "ZWEDC" );
-	console.log("--dbg-- distance calc inputNum was:" + inputNum );
+	console.log("~~dbg~~ distance calc input of inputNum, site, are:", inputNum, site );
 
 	// log10(y) =a*  log10(x) + b,  Coefficients are in the 26sites.emis.dist_fit_new.csv file.
     // y is in m
@@ -849,16 +868,19 @@ async function calculateSeparationDistance() {
             let mixHr = mixingHourCodeList[m];
             let htmlElementId = '#calc_result_' + season + "_" + mixHr ;
             let x = inputNum;
+            //console.log( "~~dbg--distance calc season, mixHr, ktbl: ", season, mixHr, ktbl );
             //console.log( "--dbg--distance calc season, mixHr, gtbl: ", season, mixHr, gtbl );
             //console.log( "--dbg--distance calc gtbl: ", gtbl );
             //console.log( "--dbg--distance calc gtbl length: ", gtbl.length );
-            let a = gtbl[site][season][mixHr]['a'];
-            let b = gtbl[site][season][mixHr]['b'];
-            //let y = 10^b * x^a;
+            //~let a = gtbl[site][season][mixHr]['a'];
+            //~let b = gtbl[site][season][mixHr]['b'];
+            let a = ktbl[site][season][mixHr]['a'];                     // ktbl site name is ZWEDC now... Spring and not Spr...   but getting invoked in the right sequence!! ^_^     ++ CONTINUE HERE++
+            let b = ktbl[site][season][mixHr]['b'];
+            // y = 10^b * x^a;
             let y = Math.pow(10,b) * Math.pow(x,a);
             let y2 = Math.pow(10, (a*Math.log10(x)+b)  );
             let yw = Math.pow(10, b) * Math.pow(x,a);
-            //console.log( "--dbg--distance calc vars: ", htmlElementId, site, x, a, b );
+            console.log( "--dbg--distance calc vars: ", htmlElementId, site, x, a, b );
             //console.log( "--dbg--y,y2,yw calculated to be:", y, y2, yw );
             yw = Math.round( yw / 10 ) * 10;
             $(htmlElementId).html( yw );     // use jQuery to update result table
@@ -866,8 +888,8 @@ async function calculateSeparationDistance() {
         }
     } // end double nested for-loop
 	
-	console.log("#CalculateButton4distCalc code block ends" );
-};  // end fn calculateSeparationDistance 
+	console.log("~~renderSepDistResultTbl end" );
+};  // end fn renderSepDistResultTbl 
 
 function calculateRate() {
 	console.log("#CalculateRate4rateCalc was triggered" );
@@ -913,38 +935,38 @@ function calculateRate() {
 // google post Promixifying XMLHttpRequest
 // https://developers.google.com/web/fundamentals/primers/promises
 async function fetchCsvFile(url) {
-//function get(url) {
-  console.log("fetchCsvFile begin");
-  // Return a new promise.
-  return new Promise(function(resolve, reject) {
-    // Do the usual XHR stuff
-    var req = new XMLHttpRequest();
-    req.open('GET', url);
+    //function get(url) {
+    console.log("fetchCsvFile begin");
+    // Return a new promise.
+    return new Promise(function(resolve, reject) {
+        // Do the usual XHR stuff
+        var req = new XMLHttpRequest();
+        req.open('GET', url);
 
-    req.onload = function() {
-      // This is called even on 404 etc
-      // so check the status
-      if (req.status == 200) {
-        // Resolve the promise with the response text
-        console.log("fetchCsvFile about to call resolve, should retrun a promise... ");
-        resolve(req.response);
-      }
-      else {
-        // Otherwise reject with the status text
-        // which will hopefully be a meaningful error
-        reject(Error(req.statusText));
-      }
-    };
+        req.onload = function() {
+            // This is called even on 404 etc
+            // so check the status
+            if (req.status == 200) {
+                // Resolve the promise with the response text
+                console.log("fetchCsvFile about to call resolve, should retrun a promise... ");
+                resolve(req.response);
+            }
+            else {
+                // Otherwise reject with the status text
+                // which will hopefully be a meaningful error
+                reject(Error(req.statusText));
+            }
+        };
 
-    // Handle network errors
-    req.onerror = function() {
-      reject(Error("Network Error"));
-    };
+        // Handle network errors
+        req.onerror = function() {
+            reject(Error("Network Error"));
+        };
 
-    // Make the request
-    req.send();
-  });
-  console.log("fetchCsvFile last line of code.  should return a promise ");
+        // Make the request
+        req.send();
+    });
+    console.log("fetchCsvFile last line of code.  should return a promise ");
 } // end function fetchCsvFile(url) 
 
 
@@ -978,6 +1000,7 @@ async function buildCalcParamTable(constantArray){
     console.log( konst[0]['a'] );
     console.log( konst[0]['b'] );
     console.log( konst.length );
+    // ++ lookup siteID from site string FIXME
     // 2D hash ref  https://stackoverflow.com/questions/4329092/multi-dimensional-associative-arrays-in-javascript
     for( let row=0; row < konst.length; row++ ){
         const site_name = konst[row]['site_name'];                              // use site2abbr  ++ FIXME
@@ -1000,12 +1023,12 @@ async function buildCalcParamTable(constantArray){
         // tbl['Arcata_WWTF']['Autum']['hi(hour)']['a'] = (some number)
         tbl[site_name][season][mixingHour]['a'] = konst[row]['a'];  
         tbl[site_name][season][mixingHour]['b'] = konst[row]['b'];
-        console.log( "inside buildCalcParamTable, row=" + row );
-        console.log( "inside buildCalcParamTable, constructed entry is:" + tbl[site_name][season][mixingHour]['b'] );
+        //console.log( "inside buildCalcParamTable, row=" + row );
+        //console.log( "inside buildCalcParamTable, constructed entry is:" + tbl[site_name][season][mixingHour]['b'] );
     }
-    console.log( "inside buildCalcParamTable, generated Table is:", tbl );
+    console.log( "inside buildCalcParamTable about to return, generated Table is:", tbl );
     return( tbl );    // FIXME does this need to be constructed as a Promise??
-}
+} // end buildCalcParamTable()
 
 
 // After failed Promise (it is too weired, maybe just dont work in my existing jQuery structure...
@@ -1059,7 +1082,8 @@ function runCalculator( constantTbl ) {
 }
 
 
-const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.head5.csv";   // open in google sheets !!
+//const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.head5.csv";   // version starts with alcarta
+const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.csv";          // open in google sheets !! 
 
 
 // old smelly_calc didnt have this document-ready defined...     

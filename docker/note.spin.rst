@@ -396,15 +396,307 @@ should all use that 'tin63' as the username
 
 as that's what is used internally
 
+~~~~~~~~~~
+~~~~~~~~~~
+~~~~~~~~~~
+~~~~~~~~~~
 
 
+Day 2, Fri 2019.0426
+9:30
+
+start with Storage.
+(actually left from last session)
+
+
+docker storage is confusing.
+- kinda there, works.  but ephemeral!!!!!
+- container can be restarted, but it is taking a fresh copy, changes in a last instance, in a /var, and vanishes.  stateless.
+- additional storage provided by spin.
+- block? file? db? image? table?
+- trying to store compute and science gateway?
+
+- mount volume.  DATA... don't want to be part of image.
+- alt is interactively interact with the image.  but not recommended, maybe hard to find the image/data in the future.  ie, it is an undocumented path of how it got there.
+
+
+- GHI - GPFS + HPSS - being worked on by storage group.
+
+
+volume must be associated with a stack.
+- see slide, which include naming convention
+- named after the service and stack that owns it
+- 
+
+
+rancher stack create --empty mystack
+
+rancher up also create a stack 
+
+perm
+o+x for mount path (all along the path)
+g+s for dir
+
+could mount single file.
+but if unlink the inode, may get weird
+
+be careful with database container
+mounting db volume via bind
+
+if use scale:2, then it will be a race condition of
+two db writting to the same place
+and things may seems to run, but will get garbage.
+
+for postres, there was example of mounting 
+/var/postgresql
+but container end up writting to /var/postgressql/data
+which became a second volume, internal to container
+so it was ephemeral!
+this BIT Cory and took long time to figure out.
+see pic/ slide for detail.
+
+
+
+spin to submit job, 
+use ssh keypair from within the container
+- API coming in future
+
+
+with rancher 2, 
+- support rancher ui (currently user not allowed to use ui cuz could not secure it).
+- 
+
+networking and dns
+- very autoamtic, but some perf hit, due to ipsec.
+- generated DNS names and created for non-human access
+  (ie, dynamic, long names).
+  cutom name need NERSC help.
+
+
+*they did a lot of work / customization to secure the env*
+
+eg, they check the compose file that CAP_DROP all 
+is used, but allow adding back some cap that does not compromise 
+FS/security 
+
+
+~~
+
+10:45, real start of day 2 materials as published.
+
+(Ron ?) as presenter
+
+
+Microservice design.
+
+(so spin group maybe 3 guys + Kelly)
+
+Attendees to present a sample use case
+and try to get SPIN for it.
+
+
+11:04 am
+Dilan
+ALS 
+new app.
+beam line.
+
+Authentication and Authorization 
+is a big piece and need answer.
+Spin (Ron?) says has all the answer to that.
+
+set of files 
+are likely in HDF5.
+to retrieve subset of file
+would need some logic to fetch that.
+this means it is not going to be nginx to serve static file.
+likely need to go thru API server to make req
+and have it return the sub-setted data.
+
+
+green unicorn, flask, nginx 
+as stack.
+
+ugx uwsgi server ?
+
+flask and tornado has way to break things up internally.
+flask blueprint that works ok
+tornado has a request handler.
+	not cuz of perf, but for compatibility reasons.
+
+if api are versioned separately
+
+
+
+~~
+
+life experience of using spin.
+
+On Ramp dev model (in contrast to "classic" build/ship/run of docker).
+
+create flask/green unicorn/whatever app 
+put container image in cori
+
+mount ap.py dir and run it with 
+"reload on source change" turned on
+(11:25 am)
+
+so, get basic stuff working.
+but can do the polish up in live-ish spin/cori env.
+
+will depend othe data fs (ie, global fs in cori)
+
+
+
+
+avoid docker commit
+it enable untrack changes into the container.
+just don't do it!!
+
+can export rancher compose
+stick that into git.
+(shreyas use it all the time, but Ron says don't use it!)
+
+overall, spin folks don't touch the rancher compose much.
+
+
+
+docker 
+RUN env
+vs 
+RUN pwd
+(force a build from a point,
+docker don't always know something changed).
+
+
+can run supervisor as PID 1
+
+jupyther hub, 
+
+monitor can be split into diff microservice.
+
+
+~~
+
+building docker images
+(11:42)
+
+alpine is small, nice, but no tools (not even ps).
+bigger image is easier to work with.
+
+many image start as root and drop cap.
+but don't work well for those req global fs mount.
+Spin has recipe for nginx
+
+each time add a command, docker create a layer
+thus, using && to chain the command help reduce layering.
+
+RUN command will always run.
+
+ADD vs COPY
+very similar semantics
+ADD has more fn semantics.
+Share recommend using ADD rather than COPY.
+
+COMMAND content get appended to the end of the ENTRYPOINT
+(slide at 11:50)
+tend to be exec $APP
+but this behave oddly (eg when try to exec into the container).
+if entrypoint isn't expected to take that argument, just run the old stuff.
+
+&& rm -rf ...
+
+so that clunk won't even end up in the layer.
+
+
+
+SECRETS
+11:53
+
+eg ssh private key.  passwords. 
+
+docker 
+use to have a var, then password in there.
+check into git, and password shared to the world!!!! :(
+
+SECRETY in docker.
+
+secrete naming.
+
+using secrete is 3 step process.
+
+_FILE  most are automagic looking for secret in a file.
+
+create secret
+
+echo "password" | rancher secret create db.stefanl-webapp.mysql-password
+
+do this in cli, not in compose file.
+
+
+rancher secret ls
+have access control
+
+can't read secret from cli
+but can do that from the container shell.
+
+(none of these thing seems encrypted)
+
+look at the mysql
+postgres
+mongodb
+
+all have same way of reading the same way to access secret.
+
+don't check the password _FILE into git
+they are not encrypted
+grab the password _FILES and manally copy from laptop into production
+
+but if they are just password for diff app layer to share data
+can have some "garbage" data in it.
+
+they are not encrypted
+(but then why can't cat it, why need to retrieve via container?)
+
+
+rancher 
+  retain_ip: true
+
+so that the contianer will always start under the same ip
+nginx would work better in this setup.
+
+
+Cron style syntax for non continuous job.
+time in UTC. (docker native timezone).
+
+
+passing compose var
+like shell var, but some strange twist.
+
+env set in shell 
+can be accessed in the compose file eg ${PORT}
+
+
+hack-a-thon
+pretty much open
+come with idea of things that we would like to implement.
+come as far as possible
+then come and ask for help.
+come with some kind of project to do, even if it i just an exercise.
 
 
 
 
 ~~~~
 
+Meet:
 val / valerie
-daniel
+danniel
 cory
+
+
+~~~~
+
+
+
 
