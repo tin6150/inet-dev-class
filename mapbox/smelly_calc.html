@@ -714,15 +714,14 @@ var calculatorMode = "distance";  // "rate" is the other calculator
 // state wide map only have capacity=1.0 thus need to disable this html drop down choice.  
 // no way to do this in html, thus doing it here in jQuery 
 //~~document.getElementById("scaleSelectorUI").style.display = 'none'; 
+// Ling wanted it for demo in SF, so commented out above. 
 //document.getElementById("rateCalc").style.display = 'none';   // dont display calculator button till code is complete
-//--xx document.getElementById("ShowRateCalculatorButton").style.display = 'none';   // dont display calculator button till code is complete
 
 $("#ShowCalculator").click( function() {
 	console.log("#ShowCalculator was clicked" );
 	if ( odorCalculatorVisible == false ) {
 	    odorCalculatorVisible = true;
 	    $("button#ShowCalculator").html("Hide Calculator");
-	    
 	    
 	    // new addition 2019.0414
         // async fetch constant from URL and get it ready for use 
@@ -887,30 +886,43 @@ async function renderSepDistResultTbl( ktbl ) {
             //$(htmlElementId).html( y2.toPrecision(2) );     // use jQuery to update result table
         }
     } // end double nested for-loop
-	
 	console.log("~~renderSepDistResultTbl end" );
 };  // end fn renderSepDistResultTbl 
 
+// 2019.0512    adding promise-style render code like it was done for renderSepDistResultTable()
+// calculator 2: distance to ou rate
 function calculateRate() {
-	console.log("#CalculateRate4rateCalc was triggered" );
-	let rateCalculatorInput = document.getElementById('rateCalculatorInput').value;
+	console.log("--dbg--#CalculateRate4rateCalc was triggered" );
 
+    let calcParamTbl =         fetchCsvFile(rateConstantUrl)
+    calcParamTbl.then( (csvDat) => parseCsvFile(csvDat)   ) 
+    .then( (parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult) )
+    .then( (ktbl) => renderRateResultTbl( ktbl )  )     
+    .catch( (e) => console.log( "--promise-catch--:", e) )
+      
+}; // end calculateRate fn
+
+
+async function renderRateResultTbl( ktbl ) {
 	// calculator 2: distance to ou rate
-    //++let site = getCurrentSite();
-    let site = 'SfZwedc'; // TMP FIXME
-    //$('#siteLocation4rateCalc').text( site );
-    $('#siteLocation4rateCalc').text( "ZWEDC" );
+    console.log(`~~renderRateResultTbl called with param of: ${ktbl}`);
+    console.log('~~renderRateResultTbl called with param of:', ktbl);
+    let rateCalculatorInput = document.getElementById('rateCalculatorInput').value;
+
+    let site = getCurrentSite();
+    //--let site = 'SfZwedc'; // TMP FIXME
+    $('#siteLocation4rateCalc').text( site );
+    //--$('#siteLocation4rateCalc').text( "ZWEDC" );
     for( let s = 0; s < seasonCodeList.length; s++ ) {
-        //for( let mixHr in mixingHourCodeList ) {
         for( let m = 0; m < mixingHourCodeList.length; m++ ) {
             let season = seasonCodeList[s];
             let mixHr = mixingHourCodeList[m];
             let htmlElementId = '#calc_result_distance2rate_' + season + "_" + mixHr ;
             let y = rateCalculatorInput;
             //console.log( "--dbg--rate calc gtbl: ", gtbl );
-            let a = gtbl[site][season][mixHr]['a'];
-            let b = gtbl[site][season][mixHr]['b'];
-            let x = Math.pow(10,(-1*b)) * Math.pow(y,(1/a));
+            let a  = ktbl[site][season][mixHr]['a'];     // changed from gtbl to ktbl
+            let b  = ktbl[site][season][mixHr]['b'];
+            let x  = Math.pow(10,(-1*b)) * Math.pow(y,(1/a));
             let x2 = Math.pow( 10,(  (Math.log10(y)-b) /a) ) ;
             let xw = Math.pow( 10, (-b/a) ) * Math.pow(y, (1/a)) ;
             //console.log( "--dbg--distance calc vars: ", htmlElementId, site, y, a, b );
@@ -921,7 +933,7 @@ function calculateRate() {
             $(htmlElementId).html( xw.toPrecision(2) );     // use jQuery to update result table
         }
     } // end double nested for-loop
-}; // end calculateRate fn
+}; // end renderRateResultTbl fn
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -970,25 +982,19 @@ async function fetchCsvFile(url) {
 } // end function fetchCsvFile(url) 
 
 
-
+// == use external library found online/github to convert csv file into an array for easier manipulation ==//
+// for this version, expect csv to be like:
+// "","season","hour","plant.scale","top","a","b","R2","site_name"
+// "1","Spring (MAM)","All Hours","scale_1x","Top 2%",0.572781584311465,-0.11966523965903,0.967234007216081,"Arcata_WWTF"
+// "2","Spring (MAM)","High Mixing Hours","scale_1x","Top 2%",0.453561594602808,0.327341954139423,0.943265341142336,"Arcata_WWTF"
 async function parseCsvFile( csvDat ) {
     console.log( "inside parseCsvFile, input arg is:", csvDat );
     return $.csv.toObjects(csvDat);
 } // end parseCsvFile
 
-//--var tbl = {};               // 5D hash that will be returned to caller  // made global cuz Promise remain  a mistery
-// generate table on constant for use by the calculator
-// input is csv file, converted by a parser into array of objects
-// should have pre-processed the csv file to clean things out
-// eg season name to use autumn instead of fall
-// mixing hours to be 'hi', 'lo', 'al'
-// but then this script already parsed into field names, so less coding to do it here, and i am in a rush
-// for this version, expect csv to be like:
-// "","season","hour","plant.scale","top","a","b","R2","site_name"
-// "1","Spring (MAM)","All Hours","scale_1x","Top 2%",0.572781584311465,-0.11966523965903,0.967234007216081,"Arcata_WWTF"
-// "2","Spring (MAM)","High Mixing Hours","scale_1x","Top 2%",0.453561594602808,0.327341954139423,0.943265341142336,"Arcata_WWTF"
-//  something is spinning here in smelly_calc and never return thus block future .then() :-/   FIXME ++  FIXED??
-// changed from site_name to siteId 2019.0512
+// == generate table on constant for use by the calculator ==//
+// input is csv file, converted by parseCsvFile into array of objects
+// changed from site_name to siteId 2019.0512.  works.
 async function buildCalcParamTable(constantArray){
     console.log( "--dbg-L993--inside buildCalcParamTable, input arg is:", constantArray );
     let konst = constantArray;   // alias to input param
@@ -1069,7 +1075,7 @@ async function buildCalcParamTable(constantArray){
 // manually coding the table in here
 // if get promise to work, then dont need this.  FIXME
 var gtbl = {};  
-function buildCalcParamHash() {
+function buildCalcParamHash_ERASEME() {
     dbgTracer += " buildCalcParamHash() \t";  
     console.log( 'dbtTracer chain is:', dbgTracer );
     console.log( '--dbg-- buildCalcParamHash begin, 4D hash, coded in this JS file, not loaded via URL');
@@ -1105,12 +1111,12 @@ function buildCalcParamHash() {
     console.log( '--dbg-- buildCalcParamHash, entry for SfZwedc:' + gtbl['SfZwedc']['Sum']['Hi']['b'] );
     console.log( '--dbg-- buildCalcParamHash, populated gtbl as:', gtbl );
 } // end function buildCalcParamHash()
-buildCalcParamHash();  // invoking it (presumably) on load
+//--buildCalcParamHash();  // invoking it (presumably) on load
 
 
 // this next one likely not needed anymore   
 // well, was hoping to abandone it, but may still need it :-/
-function runCalculator( constantTbl ) {
+function ERASEBLE_MAYBE__runCalculator( constantTbl ) {
     console.log( "inside runCalculator." );
     console.log( "inside runCalculator, input arg is:", constantTbl );
     //$('#csvTester2').html( constantTbl );
