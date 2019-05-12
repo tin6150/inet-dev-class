@@ -707,6 +707,9 @@ $( function() {
 var odorCalculatorVisible = false;
 var calculatorMode = "distance";  // "rate" is the other calculator
 
+const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.csv";          // open in google sheets !! 
+//const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.head5.csv";   // version starts with alcarta
+
 // actually no need to store these below.  HTML DOM automatically store unless page reloaded
 //-var rateInput4distCalc = 5.0;   		  // in ou/s     
 //-var distInput4rateCalc = 1000;		  // in m
@@ -723,16 +726,6 @@ $("#ShowCalculator").click( function() {
 	    odorCalculatorVisible = true;
 	    $("button#ShowCalculator").html("Hide Calculator");
 	    
-	    // new addition 2019.0414
-        // async fetch constant from URL and get it ready for use 
-        //~~const calcParamTbl = fetchCsvFile(rateConstantUrl)
-        //~~    .then((csvDat) => parseCsvFile(csvDat))  
-        //~~    .then((parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult)) ;
-        //~~calcParamTbl.then( (dataTbl) => calculateSeparationDistance( dataTbl );  // crunch number and update UI
-	    // fn below trigger showing calculator.  
-	    // so hopefully above loads the param in time
-	    // actually changed it to be in .then() to wait
-	    // ++ FIXME   think keeping below, erase above.
 		calculateSeparationDistance();
 		$("#distanceCalc.calc_Css").show("slow");
 	} else {
@@ -781,78 +774,27 @@ function getCurrentSite() {
 	return currentSite;
 };
 
+// calculator 1: ou to distance 
 async function calculateSeparationDistance() {
+    // use Promise to load file via url for the constants 
+    // then call fn to perform the actual calculation and render the result into the html using jquery
 	console.log("--dbg-- #CalculateButton4distCalc was triggered" );
 	
-	//var inputNum = document.getElementById('distanceCalculatorInput').value;  // no longer needed in here
-	
-	// ++ TODO add table of constant inside this fn.  no need for them to be global
-
-	
-    // async fetch constant from URL and get it ready for use 
-    //let calcParamTbl = await fetchCsvFile(rateConstantUrl)
-    //.then( (csvDat) => parseCsvFile(csvDat) )    // or is the probem here now??!! 
-    let calcParamTbl =         fetchCsvFile(rateConstantUrl)
-    calcParamTbl.then( (csvDat) => parseCsvFile(csvDat),                    (e) => console.log("## promise .then for parseCsvFile error handling (ie rejected) portion",    e) )    // error portion is triggered
-    .then( (parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult), (e) => console.log("## promise .then for buildParamTable error handling portion", e) )    // error portion is triggered FIXME
-    //calcParamTbl.then( (csvDat) => parseCsvFile(csvDat) )        
-    //.then( (parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult) )
+    let calcParamTbl = fetchCsvFile(rateConstantUrl)
+    calcParamTbl.then( (csvDat) => parseCsvFile(csvDat) )
+    .then( (parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult) )
+    .then( (ktbl) => renderSepDistResultTbl( ktbl )  )          // this does the trick!!  
     .catch( (e) => console.log( "--promise-catch--:", e) )
-    .then( (ktbl) => renderSepDistResultTbl( ktbl )  )          // this seems to do the trick!!  many of the .then() below should be erased.  FIXME 
-      
-      // this chain seems funny, dont seems to get executed
-      // promise .then() never gets to run somehow
-    .then((tabl) => function(tabl){ 
-        console.log( " ** @@@@@@@@@@@@@@@@ debugging point -- tabl ", tabl );
-        //tabl;
-        return tabl;
-    }) 
-    .then((Xtbl) => async function(Xtbl){
-        //console.log( " ** need update calculator output.  user inputNum is:" + inputNum );
-        //console.log( "need update calculator output.  constant tbl is:" + tbl );
-        
-        let konst = Xtbl;   // alias to input param
-        console.log( konst[0] );
-        console.log( konst[0]['site_name'] );
-        console.log( (konst[0]['season']).split(" ")[0].toLowerCase() );        // get spring instead of Spring (MAM)
-        console.log( konst[0]['hour'] );
-        console.log( konst[0]['a'] );
-        console.log( konst[0]['b'] );
-        console.log( konst.length );
-        
-        //+ $('#siteLocation4distCalc').text( "FIXME" + getCurrentSite() );
-        //+ $('calc_result_lowMixing_spring').html( "TBA lowMixing_spring TBA" );
-        // ++ FIXME
-        return Xtbl;
-    })
-    //calcParamTbl.then( (dataTbl) function(tbl){
-    .then( (dataTbl) => async function(dataTbl){
-        await dataTbl;
-        console.log( " ** @@@@@@@@@@@ please work" );   // nope, not sure why, stupid Promise wont get here, seems stuck at earlier code
-        return dataTbl;
-        }, 
-        (e) => console.log( "@@@@@@ begging promise, in reject portion", e )     // neither @@@ get to console log
-    )
-    .catch( err => console.log( `@@@@ end of long chain, catch block:  ${e}`));
-
-    console.log( "--tmp-- beyond Promise async code block -- " );
-    //console.log( "--tmp-- beyond Promise async code block -- (global tbl) is:", gtbl );
-    console.log( "--tmp-- ## beyond Promise async code block -- (promise calcParamTbl is), ", calcParamTbl );    // this takes a long time, in debug win eventually return a promise (which may need unwrapping)
-    await calcParamTbl.then( (m) => console.log( "await calcParamTbl .then portion in here", m))
-    .then( console.log(`--tmp--## will eval of site here works?, hopefully when all promise is done, so can draw calc result table here? NOPE: $ {site}`))
 };  // end fn calculateSeparationDistance 
     
 
 // calculator 1: ou to distance 
-// input param ktbl is the constant table, (formerly gtbl , which was global kludge)
+// input param ktbl is the constant table (now read as async promise) 
 async function renderSepDistResultTbl( ktbl ) {
-    console.log(`~~renderSepDistResultTbl called with param of: ${ktbl}`);
-    console.log('~~renderSepDistResultTbl called with param of:', ktbl);
+    console.log('--dbg--renderSepDistResultTbl called with param of:', ktbl);
 	var inputNum = document.getElementById('distanceCalculatorInput').value;  
     let site = getCurrentSite(); 
-	//--let site = 'SfZwedc';   // TMP FIXME
 	$('#siteLocation4distCalc').text( site );
-	//--$('#siteLocation4distCalc').text( "ZWEDC" );
 	console.log("~~dbg~~ distance calc input of inputNum, site, are:", inputNum, site );
 
 	// log10(y) =a*  log10(x) + b,  Coefficients are in the 26sites.emis.dist_fit_new.csv file.
@@ -861,19 +803,13 @@ async function renderSepDistResultTbl( ktbl ) {
 	// https://photos.google.com/album/AF1QipOt3uaEZ2J8fE-SLf6M1r-Q9z827abnWp-QhyZc
     // in array construct below doesnt work :-/
     for( let s = 0; s < seasonCodeList.length; s++ ) {
-        //for( let mixHr in mixingHourCodeList ) {
         for( let m = 0; m < mixingHourCodeList.length; m++ ) {
             let season = seasonCodeList[s];
             let mixHr = mixingHourCodeList[m];
             let htmlElementId = '#calc_result_' + season + "_" + mixHr ;
             let x = inputNum;
             //console.log( "~~dbg--distance calc season, mixHr, ktbl: ", season, mixHr, ktbl );
-            //console.log( "--dbg--distance calc season, mixHr, gtbl: ", season, mixHr, gtbl );
-            //console.log( "--dbg--distance calc gtbl: ", gtbl );
-            //console.log( "--dbg--distance calc gtbl length: ", gtbl.length );
-            //~let a = gtbl[site][season][mixHr]['a'];
-            //~let b = gtbl[site][season][mixHr]['b'];
-            let a = ktbl[site][season][mixHr]['a'];                     // ktbl site name is ZWEDC now... Spring and not Spr...   but getting invoked in the right sequence!! ^_^     ++ CONTINUE HERE++
+            let a = ktbl[site][season][mixHr]['a'];    // ktbl site is ZWEDC ... Season is Spr, not Spring 
             let b = ktbl[site][season][mixHr]['b'];
             // y = 10^b * x^a;
             let y = Math.pow(10,b) * Math.pow(x,a);
@@ -889,7 +825,6 @@ async function renderSepDistResultTbl( ktbl ) {
 	console.log("~~renderSepDistResultTbl end" );
 };  // end fn renderSepDistResultTbl 
 
-// 2019.0512    adding promise-style render code like it was done for renderSepDistResultTable()
 // calculator 2: distance to ou rate
 function calculateRate() {
 	console.log("--dbg--#CalculateRate4rateCalc was triggered" );
@@ -899,13 +834,12 @@ function calculateRate() {
     .then( (parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult) )
     .then( (ktbl) => renderRateResultTbl( ktbl )  )     
     .catch( (e) => console.log( "--promise-catch--:", e) )
-      
 }; // end calculateRate fn
 
 
 async function renderRateResultTbl( ktbl ) {
 	// calculator 2: distance to ou rate
-    console.log(`~~renderRateResultTbl called with param of: ${ktbl}`);
+    //console.log(`~~renderRateResultTbl called with param of: ${ktbl}`);  // ${ktbl} does not get parsed/expanded by chrome console
     console.log('~~renderRateResultTbl called with param of:', ktbl);
     let rateCalculatorInput = document.getElementById('rateCalculatorInput').value;
 
@@ -988,7 +922,7 @@ async function fetchCsvFile(url) {
 // "1","Spring (MAM)","All Hours","scale_1x","Top 2%",0.572781584311465,-0.11966523965903,0.967234007216081,"Arcata_WWTF"
 // "2","Spring (MAM)","High Mixing Hours","scale_1x","Top 2%",0.453561594602808,0.327341954139423,0.943265341142336,"Arcata_WWTF"
 async function parseCsvFile( csvDat ) {
-    console.log( "inside parseCsvFile, input arg is:", csvDat );
+    //console.log( "inside parseCsvFile, input arg is:", csvDat );
     return $.csv.toObjects(csvDat);
 } // end parseCsvFile
 
@@ -996,34 +930,35 @@ async function parseCsvFile( csvDat ) {
 // input is csv file, converted by parseCsvFile into array of objects
 // changed from site_name to siteId 2019.0512.  works.
 async function buildCalcParamTable(constantArray){
-    console.log( "--dbg-L993--inside buildCalcParamTable, input arg is:", constantArray );
+    //console.log( "--dbg-L993--inside buildCalcParamTable, input arg is:", constantArray );
     let konst = constantArray;   // alias to input param
     let tbl = {};               // 5D hash that will be returned to caller  // made global cuz Promise remain  a mistery
-    
-    console.log( konst[0] );
-    console.log( "--dbg-- eg input[0] site name is:", konst[0]['site_name'] );       // eg input "Arcata_WWTF"
-    console.log( (konst[0]['season']).split(" ")[0].toLowerCase() );        // get spring instead of Spring (MAM)
-    console.log( konst[0]['hour'] );
-    console.log( konst[0]['a'] );
-    console.log( konst[0]['b'] );
-    console.log( konst.length );
-
-    console.log( " --dbg-- siteName2siteId hash is:", siteName2siteId ); 
-
+    //console.log( konst[0] );
+    //console.log( "--dbg-- eg input[0] site name is:", konst[0]['site_name'] );       // eg input "Arcata_WWTF"
+    //console.log( (konst[0]['season']).split(" ")[0].toLowerCase() );        // get spring instead of Spring (MAM)
+    //console.log( konst[0]['hour'] );
+    //console.log( konst[0]['a'] );
+    //console.log( konst.length );
+    //console.log( " --dbg-- siteName2siteId hash is:", siteName2siteId ); 
     // 2D hash ref  https://stackoverflow.com/questions/4329092/multi-dimensional-associative-arrays-in-javascript
     for( let row=0; row < konst.length; row++ ){
         const site_name = konst[row]['site_name'];                              // use siteName2siteId eg Arcata_WWTF become NcArcata 
         let siteId = siteName2siteId[site_name];
         //console.log( " --dbg-- siteName maps to siteId:", site_name, siteId );       // eg "Arcata_WWTF" "NcArcata"
         // check whether the site_name has a defined siteId in the global hash siteName2siteId
-        if( siteId == "" ) {
-            siteId = "**PROBLEM L1012**";
-            console.log( "*PROBLEM* siteName not found in siteName2siteId map", site_name );  
+        switch( siteId ) {
+            case undefined :
+            case "undefined" :
+                console.log( "*PROBLEM* siteName is undef in siteName2siteId map", site_name );  
+                break;
+            case "" :
+                siteId = "**PROBLEM L1012**";   // never get invoked unless input file has some unexpected site name
+                console.log( "*PROBLEM* siteName not found in siteName2siteId map", site_name );  
+                break;
         }
-
         // prase the season input string, convert to one of expected 5 seasonCodeList 
+        let seasonInput = (konst[row]['season']).split(" ")[0].toLowerCase() ;        // get spring instead of "Spring (MAM)"
         let season = "tba";
-        let seasonInput = (konst[row]['season']).split(" ")[0].toLowerCase() ;        // get spring instead of Spring (MAM)
         switch(seasonInput) {
             case "spring" :
                 season = "Spr"; break;
@@ -1040,122 +975,42 @@ async function buildCalcParamTable(constantArray){
         }
         
         const mixingHour = (konst[row]['hour']).substring(0,2);    // this should already be in "Hi", "Lo", "Al"
-        //if( site_name in tbl === false ) {
         if( siteId in tbl === false ) {
             tbl[siteId] = {};    // initialize sub-obj in hash level 1 element
         } else {
-            //console.log( " --dbg--buildCalcParamTable already have site ID in input file, skipping" );
             // site previously seen, no need to initialize the sub-object
+            //console.log( " --dbg--buildCalcParamTable already have site ID in input file, skipping" );
         }
-        //if( season in tbl[site_name] === false ) {
-        //    tbl[site_name][season] = {};    // initialize sub-obj in the hash level 2 element
         if( season in tbl[siteId] === false ) {
             tbl[siteId][season] = {};    // initialize sub-obj in the hash level 2 element
         }
-        //if( mixingHour in tbl[site_name][season] === false ) {
-        //    tbl[site_name][season][mixingHour] = {};    // initialize sub-obj in the hash level 3 element
         if( mixingHour in tbl[siteId][season] === false ) {
             tbl[siteId][season][mixingHour] = {};    // initialize sub-obj in the hash level 3 element
         }
         
         // tbl['Arcata_WWTF']['Autum']['hi(hour)']['a'] = (some number)
-        //--tbl[site_name][season][mixingHour]['a'] = konst[row]['a'];  
-        //--tbl[site_name][season][mixingHour]['b'] = konst[row]['b'];
         tbl[siteId][season][mixingHour]['a'] = konst[row]['a'];  
         tbl[siteId][season][mixingHour]['b'] = konst[row]['b'];
         //console.log( "inside buildCalcParamTable, row=" + row );
         //console.log( "inside buildCalcParamTable, constructed entry is:" + tbl[site_name][season][mixingHour]['b'] );
     }
-    console.log( "inside buildCalcParamTable about to return, generated Table is:", tbl );
-    return( tbl );    // FIXME does this need to be constructed as a Promise??
+    //console.log( "inside buildCalcParamTable about to return, generated Table is:", tbl );
+    console.log( "inside buildCalcParamTable about to return" );
+    return( tbl );    // this work as return for  promise
 } // end buildCalcParamTable()
 
 
-// After failed Promise (it is too weired, maybe just dont work in my existing jQuery structure...
-// manually coding the table in here
-// if get promise to work, then dont need this.  FIXME
-var gtbl = {};  
-function buildCalcParamHash_ERASEME() {
-    dbgTracer += " buildCalcParamHash() \t";  
-    console.log( 'dbtTracer chain is:', dbgTracer );
-    console.log( '--dbg-- buildCalcParamHash begin, 4D hash, coded in this JS file, not loaded via URL');
-    console.log( '--dbg-- buildCalcParamHash being, gtbl currently is: ', gtbl );
-    gtbl['SfZwedc'] = {};
-    gtbl['SfZwedc']['Spr'] = {};
-    gtbl['SfZwedc']['Sum'] = {};
-    gtbl['SfZwedc']['Aut'] = {};
-    gtbl['SfZwedc']['Win'] = {};
-    gtbl['SfZwedc']['All'] = {};
-    //gtbl['sfZwedc']['spring']['Hi']['a'] = a: 0.545068423937434;
-    gtbl['SfZwedc']['Spr']['Hi'] = {a: 0.442872194633513, b: 0.395557414661807};
-    gtbl['SfZwedc']['Spr']['Lo'] = {a: 0.591166584709239, b: 0.387765746773035};
-    gtbl['SfZwedc']['Spr']['Al'] = {a: 0.564028039911314, b: 0.200181981736158};
-    
-    gtbl['SfZwedc']['Sum']['Hi'] = {a: 0.459250483876518, b: 0.264823019523493};
-    gtbl['SfZwedc']['Sum']['Lo'] = {a: 0.622437722881143, b: 0.0273895772803282};
-    gtbl['SfZwedc']['Sum']['Al'] = {a: 0.589815388976665, b: 0.00500273447269173};
-   
-    gtbl['SfZwedc']['Aut']['Hi'] = {a: 0.591443573975132, b: -0.277624068037645};
-    gtbl['SfZwedc']['Aut']['Lo'] = {a: 0.702658424586768, b: 0.130741364704308};
-    gtbl['SfZwedc']['Aut']['Al'] = {a: 0.541673645647293, b: 0.540783670051477};
-    
-    gtbl['SfZwedc']['Win']['Hi'] = {a: 0.642919710070241, b: -0.393776765661342};
-    gtbl['SfZwedc']['Win']['Lo'] = {a: 0.680703504325007, b: 0.280842935575785};
-    gtbl['SfZwedc']['Win']['Al'] = {a: 0.530164246999804, b: 0.668631617739197};
-    
-    gtbl['SfZwedc']['All']['Hi'] = {a: 0.545068423937434, b: -0.0860491302079822};
-    gtbl['SfZwedc']['All']['Lo'] = {a: 0.58710960852359,  b:  0.490552468935941};
-    gtbl['SfZwedc']['All']['Al'] = {a: 0.552349075735268, b:  0.327879617804563};
-    
-    console.log( '--dbg-- buildCalcParamHash, entry for SfZwedc:' + gtbl['SfZwedc']['Spr']['Hi']['a'] );
-    console.log( '--dbg-- buildCalcParamHash, entry for SfZwedc:' + gtbl['SfZwedc']['Sum']['Hi']['b'] );
-    console.log( '--dbg-- buildCalcParamHash, populated gtbl as:', gtbl );
-} // end function buildCalcParamHash()
-//--buildCalcParamHash();  // invoking it (presumably) on load
 
 
-// this next one likely not needed anymore   
-// well, was hoping to abandone it, but may still need it :-/
-function ERASEBLE_MAYBE__runCalculator( constantTbl ) {
-    console.log( "inside runCalculator." );
-    console.log( "inside runCalculator, input arg is:", constantTbl );
-    //$('#csvTester2').html( constantTbl );
-}
-
-
-//const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.head5.csv";   // version starts with alcarta
-const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.csv";          // open in google sheets !! 
-
-
-// old smelly_calc didnt have this document-ready defined...     
+// Re-render the calculator result table with DataTables jquery tool to jazz it up
+// result is meh, may not really use it
 $(document).ready(() => {
-    
-    console.log( '~~doc.ready() -- using Promise apprach now...' );
-    
-    // async fetch constant from URL and get it ready for use 
-    //const calcParamTbl = fetchCsvFile(rateConstantUrl).then((csvDat) => parseCsvFile(csvDat)).then((parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult)) ;
-    //@const calcParamTbl = fetchCsvFile(rateConstantUrl).then((csvDat) => parseCsvFile(csvDat));
-    // .then((parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult)) ;    // this is what breaks the Promise :-/
-    //calcParamTbl.then((parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult)) ;    // this is what breaks the Promise :-/   it maybe spinning...
-        
-    //@console.log( "~~doc.ready() -- about to call runCalculator." );
-    // not chaining the next line below so that above can run in background 
-    //@calcParamTbl.then( (dataTbl) => runCalculator(dataTbl) ); // use dataTbl and update UI
-    //calcParamTbl.then( (dataTbl) => function(dataTbl) {
-    //    console.log( '~~doc.ready() -- inside a .then().  dataTbl is:' + dataTbl );     // dont get run in here either :-/
-    //}); 
-    
-    
     console.log( '~~doc.ready() -- invoking dataTAbles to jazz up the calculator result table' );
-    
     // dont like the resulting format, need to tweak, at least the bg color to match...
-    //$('#calcTableResult4distance').DataTable();
-    //$('#calcTableResult4rate').DataTable();
-
+    //-$('#calcTableResult4distance').DataTable();
+    //-$('#calcTableResult4rate').DataTable();
     console.log( '~~doc.ready() -- done end of doc.ready()' );
 });
-
-
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1223,14 +1078,6 @@ var map = new mapboxgl.Map({
     
 });
 
-
-// these should not be needed anymore, cuz took out pop data county vs state zoom changes
-// begin zoom control for state/county choropleth
-//var zoomThreshold = 4;  // flip beween state vs county density
-//var zoomThresholdAQI = 6;  // flip between county population density vs air quality  (for scale, maybe opacity)
-// maybe useful again later if have bubble for site location, but then dont want to use it when zoom is high to the detail of the simulation data.
-
-// end of state/county choropleth
 
 //-color gradient from choropleth tutorial  https://www.mapbox.com/help/choropleth-studio-gl-pt-2/
 //-var layers = ['0-10', '10-20', '20-50', '50-100', '100-200', '200-500', '500-1000', '1000+'];
@@ -1311,11 +1158,6 @@ function getInputFormSelection() {
         inputFormSelection += document.getElementById("scaleSelectorUI").value;;
         feedback.innerHTML  = inputFormSelection;					
         if( currentLoadedMapLayer != "" ) {
-            // https://docs.mapbox.com/mapbox.js/example/v1.0.0/layers/
-            //if (map.hasLayer('caair')) {     // err not a fn.  so cant call map.fn here? 
-            //    map.removeLayer('caair');
-            //    this.className = '';
-            //} 
             rmLayerCounter++;
             map.removeLayer(  currentLoadedMapLayer );
             //map.removeLayer('caair');
@@ -1454,7 +1296,7 @@ function buildSiteName2SiteIdHash() {
     siteName2siteId['Fairfield_Suisan'] =  		 'SfFairfield' ;
     siteName2siteId['Fresno-Clovis'] =  		 'SjFresno' ;
     siteName2siteId['Healdsburg_WRF'] =  		 'NcHealdsburg' ;
-    siteName2siteId['IEUA_Plant'] =  		 'ScLeua' ;
+    siteName2siteId['IEUA_Plant'] =  		 'ScIeua' ;
     siteName2siteId['Joint_WPCA'] =  		 'ScJoint' ;
     siteName2siteId['Lancaster_WPP'] =  		 'MdLancaster' ;
     siteName2siteId['MONTEREY_WPCA'] =  		 'CcMonterey' ;
@@ -1469,7 +1311,13 @@ function buildSiteName2SiteIdHash() {
     siteName2siteId['Vacaville_WWTP'] =  		 'SvVacaville' ;
     siteName2siteId['Z-Best_Facility'] =  		 'SfZbest' ;
     siteName2siteId['ZWEDC'] =  		 'SfZwedc' ;
+
+    siteName2siteId['SanJose_WPCP'] =  		 'SfSanjose' ;
     console.log( '--dbg-- buildSiteName2SiteIdHash end' );
+    // SfSanjose was removed from input list
+    // site with number, but seems to have matched correctly:
+    // ScCorona
+    // SjBakersfield
 } //end buildSiteName2SiteIdHash() 
 
 function buildLonLatHashFromQuery_dontWork_abandoningForNow() {

@@ -74,15 +74,15 @@ def print_hash(args) :
     site2abbr = {}
     site2abbr['Arcata_WWTF'] =	 'NcArcata'
     site2abbr['Atwater_WWTF'] =	 'SjAtwater'
-    site2abbr['BakersfieldWWTP2'] =	 'SjBakersfield'
+    site2abbr['BakersfieldWWTP2'] =	 'SjBakersfield'     # site with number
     site2abbr['Calexico_WPCP'] =	 'SsCalexico'
-    site2abbr['Corona_WWTP1'] =	 'ScCorona'
+    site2abbr['Corona_WWTP1'] =	 'ScCorona'              # site with number
     site2abbr['Dublin_WWTP'] =	 'SfDublin'
     site2abbr['El_Dorado_WPP'] =	 'McEldorado'
     site2abbr['Fairfield_Suisan'] =	 'SfFairfield'
     site2abbr['Fresno-Clovis'] =	 'SjFresno'
     site2abbr['Healdsburg_WRF'] =	 'NcHealdsburg'
-    site2abbr['IEUA_Plant'] =	 'ScLeua'
+    site2abbr['IEUA_Plant'] =	 'ScIeua'									# this is the correct one
     #site2abbr['LEUA_Plant'] =	 'ScLeua'           # should be L, not i.
     site2abbr['Joint_WPCA'] =	 'ScJoint'
     site2abbr['Lancaster_WPP'] =	 'MdLancaster'
@@ -99,6 +99,7 @@ def print_hash(args) :
     site2abbr['Z-Best_Facility'] =	 'SfZbest'
     site2abbr['ZWEDC'] =	         'SfZwedc'
 
+    site2abbr['SanJose_WPCP'] =	         'SfSanjose'		# often skipped as overlap with SfZwedc
     #site = site2abbr[site_name]       
     for siteName in site2abbr :
         siteId = site2abbr[siteName]
