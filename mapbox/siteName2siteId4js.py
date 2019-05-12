@@ -6,9 +6,10 @@
 # siteName2siteId['SanDiego_Metro'] =  	 'SdSandiego'
 
 # run as
-# ./siteName2siteId4js.py -1  | sort 
+# ./siteName2siteId4js.py  
+# ./siteName2siteId4js.py  | grep id2 | sort 
 # no input file needed after all.  was going to use csv, but already had site name to id in a hash from prev .py script, so just used that
-# ./siteName2siteId4js.py -1    < ~/tin-gh/lbnl-scienceit/data/rate_distance_table.csv | sort 
+# ./siteName2siteId4js.py     < ~/tin-gh/lbnl-scienceit/data/rate_distance_table.csv | sort 
 
 ####
 
@@ -103,7 +104,12 @@ def print_hash(args) :
     #site = site2abbr[site_name]       
     for siteName in site2abbr :
         siteId = site2abbr[siteName]
-        print( "siteName2siteId['%s'] =  \t\t '%s' ;"    % ( siteName, siteId )  )   ## 
+        print( "siteName2siteId['%s']  \t\t = '%s' ;"    % ( siteName, siteId )  )   # 
+
+		# 2nd iteration to print a hash to go back from siteId to siteName
+    for siteName in site2abbr :
+        siteId = site2abbr[siteName]
+        print( "siteId2siteName['%s']  \t\t = '%s' ;"    % ( siteId, siteName )  )   ##
 # print_hash()-end 
 """
 expected output is like:
