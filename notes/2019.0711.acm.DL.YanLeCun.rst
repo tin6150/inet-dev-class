@@ -1,0 +1,84 @@
+Yann LeCun ACM talk on DL
+=========================
+
+recorded.  will be avail in learning.acm.org
+
+gphotos link: 
+
+perceptron is single layer 
+
+motif ... combination of edges... which is made of pixels.
+
+hierarchy
+
+deep learning cuz it has multiple layers.  just as simple as that.
+
+reinforcement learning, don't need to tell the machine what's right.
+self explored.
+but system need to learn many many times with the env even on simple things.
+eg play many games to 
+80 hours to reach human reach in 15 min.
+but it does get better after that.
+alpha-go.  play 20 million games, 2 weeks on 2000 cpu.
+200 years of real time play on single map starcraft.
+
+so, implactical to use to train self-driving car.
+car need to crash many times before it learn not to crash.
+don't have a real model of the world.
+
+linear -> non linear -> linear
+can detect anything
+
+but for complex fn, need more complex model.
+
+more parallel, need bigger batch, more side effects.
+
+automatic delineation in other domain.
+here called back-propagation.
+pytorch, etc automatically do this.
+specify graph and output, does the compute automatically.
+
+structure of the network.
+
+DL...
+figuring out a good arch
+sparse matrix.
+visual cortex.
+neuron not connected to all optical fibers.
+(local receptive field).
+look at neighbours
+
+
+learnign to reason??
+hard
+answer comlex question
+system need working memory
+store meaning of text
+
+self-supervised learning
+to simulate how baby and animal learn by observation
+
+
+work today.  work well for NLP.
+don't work well for recreating images.  artifacts clearly visible, human do much better.
+	how to hanedle uncertainties is not well understood.
+	predict next few frame of video is blurry, cuz it is avg many possible future scenario.
+	again, clearly, computer don't understand the objects and model of the world.
+for speech recognition, not too well.
+
+with adversarial training to predict video does better.
+	train a second NN
+	generator vs discriminator
+	(actual future of video frame is discriminator, 
+	generator get feedback of how well it did
+
+	predict what other cars will do
+	WHAT?? autonomous vehicle don't have any model of future??!!
+	maybe just very crude one using other tech
+
+speed up learning of prediction.
+	
+
+	
+
+
