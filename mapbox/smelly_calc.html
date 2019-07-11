@@ -3,23 +3,16 @@
 
 
 <!--
-smelly - ca air 
-base on ZWEDC_jq_slider.html and ZWEDC_50x50sq_js.html
+Smelly with calculator  (Promise async load works, no longer hard coding the param in this file)
+Work for 26 sites
 
-drop down to pick sites, scale, season, time
+enable gtag and adjust title before deploying to production.
 
-it now works for ~25 sites.
-But only ZWEDC has all mixing hours and plant capacity (scale) modeled.
-other sites has more limited simulation data.
-flyTo() works.
-
-
-check out vscode from github, works for linux
-async() will do the smart thing and generate return as promise when needed
+tin 2019.05.12
 -->
 <head>
     <meta charset='utf-8' />
-    <title>Smelly - ETA + Science IT Collaboration (0418b)</title>
+    <title>Smelly - ETA + Science IT Collaboration (0512)</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
@@ -50,7 +43,7 @@ async() will do the smart thing and generate return as promise when needed
     --> 
 	<!-- see jQuery versions at https://code.jquery.com/jquery/ -->
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
-	<script src="http://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
 	<script src="https://smelly.lbl.gov/src/jquery.csv.js" crossorigin="anonymous"></script>
 
 	<!-- DataTables.net, never used , thus disabling
@@ -663,16 +656,6 @@ async() will do the smart thing and generate return as promise when needed
         Map layer loading debug data will appear here.
     </div>
 
-    <!-- Modify the style: right position so it matches with the mapbox attribution -->
-    <!-- https://stackoverflow.com/questions/40382515/how-do-i-add-custom-attribution-to-the-default-mapbox-gl-attribution-control -->
-    <!-- didnt do what i wanted, so disabling. -tin
-    <div id="attribution" class="mapboxgl-ctrl mapboxgl-ctrl-attrib mapboxgl-ctrl-bottom-right" style="position: fixed; bottom: 0; right: 230px;">
-        <a href="*">Attribution 1</a> &nbsp;|&nbsp; 
-        <a href="*">Attribution 2</a>  &nbsp;|&nbsp;
-        <a href="*">Attribution n</a> &nbsp;|
-    </div>
-    -->
-
   </div><!-- id='map'-->
 </div> <!-- end div for map-container -->
 
@@ -707,6 +690,9 @@ $( function() {
 var odorCalculatorVisible = false;
 var calculatorMode = "distance";  // "rate" is the other calculator
 
+const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.csv";          // open in google sheets !! 
+//const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.head5.csv";   // version starts with alcarta
+
 // actually no need to store these below.  HTML DOM automatically store unless page reloaded
 //-var rateInput4distCalc = 5.0;   		  // in ou/s     
 //-var distInput4rateCalc = 1000;		  // in m
@@ -714,8 +700,8 @@ var calculatorMode = "distance";  // "rate" is the other calculator
 // state wide map only have capacity=1.0 thus need to disable this html drop down choice.  
 // no way to do this in html, thus doing it here in jQuery 
 //~~document.getElementById("scaleSelectorUI").style.display = 'none'; 
+// Ling wanted it for demo in SF, so commented out above. 
 //document.getElementById("rateCalc").style.display = 'none';   // dont display calculator button till code is complete
-//--xx document.getElementById("ShowRateCalculatorButton").style.display = 'none';   // dont display calculator button till code is complete
 
 $("#ShowCalculator").click( function() {
 	console.log("#ShowCalculator was clicked" );
@@ -723,17 +709,6 @@ $("#ShowCalculator").click( function() {
 	    odorCalculatorVisible = true;
 	    $("button#ShowCalculator").html("Hide Calculator");
 	    
-	    
-	    // new addition 2019.0414
-        // async fetch constant from URL and get it ready for use 
-        //~~const calcParamTbl = fetchCsvFile(rateConstantUrl)
-        //~~    .then((csvDat) => parseCsvFile(csvDat))  
-        //~~    .then((parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult)) ;
-        //~~calcParamTbl.then( (dataTbl) => calculateSeparationDistance( dataTbl );  // crunch number and update UI
-	    // fn below trigger showing calculator.  
-	    // so hopefully above loads the param in time
-	    // actually changed it to be in .then() to wait
-	    // ++ FIXME   think keeping below, erase above.
 		calculateSeparationDistance();
 		$("#distanceCalc.calc_Css").show("slow");
 	} else {
@@ -782,78 +757,28 @@ function getCurrentSite() {
 	return currentSite;
 };
 
+// calculator 1: ou to distance 
 async function calculateSeparationDistance() {
+    // use Promise to load file via url for the constants 
+    // then call fn to perform the actual calculation and render the result into the html using jquery
 	console.log("--dbg-- #CalculateButton4distCalc was triggered" );
 	
-	//var inputNum = document.getElementById('distanceCalculatorInput').value;  // no longer needed in here
-	
-	// ++ TODO add table of constant inside this fn.  no need for them to be global
-
-	
-    // async fetch constant from URL and get it ready for use 
-    //let calcParamTbl = await fetchCsvFile(rateConstantUrl)
-    //.then( (csvDat) => parseCsvFile(csvDat) )    // or is the probem here now??!! 
-    let calcParamTbl =         fetchCsvFile(rateConstantUrl)
-    calcParamTbl.then( (csvDat) => parseCsvFile(csvDat),                    (e) => console.log("## promise .then for parseCsvFile error handling (ie rejected) portion",    e) )    // error portion is triggered
-    .then( (parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult), (e) => console.log("## promise .then for buildParamTable error handling portion", e) )    // error portion is triggered FIXME
-    //calcParamTbl.then( (csvDat) => parseCsvFile(csvDat) )        
-    //.then( (parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult) )
+    let calcParamTbl = fetchCsvFile(rateConstantUrl)
+    calcParamTbl.then( (csvDat) => parseCsvFile(csvDat) )
+    .then( (parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult) )
+    .then( (ktbl) => renderSepDistResultTbl( ktbl )  )          // this does the trick!!  
     .catch( (e) => console.log( "--promise-catch--:", e) )
-    .then( (ktbl) => renderSepDistResultTbl( ktbl )  )          // this seems to do the trick!!  many of the .then() below should be erased.  FIXME 
-      
-      // this chain seems funny, dont seems to get executed
-      // promise .then() never gets to run somehow
-    .then((tabl) => function(tabl){ 
-        console.log( " ** @@@@@@@@@@@@@@@@ debugging point -- tabl ", tabl );
-        //tabl;
-        return tabl;
-    }) 
-    .then((Xtbl) => async function(Xtbl){
-        //console.log( " ** need update calculator output.  user inputNum is:" + inputNum );
-        //console.log( "need update calculator output.  constant tbl is:" + tbl );
-        
-        let konst = Xtbl;   // alias to input param
-        console.log( konst[0] );
-        console.log( konst[0]['site_name'] );
-        console.log( (konst[0]['season']).split(" ")[0].toLowerCase() );        // get spring instead of Spring (MAM)
-        console.log( konst[0]['hour'] );
-        console.log( konst[0]['a'] );
-        console.log( konst[0]['b'] );
-        console.log( konst.length );
-        
-        //+ $('#siteLocation4distCalc').text( "FIXME" + getCurrentSite() );
-        //+ $('calc_result_lowMixing_spring').html( "TBA lowMixing_spring TBA" );
-        // ++ FIXME
-        return Xtbl;
-    })
-    //calcParamTbl.then( (dataTbl) function(tbl){
-    .then( (dataTbl) => async function(dataTbl){
-        await dataTbl;
-        console.log( " ** @@@@@@@@@@@ please work" );   // nope, not sure why, stupid Promise wont get here, seems stuck at earlier code
-        return dataTbl;
-        }, 
-        (e) => console.log( "@@@@@@ begging promise, in reject portion", e )     // neither @@@ get to console log
-    )
-    .catch( err => console.log( `@@@@ end of long chain, catch block:  ${e}`));
-
-    console.log( "--tmp-- beyond Promise async code block -- " );
-    //console.log( "--tmp-- beyond Promise async code block -- (global tbl) is:", gtbl );
-    console.log( "--tmp-- ## beyond Promise async code block -- (promise calcParamTbl is), ", calcParamTbl );    // this takes a long time, in debug win eventually return a promise (which may need unwrapping)
-    await calcParamTbl.then( (m) => console.log( "await calcParamTbl .then portion in here", m))
-    .then( console.log(`--tmp--## will eval of site here works?, hopefully when all promise is done, so can draw calc result table here? NOPE: $ {site}`))
 };  // end fn calculateSeparationDistance 
     
 
 // calculator 1: ou to distance 
-// input param ktbl is the constant table, (formerly gtbl , which was global kludge)
+// input param ktbl is the constant table (now read as async promise) 
 async function renderSepDistResultTbl( ktbl ) {
-    console.log(`~~renderSepDistResultTbl called with param of: ${ktbl}`);
-    console.log('~~renderSepDistResultTbl called with param of:', ktbl);
+    console.log('--dbg--renderSepDistResultTbl called with param of:', ktbl);
 	var inputNum = document.getElementById('distanceCalculatorInput').value;  
-    //++let site = getCurrentSite(); 
-	let site = 'SfZwedc';   // TMP FIXME
-	//$('#siteLocation4distCalc').text( site );
-	$('#siteLocation4distCalc').text( "ZWEDC" );
+    let site = getCurrentSite(); 
+    const site_name = (siteId2siteName[site]).replace(/_/g, " ");              // site id to human friendly name
+	$('#siteLocation4distCalc').text( site_name );
 	console.log("~~dbg~~ distance calc input of inputNum, site, are:", inputNum, site );
 
 	// log10(y) =a*  log10(x) + b,  Coefficients are in the 26sites.emis.dist_fit_new.csv file.
@@ -862,19 +787,13 @@ async function renderSepDistResultTbl( ktbl ) {
 	// https://photos.google.com/album/AF1QipOt3uaEZ2J8fE-SLf6M1r-Q9z827abnWp-QhyZc
     // in array construct below doesnt work :-/
     for( let s = 0; s < seasonCodeList.length; s++ ) {
-        //for( let mixHr in mixingHourCodeList ) {
         for( let m = 0; m < mixingHourCodeList.length; m++ ) {
             let season = seasonCodeList[s];
             let mixHr = mixingHourCodeList[m];
             let htmlElementId = '#calc_result_' + season + "_" + mixHr ;
             let x = inputNum;
             //console.log( "~~dbg--distance calc season, mixHr, ktbl: ", season, mixHr, ktbl );
-            //console.log( "--dbg--distance calc season, mixHr, gtbl: ", season, mixHr, gtbl );
-            //console.log( "--dbg--distance calc gtbl: ", gtbl );
-            //console.log( "--dbg--distance calc gtbl length: ", gtbl.length );
-            //~let a = gtbl[site][season][mixHr]['a'];
-            //~let b = gtbl[site][season][mixHr]['b'];
-            let a = ktbl[site][season][mixHr]['a'];                     // ktbl site name is ZWEDC now... Spring and not Spr...   but getting invoked in the right sequence!! ^_^     ++ CONTINUE HERE++
+            let a = ktbl[site][season][mixHr]['a'];    // ktbl site is ZWEDC ... Season is Spr, not Spring 
             let b = ktbl[site][season][mixHr]['b'];
             // y = 10^b * x^a;
             let y = Math.pow(10,b) * Math.pow(x,a);
@@ -887,30 +806,40 @@ async function renderSepDistResultTbl( ktbl ) {
             //$(htmlElementId).html( y2.toPrecision(2) );     // use jQuery to update result table
         }
     } // end double nested for-loop
-	
 	console.log("~~renderSepDistResultTbl end" );
 };  // end fn renderSepDistResultTbl 
 
+// calculator 2: distance to ou rate
 function calculateRate() {
-	console.log("#CalculateRate4rateCalc was triggered" );
-	let rateCalculatorInput = document.getElementById('rateCalculatorInput').value;
+	console.log("--dbg--#CalculateRate4rateCalc was triggered" );
 
+    let calcParamTbl =         fetchCsvFile(rateConstantUrl)
+    calcParamTbl.then( (csvDat) => parseCsvFile(csvDat)   ) 
+    .then( (parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult) )
+    .then( (ktbl) => renderRateResultTbl( ktbl )  )     
+    .catch( (e) => console.log( "--promise-catch--:", e) )
+}; // end calculateRate fn
+
+
+async function renderRateResultTbl( ktbl ) {
 	// calculator 2: distance to ou rate
-    //++let site = getCurrentSite();
-    let site = 'SfZwedc'; // TMP FIXME
-    //$('#siteLocation4rateCalc').text( site );
-    $('#siteLocation4rateCalc').text( "ZWEDC" );
+    //console.log(`~~renderRateResultTbl called with param of: ${ktbl}`);  // ${ktbl} does not get parsed/expanded by chrome console
+    console.log('~~renderRateResultTbl called with param of:', ktbl);
+    let rateCalculatorInput = document.getElementById('rateCalculatorInput').value;
+
+    let site = getCurrentSite();
+    const site_name = (siteId2siteName[site]).replace(/_/g, " ");              // site id to human friendly name
+    $('#siteLocation4rateCalc').text( site_name );
     for( let s = 0; s < seasonCodeList.length; s++ ) {
-        //for( let mixHr in mixingHourCodeList ) {
         for( let m = 0; m < mixingHourCodeList.length; m++ ) {
             let season = seasonCodeList[s];
             let mixHr = mixingHourCodeList[m];
             let htmlElementId = '#calc_result_distance2rate_' + season + "_" + mixHr ;
             let y = rateCalculatorInput;
             //console.log( "--dbg--rate calc gtbl: ", gtbl );
-            let a = gtbl[site][season][mixHr]['a'];
-            let b = gtbl[site][season][mixHr]['b'];
-            let x = Math.pow(10,(-1*b)) * Math.pow(y,(1/a));
+            let a  = ktbl[site][season][mixHr]['a'];     // changed from gtbl to ktbl
+            let b  = ktbl[site][season][mixHr]['b'];
+            let x  = Math.pow(10,(-1*b)) * Math.pow(y,(1/a));
             let x2 = Math.pow( 10,(  (Math.log10(y)-b) /a) ) ;
             let xw = Math.pow( 10, (-b/a) ) * Math.pow(y, (1/a)) ;
             //console.log( "--dbg--distance calc vars: ", htmlElementId, site, y, a, b );
@@ -921,7 +850,7 @@ function calculateRate() {
             $(htmlElementId).html( xw.toPrecision(2) );     // use jQuery to update result table
         }
     } // end double nested for-loop
-}; // end calculateRate fn
+}; // end renderRateResultTbl fn
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -970,151 +899,101 @@ async function fetchCsvFile(url) {
 } // end function fetchCsvFile(url) 
 
 
-
-async function parseCsvFile( csvDat ) {
-    console.log( "inside parseCsvFile, input arg is:", csvDat );
-    return $.csv.toObjects(csvDat);
-} // end parseCsvFile
-
-//--var tbl = {};               // 5D hash that will be returned to caller  // made global cuz Promise remain  a mistery
-// generate table on constant for use by the calculator
-// input is csv file, converted by a parser into array of objects
-// should have pre-processed the csv file to clean things out
-// eg season name to use autumn instead of fall
-// mixing hours to be 'hi', 'lo', 'al'
-// but then this script already parsed into field names, so less coding to do it here, and i am in a rush
+// == use external library found online/github to convert csv file into an array for easier manipulation ==//
 // for this version, expect csv to be like:
 // "","season","hour","plant.scale","top","a","b","R2","site_name"
 // "1","Spring (MAM)","All Hours","scale_1x","Top 2%",0.572781584311465,-0.11966523965903,0.967234007216081,"Arcata_WWTF"
 // "2","Spring (MAM)","High Mixing Hours","scale_1x","Top 2%",0.453561594602808,0.327341954139423,0.943265341142336,"Arcata_WWTF"
-//  something is spinning here in smelly_calc and never return thus block future .then() :-/   FIXME ++
+async function parseCsvFile( csvDat ) {
+    //console.log( "inside parseCsvFile, input arg is:", csvDat );
+    return $.csv.toObjects(csvDat);
+} // end parseCsvFile
+
+// == generate table on constant for use by the calculator ==//
+// input is csv file, converted by parseCsvFile into array of objects
+// changed from site_name to siteId 2019.0512.  works.
 async function buildCalcParamTable(constantArray){
-    console.log( "inside buildCalcParamTable, input arg is:", constantArray );
+    //console.log( "--dbg-L993--inside buildCalcParamTable, input arg is:", constantArray );
     let konst = constantArray;   // alias to input param
     let tbl = {};               // 5D hash that will be returned to caller  // made global cuz Promise remain  a mistery
-    
-    console.log( konst[0] );
-    console.log( konst[0]['site_name'] );
-    console.log( (konst[0]['season']).split(" ")[0].toLowerCase() );        // get spring instead of Spring (MAM)
-    console.log( konst[0]['hour'] );
-    console.log( konst[0]['a'] );
-    console.log( konst[0]['b'] );
-    console.log( konst.length );
-    // ++ lookup siteID from site string FIXME
+    //console.log( konst[0] );
+    //console.log( "--dbg-- eg input[0] site name is:", konst[0]['site_name'] );       // eg input "Arcata_WWTF"
+    //console.log( (konst[0]['season']).split(" ")[0].toLowerCase() );        // get spring instead of Spring (MAM)
+    //console.log( konst[0]['hour'] );
+    //console.log( konst[0]['a'] );
+    //console.log( konst.length );
+    //console.log( " --dbg-- siteName2siteId hash is:", siteName2siteId ); 
     // 2D hash ref  https://stackoverflow.com/questions/4329092/multi-dimensional-associative-arrays-in-javascript
     for( let row=0; row < konst.length; row++ ){
-        const site_name = konst[row]['site_name'];                              // use site2abbr  ++ FIXME
-        let season = (konst[row]['season']).split(" ")[0].toLowerCase() ;        // get spring instead of Spring (MAM)
-        if( season === "fall" ) { season = "autumn"; }                          // fix inconsistent season naming 
-        const mixingHour = (konst[row]['hour']).substring(0,2);
-        if( site_name in tbl === false ) {
-            tbl[site_name] = {};    // initialize sub-obj in hash level 1 element
+        const site_name = konst[row]['site_name'];                              // use siteName2siteId eg Arcata_WWTF become NcArcata 
+        let siteId = siteName2siteId[site_name];
+        //console.log( " --dbg-- siteName maps to siteId:", site_name, siteId );       // eg "Arcata_WWTF" "NcArcata"
+        // check whether the site_name has a defined siteId in the global hash siteName2siteId
+        switch( siteId ) {
+            case undefined :
+            case "undefined" :
+                console.log( "*PROBLEM* siteName is undef in siteName2siteId map", site_name );  
+                break;
+            case "" :
+                siteId = "**PROBLEM L1012**";   // never get invoked unless input file has some unexpected site name
+                console.log( "*PROBLEM* siteName not found in siteName2siteId map", site_name );  
+                break;
+        }
+        // prase the season input string, convert to one of expected 5 seasonCodeList 
+        let seasonInput = (konst[row]['season']).split(" ")[0].toLowerCase() ;        // get spring instead of "Spring (MAM)"
+        let season = "tba";
+        switch(seasonInput) {
+            case "spring" :
+                season = "Spr"; break;
+            case "summer" :
+                season = "Sum"; break;
+            case "fall" :
+                season = "Aut"; break;      // internally used Autum cuz some old code from Wei before
+            case "winter" :
+                season = "Win"; break;
+            case "all" :
+                season = "All"; break;
+            default:
+                console.log( "**** Unexpected season in input file.  PROBLEM L1029 ****");
+        }
+        
+        const mixingHour = (konst[row]['hour']).substring(0,2);    // this should already be in "Hi", "Lo", "Al"
+        if( siteId in tbl === false ) {
+            tbl[siteId] = {};    // initialize sub-obj in hash level 1 element
         } else {
-            //-- console.log( "buildCalcParamTable found dublicate site name in input file, skipping" );
             // site previously seen, no need to initialize the sub-object
+            //console.log( " --dbg--buildCalcParamTable already have site ID in input file, skipping" );
         }
-        if( season in tbl[site_name] === false ) {
-            tbl[site_name][season] = {};    // initialize sub-obj in the hash level 2 element
+        if( season in tbl[siteId] === false ) {
+            tbl[siteId][season] = {};    // initialize sub-obj in the hash level 2 element
         }
-        if( mixingHour in tbl[site_name][season] === false ) {
-            tbl[site_name][season][mixingHour] = {};    // initialize sub-obj in the hash level 3 element
+        if( mixingHour in tbl[siteId][season] === false ) {
+            tbl[siteId][season][mixingHour] = {};    // initialize sub-obj in the hash level 3 element
         }
         
         // tbl['Arcata_WWTF']['Autum']['hi(hour)']['a'] = (some number)
-        tbl[site_name][season][mixingHour]['a'] = konst[row]['a'];  
-        tbl[site_name][season][mixingHour]['b'] = konst[row]['b'];
+        tbl[siteId][season][mixingHour]['a'] = konst[row]['a'];  
+        tbl[siteId][season][mixingHour]['b'] = konst[row]['b'];
         //console.log( "inside buildCalcParamTable, row=" + row );
         //console.log( "inside buildCalcParamTable, constructed entry is:" + tbl[site_name][season][mixingHour]['b'] );
     }
-    console.log( "inside buildCalcParamTable about to return, generated Table is:", tbl );
-    return( tbl );    // FIXME does this need to be constructed as a Promise??
+    //console.log( "inside buildCalcParamTable about to return, generated Table is:", tbl );
+    console.log( "inside buildCalcParamTable about to return" );
+    return( tbl );    // this work as return for  promise
 } // end buildCalcParamTable()
 
 
-// After failed Promise (it is too weired, maybe just dont work in my existing jQuery structure...
-// manually coding the table in here
-var gtbl = {};  
-function buildCalcParamHash() {
-    dbgTracer += " buildCalcParamHash() \t";  
-    console.log( 'dbtTracer chain is:', dbgTracer );
-    console.log( '--dbg-- buildCalcParamHash begin, 4D hash, coded in this JS file, not loaded via URL');
-    console.log( '--dbg-- buildCalcParamHash being, gtbl currently is: ', gtbl );
-    gtbl['SfZwedc'] = {};
-    gtbl['SfZwedc']['Spr'] = {};
-    gtbl['SfZwedc']['Sum'] = {};
-    gtbl['SfZwedc']['Aut'] = {};
-    gtbl['SfZwedc']['Win'] = {};
-    gtbl['SfZwedc']['All'] = {};
-    //gtbl['sfZwedc']['spring']['Hi']['a'] = a: 0.545068423937434;
-    gtbl['SfZwedc']['Spr']['Hi'] = {a: 0.442872194633513, b: 0.395557414661807};
-    gtbl['SfZwedc']['Spr']['Lo'] = {a: 0.591166584709239, b: 0.387765746773035};
-    gtbl['SfZwedc']['Spr']['Al'] = {a: 0.564028039911314, b: 0.200181981736158};
-    
-    gtbl['SfZwedc']['Sum']['Hi'] = {a: 0.459250483876518, b: 0.264823019523493};
-    gtbl['SfZwedc']['Sum']['Lo'] = {a: 0.622437722881143, b: 0.0273895772803282};
-    gtbl['SfZwedc']['Sum']['Al'] = {a: 0.589815388976665, b: 0.00500273447269173};
-   
-    gtbl['SfZwedc']['Aut']['Hi'] = {a: 0.591443573975132, b: -0.277624068037645};
-    gtbl['SfZwedc']['Aut']['Lo'] = {a: 0.702658424586768, b: 0.130741364704308};
-    gtbl['SfZwedc']['Aut']['Al'] = {a: 0.541673645647293, b: 0.540783670051477};
-    
-    gtbl['SfZwedc']['Win']['Hi'] = {a: 0.642919710070241, b: -0.393776765661342};
-    gtbl['SfZwedc']['Win']['Lo'] = {a: 0.680703504325007, b: 0.280842935575785};
-    gtbl['SfZwedc']['Win']['Al'] = {a: 0.530164246999804, b: 0.668631617739197};
-    
-    gtbl['SfZwedc']['All']['Hi'] = {a: 0.545068423937434, b: -0.0860491302079822};
-    gtbl['SfZwedc']['All']['Lo'] = {a: 0.58710960852359,  b:  0.490552468935941};
-    gtbl['SfZwedc']['All']['Al'] = {a: 0.552349075735268, b:  0.327879617804563};
-    
-    console.log( '--dbg-- buildCalcParamHash, entry for SfZwedc:' + gtbl['SfZwedc']['Spr']['Hi']['a'] );
-    console.log( '--dbg-- buildCalcParamHash, entry for SfZwedc:' + gtbl['SfZwedc']['Sum']['Hi']['b'] );
-    console.log( '--dbg-- buildCalcParamHash, populated gtbl as:', gtbl );
-} // end function buildCalcParamHash()
-buildCalcParamHash();  // invoking it (presumably) on load
 
 
-// this next one likely not needed anymore   
-// well, was hoping to abandone it, but may still need it :-/
-function runCalculator( constantTbl ) {
-    console.log( "inside runCalculator." );
-    console.log( "inside runCalculator, input arg is:", constantTbl );
-    //$('#csvTester2').html( constantTbl );
-}
-
-
-//const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.head5.csv";   // version starts with alcarta
-const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.csv";          // open in google sheets !! 
-
-
-// old smelly_calc didnt have this document-ready defined...     
+// Re-render the calculator result table with DataTables jquery tool to jazz it up
+// result is meh, may not really use it
 $(document).ready(() => {
-    
-    console.log( '~~doc.ready() -- using Promise apprach now...' );
-    
-    // async fetch constant from URL and get it ready for use 
-    //const calcParamTbl = fetchCsvFile(rateConstantUrl).then((csvDat) => parseCsvFile(csvDat)).then((parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult)) ;
-    //@const calcParamTbl = fetchCsvFile(rateConstantUrl).then((csvDat) => parseCsvFile(csvDat));
-    // .then((parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult)) ;    // this is what breaks the Promise :-/
-    //calcParamTbl.then((parseCsvFileResult) => buildCalcParamTable(parseCsvFileResult)) ;    // this is what breaks the Promise :-/   it maybe spinning...
-        
-    //@console.log( "~~doc.ready() -- about to call runCalculator." );
-    // not chaining the next line below so that above can run in background 
-    //@calcParamTbl.then( (dataTbl) => runCalculator(dataTbl) ); // use dataTbl and update UI
-    //calcParamTbl.then( (dataTbl) => function(dataTbl) {
-    //    console.log( '~~doc.ready() -- inside a .then().  dataTbl is:' + dataTbl );     // dont get run in here either :-/
-    //}); 
-    
-    
     console.log( '~~doc.ready() -- invoking dataTAbles to jazz up the calculator result table' );
-    
     // dont like the resulting format, need to tweak, at least the bg color to match...
-    //$('#calcTableResult4distance').DataTable();
-    //$('#calcTableResult4rate').DataTable();
-
+    //-$('#calcTableResult4distance').DataTable();
+    //-$('#calcTableResult4rate').DataTable();
     console.log( '~~doc.ready() -- done end of doc.ready()' );
 });
-
-
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1137,13 +1016,15 @@ var rmSourceCounter = 0;
 // these arent global, just DOM-wide object vars :)
 // store parallel hash of lon/lat of sites.   eg lon['sfzwedc'], lat['sfzwedc'] for use with flyTo()/panTo
 // http://www.mojavelinux.com/articles/javascript_hashes.html 
-var lon = {};
+var lon = {};  // buildLonLatHash populates it
 var lat = {}; 
 //var counterFlyTo = 0;	// count number of flyTo() executed.  mostly for first load not to move since URL may have specific zoom/lat/lon.  hmm... but layer info wouldnt be loaded.  really need url to have that info.  rather have it fly than user think buggy software with no layer!!
 // hmmm... can map find out nearnest site on display and load that layer??  prob lot of work!
 
 const seasonCodeList     = [ "Spr", "Sum", "Aut", "Win", "All"];
 const mixingHourCodeList = [ "Hi", "Lo", "Al"];  // Al = All aka Extended Mixing hours.
+var siteName2siteId = {}; // buildSiteName2SiteIdHash will populate it
+var siteId2siteName = {}  // buildSiteName2SiteIdHash will populate it (reverse id 2 human name lookup, for calculator heading table, icing in the cake)
 
 // note there is a map.remove() ... 
 var map = new mapboxgl.Map({
@@ -1181,14 +1062,6 @@ var map = new mapboxgl.Map({
     
 });
 
-
-// these should not be needed anymore, cuz took out pop data county vs state zoom changes
-// begin zoom control for state/county choropleth
-//var zoomThreshold = 4;  // flip beween state vs county density
-//var zoomThresholdAQI = 6;  // flip between county population density vs air quality  (for scale, maybe opacity)
-// maybe useful again later if have bubble for site location, but then dont want to use it when zoom is high to the detail of the simulation data.
-
-// end of state/county choropleth
 
 //-color gradient from choropleth tutorial  https://www.mapbox.com/help/choropleth-studio-gl-pt-2/
 //-var layers = ['0-10', '10-20', '20-50', '50-100', '100-200', '200-500', '500-1000', '1000+'];
@@ -1269,11 +1142,6 @@ function getInputFormSelection() {
         inputFormSelection += document.getElementById("scaleSelectorUI").value;;
         feedback.innerHTML  = inputFormSelection;					
         if( currentLoadedMapLayer != "" ) {
-            // https://docs.mapbox.com/mapbox.js/example/v1.0.0/layers/
-            //if (map.hasLayer('caair')) {     // err not a fn.  so cant call map.fn here? 
-            //    map.removeLayer('caair');
-            //    this.className = '';
-            //} 
             rmLayerCounter++;
             map.removeLayer(  currentLoadedMapLayer );
             //map.removeLayer('caair');
@@ -1349,7 +1217,6 @@ function getInputFormSelection() {
             console.log( " site change eval to false, no flying"  );
         }
         
-        
         //--    $( "inputPicker" ).select( function() { alert( "select triggered" ); });
 }; //end fn getInputFormSelection 
 
@@ -1389,12 +1256,80 @@ function buildLonLatHash() {
     lon['SfZwedc'] = -121.9507 ;	 lat['SfZwedc'] = 37.43469;
 
     // manual entry: lon['SfZwedc'] = -121.94;   lat['SfZwedc'] = 37.43;
-  
     console.log( '--dbg-- buildLonLatHash lon/lat: '  + lon['SfZwedc'] + "/" + lat['SfZwedc'] );
     console.log( '--dbg-- buildLonLatHash end' );
 } // end buildLonLatHash
 
+// == populate siteName2siteId hash == //
+// eg lon['Arcarta_WWTF'] retruns "NcArcata"
+function buildSiteName2SiteIdHash() {
+    console.log( '--dbg-- buildSiteName2SiteIdHash begin' );
+    dbgTracer += " buildSiteName2SiteIdHash() \t";    
+    console.log( dbgTracer );
+    // code from snipplet generated by siteName2siteId4js.py
+    // pay attention to a number of tricky sites:
+    // SfSanjose was removed from input list
+    // site with number, but seems to have matched correctly:
+    // ScCorona
+    // SjBakersfield
+    siteName2siteId['SanJose_WPCP'] =  		 'SfSanjose' ;
+    siteName2siteId['Arcata_WWTF'] =  		 'NcArcata' ;
+    siteName2siteId['Atwater_WWTF'] =  		 'SjAtwater' ;
+    siteName2siteId['BakersfieldWWTP2'] =  		 'SjBakersfield' ;
+    siteName2siteId['Calexico_WPCP'] =  		 'SsCalexico' ;
+    siteName2siteId['Corona_WWTP1'] =  		 'ScCorona' ;
+    siteName2siteId['Dublin_WWTP'] =  		 'SfDublin' ;
+    siteName2siteId['El_Dorado_WPP'] =  		 'McEldorado' ;
+    siteName2siteId['Fairfield_Suisan'] =  		 'SfFairfield' ;
+    siteName2siteId['Fresno-Clovis'] =  		 'SjFresno' ;
+    siteName2siteId['Healdsburg_WRF'] =  		 'NcHealdsburg' ;
+    siteName2siteId['IEUA_Plant'] =  		 'ScIeua' ;
+    siteName2siteId['Joint_WPCA'] =  		 'ScJoint' ;
+    siteName2siteId['Lancaster_WPP'] =  		 'MdLancaster' ;
+    siteName2siteId['MONTEREY_WPCA'] =  		 'CcMonterey' ;
+    siteName2siteId['Palm_WPCP'] =  		 'SsPalm' ;
+    siteName2siteId['Porterville_WWTF'] =  		 'SjPorterville' ;
+    siteName2siteId['Redding_WWTP'] =  		 'SvRedding' ;
+    siteName2siteId['SOCWA_TP'] =  		 'ScSocwa' ;
+    siteName2siteId['Sacramento'] =  		 'SvSacramento' ;
+    siteName2siteId['SanDiego_Metro'] =  		 'SdSandiego' ;
+    siteName2siteId['Southeast_WPCP'] =  		 'SfSoutheast' ;
+    siteName2siteId['Ukiah_WWTP'] =  		 'NcUkiah' ;
+    siteName2siteId['Vacaville_WWTP'] =  		 'SvVacaville' ;
+    siteName2siteId['Z-Best_Facility'] =  		 'SfZbest' ;
+    siteName2siteId['ZWEDC'] =  		 'SfZwedc' ;
 
+
+    // added a reverse site ID to human readable name, just so that calculator result can display a more friendly title 
+    siteId2siteName['CcMonterey'] =  		 'MONTEREY_WPCA' ;
+    siteId2siteName['McEldorado'] =  		 'El_Dorado_WPP' ;
+    siteId2siteName['MdLancaster'] =  		 'Lancaster_WPP' ;
+    siteId2siteName['NcArcata'] =  		 'Arcata_WWTF' ;
+    siteId2siteName['NcHealdsburg'] =  		 'Healdsburg_WRF' ;
+    siteId2siteName['NcUkiah'] =  		 'Ukiah_WWTP' ;
+    siteId2siteName['ScCorona'] =  		 'Corona_WWTP1' ;
+    siteId2siteName['ScIeua'] =  		 'IEUA_Plant' ;
+    siteId2siteName['ScJoint'] =  		 'Joint_WPCA' ;
+    siteId2siteName['ScSocwa'] =  		 'SOCWA_TP' ;
+    siteId2siteName['SdSandiego'] =  		 'SanDiego_Metro' ;
+    siteId2siteName['SfDublin'] =  		 'Dublin_WWTP' ;
+    siteId2siteName['SfFairfield'] =  		 'Fairfield_Suisan' ;
+    siteId2siteName['SfSanjose'] =  		 'SanJose_WPCP' ;
+    siteId2siteName['SfSoutheast'] =  		 'Southeast_WPCP' ;
+    siteId2siteName['SfZbest'] =  		 'Z-Best_Facility' ;
+    siteId2siteName['SfZwedc'] =  		 'ZWEDC' ;
+    siteId2siteName['SjAtwater'] =  		 'Atwater_WWTF' ;
+    siteId2siteName['SjBakersfield'] =  		 'BakersfieldWWTP2' ;
+    siteId2siteName['SjFresno'] =  		 'Fresno-Clovis' ;
+    siteId2siteName['SjPorterville'] =  		 'Porterville_WWTF' ;
+    siteId2siteName['SsCalexico'] =  		 'Calexico_WPCP' ;
+    siteId2siteName['SsPalm'] =  		 'Palm_WPCP' ;
+    siteId2siteName['SvRedding'] =  		 'Redding_WWTP' ;
+    siteId2siteName['SvSacramento'] =  		 'Sacramento' ;
+    siteId2siteName['SvVacaville'] =  		 'Vacaville_WWTP' ;
+
+    console.log( '--dbg-- buildSiteName2SiteIdHash end' );
+} //end buildSiteName2SiteIdHash() 
 
 function buildLonLatHashFromQuery_dontWork_abandoningForNow() {
     // turns out there is no way to ask the API to return the lon/lat using querySourceFeatures 
@@ -1444,17 +1379,15 @@ function buildLonLatHashFromQuery_dontWork_abandoningForNow() {
     console.log( '--dbg-- buildLonLatHashFromQuery end' );
 } // end buildLonLatHashFromQuery
  
-// ################################################################################# //
-// ################################################################################# //
-// #### this look like start of execution of javascript code                    #### //
-// #### but start with defining responses to major events related to map action #### //
-// ################################################################################# //
-// ################################################################################# //
+// ################################################################## //
+// ################################################################## //
+// #### defining responses to major events related to map action #### //
+// ################################################################## //
+// ################################################################## //
 
 console.log("--dbg-- 'main' of JS... before map.on('load'...) , calling buildLonLatHash()" );
 dbgTracer += " MainAftAllFnDeclare_b4map_on_load \t";     
 console.log( dbgTracer );
-buildLonLatHash();
 
 
 
@@ -1558,7 +1491,7 @@ map.on('load', function () {
     });
     var hourSelector = document.getElementById("hourSelectorUI");  
     hourSelector.addEventListener('change', function(e) {
-        getInputFormSelection();                                            // FIXME these are the one throwing error about layer  // should be fine now.
+        getInputFormSelection();                                            
     });
     var sourceSelector = document.getElementById("sourceSelectorUI");  
     sourceSelector.addEventListener('change', function(e) {
@@ -1613,7 +1546,7 @@ map.on('mousemove', function (e) {
       document.getElementById('featuresDbg').innerHTML = "DBG:" + JSON.stringify(featuresSiteInfo, null, 2);      // this display  in top right  featuresDbg box  inside map-overlay-features-dbg ##
       // rest actually want to add to existing bottom right map-overlay-features box
       if (featuresSiteInfo.length > 0) {
-		        popDen2display = Math.round(featuresSiteInfo[0].properties.pop_density/100)*100;  // could not use toPrecision, so tricking it this way to display to nearnest 100s
+		    popDen2display = Math.round(featuresSiteInfo[0].properties.pop_density/100)*100;  // could not use toPrecision, so tricking it this way to display to nearnest 100s
             text2display += "<BR>\n" 
 		      + "Site: "        + featuresSiteInfo[0].properties.site_name    + "<BR>\n"  
 		      + "Facility: "    + featuresSiteInfo[0].properties.facility     + "<BR>\n"  
@@ -1624,12 +1557,8 @@ map.on('mousemove', function (e) {
 		      + "Pop Density: " + popDen2display + " person/mile²<BR>\n"  
 		      + "Terrain: "     + featuresSiteInfo[0].properties.terrain      + "<BR>\n"  
       } 
-
-
       //text2display += " --TheEnd";
       document.getElementById('features').innerHTML = text2display;
-      //## tinWasHere
-
 });
 
 // https://www.mapbox.com/mapbox-gl-js/api/#navigationcontrol
@@ -1689,11 +1618,8 @@ map.keyboard.enable();
 // ################################################################################# //
 // ################################################################################# //
 // #### code for non-event response 
-// #### think of this as "main", for the "misc" code 
 // ################################################################################# //
 // ################################################################################# //
-
-
 
 // sync move, but `require` not understood by chrome engine (??)
 // https://github.com/mapbox/mapbox-gl-sync-move
@@ -1703,12 +1629,12 @@ map.keyboard.enable();
 
 // things are event-based, multi-threaded.
 // thus, this section is loaded before many of the above map.on('load'...) etc are loaded.
-// so the lon/lat hash cant be build until the addLayer returns.
-// Solution: have another fn that builds the hash
-// and invoke it from map.on('load'...)
-// Therefore, there is no real work in "main" section here.
 
-console.log( 'the "main" of script' );
+console.log( 'non-event handlers, kinda like the "main" of script' );
+
+buildLonLatHash();
+buildSiteName2SiteIdHash();
+
 dbgTracer += "endOfScript \t";
 console.log(dbgTracer);
 
