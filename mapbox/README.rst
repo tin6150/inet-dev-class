@@ -123,6 +123,8 @@ Scale:
 - https://tin6150.github.io/inet-dev-class/mapbox/caair_uicode.html (formerly caair_zwedc_uicode.html) - fork of caair_zwedc.html, coding handler to respond to drop down selector (add/remove layer/source).   working at git log 21d86ad
 - https://tin6150.github.io/inet-dev-class/mapbox/smelly_pt.html (and smelly_polyg) - has state-wide overview map + loading of site specific data (cp from caair_uicode.html)
 
+- https://tin6150.github.io/inet-dev-class/mapbox/smelly_calc.html similar to one deployed to smelly.lbl.gov, version with calculator
+- https://tin6150.github.io/inet-dev-class/mapbox/smelly_calc_zwedcOnly.html same code base as smelly_calc, disabled site selector to show only zwedc data (change zoom, disable warning).  plan to deploy to smelly.lbl.gov/zwedc.html  
 
 gdal - Geospatial Data Abstraction Library
 ==========================================
