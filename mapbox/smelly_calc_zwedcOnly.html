@@ -352,8 +352,9 @@ tin 2019.05.12
 				<!-- -->
             <!--html element for drop down picker goes here-->
 
-			<!-- zwedc version no site picking, so disabling the select id... -->
-            <select id="siteSelectorUI" disabled > <!-- site -->  <!--to emulate Tyler <select id="polygon-layer-selector"> -->
+			<!-- site -->  
+			<!-- zwedc version no site picking, so set display style to none, so that it doesn't even reserve the space -->
+            <select id="siteSelectorUI" style="display:none" > <!--to emulate Tyler <select id="polygon-layer-selector"> -->
                 <option value="NA"         disabled           >Air Basin: Site</option>	       
                 <option value="SfZwedc"         >SF: ZWEDC</option>                         <!-- San Francisco Bay -->  <!-- took out "selected" as it is the first item in list that is enable it will be automatic -->
                 <!--<option value="SfSanjose"       >SF: San Jose WPCP</option>    rm cuz overlap -->     <!-- San Francisco Bay -->
@@ -599,7 +600,7 @@ tin 2019.05.12
 		</center>
     </div>   <!-- end div for RATE calculator -->
 
-	<div id="warningBox" class="warningCss" visibility="hidden">  <!--hide warning box of preliminary data in zwedc version -->
+	<div id="warningBox" class="warningCss" style="display:none">  <!--hide warning box of preliminary data in zwedc version -->
 		<TABLE>
 			<TR>
 				<TD>
@@ -1053,9 +1054,9 @@ var map = new mapboxgl.Map({
     //zoom: 19          // odor data tileset is said to be z0-z19, 19+ will "appear simplified"
     //zoom: 16    	// see building shape, needed cuz 50m x 50m (or 25m?)
     //zoom: 15    	// see buildings, needed cuz 50m x 50m (or 25m?)
-    zoom: 14.2  	// zoomed in and good for zwedc demo with many low value data points // 1000 ft
+    //zoom: 14.2  	// zoomed in and good for zwedc demo with many low value data points // 1000 ft
     //zoom: 13.5  	// zoomed in
-    //zoom: 12		// see whole coverate area of ZWEDC
+    zoom: 12		// see whole coverate area of ZWEDC.  Use this as default for web site.
     //zoom: 10          // circle filled point data is said to be z0-z10, 10+ will "appear simplified"  // ## TMP
     //zoom: 9		// see most of BAAQMD   // 5mi 
     //zoom: 8		// site-info as polygon said to be good at z0-z8.  8+ will "appear simplified"
