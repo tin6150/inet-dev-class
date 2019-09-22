@@ -60,7 +60,7 @@ for F in $InputFileList; do
 	#ls -ld $F 
 	#echo "about to cat $F + mapbox upload $U.$TilesetName"
 	cat $F | mapbox upload $U.$TilesetName
-	# If TielsetName already exist in mapbox server, it will be overwritten.
+	# If TilesetName already exist in mapbox server, it will be overwritten.
 	exitCode=$?
 
 	if [[ $exitCode -ne 0 ]]; then 

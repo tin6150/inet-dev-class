@@ -10,11 +10,13 @@
 
 # after this is upload to mapbox using zwedc_uploader.sh 
 
-#InputDir="/home/wzhou/csv"		# these had the "Hi" mixing time, need to create trimmed version to black out the data.
+#InputDir="/home/wzhou/csv"		# these had the "Hi" mixing time, need to create trimmed version to black out the data. # csv_Zwedc
 #InputDir="/home/wzhou/csv-25sites"	# these are the "fixed" to use "Al" timing mode.  maybe was just a file rename?
-InputDir="/home/wzhou/csv_26sites_new0329"	# 0329 version, 26 sites cuz include ZWEDC.  this is the statemap version.
+#InputDir="/home/wzhou/csv_26sites_new0329"	# 0329 version, 26 sites cuz include ZWEDC.  this is the statemap version.
+InputDir="/gpanda/temp_data/zwedc4tin/csv"  # 2019.0922 by Ling
 #OutputDir="./DATA_zwedc"
-OutputDir="./DATA_caair_Al_0329"
+#OutputDir="./DATA_caair_Al_0329"  # some tmp dir under the git repo tree
+OutputDir="./DATA_zwedc_0922"      # ~/tin-gh/inet-dev-class/mapbox/
 
 [[ -d $OutputDir ]] || mkdir $OutputDir 
 
