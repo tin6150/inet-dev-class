@@ -48,7 +48,9 @@ OutputDir="./DATA_zwedc_0922"      # ~/tin-gh/inet-dev-class/mapbox/
 InputFileList=$( ls -1 $InputDir/*_*csv )
 FileNum=0
 
-for F in $InputFileList; do
+
+csv2gson() {
+  for F in $InputFileList; do
 	#ls -ld $F
 	# strip _ from input filename , add path, ext
 	OutFile="$OutputDir/"$( basename -s .csv $F | sed 's/_//g' )".geojson"
@@ -62,6 +64,27 @@ for F in $InputFileList; do
 		echo "++ OK ++ $FileNum: $F to $OutFile generation completed successfully."
 	fi
 	FileNum=$((FileNum + 1))
-done
+  done
+}
+
+
+
+# POST processing.  Ling used "Act" instead of "Cur" for scale (Current instead of Actual)
+# so need to rename file to be consistent with what JS expects.
+# ie rename.py ...cur.geojson to ...Act.geojson
+## eg 
+## old:      ./DATA_zwedc/SfZwedcAutAlAaAct.geojson
+## new: ./DATA_zwedc_0922/SfZwedcAutAlAacur.geojson
+# https://unix.stackexchange.com/questions/19654/how-do-i-change-the-extension-of-multiple-files
+rename() {
+	for F in $OutputDir/*cur.geojson ; do
+		mv -- "$F" "${F%cur.geojson}Act.geojson"
+		#--mv -- "$F" "$(basename -- "$F" cur.geojson)Act.geojson"
+	done 
+}
+
+
+csv2gson
+rename
 
 

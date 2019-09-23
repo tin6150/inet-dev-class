@@ -1,0 +1,906 @@
+MAPBOX_ACCESS_TOKEN aka SECRET env var not set, exiting
+MAPBOX_ACCESS_TOKEN aka SECRET env var not set, exiting
+MAPBOX_ACCESS_TOKEN aka SECRET env var not set, exiting
+MAPBOX_ACCESS_TOKEN aka SECRET env var not set, exiting
+{"id":"ck0vkx5u41lpe2tl5upa78q4z","name":"SfZwedcAllAlAa05x","complete":false,"error":null,"created":"2019-09-22T22:54:33.220Z","modified":"2019-09-22T22:54:33.220Z","tileset":"sn50.SfZwedcAllAlAa05x","owner":"sn50","progress":0}
+++ OK ++ 0: upload of SfZwedcAllAlAa05x.geojson completed successfully.
+{"id":"ck0vkx9lm00il2omf8e0zxklr","name":"SfZwedcAllAlAa10x","complete":false,"error":null,"created":"2019-09-22T22:54:38.071Z","modified":"2019-09-22T22:54:38.071Z","tileset":"sn50.SfZwedcAllAlAa10x","owner":"sn50","progress":0}
+++ OK ++ 1: upload of SfZwedcAllAlAa10x.geojson completed successfully.
+{"id":"ck0vkxd0a08jx2nm3ie192t9r","name":"SfZwedcAllAlAa15x","complete":false,"error":null,"created":"2019-09-22T22:54:42.482Z","modified":"2019-09-22T22:54:42.482Z","tileset":"sn50.SfZwedcAllAlAa15x","owner":"sn50","progress":0}
+++ OK ++ 2: upload of SfZwedcAllAlAa15x.geojson completed successfully.
+{"id":"ck0vkxghx149h2kqpkdv9iu3i","name":"SfZwedcAllAlAa20x","complete":false,"error":null,"created":"2019-09-22T22:54:47.002Z","modified":"2019-09-22T22:54:47.002Z","tileset":"sn50.SfZwedcAllAlAa20x","owner":"sn50","progress":0}
+++ OK ++ 3: upload of SfZwedcAllAlAa20x.geojson completed successfully.
+{"id":"ck0vkxk2h11762qojiipbzhk4","name":"SfZwedcAllAlAaAct","complete":false,"error":null,"created":"2019-09-22T22:54:51.651Z","modified":"2019-09-22T22:54:51.651Z","tileset":"sn50.SfZwedcAllAlAaAct","owner":"sn50","progress":0}
+++ OK ++ 4: upload of SfZwedcAllAlAaAct.geojson completed successfully.
+{"id":"ck0vkxnxi10dj2qmnge3c8r4d","name":"SfZwedcAllAlBi05x","complete":false,"error":null,"created":"2019-09-22T22:54:56.650Z","modified":"2019-09-22T22:54:56.650Z","tileset":"sn50.SfZwedcAllAlBi05x","owner":"sn50","progress":0}
+++ OK ++ 5: upload of SfZwedcAllAlBi05x.geojson completed successfully.
+{"id":"ck0vkxrjm03d22io5oa80j870","name":"SfZwedcAllAlBi10x","complete":false,"error":null,"created":"2019-09-22T22:55:01.355Z","modified":"2019-09-22T22:55:01.355Z","tileset":"sn50.SfZwedcAllAlBi10x","owner":"sn50","progress":0}
+++ OK ++ 6: upload of SfZwedcAllAlBi10x.geojson completed successfully.
+{"id":"ck0vkxvbq03e22no5egqf60m0","name":"SfZwedcAllAlBi15x","complete":false,"error":null,"created":"2019-09-22T22:55:06.234Z","modified":"2019-09-22T22:55:06.234Z","tileset":"sn50.SfZwedcAllAlBi15x","owner":"sn50","progress":0}
+++ OK ++ 7: upload of SfZwedcAllAlBi15x.geojson completed successfully.
+{"id":"ck0vkxyl6981s2oo0rl348gp4","name":"SfZwedcAllAlBi20x","complete":false,"error":null,"created":"2019-09-22T22:55:10.450Z","modified":"2019-09-22T22:55:10.450Z","tileset":"sn50.SfZwedcAllAlBi20x","owner":"sn50","progress":0}
+++ OK ++ 8: upload of SfZwedcAllAlBi20x.geojson completed successfully.
+{"id":"ck0vky1w1981v2oo0hnzmmt7j","name":"SfZwedcAllAlBiAct","complete":false,"error":null,"created":"2019-09-22T22:55:14.518Z","modified":"2019-09-22T22:55:14.518Z","tileset":"sn50.SfZwedcAllAlBiAct","owner":"sn50","progress":0}
+++ OK ++ 9: upload of SfZwedcAllAlBiAct.geojson completed successfully.
+{"id":"ck0vky519981y2oo07oonvaes","name":"SfZwedcAllAlCo05x","complete":false,"error":null,"created":"2019-09-22T22:55:18.596Z","modified":"2019-09-22T22:55:18.596Z","tileset":"sn50.SfZwedcAllAlCo05x","owner":"sn50","progress":0}
+++ OK ++ 10: upload of SfZwedcAllAlCo05x.geojson completed successfully.
+{"id":"ck0vky8ae10hx2pnqmh4bm60w","name":"SfZwedcAllAlCo10x","complete":false,"error":null,"created":"2019-09-22T22:55:23.055Z","modified":"2019-09-22T22:55:23.055Z","tileset":"sn50.SfZwedcAllAlCo10x","owner":"sn50","progress":0}
+++ OK ++ 11: upload of SfZwedcAllAlCo10x.geojson completed successfully.
+{"id":"ck0vkybie10u22jmnlr92izyn","name":"SfZwedcAllAlCo15x","complete":false,"error":null,"created":"2019-09-22T22:55:26.988Z","modified":"2019-09-22T22:55:26.988Z","tileset":"sn50.SfZwedcAllAlCo15x","owner":"sn50","progress":0}
+++ OK ++ 12: upload of SfZwedcAllAlCo15x.geojson completed successfully.
+{"id":"ck0vkyexb12yq2xqpc43r1uar","name":"SfZwedcAllAlCo20x","complete":false,"error":null,"created":"2019-09-22T22:55:31.621Z","modified":"2019-09-22T22:55:31.621Z","tileset":"sn50.SfZwedcAllAlCo20x","owner":"sn50","progress":0}
+++ OK ++ 13: upload of SfZwedcAllAlCo20x.geojson completed successfully.
+{"id":"ck0vkyi9212yr2xqpijqdm2ia","name":"SfZwedcAllAlCoAct","complete":false,"error":null,"created":"2019-09-22T22:55:35.725Z","modified":"2019-09-22T22:55:35.725Z","tileset":"sn50.SfZwedcAllAlCoAct","owner":"sn50","progress":0}
+++ OK ++ 14: upload of SfZwedcAllAlCoAct.geojson completed successfully.
+{"id":"ck0vkylb115iz2imp9g8dr56f","name":"SfZwedcAllAlNc05x","complete":false,"error":null,"created":"2019-09-22T22:55:39.904Z","modified":"2019-09-22T22:55:39.904Z","tileset":"sn50.SfZwedcAllAlNc05x","owner":"sn50","progress":0}
+++ OK ++ 15: upload of SfZwedcAllAlNc05x.geojson completed successfully.
+{"id":"ck0vkyoqjertc2up77sqt7kd7","name":"SfZwedcAllAlNc10x","complete":false,"error":null,"created":"2019-09-22T22:55:44.330Z","modified":"2019-09-22T22:55:44.330Z","tileset":"sn50.SfZwedcAllAlNc10x","owner":"sn50","progress":0}
+++ OK ++ 16: upload of SfZwedcAllAlNc10x.geojson completed successfully.
+{"id":"ck0vkyrtx13j82pqnoc7tuvcl","name":"SfZwedcAllAlNc15x","complete":false,"error":null,"created":"2019-09-22T22:55:48.361Z","modified":"2019-09-22T22:55:48.361Z","tileset":"sn50.SfZwedcAllAlNc15x","owner":"sn50","progress":0}
+++ OK ++ 17: upload of SfZwedcAllAlNc15x.geojson completed successfully.
+{"id":"ck0vkyv3q11ce2rojtgaqtx0s","name":"SfZwedcAllAlNc20x","complete":false,"error":null,"created":"2019-09-22T22:55:52.607Z","modified":"2019-09-22T22:55:52.607Z","tileset":"sn50.SfZwedcAllAlNc20x","owner":"sn50","progress":0}
+++ OK ++ 18: upload of SfZwedcAllAlNc20x.geojson completed successfully.
+{"id":"ck0vkyyef13jb2pqntpzfkpuw","name":"SfZwedcAllAlNcAct","complete":false,"error":null,"created":"2019-09-22T22:55:56.657Z","modified":"2019-09-22T22:55:56.657Z","tileset":"sn50.SfZwedcAllAlNcAct","owner":"sn50","progress":0}
+++ OK ++ 19: upload of SfZwedcAllAlNcAct.geojson completed successfully.
+{"id":"ck0vkz1gp03dp2io5d2897wfq","name":"SfZwedcAllAlRe05x","complete":false,"error":null,"created":"2019-09-22T22:56:00.627Z","modified":"2019-09-22T22:56:00.627Z","tileset":"sn50.SfZwedcAllAlRe05x","owner":"sn50","progress":0}
+++ OK ++ 20: upload of SfZwedcAllAlRe05x.geojson completed successfully.
+{"id":"ck0vkz4ta10e22qmnukdkf8y8","name":"SfZwedcAllAlRe10x","complete":false,"error":null,"created":"2019-09-22T22:56:04.969Z","modified":"2019-09-22T22:56:04.969Z","tileset":"sn50.SfZwedcAllAlRe10x","owner":"sn50","progress":0}
+++ OK ++ 21: upload of SfZwedcAllAlRe10x.geojson completed successfully.
+{"id":"ck0vkz7z808kk2nm3akebrl2j","name":"SfZwedcAllAlRe15x","complete":false,"error":null,"created":"2019-09-22T22:56:09.285Z","modified":"2019-09-22T22:56:09.285Z","tileset":"sn50.SfZwedcAllAlRe15x","owner":"sn50","progress":0}
+++ OK ++ 22: upload of SfZwedcAllAlRe15x.geojson completed successfully.
+{"id":"ck0vkzb7503du2io5sqz4ehtg","name":"SfZwedcAllAlRe20x","complete":false,"error":null,"created":"2019-09-22T22:56:13.244Z","modified":"2019-09-22T22:56:13.244Z","tileset":"sn50.SfZwedcAllAlRe20x","owner":"sn50","progress":0}
+++ OK ++ 23: upload of SfZwedcAllAlRe20x.geojson completed successfully.
+{"id":"ck0vkzecv10jp2inq7suq4geo","name":"SfZwedcAllAlReAct","complete":false,"error":null,"created":"2019-09-22T22:56:17.553Z","modified":"2019-09-22T22:56:17.553Z","tileset":"sn50.SfZwedcAllAlReAct","owner":"sn50","progress":0}
+++ OK ++ 24: upload of SfZwedcAllAlReAct.geojson completed successfully.
+{"id":"ck0vkzk8103eq2no51up9c43a","name":"SfZwedcAllAlTr05x","complete":false,"error":null,"created":"2019-09-22T22:56:25.166Z","modified":"2019-09-22T22:56:25.166Z","tileset":"sn50.SfZwedcAllAlTr05x","owner":"sn50","progress":0}
+++ OK ++ 25: upload of SfZwedcAllAlTr05x.geojson completed successfully.
+{"id":"ck0vkznnc982j2oo00vrk2dej","name":"SfZwedcAllAlTr10x","complete":false,"error":null,"created":"2019-09-22T22:56:29.580Z","modified":"2019-09-22T22:56:29.580Z","tileset":"sn50.SfZwedcAllAlTr10x","owner":"sn50","progress":0}
+++ OK ++ 26: upload of SfZwedcAllAlTr10x.geojson completed successfully.
+{"id":"ck0vkzr9x13nc2pqp001b3dbl","name":"SfZwedcAllAlTr15x","complete":false,"error":null,"created":"2019-09-22T22:56:34.308Z","modified":"2019-09-22T22:56:34.308Z","tileset":"sn50.SfZwedcAllAlTr15x","owner":"sn50","progress":0}
+++ OK ++ 27: upload of SfZwedcAllAlTr15x.geojson completed successfully.
+{"id":"ck0vkzuoi10e92qmn4j7bxkpl","name":"SfZwedcAllAlTr20x","complete":false,"error":null,"created":"2019-09-22T22:56:38.493Z","modified":"2019-09-22T22:56:38.493Z","tileset":"sn50.SfZwedcAllAlTr20x","owner":"sn50","progress":0}
+++ OK ++ 28: upload of SfZwedcAllAlTr20x.geojson completed successfully.
+{"id":"ck0vkzxu210jw2inqyw7cnyh9","name":"SfZwedcAllAlTrAct","complete":false,"error":null,"created":"2019-09-22T22:56:42.581Z","modified":"2019-09-22T22:56:42.581Z","tileset":"sn50.SfZwedcAllAlTrAct","owner":"sn50","progress":0}
+++ OK ++ 29: upload of SfZwedcAllAlTrAct.geojson completed successfully.
+{"id":"ck0vl00v610in2pnql248aps8","name":"SfZwedcAllHiAa05x","complete":false,"error":null,"created":"2019-09-22T22:56:46.506Z","modified":"2019-09-22T22:56:46.506Z","tileset":"sn50.SfZwedcAllHiAa05x","owner":"sn50","progress":0}
+++ OK ++ 30: upload of SfZwedcAllHiAa05x.geojson completed successfully.
+{"id":"ck0vl046i13jy2pqn8uz71kl6","name":"SfZwedcAllHiAa10x","complete":false,"error":null,"created":"2019-09-22T22:56:50.804Z","modified":"2019-09-22T22:56:50.804Z","tileset":"sn50.SfZwedcAllHiAa10x","owner":"sn50","progress":0}
+++ OK ++ 31: upload of SfZwedcAllHiAa10x.geojson completed successfully.
+{"id":"ck0vl078y933y2io0ma4jqb0f","name":"SfZwedcAllHiAa15x","complete":false,"error":null,"created":"2019-09-22T22:56:55.001Z","modified":"2019-09-22T22:56:55.001Z","tileset":"sn50.SfZwedcAllHiAa15x","owner":"sn50","progress":0}
+++ OK ++ 32: upload of SfZwedcAllHiAa15x.geojson completed successfully.
+{"id":"ck0vl0aso00jq2imfuufxcwsl","name":"SfZwedcAllHiAa20x","complete":false,"error":null,"created":"2019-09-22T22:56:59.584Z","modified":"2019-09-22T22:56:59.584Z","tileset":"sn50.SfZwedcAllHiAa20x","owner":"sn50","progress":0}
+++ OK ++ 33: upload of SfZwedcAllHiAa20x.geojson completed successfully.
+{"id":"ck0vl0e1u00jt2imfhmfo00x0","name":"SfZwedcAllHiAaAct","complete":false,"error":null,"created":"2019-09-22T22:57:03.592Z","modified":"2019-09-22T22:57:03.592Z","tileset":"sn50.SfZwedcAllHiAaAct","owner":"sn50","progress":0}
+++ OK ++ 34: upload of SfZwedcAllHiAaAct.geojson completed successfully.
+{"id":"ck0vl0h4q13w02iqnzzzam8qc","name":"SfZwedcAllHiBi05x","complete":false,"error":null,"created":"2019-09-22T22:57:07.590Z","modified":"2019-09-22T22:57:07.590Z","tileset":"sn50.SfZwedcAllHiBi05x","owner":"sn50","progress":0}
+++ OK ++ 35: upload of SfZwedcAllHiBi05x.geojson completed successfully.
+{"id":"ck0vl0ka403ef2to5uapyl6vt","name":"SfZwedcAllHiBi10x","complete":false,"error":null,"created":"2019-09-22T22:57:11.874Z","modified":"2019-09-22T22:57:11.874Z","tileset":"sn50.SfZwedcAllHiBi10x","owner":"sn50","progress":0}
+++ OK ++ 36: upload of SfZwedcAllHiBi10x.geojson completed successfully.
+{"id":"ck0vl0ni5eru42up7zb4lmtkf","name":"SfZwedcAllHiBi15x","complete":false,"error":null,"created":"2019-09-22T22:57:16.046Z","modified":"2019-09-22T22:57:16.046Z","tileset":"sn50.SfZwedcAllHiBi15x","owner":"sn50","progress":0}
+++ OK ++ 37: upload of SfZwedcAllHiBi15x.geojson completed successfully.
+{"id":"ck0vl0qrv10xj2pmnsskqyr22","name":"SfZwedcAllHiBi20x","complete":false,"error":null,"created":"2019-09-22T22:57:20.299Z","modified":"2019-09-22T22:57:20.299Z","tileset":"sn50.SfZwedcAllHiBi20x","owner":"sn50","progress":0}
+++ OK ++ 38: upload of SfZwedcAllHiBi20x.geojson completed successfully.
+{"id":"ck0vl0ucr08ld2im3xa7u2tlj","name":"SfZwedcAllHiBiAct","complete":false,"error":null,"created":"2019-09-22T22:57:24.922Z","modified":"2019-09-22T22:57:24.922Z","tileset":"sn50.SfZwedcAllHiBiAct","owner":"sn50","progress":0}
+++ OK ++ 39: upload of SfZwedcAllHiBiAct.geojson completed successfully.
+{"id":"ck0vl0xl703ek2to5der4wluq","name":"SfZwedcAllHiCo05x","complete":false,"error":null,"created":"2019-09-22T22:57:28.913Z","modified":"2019-09-22T22:57:28.913Z","tileset":"sn50.SfZwedcAllHiCo05x","owner":"sn50","progress":0}
+++ OK ++ 40: upload of SfZwedcAllHiCo05x.geojson completed successfully.
+{"id":"ck0vl10vs08lg2im393kp5b9l","name":"SfZwedcAllHiCo10x","complete":false,"error":null,"created":"2019-09-22T22:57:33.181Z","modified":"2019-09-22T22:57:33.181Z","tileset":"sn50.SfZwedcAllHiCo10x","owner":"sn50","progress":0}
+++ OK ++ 41: upload of SfZwedcAllHiCo10x.geojson completed successfully.
+{"id":"ck0vl13tseqv72ip7n8emm5sh","name":"SfZwedcAllHiCo15x","complete":false,"error":null,"created":"2019-09-22T22:57:37.221Z","modified":"2019-09-22T22:57:37.221Z","tileset":"sn50.SfZwedcAllHiCo15x","owner":"sn50","progress":0}
+++ OK ++ 42: upload of SfZwedcAllHiCo15x.geojson completed successfully.
+{"id":"ck0vl179410v92jmn3k7umsjo","name":"SfZwedcAllHiCo20x","complete":false,"error":null,"created":"2019-09-22T22:57:41.648Z","modified":"2019-09-22T22:57:41.648Z","tileset":"sn50.SfZwedcAllHiCo20x","owner":"sn50","progress":0}
+++ OK ++ 43: upload of SfZwedcAllHiCo20x.geojson completed successfully.
+{"id":"ck0vl1ail08lj2im3l376hd2j","name":"SfZwedcAllHiCoAct","complete":false,"error":null,"created":"2019-09-22T22:57:45.666Z","modified":"2019-09-22T22:57:45.666Z","tileset":"sn50.SfZwedcAllHiCoAct","owner":"sn50","progress":0}
+++ OK ++ 44: upload of SfZwedcAllHiCoAct.geojson completed successfully.
+{"id":"ck0vl1duj11b92omnxg14lzio","name":"SfZwedcAllHiNc05x","complete":false,"error":null,"created":"2019-09-22T22:57:50.208Z","modified":"2019-09-22T22:57:50.208Z","tileset":"sn50.SfZwedcAllHiNc05x","owner":"sn50","progress":0}
+++ OK ++ 45: upload of SfZwedcAllHiNc05x.geojson completed successfully.
+{"id":"ck0vl1hcl1lrc2tl516m6wfuv","name":"SfZwedcAllHiNc10x","complete":false,"error":null,"created":"2019-09-22T22:57:54.750Z","modified":"2019-09-22T22:57:54.750Z","tileset":"sn50.SfZwedcAllHiNc10x","owner":"sn50","progress":0}
+++ OK ++ 46: upload of SfZwedcAllHiNc10x.geojson completed successfully.
+{"id":"ck0vl1krf9a7l2vo08p928g0j","name":"SfZwedcAllHiNc15x","complete":false,"error":null,"created":"2019-09-22T22:57:59.187Z","modified":"2019-09-22T22:57:59.187Z","tileset":"sn50.SfZwedcAllHiNc15x","owner":"sn50","progress":0}
+++ OK ++ 47: upload of SfZwedcAllHiNc15x.geojson completed successfully.
+{"id":"ck0vl1oa510j82pnqay2wirim","name":"SfZwedcAllHiNc20x","complete":false,"error":null,"created":"2019-09-22T22:58:03.746Z","modified":"2019-09-22T22:58:03.746Z","tileset":"sn50.SfZwedcAllHiNc20x","owner":"sn50","progress":0}
+++ OK ++ 48: upload of SfZwedcAllHiNc20x.geojson completed successfully.
+{"id":"ck0vl1rjgerun2up7avtagclo","name":"SfZwedcAllHiNcAct","complete":false,"error":null,"created":"2019-09-22T22:58:07.730Z","modified":"2019-09-22T22:58:07.730Z","tileset":"sn50.SfZwedcAllHiNcAct","owner":"sn50","progress":0}
+++ OK ++ 49: upload of SfZwedcAllHiNcAct.geojson completed successfully.
+{"id":"ck0vl1uut00jr2pmf8d14s99h","name":"SfZwedcAllHiRe05x","complete":false,"error":null,"created":"2019-09-22T22:58:12.265Z","modified":"2019-09-22T22:58:12.265Z","tileset":"sn50.SfZwedcAllHiRe05x","owner":"sn50","progress":0}
+++ OK ++ 50: upload of SfZwedcAllHiRe05x.geojson completed successfully.
+{"id":"ck0vl1y8m15k32impk6ufvu4s","name":"SfZwedcAllHiRe10x","complete":false,"error":null,"created":"2019-09-22T22:58:16.616Z","modified":"2019-09-22T22:58:16.616Z","tileset":"sn50.SfZwedcAllHiRe10x","owner":"sn50","progress":0}
+++ OK ++ 51: upload of SfZwedcAllHiRe10x.geojson completed successfully.
+{"id":"ck0vl21de03f22to5mthdxkjq","name":"SfZwedcAllHiRe15x","complete":false,"error":null,"created":"2019-09-22T22:58:20.472Z","modified":"2019-09-22T22:58:20.472Z","tileset":"sn50.SfZwedcAllHiRe15x","owner":"sn50","progress":0}
+++ OK ++ 52: upload of SfZwedcAllHiRe15x.geojson completed successfully.
+{"id":"ck0vl24ew1lrp2tl5f67bjovc","name":"SfZwedcAllHiRe20x","complete":false,"error":null,"created":"2019-09-22T22:58:24.418Z","modified":"2019-09-22T22:58:24.418Z","tileset":"sn50.SfZwedcAllHiRe20x","owner":"sn50","progress":0}
+++ OK ++ 53: upload of SfZwedcAllHiRe20x.geojson completed successfully.
+{"id":"ck0vl27lw11if2ooj84cqk1fi","name":"SfZwedcAllHiReAct","complete":false,"error":null,"created":"2019-09-22T22:58:28.758Z","modified":"2019-09-22T22:58:28.758Z","tileset":"sn50.SfZwedcAllHiReAct","owner":"sn50","progress":0}
+++ OK ++ 54: upload of SfZwedcAllHiReAct.geojson completed successfully.
+{"id":"ck0vl2awr1kqn2nl5s0254pnu","name":"SfZwedcAllHiTr05x","complete":false,"error":null,"created":"2019-09-22T22:58:33.042Z","modified":"2019-09-22T22:58:33.042Z","tileset":"sn50.SfZwedcAllHiTr05x","owner":"sn50","progress":0}
+++ OK ++ 55: upload of SfZwedcAllHiTr05x.geojson completed successfully.
+{"id":"ck0vl2e4h1kqq2nl5l0t55hsp","name":"SfZwedcAllHiTr10x","complete":false,"error":null,"created":"2019-09-22T22:58:37.000Z","modified":"2019-09-22T22:58:37.000Z","tileset":"sn50.SfZwedcAllHiTr10x","owner":"sn50","progress":0}
+++ OK ++ 56: upload of SfZwedcAllHiTr10x.geojson completed successfully.
+{"id":"ck0vl2h1r10y52pmny3bwt5x8","name":"SfZwedcAllHiTr15x","complete":false,"error":null,"created":"2019-09-22T22:58:40.794Z","modified":"2019-09-22T22:58:40.794Z","tileset":"sn50.SfZwedcAllHiTr15x","owner":"sn50","progress":0}
+++ OK ++ 57: upload of SfZwedcAllHiTr15x.geojson completed successfully.
+{"id":"ck0vl2k4f11dx2rojfdg4665p","name":"SfZwedcAllHiTr20x","complete":false,"error":null,"created":"2019-09-22T22:58:44.774Z","modified":"2019-09-22T22:58:44.774Z","tileset":"sn50.SfZwedcAllHiTr20x","owner":"sn50","progress":0}
+++ OK ++ 58: upload of SfZwedcAllHiTr20x.geojson completed successfully.
+{"id":"ck0vl2n3y13ks2pqn0tc5k0bu","name":"SfZwedcAllHiTrAct","complete":false,"error":null,"created":"2019-09-22T22:58:48.848Z","modified":"2019-09-22T22:58:48.848Z","tileset":"sn50.SfZwedcAllHiTrAct","owner":"sn50","progress":0}
+++ OK ++ 59: upload of SfZwedcAllHiTrAct.geojson completed successfully.
+{"id":"ck0vl2qes14b62kqprrjtefdz","name":"SfZwedcAllLoAa05x","complete":false,"error":null,"created":"2019-09-22T22:58:53.134Z","modified":"2019-09-22T22:58:53.134Z","tileset":"sn50.SfZwedcAllLoAa05x","owner":"sn50","progress":0}
+++ OK ++ 60: upload of SfZwedcAllLoAa05x.geojson completed successfully.
+{"id":"ck0vl2tmy10sz2nnqz0h984f1","name":"SfZwedcAllLoAa10x","complete":false,"error":null,"created":"2019-09-22T22:58:57.331Z","modified":"2019-09-22T22:58:57.331Z","tileset":"sn50.SfZwedcAllLoAa10x","owner":"sn50","progress":0}
+++ OK ++ 61: upload of SfZwedcAllLoAa10x.geojson completed successfully.
+{"id":"ck0vl2xaz03fy2no5ld2tacdm","name":"SfZwedcAllLoAa15x","complete":false,"error":null,"created":"2019-09-22T22:59:02.064Z","modified":"2019-09-22T22:59:02.064Z","tileset":"sn50.SfZwedcAllLoAa15x","owner":"sn50","progress":0}
+++ OK ++ 62: upload of SfZwedcAllLoAa15x.geojson completed successfully.
+{"id":"ck0vl30i01ls02tl57kvqsn6x","name":"SfZwedcAllLoAa20x","complete":false,"error":null,"created":"2019-09-22T22:59:06.002Z","modified":"2019-09-22T22:59:06.002Z","tileset":"sn50.SfZwedcAllLoAa20x","owner":"sn50","progress":0}
+++ OK ++ 63: upload of SfZwedcAllLoAa20x.geojson completed successfully.
+{"id":"ck0vl33ih11ir2oojv9kgysqc","name":"SfZwedcAllLoAaAct","complete":false,"error":null,"created":"2019-09-22T22:59:09.907Z","modified":"2019-09-22T22:59:09.907Z","tileset":"sn50.SfZwedcAllLoAaAct","owner":"sn50","progress":0}
+++ OK ++ 64: upload of SfZwedcAllLoAaAct.geojson completed successfully.
+{"id":"ck0vl36qn00l42nmf8cr8u834","name":"SfZwedcAllLoBi05x","complete":false,"error":null,"created":"2019-09-22T22:59:14.290Z","modified":"2019-09-22T22:59:14.290Z","tileset":"sn50.SfZwedcAllLoBi05x","owner":"sn50","progress":0}
+++ OK ++ 65: upload of SfZwedcAllLoBi05x.geojson completed successfully.
+{"id":"ck0vl3a4508m32nm37gb58f95","name":"SfZwedcAllLoBi10x","complete":false,"error":null,"created":"2019-09-22T22:59:18.682Z","modified":"2019-09-22T22:59:18.682Z","tileset":"sn50.SfZwedcAllLoBi10x","owner":"sn50","progress":0}
+++ OK ++ 66: upload of SfZwedcAllLoBi10x.geojson completed successfully.
+{"id":"ck0vl3div039z2oo566evrqa4","name":"SfZwedcAllLoBi15x","complete":false,"error":null,"created":"2019-09-22T22:59:23.104Z","modified":"2019-09-22T22:59:23.104Z","tileset":"sn50.SfZwedcAllLoBi15x","owner":"sn50","progress":0}
+++ OK ++ 67: upload of SfZwedcAllLoBi15x.geojson completed successfully.
+{"id":"ck0vl3gw411e62roj4vfaj4ux","name":"SfZwedcAllLoBi20x","complete":false,"error":null,"created":"2019-09-22T22:59:27.276Z","modified":"2019-09-22T22:59:27.276Z","tileset":"sn50.SfZwedcAllLoBi20x","owner":"sn50","progress":0}
+++ OK ++ 68: upload of SfZwedcAllLoBi20x.geojson completed successfully.
+{"id":"ck0vl3kaa10ua2onqh528pk5u","name":"SfZwedcAllLoBiAct","complete":false,"error":null,"created":"2019-09-22T22:59:31.848Z","modified":"2019-09-22T22:59:31.848Z","tileset":"sn50.SfZwedcAllLoBiAct","owner":"sn50","progress":0}
+++ OK ++ 69: upload of SfZwedcAllLoBiAct.geojson completed successfully.
+{"id":"ck0vl3np510yk2pmn3j17judg","name":"SfZwedcAllLoCo05x","complete":false,"error":null,"created":"2019-09-22T22:59:36.067Z","modified":"2019-09-22T22:59:36.067Z","tileset":"sn50.SfZwedcAllLoCo05x","owner":"sn50","progress":0}
+++ OK ++ 70: upload of SfZwedcAllLoCo05x.geojson completed successfully.
+{"id":"ck0vl3qow08ma2nm3qej6mdlc","name":"SfZwedcAllLoCo10x","complete":false,"error":null,"created":"2019-09-22T22:59:39.947Z","modified":"2019-09-22T22:59:39.947Z","tileset":"sn50.SfZwedcAllLoCo10x","owner":"sn50","progress":0}
+++ OK ++ 71: upload of SfZwedcAllLoCo10x.geojson completed successfully.
+{"id":"ck0vl3tq7935j2io0cxbt0d2t","name":"SfZwedcAllLoCo15x","complete":false,"error":null,"created":"2019-09-22T22:59:44.083Z","modified":"2019-09-22T22:59:44.083Z","tileset":"sn50.SfZwedcAllLoCo15x","owner":"sn50","progress":0}
+++ OK ++ 72: upload of SfZwedcAllLoCo15x.geojson completed successfully.
+{"id":"ck0vl3wv51kce2ol513vaxzpk","name":"SfZwedcAllLoCo20x","complete":false,"error":null,"created":"2019-09-22T22:59:48.151Z","modified":"2019-09-22T22:59:48.151Z","tileset":"sn50.SfZwedcAllLoCo20x","owner":"sn50","progress":0}
+++ OK ++ 73: upload of SfZwedcAllLoCo20x.geojson completed successfully.
+{"id":"ck0vl400t1kcf2ol5d58rx52c","name":"SfZwedcAllLoCoAct","complete":false,"error":null,"created":"2019-09-22T22:59:52.035Z","modified":"2019-09-22T22:59:52.035Z","tileset":"sn50.SfZwedcAllLoCoAct","owner":"sn50","progress":0}
+++ OK ++ 74: upload of SfZwedcAllLoCoAct.geojson completed successfully.
+{"id":"ck0vl433cev4i2op7pbklpgqj","name":"SfZwedcAllLoNc05x","complete":false,"error":null,"created":"2019-09-22T22:59:56.018Z","modified":"2019-09-22T22:59:56.018Z","tileset":"sn50.SfZwedcAllLoNc05x","owner":"sn50","progress":0}
+++ OK ++ 75: upload of SfZwedcAllLoNc05x.geojson completed successfully.
+{"id":"ck0vl463d03g52to5br823gs5","name":"SfZwedcAllLoNc10x","complete":false,"error":null,"created":"2019-09-22T23:00:00.123Z","modified":"2019-09-22T23:00:00.123Z","tileset":"sn50.SfZwedcAllLoNc10x","owner":"sn50","progress":0}
+++ OK ++ 76: upload of SfZwedcAllLoNc10x.geojson completed successfully.
+{"id":"ck0vl49k513lc2pqn0k7p93a8","name":"SfZwedcAllLoNc15x","complete":false,"error":null,"created":"2019-09-22T23:00:04.615Z","modified":"2019-09-22T23:00:04.615Z","tileset":"sn50.SfZwedcAllLoNc15x","owner":"sn50","progress":0}
+++ OK ++ 77: upload of SfZwedcAllLoNc15x.geojson completed successfully.
+{"id":"ck0vl4cqo935r2io0wxxc0w7x","name":"SfZwedcAllLoNc20x","complete":false,"error":null,"created":"2019-09-22T23:00:08.518Z","modified":"2019-09-22T23:00:08.518Z","tileset":"sn50.SfZwedcAllLoNc20x","owner":"sn50","progress":0}
+++ OK ++ 78: upload of SfZwedcAllLoNc20x.geojson completed successfully.
+{"id":"ck0vl4ftp11el2rojicgezy9g","name":"SfZwedcAllLoNcAct","complete":false,"error":null,"created":"2019-09-22T23:00:12.520Z","modified":"2019-09-22T23:00:12.520Z","tileset":"sn50.SfZwedcAllLoNcAct","owner":"sn50","progress":0}
+++ OK ++ 79: upload of SfZwedcAllLoNcAct.geojson completed successfully.
+{"id":"ck0vl4ir3ev4t2op7eu3c5teg","name":"SfZwedcAllLoRe05x","complete":false,"error":null,"created":"2019-09-22T23:00:16.313Z","modified":"2019-09-22T23:00:16.313Z","tileset":"sn50.SfZwedcAllLoRe05x","owner":"sn50","progress":0}
+++ OK ++ 80: upload of SfZwedcAllLoRe05x.geojson completed successfully.
+{"id":"ck0vl4lwt00lo2omfeay8di84","name":"SfZwedcAllLoRe10x","complete":false,"error":null,"created":"2019-09-22T23:00:20.623Z","modified":"2019-09-22T23:00:20.623Z","tileset":"sn50.SfZwedcAllLoRe10x","owner":"sn50","progress":0}
+++ OK ++ 81: upload of SfZwedcAllLoRe10x.geojson completed successfully.
+{"id":"ck0vl4p3dev4w2op73lhazgyj","name":"SfZwedcAllLoRe15x","complete":false,"error":null,"created":"2019-09-22T23:00:24.530Z","modified":"2019-09-22T23:00:24.530Z","tileset":"sn50.SfZwedcAllLoRe15x","owner":"sn50","progress":0}
+++ OK ++ 82: upload of SfZwedcAllLoRe15x.geojson completed successfully.
+{"id":"ck0vl4s4u11es2rojkhmcf91e","name":"SfZwedcAllLoRe20x","complete":false,"error":null,"created":"2019-09-22T23:00:28.468Z","modified":"2019-09-22T23:00:28.468Z","tileset":"sn50.SfZwedcAllLoRe20x","owner":"sn50","progress":0}
+++ OK ++ 83: upload of SfZwedcAllLoRe20x.geojson completed successfully.
+{"id":"ck0vl4v7o11ci2omnn7ys97ct","name":"SfZwedcAllLoReAct","complete":false,"error":null,"created":"2019-09-22T23:00:32.681Z","modified":"2019-09-22T23:00:32.681Z","tileset":"sn50.SfZwedcAllLoReAct","owner":"sn50","progress":0}
+++ OK ++ 84: upload of SfZwedcAllLoReAct.geojson completed successfully.
+{"id":"ck0vl4yc693642io050hkwbcd","name":"SfZwedcAllLoTr05x","complete":false,"error":null,"created":"2019-09-22T23:00:36.508Z","modified":"2019-09-22T23:00:36.508Z","tileset":"sn50.SfZwedcAllLoTr05x","owner":"sn50","progress":0}
+++ OK ++ 85: upload of SfZwedcAllLoTr05x.geojson completed successfully.
+{"id":"ck0vl52q515km2nmpvjinzau4","name":"SfZwedcAllLoTr10x","complete":false,"error":null,"created":"2019-09-22T23:00:42.437Z","modified":"2019-09-22T23:00:42.437Z","tileset":"sn50.SfZwedcAllLoTr10x","owner":"sn50","progress":0}
+++ OK ++ 86: upload of SfZwedcAllLoTr10x.geojson completed successfully.
+{"id":"ck0vl55vu11cn2omnnoqzor2r","name":"SfZwedcAllLoTr15x","complete":false,"error":null,"created":"2019-09-22T23:00:46.292Z","modified":"2019-09-22T23:00:46.292Z","tileset":"sn50.SfZwedcAllLoTr15x","owner":"sn50","progress":0}
+++ OK ++ 87: upload of SfZwedcAllLoTr15x.geojson completed successfully.
+{"id":"ck0vl591q08iv2om3r88yoxyu","name":"SfZwedcAllLoTr20x","complete":false,"error":null,"created":"2019-09-22T23:00:50.617Z","modified":"2019-09-22T23:00:50.617Z","tileset":"sn50.SfZwedcAllLoTr20x","owner":"sn50","progress":0}
+++ OK ++ 88: upload of SfZwedcAllLoTr20x.geojson completed successfully.
+{"id":"ck0vl5cfuewmo2np71du7ts40","name":"SfZwedcAllLoTrAct","complete":false,"error":null,"created":"2019-09-22T23:00:55.007Z","modified":"2019-09-22T23:00:55.007Z","tileset":"sn50.SfZwedcAllLoTrAct","owner":"sn50","progress":0}
+++ OK ++ 89: upload of SfZwedcAllLoTrAct.geojson completed successfully.
+{"id":"ck0vl5fj3eqwj2ip7c50p5gz7","name":"SfZwedcAutAlAa05x","complete":false,"error":null,"created":"2019-09-22T23:00:59.013Z","modified":"2019-09-22T23:00:59.013Z","tileset":"sn50.SfZwedcAutAlAa05x","owner":"sn50","progress":0}
+++ OK ++ 90: upload of SfZwedcAutAlAa05x.geojson completed successfully.
+{"id":"ck0vl5ivq03gt2to56hol8x1i","name":"SfZwedcAutAlAa10x","complete":false,"error":null,"created":"2019-09-22T23:01:03.137Z","modified":"2019-09-22T23:01:03.137Z","tileset":"sn50.SfZwedcAutAlAa10x","owner":"sn50","progress":0}
+++ OK ++ 91: upload of SfZwedcAutAlAa10x.geojson completed successfully.
+{"id":"ck0vl5lzc11a12qojjdn5qrug","name":"SfZwedcAutAlAa15x","complete":false,"error":null,"created":"2019-09-22T23:01:07.374Z","modified":"2019-09-22T23:01:07.374Z","tileset":"sn50.SfZwedcAutAlAa15x","owner":"sn50","progress":0}
+++ OK ++ 92: upload of SfZwedcAutAlAa15x.geojson completed successfully.
+{"id":"ck0vl5p8x11a42qojnu6sr0v1","name":"SfZwedcAutAlAa20x","complete":false,"error":null,"created":"2019-09-22T23:01:11.388Z","modified":"2019-09-22T23:01:11.388Z","tileset":"sn50.SfZwedcAutAlAa20x","owner":"sn50","progress":0}
+++ OK ++ 93: upload of SfZwedcAutAlAa20x.geojson completed successfully.
+{"id":"ck0vl5sd103av2oo59u1q73mb","name":"SfZwedcAutAlAaAct","complete":false,"error":null,"created":"2019-09-22T23:01:15.627Z","modified":"2019-09-22T23:01:15.627Z","tileset":"sn50.SfZwedcAutAlAaAct","owner":"sn50","progress":0}
+++ OK ++ 94: upload of SfZwedcAutAlAaAct.geojson completed successfully.
+{"id":"ck0vl5vuw10wz2jmn8rqrn66b","name":"SfZwedcAutAlBi05x","complete":false,"error":null,"created":"2019-09-22T23:01:20.159Z","modified":"2019-09-22T23:01:20.159Z","tileset":"sn50.SfZwedcAutAlBi05x","owner":"sn50","progress":0}
+++ OK ++ 95: upload of SfZwedcAutAlBi05x.geojson completed successfully.
+{"id":"ck0vl5z4m08n52im3jtlpe934","name":"SfZwedcAutAlBi10x","complete":false,"error":null,"created":"2019-09-22T23:01:24.429Z","modified":"2019-09-22T23:01:24.429Z","tileset":"sn50.SfZwedcAutAlBi10x","owner":"sn50","progress":0}
+++ OK ++ 96: upload of SfZwedcAutAlBi10x.geojson completed successfully.
+{"id":"ck0vl63af10v82onq6ksx4vfw","name":"SfZwedcAutAlBi15x","complete":false,"error":null,"created":"2019-09-22T23:01:29.812Z","modified":"2019-09-22T23:01:29.812Z","tileset":"sn50.SfZwedcAutAlBi15x","owner":"sn50","progress":0}
+++ OK ++ 97: upload of SfZwedcAutAlBi15x.geojson completed successfully.
+{"id":"ck0vl66qy08n62nm34zog4qyl","name":"SfZwedcAutAlBi20x","complete":false,"error":null,"created":"2019-09-22T23:01:34.289Z","modified":"2019-09-22T23:01:34.289Z","tileset":"sn50.SfZwedcAutAlBi20x","owner":"sn50","progress":0}
+++ OK ++ 98: upload of SfZwedcAutAlBi20x.geojson completed successfully.
+{"id":"ck0vl69yn948t2no063aefxo3","name":"SfZwedcAutAlBiAct","complete":false,"error":null,"created":"2019-09-22T23:01:38.232Z","modified":"2019-09-22T23:01:38.232Z","tileset":"sn50.SfZwedcAutAlBiAct","owner":"sn50","progress":0}
+++ OK ++ 99: upload of SfZwedcAutAlBiAct.geojson completed successfully.
+{"id":"ck0vl6d1w9a972vo0u0iknzq3","name":"SfZwedcAutAlCo05x","complete":false,"error":null,"created":"2019-09-22T23:01:42.457Z","modified":"2019-09-22T23:01:42.457Z","tileset":"sn50.SfZwedcAutAlCo05x","owner":"sn50","progress":0}
+++ OK ++ 100: upload of SfZwedcAutAlCo05x.geojson completed successfully.
+{"id":"ck0vl6g9i948u2no0ib334ecv","name":"SfZwedcAutAlCo10x","complete":false,"error":null,"created":"2019-09-22T23:01:46.400Z","modified":"2019-09-22T23:01:46.400Z","tileset":"sn50.SfZwedcAutAlCo10x","owner":"sn50","progress":0}
+++ OK ++ 101: upload of SfZwedcAutAlCo10x.geojson completed successfully.
+{"id":"ck0vl6je210uf2nnqdjxn9jy8","name":"SfZwedcAutAlCo15x","complete":false,"error":null,"created":"2019-09-22T23:01:50.651Z","modified":"2019-09-22T23:01:50.651Z","tileset":"sn50.SfZwedcAutAlCo15x","owner":"sn50","progress":0}
+++ OK ++ 102: upload of SfZwedcAutAlCo15x.geojson completed successfully.
+{"id":"ck0vl6miq16mw2tmp3qc5oh0x","name":"SfZwedcAutAlCo20x","complete":false,"error":null,"created":"2019-09-22T23:01:54.725Z","modified":"2019-09-22T23:01:54.725Z","tileset":"sn50.SfZwedcAutAlCo20x","owner":"sn50","progress":0}
+++ OK ++ 103: upload of SfZwedcAutAlCo20x.geojson completed successfully.
+{"id":"ck0vl6pt410vi2onq2v729pa0","name":"SfZwedcAutAlCoAct","complete":false,"error":null,"created":"2019-09-22T23:01:58.772Z","modified":"2019-09-22T23:01:58.772Z","tileset":"sn50.SfZwedcAutAlCoAct","owner":"sn50","progress":0}
+++ OK ++ 104: upload of SfZwedcAutAlCoAct.geojson completed successfully.
+{"id":"ck0vl6su410vj2onq8yy5uz47","name":"SfZwedcAutAlNc05x","complete":false,"error":null,"created":"2019-09-22T23:02:02.696Z","modified":"2019-09-22T23:02:02.696Z","tileset":"sn50.SfZwedcAutAlNc05x","owner":"sn50","progress":0}
+++ OK ++ 105: upload of SfZwedcAutAlNc05x.geojson completed successfully.
+{"id":"ck0vl6vxt00mi2omfktmv83mp","name":"SfZwedcAutAlNc10x","complete":false,"error":null,"created":"2019-09-22T23:02:06.718Z","modified":"2019-09-22T23:02:06.718Z","tileset":"sn50.SfZwedcAutAlNc10x","owner":"sn50","progress":0}
+++ OK ++ 106: upload of SfZwedcAutAlNc10x.geojson completed successfully.
+{"id":"ck0vl71cd03gj2io5wihi0x8w","name":"SfZwedcAutAlNc15x","complete":false,"error":null,"created":"2019-09-22T23:02:13.929Z","modified":"2019-09-22T23:02:13.929Z","tileset":"sn50.SfZwedcAutAlNc15x","owner":"sn50","progress":0}
+++ OK ++ 107: upload of SfZwedcAutAlNc15x.geojson completed successfully.
+{"id":"ck0vl74u400mj2nmfmanlqp4e","name":"SfZwedcAutAlNc20x","complete":false,"error":null,"created":"2019-09-22T23:02:18.471Z","modified":"2019-09-22T23:02:18.471Z","tileset":"sn50.SfZwedcAutAlNc20x","owner":"sn50","progress":0}
+++ OK ++ 108: upload of SfZwedcAutAlNc20x.geojson completed successfully.
+{"id":"ck0vl785p03gm2io5lgbjt9e6","name":"SfZwedcAutAlNcAct","complete":false,"error":null,"created":"2019-09-22T23:02:22.548Z","modified":"2019-09-22T23:02:22.548Z","tileset":"sn50.SfZwedcAutAlNcAct","owner":"sn50","progress":0}
+++ OK ++ 109: upload of SfZwedcAutAlNcAct.geojson completed successfully.
+{"id":"ck0vl7b3w10xl2jmngpx1epfh","name":"SfZwedcAutAlRe05x","complete":false,"error":null,"created":"2019-09-22T23:02:26.370Z","modified":"2019-09-22T23:02:26.370Z","tileset":"sn50.SfZwedcAutAlRe05x","owner":"sn50","progress":0}
+++ OK ++ 110: upload of SfZwedcAutAlRe05x.geojson completed successfully.
+{"id":"ck0vl7e6b03gp2io5ua7cmreq","name":"SfZwedcAutAlRe10x","complete":false,"error":null,"created":"2019-09-22T23:02:30.346Z","modified":"2019-09-22T23:02:30.346Z","tileset":"sn50.SfZwedcAutAlRe10x","owner":"sn50","progress":0}
+++ OK ++ 111: upload of SfZwedcAutAlRe10x.geojson completed successfully.
+{"id":"ck0vl7h6x08np2nm33qbi9j43","name":"SfZwedcAutAlRe15x","complete":false,"error":null,"created":"2019-09-22T23:02:34.259Z","modified":"2019-09-22T23:02:34.259Z","tileset":"sn50.SfZwedcAutAlRe15x","owner":"sn50","progress":0}
+++ OK ++ 112: upload of SfZwedcAutAlRe15x.geojson completed successfully.
+{"id":"ck0vl7key11dg2omnyxsnrsn9","name":"SfZwedcAutAlRe20x","complete":false,"error":null,"created":"2019-09-22T23:02:38.675Z","modified":"2019-09-22T23:02:38.675Z","tileset":"sn50.SfZwedcAutAlRe20x","owner":"sn50","progress":0}
+++ OK ++ 113: upload of SfZwedcAutAlRe20x.geojson completed successfully.
+{"id":"ck0vl7nls10xq2jmnxtv9w7mm","name":"SfZwedcAutAlReAct","complete":false,"error":null,"created":"2019-09-22T23:02:42.566Z","modified":"2019-09-22T23:02:42.566Z","tileset":"sn50.SfZwedcAutAlReAct","owner":"sn50","progress":0}
+++ OK ++ 114: upload of SfZwedcAutAlReAct.geojson completed successfully.
+{"id":"ck0vl7qo210xr2jmnanmaivbf","name":"SfZwedcAutAlTr05x","complete":false,"error":null,"created":"2019-09-22T23:02:46.536Z","modified":"2019-09-22T23:02:46.536Z","tileset":"sn50.SfZwedcAutAlTr05x","owner":"sn50","progress":0}
+++ OK ++ 115: upload of SfZwedcAutAlTr05x.geojson completed successfully.
+{"id":"ck0vl7tx603hq2to51o7sab44","name":"SfZwedcAutAlTr10x","complete":false,"error":null,"created":"2019-09-22T23:02:50.957Z","modified":"2019-09-22T23:02:50.957Z","tileset":"sn50.SfZwedcAutAlTr10x","owner":"sn50","progress":0}
+++ OK ++ 116: upload of SfZwedcAutAlTr10x.geojson completed successfully.
+{"id":"ck0vl7x3111ih2jojg3cem7v9","name":"SfZwedcAutAlTr15x","complete":false,"error":null,"created":"2019-09-22T23:02:55.077Z","modified":"2019-09-22T23:02:55.077Z","tileset":"sn50.SfZwedcAutAlTr15x","owner":"sn50","progress":0}
+++ OK ++ 117: upload of SfZwedcAutAlTr15x.geojson completed successfully.
+{"id":"ck0vl80aq11av2qojiwjgi4rz","name":"SfZwedcAutAlTr20x","complete":false,"error":null,"created":"2019-09-22T23:02:59.219Z","modified":"2019-09-22T23:02:59.219Z","tileset":"sn50.SfZwedcAutAlTr20x","owner":"sn50","progress":0}
+++ OK ++ 118: upload of SfZwedcAutAlTr20x.geojson completed successfully.
+{"id":"ck0vl83o108js2om3ycyvsmjh","name":"SfZwedcAutAlTrAct","complete":false,"error":null,"created":"2019-09-22T23:03:03.602Z","modified":"2019-09-22T23:03:03.602Z","tileset":"sn50.SfZwedcAutAlTrAct","owner":"sn50","progress":0}
+++ OK ++ 119: upload of SfZwedcAutAlTrAct.geojson completed successfully.
+{"id":"ck0vl86v508r92tm3yxhzoqru","name":"SfZwedcAutHiAa05x","complete":false,"error":null,"created":"2019-09-22T23:03:07.729Z","modified":"2019-09-22T23:03:07.729Z","tileset":"sn50.SfZwedcAutHiAa05x","owner":"sn50","progress":0}
+++ OK ++ 120: upload of SfZwedcAutHiAa05x.geojson completed successfully.
+{"id":"ck0vl8a9u16nh2tmpnv7waepc","name":"SfZwedcAutHiAa10x","complete":false,"error":null,"created":"2019-09-22T23:03:12.171Z","modified":"2019-09-22T23:03:12.171Z","tileset":"sn50.SfZwedcAutHiAa10x","owner":"sn50","progress":0}
+++ OK ++ 121: upload of SfZwedcAutHiAa10x.geojson completed successfully.
+{"id":"ck0vl8dph03bn2oo5gtk5z8ie","name":"SfZwedcAutHiAa15x","complete":false,"error":null,"created":"2019-09-22T23:03:16.608Z","modified":"2019-09-22T23:03:16.608Z","tileset":"sn50.SfZwedcAutHiAa15x","owner":"sn50","progress":0}
+++ OK ++ 122: upload of SfZwedcAutHiAa15x.geojson completed successfully.
+{"id":"ck0vl8gxb10vc2nnqhvrg5izg","name":"SfZwedcAutHiAa20x","complete":false,"error":null,"created":"2019-09-22T23:03:20.818Z","modified":"2019-09-22T23:03:20.818Z","tileset":"sn50.SfZwedcAutHiAa20x","owner":"sn50","progress":0}
+++ OK ++ 123: upload of SfZwedcAutHiAa20x.geojson completed successfully.
+{"id":"ck0vl8k86949i2no0mznekyvx","name":"SfZwedcAutHiAaAct","complete":false,"error":null,"created":"2019-09-22T23:03:25.066Z","modified":"2019-09-22T23:03:25.066Z","tileset":"sn50.SfZwedcAutHiAaAct","owner":"sn50","progress":0}
+++ OK ++ 124: upload of SfZwedcAutHiAaAct.geojson completed successfully.
+{"id":"ck0vl8ngn08o82nm32wqw526v","name":"SfZwedcAutHiBi05x","complete":false,"error":null,"created":"2019-09-22T23:03:29.041Z","modified":"2019-09-22T23:03:29.041Z","tileset":"sn50.SfZwedcAutHiBi05x","owner":"sn50","progress":0}
+++ OK ++ 125: upload of SfZwedcAutHiBi05x.geojson completed successfully.
+{"id":"ck0vl8qfp11du2omn1ja6jx3z","name":"SfZwedcAutHiBi10x","complete":false,"error":null,"created":"2019-09-22T23:03:32.900Z","modified":"2019-09-22T23:03:32.900Z","tileset":"sn50.SfZwedcAutHiBi10x","owner":"sn50","progress":0}
+++ OK ++ 126: upload of SfZwedcAutHiBi10x.geojson completed successfully.
+{"id":"ck0vl8tgn11dv2omnq2z8i2jo","name":"SfZwedcAutHiBi15x","complete":false,"error":null,"created":"2019-09-22T23:03:36.822Z","modified":"2019-09-22T23:03:36.822Z","tileset":"sn50.SfZwedcAutHiBi15x","owner":"sn50","progress":0}
+++ OK ++ 127: upload of SfZwedcAutHiBi15x.geojson completed successfully.
+{"id":"ck0vl8wjd16no2tmps1r30e4s","name":"SfZwedcAutHiBi20x","complete":false,"error":null,"created":"2019-09-22T23:03:40.803Z","modified":"2019-09-22T23:03:40.803Z","tileset":"sn50.SfZwedcAutHiBi20x","owner":"sn50","progress":0}
+++ OK ++ 128: upload of SfZwedcAutHiBi20x.geojson completed successfully.
+{"id":"ck0vl8zmo03he2io5rj4mtv3d","name":"SfZwedcAutHiBiAct","complete":false,"error":null,"created":"2019-09-22T23:03:45.049Z","modified":"2019-09-22T23:03:45.049Z","tileset":"sn50.SfZwedcAutHiBiAct","owner":"sn50","progress":0}
+++ OK ++ 129: upload of SfZwedcAutHiBiAct.geojson completed successfully.
+{"id":"ck0vl92t508od2nm33lbgosus","name":"SfZwedcAutHiCo05x","complete":false,"error":null,"created":"2019-09-22T23:03:48.931Z","modified":"2019-09-22T23:03:48.931Z","tileset":"sn50.SfZwedcAutHiCo05x","owner":"sn50","progress":0}
+++ OK ++ 130: upload of SfZwedcAutHiCo05x.geojson completed successfully.
+{"id":"ck0vl95s110vl2nnq5umeozaw","name":"SfZwedcAutHiCo10x","complete":false,"error":null,"created":"2019-09-22T23:03:52.783Z","modified":"2019-09-22T23:03:52.783Z","tileset":"sn50.SfZwedcAutHiCo10x","owner":"sn50","progress":0}
+++ OK ++ 131: upload of SfZwedcAutHiCo10x.geojson completed successfully.
+{"id":"ck0vl98ut16nv2tmpqe6dql7m","name":"SfZwedcAutHiCo15x","complete":false,"error":null,"created":"2019-09-22T23:03:56.767Z","modified":"2019-09-22T23:03:56.767Z","tileset":"sn50.SfZwedcAutHiCo15x","owner":"sn50","progress":0}
+++ OK ++ 132: upload of SfZwedcAutHiCo15x.geojson completed successfully.
+{"id":"ck0vl9c4x13nm2pqn8j216669","name":"SfZwedcAutHiCo20x","complete":false,"error":null,"created":"2019-09-22T23:04:01.247Z","modified":"2019-09-22T23:04:01.247Z","tileset":"sn50.SfZwedcAutHiCo20x","owner":"sn50","progress":0}
+++ OK ++ 133: upload of SfZwedcAutHiCo20x.geojson completed successfully.
+{"id":"ck0vl9ffl10vp2nnq2wh738ak","name":"SfZwedcAutHiCoAct","complete":false,"error":null,"created":"2019-09-22T23:04:05.296Z","modified":"2019-09-22T23:04:05.296Z","tileset":"sn50.SfZwedcAutHiCoAct","owner":"sn50","progress":0}
+++ OK ++ 134: upload of SfZwedcAutHiCoAct.geojson completed successfully.
+{"id":"ck0vl9il113su2qqp01iyulwf","name":"SfZwedcAutHiNc05x","complete":false,"error":null,"created":"2019-09-22T23:04:09.598Z","modified":"2019-09-22T23:04:09.598Z","tileset":"sn50.SfZwedcAutHiNc05x","owner":"sn50","progress":0}
+++ OK ++ 135: upload of SfZwedcAutHiNc05x.geojson completed successfully.
+{"id":"ck0vl9lwc15u52nqnp4y01xue","name":"SfZwedcAutHiNc10x","complete":false,"error":null,"created":"2019-09-22T23:04:13.873Z","modified":"2019-09-22T23:04:13.873Z","tileset":"sn50.SfZwedcAutHiNc10x","owner":"sn50","progress":0}
+++ OK ++ 136: upload of SfZwedcAutHiNc10x.geojson completed successfully.
+{"id":"ck0vl9p8b13qy2pqpinvy09ov","name":"SfZwedcAutHiNc15x","complete":false,"error":null,"created":"2019-09-22T23:04:18.225Z","modified":"2019-09-22T23:04:18.225Z","tileset":"sn50.SfZwedcAutHiNc15x","owner":"sn50","progress":0}
+++ OK ++ 137: upload of SfZwedcAutHiNc15x.geojson completed successfully.
+{"id":"ck0vl9sqm13z32iqnb7uyqadc","name":"SfZwedcAutHiNc20x","complete":false,"error":null,"created":"2019-09-22T23:04:22.772Z","modified":"2019-09-22T23:04:22.772Z","tileset":"sn50.SfZwedcAutHiNc20x","owner":"sn50","progress":0}
+++ OK ++ 138: upload of SfZwedcAutHiNc20x.geojson completed successfully.
+{"id":"ck0vl9w7d13qz2pqpt4vnv20i","name":"SfZwedcAutHiNcAct","complete":false,"error":null,"created":"2019-09-22T23:04:27.033Z","modified":"2019-09-22T23:04:27.033Z","tileset":"sn50.SfZwedcAutHiNcAct","owner":"sn50","progress":0}
+++ OK ++ 139: upload of SfZwedcAutHiNcAct.geojson completed successfully.
+{"id":"ck0vl9z9200n22pmfulx2f4h9","name":"SfZwedcAutHiRe05x","complete":false,"error":null,"created":"2019-09-22T23:04:31.191Z","modified":"2019-09-22T23:04:31.191Z","tileset":"sn50.SfZwedcAutHiRe05x","owner":"sn50","progress":0}
+++ OK ++ 140: upload of SfZwedcAutHiRe05x.geojson completed successfully.
+{"id":"ck0vla2i911bg2qoj80hx3x0j","name":"SfZwedcAutHiRe10x","complete":false,"error":null,"created":"2019-09-22T23:04:35.412Z","modified":"2019-09-22T23:04:35.412Z","tileset":"sn50.SfZwedcAutHiRe10x","owner":"sn50","progress":0}
+++ OK ++ 141: upload of SfZwedcAutHiRe10x.geojson completed successfully.
+{"id":"ck0vla5xxeqxw2ip7wej940a2","name":"SfZwedcAutHiRe15x","complete":false,"error":null,"created":"2019-09-22T23:04:39.866Z","modified":"2019-09-22T23:04:39.866Z","tileset":"sn50.SfZwedcAutHiRe15x","owner":"sn50","progress":0}
+++ OK ++ 142: upload of SfZwedcAutHiRe15x.geojson completed successfully.
+{"id":"ck0vla9ba13o12pqncao4pok1","name":"SfZwedcAutHiRe20x","complete":false,"error":null,"created":"2019-09-22T23:04:44.017Z","modified":"2019-09-22T23:04:44.017Z","tileset":"sn50.SfZwedcAutHiRe20x","owner":"sn50","progress":0}
+++ OK ++ 143: upload of SfZwedcAutHiRe20x.geojson completed successfully.
+{"id":"ck0vlac7u03ic2no5kek1xfbr","name":"SfZwedcAutHiReAct","complete":false,"error":null,"created":"2019-09-22T23:04:47.997Z","modified":"2019-09-22T23:04:47.997Z","tileset":"sn50.SfZwedcAutHiReAct","owner":"sn50","progress":0}
+++ OK ++ 144: upload of SfZwedcAutHiReAct.geojson completed successfully.
+{"id":"ck0vlafdyewog2np7oys272eb","name":"SfZwedcAutHiTr05x","complete":false,"error":null,"created":"2019-09-22T23:04:52.108Z","modified":"2019-09-22T23:04:52.108Z","tileset":"sn50.SfZwedcAutHiTr05x","owner":"sn50","progress":0}
+++ OK ++ 145: upload of SfZwedcAutHiTr05x.geojson completed successfully.
+{"id":"ck0vlail2111a2pmnjeh5j3gp","name":"SfZwedcAutHiTr10x","complete":false,"error":null,"created":"2019-09-22T23:04:56.264Z","modified":"2019-09-22T23:04:56.264Z","tileset":"sn50.SfZwedcAutHiTr10x","owner":"sn50","progress":0}
+++ OK ++ 146: upload of SfZwedcAutHiTr10x.geojson completed successfully.
+{"id":"ck0vlalwr00mv2imfyaq96yye","name":"SfZwedcAutHiTr15x","complete":false,"error":null,"created":"2019-09-22T23:05:00.557Z","modified":"2019-09-22T23:05:00.557Z","tileset":"sn50.SfZwedcAutHiTr15x","owner":"sn50","progress":0}
+++ OK ++ 147: upload of SfZwedcAutHiTr15x.geojson completed successfully.
+{"id":"ck0vlaoxe03i72io5quvgjksb","name":"SfZwedcAutHiTr20x","complete":false,"error":null,"created":"2019-09-22T23:05:04.494Z","modified":"2019-09-22T23:05:04.494Z","tileset":"sn50.SfZwedcAutHiTr20x","owner":"sn50","progress":0}
+++ OK ++ 148: upload of SfZwedcAutHiTr20x.geojson completed successfully.
+{"id":"ck0vlasj508kl2om3dt237i9m","name":"SfZwedcAutHiTrAct","complete":false,"error":null,"created":"2019-09-22T23:05:09.152Z","modified":"2019-09-22T23:05:09.152Z","tileset":"sn50.SfZwedcAutHiTrAct","owner":"sn50","progress":0}
+++ OK ++ 149: upload of SfZwedcAutHiTrAct.geojson completed successfully.
+{"id":"ck0vlavqy03ce2oo5b9q4ra6t","name":"SfZwedcAutLoAa05x","complete":false,"error":null,"created":"2019-09-22T23:05:13.291Z","modified":"2019-09-22T23:05:13.291Z","tileset":"sn50.SfZwedcAutLoAa05x","owner":"sn50","progress":0}
+++ OK ++ 150: upload of SfZwedcAutLoAa05x.geojson completed successfully.
+{"id":"ck0vlaz2i10nb2inq2i825nyz","name":"SfZwedcAutLoAa10x","complete":false,"error":null,"created":"2019-09-22T23:05:17.596Z","modified":"2019-09-22T23:05:17.596Z","tileset":"sn50.SfZwedcAutLoAa10x","owner":"sn50","progress":0}
+++ OK ++ 151: upload of SfZwedcAutLoAa10x.geojson completed successfully.
+{"id":"ck0vlb2ao03ic2io5ddhjcdvw","name":"SfZwedcAutLoAa15x","complete":false,"error":null,"created":"2019-09-22T23:05:21.574Z","modified":"2019-09-22T23:05:21.574Z","tileset":"sn50.SfZwedcAutLoAa15x","owner":"sn50","progress":0}
+++ OK ++ 152: upload of SfZwedcAutLoAa15x.geojson completed successfully.
+{"id":"ck0vlb5c703ch2oo5yd2186mp","name":"SfZwedcAutLoAa20x","complete":false,"error":null,"created":"2019-09-22T23:05:25.520Z","modified":"2019-09-22T23:05:25.520Z","tileset":"sn50.SfZwedcAutLoAa20x","owner":"sn50","progress":0}
+++ OK ++ 153: upload of SfZwedcAutLoAa20x.geojson completed successfully.
+{"id":"ck0vlb8df11jt2joj5tntjo04","name":"SfZwedcAutLoAaAct","complete":false,"error":null,"created":"2019-09-22T23:05:29.674Z","modified":"2019-09-22T23:05:29.674Z","tileset":"sn50.SfZwedcAutLoAaAct","owner":"sn50","progress":0}
+++ OK ++ 154: upload of SfZwedcAutLoAaAct.geojson completed successfully.
+{"id":"ck0vlbbig03ih2io5cjg0vcdt","name":"SfZwedcAutLoBi05x","complete":false,"error":null,"created":"2019-09-22T23:05:33.518Z","modified":"2019-09-22T23:05:33.518Z","tileset":"sn50.SfZwedcAutLoBi05x","owner":"sn50","progress":0}
+++ OK ++ 155: upload of SfZwedcAutLoBi05x.geojson completed successfully.
+{"id":"ck0vlbeidev762op78s645brc","name":"SfZwedcAutLoBi10x","complete":false,"error":null,"created":"2019-09-22T23:05:37.617Z","modified":"2019-09-22T23:05:37.617Z","tileset":"sn50.SfZwedcAutLoBi10x","owner":"sn50","progress":0}
+++ OK ++ 156: upload of SfZwedcAutLoBi10x.geojson completed successfully.
+{"id":"ck0vlbhp910wk2nnq4nbc9k0p","name":"SfZwedcAutLoBi15x","complete":false,"error":null,"created":"2019-09-22T23:05:41.749Z","modified":"2019-09-22T23:05:41.749Z","tileset":"sn50.SfZwedcAutLoBi15x","owner":"sn50","progress":0}
+++ OK ++ 157: upload of SfZwedcAutLoBi15x.geojson completed successfully.
+{"id":"ck0vlbl1d13tk2qqp7gxd1zam","name":"SfZwedcAutLoBi20x","complete":false,"error":null,"created":"2019-09-22T23:05:46.090Z","modified":"2019-09-22T23:05:46.090Z","tileset":"sn50.SfZwedcAutLoBi20x","owner":"sn50","progress":0}
+++ OK ++ 158: upload of SfZwedcAutLoBi20x.geojson completed successfully.
+{"id":"ck0vlbofd10z02jmn9rigayhz","name":"SfZwedcAutLoBiAct","complete":false,"error":null,"created":"2019-09-22T23:05:50.465Z","modified":"2019-09-22T23:05:50.465Z","tileset":"sn50.SfZwedcAutLoBiAct","owner":"sn50","progress":0}
+++ OK ++ 159: upload of SfZwedcAutLoBiAct.geojson completed successfully.
+{"id":"ck0vlbrle1lv22tl5mgu0nho0","name":"SfZwedcAutLoCo05x","complete":false,"error":null,"created":"2019-09-22T23:05:54.562Z","modified":"2019-09-22T23:05:54.562Z","tileset":"sn50.SfZwedcAutLoCo05x","owner":"sn50","progress":0}
+++ OK ++ 160: upload of SfZwedcAutLoCo05x.geojson completed successfully.
+{"id":"ck0vlbutx986s2oo0y2x8f3lo","name":"SfZwedcAutLoCo10x","complete":false,"error":null,"created":"2019-09-22T23:05:58.762Z","modified":"2019-09-22T23:05:58.762Z","tileset":"sn50.SfZwedcAutLoCo10x","owner":"sn50","progress":0}
+++ OK ++ 161: upload of SfZwedcAutLoCo10x.geojson completed successfully.
+{"id":"ck0vlby0e134n2xqp0ixa6km6","name":"SfZwedcAutLoCo15x","complete":false,"error":null,"created":"2019-09-22T23:06:02.902Z","modified":"2019-09-22T23:06:02.902Z","tileset":"sn50.SfZwedcAutLoCo15x","owner":"sn50","progress":0}
+++ OK ++ 162: upload of SfZwedcAutLoCo15x.geojson completed successfully.
+{"id":"ck0vlc1c3ewp12np7fynqkar3","name":"SfZwedcAutLoCo20x","complete":false,"error":null,"created":"2019-09-22T23:06:07.192Z","modified":"2019-09-22T23:06:07.192Z","tileset":"sn50.SfZwedcAutLoCo20x","owner":"sn50","progress":0}
+++ OK ++ 163: upload of SfZwedcAutLoCo20x.geojson completed successfully.
+{"id":"ck0vlc4nyeryp2up7o0jce0i1","name":"SfZwedcAutLoCoAct","complete":false,"error":null,"created":"2019-09-22T23:06:11.507Z","modified":"2019-09-22T23:06:11.507Z","tileset":"sn50.SfZwedcAutLoCoAct","owner":"sn50","progress":0}
+++ OK ++ 164: upload of SfZwedcAutLoCoAct.geojson completed successfully.
+{"id":"ck0vlc8yg11272pmnt78u58ft","name":"SfZwedcAutLoNc05x","complete":false,"error":null,"created":"2019-09-22T23:06:17.071Z","modified":"2019-09-22T23:06:17.071Z","tileset":"sn50.SfZwedcAutLoNc05x","owner":"sn50","progress":0}
+++ OK ++ 165: upload of SfZwedcAutLoNc05x.geojson completed successfully.
+{"id":"ck0vlcc5l13s22pqpr3n2bz5g","name":"SfZwedcAutLoNc10x","complete":false,"error":null,"created":"2019-09-22T23:06:21.221Z","modified":"2019-09-22T23:06:21.221Z","tileset":"sn50.SfZwedcAutLoNc10x","owner":"sn50","progress":0}
+++ OK ++ 166: upload of SfZwedcAutLoNc10x.geojson completed successfully.
+{"id":"ck0vlcfa300o92omfws4k3usq","name":"SfZwedcAutLoNc15x","complete":false,"error":null,"created":"2019-09-22T23:06:25.297Z","modified":"2019-09-22T23:06:25.297Z","tileset":"sn50.SfZwedcAutLoNc15x","owner":"sn50","progress":0}
+++ OK ++ 167: upload of SfZwedcAutLoNc15x.geojson completed successfully.
+{"id":"ck0vlciqn00om2nmf6tx23uhf","name":"SfZwedcAutLoNc20x","complete":false,"error":null,"created":"2019-09-22T23:06:29.750Z","modified":"2019-09-22T23:06:29.750Z","tileset":"sn50.SfZwedcAutLoNc20x","owner":"sn50","progress":0}
+++ OK ++ 168: upload of SfZwedcAutLoNc20x.geojson completed successfully.
+{"id":"ck0vlclw910x32nnqrcoulwng","name":"SfZwedcAutLoNcAct","complete":false,"error":null,"created":"2019-09-22T23:06:33.631Z","modified":"2019-09-22T23:06:33.631Z","tileset":"sn50.SfZwedcAutLoNcAct","owner":"sn50","progress":0}
+++ OK ++ 169: upload of SfZwedcAutLoNcAct.geojson completed successfully.
+{"id":"ck0vlcoxm112c2pmn99l2c7cj","name":"SfZwedcAutLoRe05x","complete":false,"error":null,"created":"2019-09-22T23:06:37.571Z","modified":"2019-09-22T23:06:37.571Z","tileset":"sn50.SfZwedcAutLoRe05x","owner":"sn50","progress":0}
+++ OK ++ 170: upload of SfZwedcAutLoRe05x.geojson completed successfully.
+{"id":"ck0vlcsbiewpc2np7bxkqvi5g","name":"SfZwedcAutLoRe10x","complete":false,"error":null,"created":"2019-09-22T23:06:41.956Z","modified":"2019-09-22T23:06:41.956Z","tileset":"sn50.SfZwedcAutLoRe10x","owner":"sn50","progress":0}
+++ OK ++ 171: upload of SfZwedcAutLoRe10x.geojson completed successfully.
+{"id":"ck0vlcvcr98742oo0f64edtdk","name":"SfZwedcAutLoRe15x","complete":false,"error":null,"created":"2019-09-22T23:06:45.891Z","modified":"2019-09-22T23:06:45.891Z","tileset":"sn50.SfZwedcAutLoRe15x","owner":"sn50","progress":0}
+++ OK ++ 172: upload of SfZwedcAutLoRe15x.geojson completed successfully.
+{"id":"ck0vlcyhe1kgc2il5e17ft5uo","name":"SfZwedcAutLoRe20x","complete":false,"error":null,"created":"2019-09-22T23:06:50.171Z","modified":"2019-09-22T23:06:50.171Z","tileset":"sn50.SfZwedcAutLoRe20x","owner":"sn50","progress":0}
+++ OK ++ 173: upload of SfZwedcAutLoRe20x.geojson completed successfully.
+{"id":"ck0vld23111cj2qoj9dmyxaue","name":"SfZwedcAutLoReAct","complete":false,"error":null,"created":"2019-09-22T23:06:54.834Z","modified":"2019-09-22T23:06:54.834Z","tileset":"sn50.SfZwedcAutLoReAct","owner":"sn50","progress":0}
+++ OK ++ 174: upload of SfZwedcAutLoReAct.geojson completed successfully.
+{"id":"ck0vld5h9ev7s2op7lbtw3d87","name":"SfZwedcAutLoTr05x","complete":false,"error":null,"created":"2019-09-22T23:06:59.235Z","modified":"2019-09-22T23:06:59.235Z","tileset":"sn50.SfZwedcAutLoTr05x","owner":"sn50","progress":0}
+++ OK ++ 175: upload of SfZwedcAutLoTr05x.geojson completed successfully.
+{"id":"ck0vld8mh1kgd2il5k0rjmqq4","name":"SfZwedcAutLoTr10x","complete":false,"error":null,"created":"2019-09-22T23:07:03.092Z","modified":"2019-09-22T23:07:03.092Z","tileset":"sn50.SfZwedcAutLoTr10x","owner":"sn50","progress":0}
+++ OK ++ 176: upload of SfZwedcAutLoTr10x.geojson completed successfully.
+{"id":"ck0vldbvt00no2imfi9v9zgzv","name":"SfZwedcAutLoTr15x","complete":false,"error":null,"created":"2019-09-22T23:07:07.519Z","modified":"2019-09-22T23:07:07.519Z","tileset":"sn50.SfZwedcAutLoTr15x","owner":"sn50","progress":0}
+++ OK ++ 177: upload of SfZwedcAutLoTr15x.geojson completed successfully.
+{"id":"ck0vldf3wev7v2op7k6rh3t2o","name":"SfZwedcAutLoTr20x","complete":false,"error":null,"created":"2019-09-22T23:07:11.500Z","modified":"2019-09-22T23:07:11.500Z","tileset":"sn50.SfZwedcAutLoTr20x","owner":"sn50","progress":0}
+++ OK ++ 178: upload of SfZwedcAutLoTr20x.geojson completed successfully.
+{"id":"ck0vldi6v11co2qoj86m7j1ij","name":"SfZwedcAutLoTrAct","complete":false,"error":null,"created":"2019-09-22T23:07:15.492Z","modified":"2019-09-22T23:07:15.492Z","tileset":"sn50.SfZwedcAutLoTrAct","owner":"sn50","progress":0}
+++ OK ++ 179: upload of SfZwedcAutLoTrAct.geojson completed successfully.
+{"id":"ck0vldl7610xo2nnq1p9jc2et","name":"SfZwedcSprAlAa05x","complete":false,"error":null,"created":"2019-09-22T23:07:19.388Z","modified":"2019-09-22T23:07:19.388Z","tileset":"sn50.SfZwedcSprAlAa05x","owner":"sn50","progress":0}
+++ OK ++ 180: upload of SfZwedcSprAlAa05x.geojson completed successfully.
+{"id":"ck0vldoaj10xp2nnqyq5sibvw","name":"SfZwedcSprAlAa10x","complete":false,"error":null,"created":"2019-09-22T23:07:23.393Z","modified":"2019-09-22T23:07:23.393Z","tileset":"sn50.SfZwedcSprAlAa10x","owner":"sn50","progress":0}
+++ OK ++ 181: upload of SfZwedcSprAlAa10x.geojson completed successfully.
+{"id":"ck0vldrj713pg2pqngpoh0iqn","name":"SfZwedcSprAlAa15x","complete":false,"error":null,"created":"2019-09-22T23:07:27.800Z","modified":"2019-09-22T23:07:27.800Z","tileset":"sn50.SfZwedcSprAlAa15x","owner":"sn50","progress":0}
+++ OK ++ 182: upload of SfZwedcSprAlAa15x.geojson completed successfully.
+{"id":"ck0vlduqg10xs2nnqolhp8370","name":"SfZwedcSprAlAa20x","complete":false,"error":null,"created":"2019-09-22T23:07:31.744Z","modified":"2019-09-22T23:07:31.744Z","tileset":"sn50.SfZwedcSprAlAa20x","owner":"sn50","progress":0}
+++ OK ++ 183: upload of SfZwedcSprAlAa20x.geojson completed successfully.
+{"id":"ck0vldxse140u2iqnmr3gsbt4","name":"SfZwedcSprAlAaAct","complete":false,"error":null,"created":"2019-09-22T23:07:35.926Z","modified":"2019-09-22T23:07:35.926Z","tileset":"sn50.SfZwedcSprAlAaAct","owner":"sn50","progress":0}
+++ OK ++ 184: upload of SfZwedcSprAlAaAct.geojson completed successfully.
+{"id":"ck0vle10pewpt2np74n5oafki","name":"SfZwedcSprAlBi05x","complete":false,"error":null,"created":"2019-09-22T23:07:39.887Z","modified":"2019-09-22T23:07:39.887Z","tileset":"sn50.SfZwedcSprAlBi05x","owner":"sn50","progress":0}
+++ OK ++ 185: upload of SfZwedcSprAlBi05x.geojson completed successfully.
+{"id":"ck0vle47b94bd2no022ses2rv","name":"SfZwedcSprAlBi10x","complete":false,"error":null,"created":"2019-09-22T23:07:44.253Z","modified":"2019-09-22T23:07:44.253Z","tileset":"sn50.SfZwedcSprAlBi10x","owner":"sn50","progress":0}
+++ OK ++ 186: upload of SfZwedcSprAlBi10x.geojson completed successfully.
+{"id":"ck0vle7fherzb2up7sjvse8lv","name":"SfZwedcSprAlBi15x","complete":false,"error":null,"created":"2019-09-22T23:07:48.402Z","modified":"2019-09-22T23:07:48.402Z","tileset":"sn50.SfZwedcSprAlBi15x","owner":"sn50","progress":0}
+++ OK ++ 187: upload of SfZwedcSprAlBi15x.geojson completed successfully.
+{"id":"ck0vleaoe10ya2onqpbyc3lhk","name":"SfZwedcSprAlBi20x","complete":false,"error":null,"created":"2019-09-22T23:07:52.630Z","modified":"2019-09-22T23:07:52.630Z","tileset":"sn50.SfZwedcSprAlBi20x","owner":"sn50","progress":0}
+++ OK ++ 188: upload of SfZwedcSprAlBi20x.geojson completed successfully.
+{"id":"ck0vlee0v03k82to5hlxp3u7x","name":"SfZwedcSprAlBiAct","complete":false,"error":null,"created":"2019-09-22T23:07:56.945Z","modified":"2019-09-22T23:07:56.945Z","tileset":"sn50.SfZwedcSprAlBiAct","owner":"sn50","progress":0}
+++ OK ++ 189: upload of SfZwedcSprAlBiAct.geojson completed successfully.
+{"id":"ck0vleh6608r02nm3wa0y26xo","name":"SfZwedcSprAlCo05x","complete":false,"error":null,"created":"2019-09-22T23:08:01.033Z","modified":"2019-09-22T23:08:01.033Z","tileset":"sn50.SfZwedcSprAlCo05x","owner":"sn50","progress":0}
+++ OK ++ 190: upload of SfZwedcSprAlCo05x.geojson completed successfully.
+{"id":"ck0vlekdh1kuz2nl52n3xdplz","name":"SfZwedcSprAlCo10x","complete":false,"error":null,"created":"2019-09-22T23:08:04.973Z","modified":"2019-09-22T23:08:04.973Z","tileset":"sn50.SfZwedcSprAlCo10x","owner":"sn50","progress":0}
+++ OK ++ 191: upload of SfZwedcSprAlCo10x.geojson completed successfully.
+{"id":"ck0vlenft1kv22nl5m1pf265p","name":"SfZwedcSprAlCo15x","complete":false,"error":null,"created":"2019-09-22T23:08:08.943Z","modified":"2019-09-22T23:08:08.943Z","tileset":"sn50.SfZwedcSprAlCo15x","owner":"sn50","progress":0}
+++ OK ++ 192: upload of SfZwedcSprAlCo15x.geojson completed successfully.
+{"id":"ck0vleqh094bk2no0xq7d872o","name":"SfZwedcSprAlCo20x","complete":false,"error":null,"created":"2019-09-22T23:08:12.883Z","modified":"2019-09-22T23:08:12.883Z","tileset":"sn50.SfZwedcSprAlCo20x","owner":"sn50","progress":0}
+++ OK ++ 193: upload of SfZwedcSprAlCo20x.geojson completed successfully.
+{"id":"ck0vletkc13pv2pqnjfa6dwy0","name":"SfZwedcSprAlCoAct","complete":false,"error":null,"created":"2019-09-22T23:08:16.882Z","modified":"2019-09-22T23:08:16.882Z","tileset":"sn50.SfZwedcSprAlCoAct","owner":"sn50","progress":0}
+++ OK ++ 194: upload of SfZwedcSprAlCoAct.geojson completed successfully.
+{"id":"ck0vlewl0ewq32np73dro6d6f","name":"SfZwedcSprAlNc05x","complete":false,"error":null,"created":"2019-09-22T23:08:20.793Z","modified":"2019-09-22T23:08:20.793Z","tileset":"sn50.SfZwedcSprAlNc05x","owner":"sn50","progress":0}
+++ OK ++ 195: upload of SfZwedcSprAlNc05x.geojson completed successfully.
+{"id":"ck0vlezm208r92nm3v5iv5ect","name":"SfZwedcSprAlNc10x","complete":false,"error":null,"created":"2019-09-22T23:08:24.719Z","modified":"2019-09-22T23:08:24.719Z","tileset":"sn50.SfZwedcSprAlNc10x","owner":"sn50","progress":0}
+++ OK ++ 196: upload of SfZwedcSprAlNc10x.geojson completed successfully.
+{"id":"ck0vlf2tp1kh42il5m2dvkqgm","name":"SfZwedcSprAlNc15x","complete":false,"error":null,"created":"2019-09-22T23:08:29.094Z","modified":"2019-09-22T23:08:29.094Z","tileset":"sn50.SfZwedcSprAlNc15x","owner":"sn50","progress":0}
+++ OK ++ 197: upload of SfZwedcSprAlNc15x.geojson completed successfully.
+{"id":"ck0vlf5ww94bt2no00ed1dxnu","name":"SfZwedcSprAlNc20x","complete":false,"error":null,"created":"2019-09-22T23:08:32.895Z","modified":"2019-09-22T23:08:32.895Z","tileset":"sn50.SfZwedcSprAlNc20x","owner":"sn50","progress":0}
+++ OK ++ 198: upload of SfZwedcSprAlNc20x.geojson completed successfully.
+{"id":"ck0vlf93b15w22nqn63dsoar6","name":"SfZwedcSprAlNcAct","complete":false,"error":null,"created":"2019-09-22T23:08:37.249Z","modified":"2019-09-22T23:08:37.249Z","tileset":"sn50.SfZwedcSprAlNcAct","owner":"sn50","progress":0}
+++ OK ++ 199: upload of SfZwedcSprAlNcAct.geojson completed successfully.
+{"id":"ck0vlfcfweqzw2ip7t1rsw4fq","name":"SfZwedcSprAlRe05x","complete":false,"error":null,"created":"2019-09-22T23:08:41.586Z","modified":"2019-09-22T23:08:41.586Z","tileset":"sn50.SfZwedcSprAlRe05x","owner":"sn50","progress":0}
+++ OK ++ 200: upload of SfZwedcSprAlRe05x.geojson completed successfully.
+{"id":"ck0vlfg4p10jj2qmn488c194p","name":"SfZwedcSprAlRe10x","complete":false,"error":null,"created":"2019-09-22T23:08:46.356Z","modified":"2019-09-22T23:08:46.356Z","tileset":"sn50.SfZwedcSprAlRe10x","owner":"sn50","progress":0}
+++ OK ++ 201: upload of SfZwedcSprAlRe10x.geojson completed successfully.
+{"id":"ck0vlfjha141h2iqn0hkfptki","name":"SfZwedcSprAlRe15x","complete":false,"error":null,"created":"2019-09-22T23:08:50.679Z","modified":"2019-09-22T23:08:50.679Z","tileset":"sn50.SfZwedcSprAlRe15x","owner":"sn50","progress":0}
+++ OK ++ 202: upload of SfZwedcSprAlRe15x.geojson completed successfully.
+{"id":"ck0vlfmq3113d2pmnck8h86g8","name":"SfZwedcSprAlRe20x","complete":false,"error":null,"created":"2019-09-22T23:08:54.878Z","modified":"2019-09-22T23:08:54.878Z","tileset":"sn50.SfZwedcSprAlRe20x","owner":"sn50","progress":0}
+++ OK ++ 203: upload of SfZwedcSprAlRe20x.geojson completed successfully.
+{"id":"ck0vlfpxh00om2imfltpbs08b","name":"SfZwedcSprAlReAct","complete":false,"error":null,"created":"2019-09-22T23:08:59.047Z","modified":"2019-09-22T23:08:59.047Z","tileset":"sn50.SfZwedcSprAlReAct","owner":"sn50","progress":0}
+++ OK ++ 204: upload of SfZwedcSprAlReAct.geojson completed successfully.
+{"id":"ck0vlft6608rq2nm3l6qcp86f","name":"SfZwedcSprAlTr05x","complete":false,"error":null,"created":"2019-09-22T23:09:03.028Z","modified":"2019-09-22T23:09:03.028Z","tileset":"sn50.SfZwedcSprAlTr05x","owner":"sn50","progress":0}
+++ OK ++ 205: upload of SfZwedcSprAlTr05x.geojson completed successfully.
+{"id":"ck0vlfw0d08rr2nm3ffu652f7","name":"SfZwedcSprAlTr10x","complete":false,"error":null,"created":"2019-09-22T23:09:06.706Z","modified":"2019-09-22T23:09:06.706Z","tileset":"sn50.SfZwedcSprAlTr10x","owner":"sn50","progress":0}
+++ OK ++ 206: upload of SfZwedcSprAlTr10x.geojson completed successfully.
+{"id":"ck0vlfzaz10oq2inq80hbx8g9","name":"SfZwedcSprAlTr15x","complete":false,"error":null,"created":"2019-09-22T23:09:11.215Z","modified":"2019-09-22T23:09:11.215Z","tileset":"sn50.SfZwedcSprAlTr15x","owner":"sn50","progress":0}
+++ OK ++ 207: upload of SfZwedcSprAlTr15x.geojson completed successfully.
+{"id":"ck0vlg2ob08mc2om3wb7e55vy","name":"SfZwedcSprAlTr20x","complete":false,"error":null,"created":"2019-09-22T23:09:15.582Z","modified":"2019-09-22T23:09:15.582Z","tileset":"sn50.SfZwedcSprAlTr20x","owner":"sn50","progress":0}
+++ OK ++ 208: upload of SfZwedcSprAlTr20x.geojson completed successfully.
+{"id":"ck0vlg5ue15wj2nqn7b4wjz75","name":"SfZwedcSprAlTrAct","complete":false,"error":null,"created":"2019-09-22T23:09:19.463Z","modified":"2019-09-22T23:09:19.463Z","tileset":"sn50.SfZwedcSprAlTrAct","owner":"sn50","progress":0}
+++ OK ++ 209: upload of SfZwedcSprAlTrAct.geojson completed successfully.
+{"id":"ck0vlg8z1113r2pmnrctuf9d2","name":"SfZwedcSprHiAa05x","complete":false,"error":null,"created":"2019-09-22T23:09:23.508Z","modified":"2019-09-22T23:09:23.508Z","tileset":"sn50.SfZwedcSprHiAa05x","owner":"sn50","progress":0}
+++ OK ++ 210: upload of SfZwedcSprHiAa05x.geojson completed successfully.
+{"id":"ck0vlgc4x03kz2to52bigioo0","name":"SfZwedcSprHiAa10x","complete":false,"error":null,"created":"2019-09-22T23:09:27.814Z","modified":"2019-09-22T23:09:27.814Z","tileset":"sn50.SfZwedcSprHiAa10x","owner":"sn50","progress":0}
+++ OK ++ 211: upload of SfZwedcSprHiAa10x.geojson completed successfully.
+{"id":"ck0vlgkdq10zo2onquuh18m2e","name":"SfZwedcSprHiAa15x","complete":false,"error":null,"created":"2019-09-22T23:09:38.519Z","modified":"2019-09-22T23:09:38.519Z","tileset":"sn50.SfZwedcSprHiAa15x","owner":"sn50","progress":0}
+++ OK ++ 212: upload of SfZwedcSprHiAa15x.geojson completed successfully.
+{"id":"ck0vlgnsv13qm2pqnunzn870t","name":"SfZwedcSprHiAa20x","complete":false,"error":null,"created":"2019-09-22T23:09:42.946Z","modified":"2019-09-22T23:09:42.946Z","tileset":"sn50.SfZwedcSprHiAa20x","owner":"sn50","progress":0}
+++ OK ++ 213: upload of SfZwedcSprHiAa20x.geojson completed successfully.
+{"id":"ck0vlgqzm1khn2il5dlgu3adm","name":"SfZwedcSprHiAaAct","complete":false,"error":null,"created":"2019-09-22T23:09:47.082Z","modified":"2019-09-22T23:09:47.082Z","tileset":"sn50.SfZwedcSprHiAaAct","owner":"sn50","progress":0}
+++ OK ++ 214: upload of SfZwedcSprHiAaAct.geojson completed successfully.
+{"id":"ck0vlgu9k00pq2pmfeh978kq5","name":"SfZwedcSprHiBi05x","complete":false,"error":null,"created":"2019-09-22T23:09:51.308Z","modified":"2019-09-22T23:09:51.308Z","tileset":"sn50.SfZwedcSprHiBi05x","owner":"sn50","progress":0}
+++ OK ++ 215: upload of SfZwedcSprHiBi05x.geojson completed successfully.
+{"id":"ck0vlgy3o03e32oo5fusqz3q3","name":"SfZwedcSprHiBi10x","complete":false,"error":null,"created":"2019-09-22T23:09:56.301Z","modified":"2019-09-22T23:09:56.301Z","tileset":"sn50.SfZwedcSprHiBi10x","owner":"sn50","progress":0}
+++ OK ++ 216: upload of SfZwedcSprHiBi10x.geojson completed successfully.
+{"id":"ck0vlh1bi08sh2nm3idle6epj","name":"SfZwedcSprHiBi15x","complete":false,"error":null,"created":"2019-09-22T23:10:00.244Z","modified":"2019-09-22T23:10:00.244Z","tileset":"sn50.SfZwedcSprHiBi15x","owner":"sn50","progress":0}
+++ OK ++ 217: upload of SfZwedcSprHiBi15x.geojson completed successfully.
+{"id":"ck0vlh4be94cg2no0yfp1fua2","name":"SfZwedcSprHiBi20x","complete":false,"error":null,"created":"2019-09-22T23:10:04.335Z","modified":"2019-09-22T23:10:04.335Z","tileset":"sn50.SfZwedcSprHiBi20x","owner":"sn50","progress":0}
+++ OK ++ 218: upload of SfZwedcSprHiBi20x.geojson completed successfully.
+{"id":"ck0vlh7ih03la2to5e0rqnqmy","name":"SfZwedcSprHiBiAct","complete":false,"error":null,"created":"2019-09-22T23:10:08.271Z","modified":"2019-09-22T23:10:08.271Z","tileset":"sn50.SfZwedcSprHiBiAct","owner":"sn50","progress":0}
+++ OK ++ 219: upload of SfZwedcSprHiBiAct.geojson completed successfully.
+{"id":"ck0vlhar7ewr32np78ew3yuka","name":"SfZwedcSprHiCo05x","complete":false,"error":null,"created":"2019-09-22T23:10:12.715Z","modified":"2019-09-22T23:10:12.715Z","tileset":"sn50.SfZwedcSprHiCo05x","owner":"sn50","progress":0}
+++ OK ++ 220: upload of SfZwedcSprHiCo05x.geojson completed successfully.
+{"id":"ck0vlhe6l15oz2nmpx1hipind","name":"SfZwedcSprHiCo10x","complete":false,"error":null,"created":"2019-09-22T23:10:17.124Z","modified":"2019-09-22T23:10:17.124Z","tileset":"sn50.SfZwedcSprHiCo10x","owner":"sn50","progress":0}
+++ OK ++ 221: upload of SfZwedcSprHiCo10x.geojson completed successfully.
+{"id":"ck0vlhhpo00q52omfbkjas29h","name":"SfZwedcSprHiCo15x","complete":false,"error":null,"created":"2019-09-22T23:10:21.714Z","modified":"2019-09-22T23:10:21.714Z","tileset":"sn50.SfZwedcSprHiCo15x","owner":"sn50","progress":0}
+++ OK ++ 222: upload of SfZwedcSprHiCo15x.geojson completed successfully.
+{"id":"ck0vlhl4h11du2qoj7sfh9n1e","name":"SfZwedcSprHiCo20x","complete":false,"error":null,"created":"2019-09-22T23:10:26.160Z","modified":"2019-09-22T23:10:26.160Z","tileset":"sn50.SfZwedcSprHiCo20x","owner":"sn50","progress":0}
+++ OK ++ 223: upload of SfZwedcSprHiCo20x.geojson completed successfully.
+{"id":"ck0vlhoef93ak2io0av3fga7s","name":"SfZwedcSprHiCoAct","complete":false,"error":null,"created":"2019-09-22T23:10:30.157Z","modified":"2019-09-22T23:10:30.157Z","tileset":"sn50.SfZwedcSprHiCoAct","owner":"sn50","progress":0}
+++ OK ++ 224: upload of SfZwedcSprHiCoAct.geojson completed successfully.
+{"id":"ck0vlhrju03l42no5srx83l9y","name":"SfZwedcSprHiNc05x","complete":false,"error":null,"created":"2019-09-22T23:10:34.452Z","modified":"2019-09-22T23:10:34.452Z","tileset":"sn50.SfZwedcSprHiNc05x","owner":"sn50","progress":0}
+++ OK ++ 225: upload of SfZwedcSprHiNc05x.geojson completed successfully.
+{"id":"ck0vlhuye14gd2kqpcgpq6gw9","name":"SfZwedcSprHiNc10x","complete":false,"error":null,"created":"2019-09-22T23:10:38.876Z","modified":"2019-09-22T23:10:38.876Z","tileset":"sn50.SfZwedcSprHiNc10x","owner":"sn50","progress":0}
+++ OK ++ 226: upload of SfZwedcSprHiNc10x.geojson completed successfully.
+{"id":"ck0vlhyb3110a2onqkz09vlfj","name":"SfZwedcSprHiNc15x","complete":false,"error":null,"created":"2019-09-22T23:10:43.205Z","modified":"2019-09-22T23:10:43.205Z","tileset":"sn50.SfZwedcSprHiNc15x","owner":"sn50","progress":0}
+++ OK ++ 227: upload of SfZwedcSprHiNc15x.geojson completed successfully.
+{"id":"ck0vli1fo114i2pmnnlfjso9s","name":"SfZwedcSprHiNc20x","complete":false,"error":null,"created":"2019-09-22T23:10:47.291Z","modified":"2019-09-22T23:10:47.291Z","tileset":"sn50.SfZwedcSprHiNc20x","owner":"sn50","progress":0}
+++ OK ++ 228: upload of SfZwedcSprHiNc20x.geojson completed successfully.
+{"id":"ck0vli4t5ewrg2np7auk30efw","name":"SfZwedcSprHiNcAct","complete":false,"error":null,"created":"2019-09-22T23:10:51.432Z","modified":"2019-09-22T23:10:51.432Z","tileset":"sn50.SfZwedcSprHiNcAct","owner":"sn50","progress":0}
+++ OK ++ 229: upload of SfZwedcSprHiNcAct.geojson completed successfully.
+{"id":"ck0vli7tt03lc2no553tiojbr","name":"SfZwedcSprHiRe05x","complete":false,"error":null,"created":"2019-09-22T23:10:55.336Z","modified":"2019-09-22T23:10:55.336Z","tileset":"sn50.SfZwedcSprHiRe05x","owner":"sn50","progress":0}
+++ OK ++ 230: upload of SfZwedcSprHiRe05x.geojson completed successfully.
+{"id":"ck0vlib3r13wk2qqpqduhmwh2","name":"SfZwedcSprHiRe10x","complete":false,"error":null,"created":"2019-09-22T23:10:59.791Z","modified":"2019-09-22T23:10:59.791Z","tileset":"sn50.SfZwedcSprHiRe10x","owner":"sn50","progress":0}
+++ OK ++ 231: upload of SfZwedcSprHiRe10x.geojson completed successfully.
+{"id":"ck0vlie6qer172ip785h8ta4u","name":"SfZwedcSprHiRe15x","complete":false,"error":null,"created":"2019-09-22T23:11:03.780Z","modified":"2019-09-22T23:11:03.780Z","tileset":"sn50.SfZwedcSprHiRe15x","owner":"sn50","progress":0}
+++ OK ++ 232: upload of SfZwedcSprHiRe15x.geojson completed successfully.
+{"id":"ck0vlihaq03lg2no5b04jf1iy","name":"SfZwedcSprHiRe20x","complete":false,"error":null,"created":"2019-09-22T23:11:07.609Z","modified":"2019-09-22T23:11:07.609Z","tileset":"sn50.SfZwedcSprHiRe20x","owner":"sn50","progress":0}
+++ OK ++ 233: upload of SfZwedcSprHiRe20x.geojson completed successfully.
+{"id":"ck0vlikxa16912ompti4z51zq","name":"SfZwedcSprHiReAct","complete":false,"error":null,"created":"2019-09-22T23:11:12.538Z","modified":"2019-09-22T23:11:12.538Z","tileset":"sn50.SfZwedcSprHiReAct","owner":"sn50","progress":0}
+++ OK ++ 234: upload of SfZwedcSprHiReAct.geojson completed successfully.
+{"id":"ck0vlio561lxv2tl5rmegpoi5","name":"SfZwedcSprHiTr05x","complete":false,"error":null,"created":"2019-09-22T23:11:16.688Z","modified":"2019-09-22T23:11:16.688Z","tileset":"sn50.SfZwedcSprHiTr05x","owner":"sn50","progress":0}
+++ OK ++ 235: upload of SfZwedcSprHiTr05x.geojson completed successfully.
+{"id":"ck0vlir78es0u2up7ofzs430r","name":"SfZwedcSprHiTr10x","complete":false,"error":null,"created":"2019-09-22T23:11:20.666Z","modified":"2019-09-22T23:11:20.666Z","tileset":"sn50.SfZwedcSprHiTr10x","owner":"sn50","progress":0}
+++ OK ++ 236: upload of SfZwedcSprHiTr10x.geojson completed successfully.
+{"id":"ck0vliulu1kid2il5ghn1hix7","name":"SfZwedcSprHiTr15x","complete":false,"error":null,"created":"2019-09-22T23:11:25.081Z","modified":"2019-09-22T23:11:25.081Z","tileset":"sn50.SfZwedcSprHiTr15x","owner":"sn50","progress":0}
+++ OK ++ 237: upload of SfZwedcSprHiTr15x.geojson completed successfully.
+{"id":"ck0vlixom11o82oojpwjvfqe6","name":"SfZwedcSprHiTr20x","complete":false,"error":null,"created":"2019-09-22T23:11:29.069Z","modified":"2019-09-22T23:11:29.069Z","tileset":"sn50.SfZwedcSprHiTr20x","owner":"sn50","progress":0}
+++ OK ++ 238: upload of SfZwedcSprHiTr20x.geojson completed successfully.
+{"id":"ck0vlj0us93b52io017a3itp1","name":"SfZwedcSprHiTrAct","complete":false,"error":null,"created":"2019-09-22T23:11:33.180Z","modified":"2019-09-22T23:11:33.180Z","tileset":"sn50.SfZwedcSprHiTrAct","owner":"sn50","progress":0}
+++ OK ++ 239: upload of SfZwedcSprHiTrAct.geojson completed successfully.
+{"id":"ck0vlj41808tc2nm3njtuq0g9","name":"SfZwedcSprLoAa05x","complete":false,"error":null,"created":"2019-09-22T23:11:37.295Z","modified":"2019-09-22T23:11:37.295Z","tileset":"sn50.SfZwedcSprLoAa05x","owner":"sn50","progress":0}
+++ OK ++ 240: upload of SfZwedcSprLoAa05x.geojson completed successfully.
+{"id":"ck0vlj74r989i2oo0pijdte0v","name":"SfZwedcSprLoAa10x","complete":false,"error":null,"created":"2019-09-22T23:11:41.322Z","modified":"2019-09-22T23:11:41.322Z","tileset":"sn50.SfZwedcSprLoAa10x","owner":"sn50","progress":0}
+++ OK ++ 241: upload of SfZwedcSprLoAa10x.geojson completed successfully.
+{"id":"ck0vljakj142u2iqnuq4s7ipn","name":"SfZwedcSprLoAa15x","complete":false,"error":null,"created":"2019-09-22T23:11:45.752Z","modified":"2019-09-22T23:11:45.752Z","tileset":"sn50.SfZwedcSprLoAa15x","owner":"sn50","progress":0}
+++ OK ++ 242: upload of SfZwedcSprLoAa15x.geojson completed successfully.
+{"id":"ck0vljdrn13rk2pqn3ld3t5fu","name":"SfZwedcSprLoAa20x","complete":false,"error":null,"created":"2019-09-22T23:11:49.892Z","modified":"2019-09-22T23:11:49.892Z","tileset":"sn50.SfZwedcSprLoAa20x","owner":"sn50","progress":0}
+++ OK ++ 243: upload of SfZwedcSprLoAa20x.geojson completed successfully.
+{"id":"ck0vljgxu11oj2oojfebhqq1j","name":"SfZwedcSprLoAaAct","complete":false,"error":null,"created":"2019-09-22T23:11:53.807Z","modified":"2019-09-22T23:11:53.807Z","tileset":"sn50.SfZwedcSprLoAaAct","owner":"sn50","progress":0}
+++ OK ++ 244: upload of SfZwedcSprLoAaAct.geojson completed successfully.
+{"id":"ck0vljjwk13x22qqp5xlqxxag","name":"SfZwedcSprLoBi05x","complete":false,"error":null,"created":"2019-09-22T23:11:57.643Z","modified":"2019-09-22T23:11:57.643Z","tileset":"sn50.SfZwedcSprLoBi05x","owner":"sn50","progress":0}
+++ OK ++ 245: upload of SfZwedcSprLoBi05x.geojson completed successfully.
+{"id":"ck0vljmyk1ly92tl5h5evm1gl","name":"SfZwedcSprLoBi10x","complete":false,"error":null,"created":"2019-09-22T23:12:01.602Z","modified":"2019-09-22T23:12:01.602Z","tileset":"sn50.SfZwedcSprLoBi10x","owner":"sn50","progress":0}
+++ OK ++ 246: upload of SfZwedcSprLoBi10x.geojson completed successfully.
+{"id":"ck0vljq46169d2ompzeve4py7","name":"SfZwedcSprLoBi15x","complete":false,"error":null,"created":"2019-09-22T23:12:05.697Z","modified":"2019-09-22T23:12:05.697Z","tileset":"sn50.SfZwedcSprLoBi15x","owner":"sn50","progress":0}
+++ OK ++ 247: upload of SfZwedcSprLoBi15x.geojson completed successfully.
+{"id":"ck0vljt741kiu2il52lvii9pe","name":"SfZwedcSprLoBi20x","complete":false,"error":null,"created":"2019-09-22T23:12:09.690Z","modified":"2019-09-22T23:12:09.690Z","tileset":"sn50.SfZwedcSprLoBi20x","owner":"sn50","progress":0}
+++ OK ++ 248: upload of SfZwedcSprLoBi20x.geojson completed successfully.
+{"id":"ck0vljwei03ln2io5xec6h13r","name":"SfZwedcSprLoBiAct","complete":false,"error":null,"created":"2019-09-22T23:12:14.080Z","modified":"2019-09-22T23:12:14.080Z","tileset":"sn50.SfZwedcSprLoBiAct","owner":"sn50","progress":0}
+++ OK ++ 249: upload of SfZwedcSprLoBiAct.geojson completed successfully.
+{"id":"ck0vljzoc03m62no5kh47fzhq","name":"SfZwedcSprLoCo05x","complete":false,"error":null,"created":"2019-09-22T23:12:18.290Z","modified":"2019-09-22T23:12:18.290Z","tileset":"sn50.SfZwedcSprLoCo05x","owner":"sn50","progress":0}
+++ OK ++ 250: upload of SfZwedcSprLoCo05x.geojson completed successfully.
+{"id":"ck0vlk2ux11ou2oojqhd0qrhm","name":"SfZwedcSprLoCo10x","complete":false,"error":null,"created":"2019-09-22T23:12:22.210Z","modified":"2019-09-22T23:12:22.210Z","tileset":"sn50.SfZwedcSprLoCo10x","owner":"sn50","progress":0}
+++ OK ++ 251: upload of SfZwedcSprLoCo10x.geojson completed successfully.
+{"id":"ck0vlk5wq11162onqoprq94ag","name":"SfZwedcSprLoCo15x","complete":false,"error":null,"created":"2019-09-22T23:12:26.381Z","modified":"2019-09-22T23:12:26.381Z","tileset":"sn50.SfZwedcSprLoCo15x","owner":"sn50","progress":0}
+++ OK ++ 252: upload of SfZwedcSprLoCo15x.geojson completed successfully.
+{"id":"ck0vlk95j13rv2pqn3r4l0fkn","name":"SfZwedcSprLoCo20x","complete":false,"error":null,"created":"2019-09-22T23:12:30.365Z","modified":"2019-09-22T23:12:30.365Z","tileset":"sn50.SfZwedcSprLoCo20x","owner":"sn50","progress":0}
+++ OK ++ 253: upload of SfZwedcSprLoCo20x.geojson completed successfully.
+{"id":"ck0vlkea4115b2pmnx899fzum","name":"SfZwedcSprLoCoAct","complete":false,"error":null,"created":"2019-09-22T23:12:37.231Z","modified":"2019-09-22T23:12:37.231Z","tileset":"sn50.SfZwedcSprLoCoAct","owner":"sn50","progress":0}
+++ OK ++ 254: upload of SfZwedcSprLoCoAct.geojson completed successfully.
+{"id":"ck0vlkhjz16ru2tmpb8xqbj1k","name":"SfZwedcSprLoNc05x","complete":false,"error":null,"created":"2019-09-22T23:12:41.465Z","modified":"2019-09-22T23:12:41.465Z","tileset":"sn50.SfZwedcSprLoNc05x","owner":"sn50","progress":0}
+++ OK ++ 255: upload of SfZwedcSprLoNc05x.geojson completed successfully.
+{"id":"ck0vlko7a11p72oojryqcq6ft","name":"SfZwedcSprLoNc10x","complete":false,"error":null,"created":"2019-09-22T23:12:49.873Z","modified":"2019-09-22T23:12:49.873Z","tileset":"sn50.SfZwedcSprLoNc10x","owner":"sn50","progress":0}
+++ OK ++ 256: upload of SfZwedcSprLoNc10x.geojson completed successfully.
+{"id":"ck0vlkrbb08u72nm3ahi8425k","name":"SfZwedcSprLoNc15x","complete":false,"error":null,"created":"2019-09-22T23:12:54.109Z","modified":"2019-09-22T23:12:54.109Z","tileset":"sn50.SfZwedcSprLoNc15x","owner":"sn50","progress":0}
+++ OK ++ 257: upload of SfZwedcSprLoNc15x.geojson completed successfully.
+{"id":"ck0vlkupw00rz2nmf5j1v1bax","name":"SfZwedcSprLoNc20x","complete":false,"error":null,"created":"2019-09-22T23:12:58.539Z","modified":"2019-09-22T23:12:58.539Z","tileset":"sn50.SfZwedcSprLoNc20x","owner":"sn50","progress":0}
+++ OK ++ 258: upload of SfZwedcSprLoNc20x.geojson completed successfully.
+{"id":"ck0vlkxy3143h2iqnh8u370vf","name":"SfZwedcSprLoNcAct","complete":false,"error":null,"created":"2019-09-22T23:13:02.706Z","modified":"2019-09-22T23:13:02.706Z","tileset":"sn50.SfZwedcSprLoNcAct","owner":"sn50","progress":0}
+++ OK ++ 259: upload of SfZwedcSprLoNcAct.geojson completed successfully.
+{"id":"ck0vll1ba10lb2qmnvrfybkgu","name":"SfZwedcSprLoRe05x","complete":false,"error":null,"created":"2019-09-22T23:13:07.073Z","modified":"2019-09-22T23:13:07.073Z","tileset":"sn50.SfZwedcSprLoRe05x","owner":"sn50","progress":0}
+++ OK ++ 260: upload of SfZwedcSprLoRe05x.geojson completed successfully.
+{"id":"ck0vll4ug1kjb2il5nhplqg2w","name":"SfZwedcSprLoRe10x","complete":false,"error":null,"created":"2019-09-22T23:13:11.659Z","modified":"2019-09-22T23:13:11.659Z","tileset":"sn50.SfZwedcSprLoRe10x","owner":"sn50","progress":0}
+++ OK ++ 261: upload of SfZwedcSprLoRe10x.geojson completed successfully.
+{"id":"ck0vll89w15yf2nqnl5l82567","name":"SfZwedcSprLoRe15x","complete":false,"error":null,"created":"2019-09-22T23:13:16.104Z","modified":"2019-09-22T23:13:16.104Z","tileset":"sn50.SfZwedcSprLoRe15x","owner":"sn50","progress":0}
+++ OK ++ 262: upload of SfZwedcSprLoRe15x.geojson completed successfully.
+{"id":"ck0vllbfo16a02ompcdqswuhh","name":"SfZwedcSprLoRe20x","complete":false,"error":null,"created":"2019-09-22T23:13:20.182Z","modified":"2019-09-22T23:13:20.182Z","tileset":"sn50.SfZwedcSprLoRe20x","owner":"sn50","progress":0}
+++ OK ++ 263: upload of SfZwedcSprLoRe20x.geojson completed successfully.
+{"id":"ck0vllesg13812xqp2j45cezr","name":"SfZwedcSprLoReAct","complete":false,"error":null,"created":"2019-09-22T23:13:24.534Z","modified":"2019-09-22T23:13:24.534Z","tileset":"sn50.SfZwedcSprLoReAct","owner":"sn50","progress":0}
+++ OK ++ 264: upload of SfZwedcSprLoReAct.geojson completed successfully.
+{"id":"ck0vlli3b00ql2imfc6vqnfzn","name":"SfZwedcSprLoTr05x","complete":false,"error":null,"created":"2019-09-22T23:13:28.828Z","modified":"2019-09-22T23:13:28.828Z","tileset":"sn50.SfZwedcSprLoTr05x","owner":"sn50","progress":0}
+++ OK ++ 265: upload of SfZwedcSprLoTr05x.geojson completed successfully.
+{"id":"ck0vlll8z143q2iqnbsppye8e","name":"SfZwedcSprLoTr10x","complete":false,"error":null,"created":"2019-09-22T23:13:32.697Z","modified":"2019-09-22T23:13:32.697Z","tileset":"sn50.SfZwedcSprLoTr10x","owner":"sn50","progress":0}
+++ OK ++ 266: upload of SfZwedcSprLoTr10x.geojson completed successfully.
+{"id":"ck0vlloc100sc2nmfs2s1nufm","name":"SfZwedcSprLoTr15x","complete":false,"error":null,"created":"2019-09-22T23:13:36.700Z","modified":"2019-09-22T23:13:36.700Z","tileset":"sn50.SfZwedcSprLoTr15x","owner":"sn50","progress":0}
+++ OK ++ 267: upload of SfZwedcSprLoTr15x.geojson completed successfully.
+{"id":"ck0vllrjn11in2omnq0saxvfx","name":"SfZwedcSprLoTr20x","complete":false,"error":null,"created":"2019-09-22T23:13:41.074Z","modified":"2019-09-22T23:13:41.074Z","tileset":"sn50.SfZwedcSprLoTr20x","owner":"sn50","progress":0}
+++ OK ++ 268: upload of SfZwedcSprLoTr20x.geojson completed successfully.
+{"id":"ck0vllv2r16s92tmpy6sfo1y3","name":"SfZwedcSprLoTrAct","complete":false,"error":null,"created":"2019-09-22T23:13:45.656Z","modified":"2019-09-22T23:13:45.656Z","tileset":"sn50.SfZwedcSprLoTrAct","owner":"sn50","progress":0}
+++ OK ++ 269: upload of SfZwedcSprLoTrAct.geojson completed successfully.
+{"id":"ck0vlly5n13y22qqpaipyijkt","name":"SfZwedcSumAlAa05x","complete":false,"error":null,"created":"2019-09-22T23:13:49.663Z","modified":"2019-09-22T23:13:49.663Z","tileset":"sn50.SfZwedcSumAlAa05x","owner":"sn50","progress":0}
+++ OK ++ 270: upload of SfZwedcSumAlAa05x.geojson completed successfully.
+{"id":"ck0vlm1bk00ru2omfj7bs1t87","name":"SfZwedcSumAlAa10x","complete":false,"error":null,"created":"2019-09-22T23:13:53.732Z","modified":"2019-09-22T23:13:53.732Z","tileset":"sn50.SfZwedcSumAlAa10x","owner":"sn50","progress":0}
+++ OK ++ 271: upload of SfZwedcSumAlAa10x.geojson completed successfully.
+{"id":"ck0vlm4t815r12nmpl3g4bchn","name":"SfZwedcSumAlAa15x","complete":false,"error":null,"created":"2019-09-22T23:13:58.261Z","modified":"2019-09-22T23:13:58.261Z","tileset":"sn50.SfZwedcSumAlAa15x","owner":"sn50","progress":0}
+++ OK ++ 272: upload of SfZwedcSumAlAa15x.geojson completed successfully.
+{"id":"ck0vlm8581kxc2nl50n7tgupe","name":"SfZwedcSumAlAa20x","complete":false,"error":null,"created":"2019-09-22T23:14:02.601Z","modified":"2019-09-22T23:14:02.601Z","tileset":"sn50.SfZwedcSumAlAa20x","owner":"sn50","progress":0}
+++ OK ++ 273: upload of SfZwedcSumAlAa20x.geojson completed successfully.
+{"id":"ck0vlmb9q112n2jmnaan0wc72","name":"SfZwedcSumAlAaAct","complete":false,"error":null,"created":"2019-09-22T23:14:06.421Z","modified":"2019-09-22T23:14:06.421Z","tileset":"sn50.SfZwedcSumAlAaAct","owner":"sn50","progress":0}
+++ OK ++ 274: upload of SfZwedcSumAlAaAct.geojson completed successfully.
+{"id":"ck0vlme7800sn2nmfrd0h4t29","name":"SfZwedcSumAlBi05x","complete":false,"error":null,"created":"2019-09-22T23:14:10.222Z","modified":"2019-09-22T23:14:10.222Z","tileset":"sn50.SfZwedcSumAlBi05x","owner":"sn50","progress":0}
+++ OK ++ 275: upload of SfZwedcSumAlBi05x.geojson completed successfully.
+{"id":"ck0vlmhbt15yw2nqnm5yzi86k","name":"SfZwedcSumAlBi10x","complete":false,"error":null,"created":"2019-09-22T23:14:14.276Z","modified":"2019-09-22T23:14:14.276Z","tileset":"sn50.SfZwedcSumAlBi10x","owner":"sn50","progress":0}
+++ OK ++ 276: upload of SfZwedcSumAlBi10x.geojson completed successfully.
+{"id":"ck0vlmkb6111z2onq4drxx3tw","name":"SfZwedcSumAlBi15x","complete":false,"error":null,"created":"2019-09-22T23:14:18.358Z","modified":"2019-09-22T23:14:18.358Z","tileset":"sn50.SfZwedcSumAlBi15x","owner":"sn50","progress":0}
+++ OK ++ 277: upload of SfZwedcSumAlBi15x.geojson completed successfully.
+{"id":"ck0vlmnr900sq2nmfu8d0pajr","name":"SfZwedcSumAlBi20x","complete":false,"error":null,"created":"2019-09-22T23:14:22.607Z","modified":"2019-09-22T23:14:22.607Z","tileset":"sn50.SfZwedcSumAlBi20x","owner":"sn50","progress":0}
+++ OK ++ 278: upload of SfZwedcSumAlBi20x.geojson completed successfully.
+{"id":"ck0vlmqm515re2nmpzccso71g","name":"SfZwedcSumAlBiAct","complete":false,"error":null,"created":"2019-09-22T23:14:26.309Z","modified":"2019-09-22T23:14:26.309Z","tileset":"sn50.SfZwedcSumAlBiAct","owner":"sn50","progress":0}
+++ OK ++ 279: upload of SfZwedcSumAlBiAct.geojson completed successfully.
+{"id":"ck0vlmtoa03ms2io5rc75s1jy","name":"SfZwedcSumAlCo05x","complete":false,"error":null,"created":"2019-09-22T23:14:30.475Z","modified":"2019-09-22T23:14:30.475Z","tileset":"sn50.SfZwedcSumAlCo05x","owner":"sn50","progress":0}
+++ OK ++ 280: upload of SfZwedcSumAlCo05x.geojson completed successfully.
+{"id":"ck0vlmx9yewth2np78x3ymgot","name":"SfZwedcSumAlCo10x","complete":false,"error":null,"created":"2019-09-22T23:14:35.164Z","modified":"2019-09-22T23:14:35.164Z","tileset":"sn50.SfZwedcSumAlCo10x","owner":"sn50","progress":0}
+++ OK ++ 281: upload of SfZwedcSumAlCo10x.geojson completed successfully.
+{"id":"ck0vln0gk1kxn2nl54nlraazd","name":"SfZwedcSumAlCo15x","complete":false,"error":null,"created":"2019-09-22T23:14:39.072Z","modified":"2019-09-22T23:14:39.072Z","tileset":"sn50.SfZwedcSumAlCo15x","owner":"sn50","progress":0}
+++ OK ++ 282: upload of SfZwedcSumAlCo15x.geojson completed successfully.
+{"id":"ck0vln3g808on2om3vzx1lgyh","name":"SfZwedcSumAlCo20x","complete":false,"error":null,"created":"2019-09-22T23:14:43.168Z","modified":"2019-09-22T23:14:43.168Z","tileset":"sn50.SfZwedcSumAlCo20x","owner":"sn50","progress":0}
+++ OK ++ 283: upload of SfZwedcSumAlCo20x.geojson completed successfully.
+{"id":"ck0vln6mr15rn2nmp0no1xqbk","name":"SfZwedcSumAlCoAct","complete":false,"error":null,"created":"2019-09-22T23:14:47.066Z","modified":"2019-09-22T23:14:47.066Z","tileset":"sn50.SfZwedcSumAlCoAct","owner":"sn50","progress":0}
+++ OK ++ 284: upload of SfZwedcSumAlCoAct.geojson completed successfully.
+{"id":"ck0vln9m993ci2io0h6bqn8i3","name":"SfZwedcSumAlNc05x","complete":false,"error":null,"created":"2019-09-22T23:14:51.157Z","modified":"2019-09-22T23:14:51.157Z","tileset":"sn50.SfZwedcSumAlNc05x","owner":"sn50","progress":0}
+++ OK ++ 285: upload of SfZwedcSumAlNc05x.geojson completed successfully.
+{"id":"ck0vlnctg1kxs2nl5ps43z58g","name":"SfZwedcSumAlNc10x","complete":false,"error":null,"created":"2019-09-22T23:14:55.087Z","modified":"2019-09-22T23:14:55.087Z","tileset":"sn50.SfZwedcSumAlNc10x","owner":"sn50","progress":0}
+++ OK ++ 286: upload of SfZwedcSumAlNc10x.geojson completed successfully.
+{"id":"ck0vlnfwd10q22pnqi5fauarm","name":"SfZwedcSumAlNc15x","complete":false,"error":null,"created":"2019-09-22T23:14:59.300Z","modified":"2019-09-22T23:14:59.300Z","tileset":"sn50.SfZwedcSumAlNc15x","owner":"sn50","progress":0}
+++ OK ++ 287: upload of SfZwedcSumAlNc15x.geojson completed successfully.
+{"id":"ck0vlnj3m11g02qoje1c5r2xq","name":"SfZwedcSumAlNc20x","complete":false,"error":null,"created":"2019-09-22T23:15:03.451Z","modified":"2019-09-22T23:15:03.451Z","tileset":"sn50.SfZwedcSumAlNc20x","owner":"sn50","progress":0}
+++ OK ++ 288: upload of SfZwedcSumAlNc20x.geojson completed successfully.
+{"id":"ck0vlnmgj13sx2pqnitf2p1w2","name":"SfZwedcSumAlNcAct","complete":false,"error":null,"created":"2019-09-22T23:15:07.806Z","modified":"2019-09-22T23:15:07.806Z","tileset":"sn50.SfZwedcSumAlNcAct","owner":"sn50","progress":0}
+++ OK ++ 289: upload of SfZwedcSumAlNcAct.geojson completed successfully.
+{"id":"ck0vlnps200rq2imfovkgw596","name":"SfZwedcSumAlRe05x","complete":false,"error":null,"created":"2019-09-22T23:15:12.089Z","modified":"2019-09-22T23:15:12.089Z","tileset":"sn50.SfZwedcSumAlRe05x","owner":"sn50","progress":0}
+++ OK ++ 290: upload of SfZwedcSumAlRe05x.geojson completed successfully.
+{"id":"ck0vlnsu1111y2nnqzx2iomr9","name":"SfZwedcSumAlRe10x","complete":false,"error":null,"created":"2019-09-22T23:15:16.065Z","modified":"2019-09-22T23:15:16.065Z","tileset":"sn50.SfZwedcSumAlRe10x","owner":"sn50","progress":0}
+++ OK ++ 291: upload of SfZwedcSumAlRe10x.geojson completed successfully.
+{"id":"ck0vlnvzb11212nnqi15wpd63","name":"SfZwedcSumAlRe15x","complete":false,"error":null,"created":"2019-09-22T23:15:19.922Z","modified":"2019-09-22T23:15:19.922Z","tileset":"sn50.SfZwedcSumAlRe15x","owner":"sn50","progress":0}
+++ OK ++ 292: upload of SfZwedcSumAlRe15x.geojson completed successfully.
+{"id":"ck0vlnyys00rw2imfuro8phor","name":"SfZwedcSumAlRe20x","complete":false,"error":null,"created":"2019-09-22T23:15:23.786Z","modified":"2019-09-22T23:15:23.786Z","tileset":"sn50.SfZwedcSumAlRe20x","owner":"sn50","progress":0}
+++ OK ++ 293: upload of SfZwedcSumAlRe20x.geojson completed successfully.
+{"id":"ck0vlo24e112m2onqd14sar4z","name":"SfZwedcSumAlReAct","complete":false,"error":null,"created":"2019-09-22T23:15:28.084Z","modified":"2019-09-22T23:15:28.084Z","tileset":"sn50.SfZwedcSumAlReAct","owner":"sn50","progress":0}
+++ OK ++ 294: upload of SfZwedcSumAlReAct.geojson completed successfully.
+{"id":"ck0vlo55n03o32no5k8892b04","name":"SfZwedcSumAlTr05x","complete":false,"error":null,"created":"2019-09-22T23:15:32.051Z","modified":"2019-09-22T23:15:32.051Z","tileset":"sn50.SfZwedcSumAlTr05x","owner":"sn50","progress":0}
+++ OK ++ 295: upload of SfZwedcSumAlTr05x.geojson completed successfully.
+{"id":"ck0vlo86h1m002tl57kx2zx1s","name":"SfZwedcSumAlTr10x","complete":false,"error":null,"created":"2019-09-22T23:15:35.963Z","modified":"2019-09-22T23:15:35.963Z","tileset":"sn50.SfZwedcSumAlTr10x","owner":"sn50","progress":0}
+++ OK ++ 296: upload of SfZwedcSumAlTr10x.geojson completed successfully.
+{"id":"ck0vlobdn10rg2inq6um6m96u","name":"SfZwedcSumAlTr15x","complete":false,"error":null,"created":"2019-09-22T23:15:40.099Z","modified":"2019-09-22T23:15:40.099Z","tileset":"sn50.SfZwedcSumAlTr15x","owner":"sn50","progress":0}
+++ OK ++ 297: upload of SfZwedcSumAlTr15x.geojson completed successfully.
+{"id":"ck0vloemw11gb2qojcfoewuda","name":"SfZwedcSumAlTr20x","complete":false,"error":null,"created":"2019-09-22T23:15:44.099Z","modified":"2019-09-22T23:15:44.099Z","tileset":"sn50.SfZwedcSumAlTr20x","owner":"sn50","progress":0}
+++ OK ++ 298: upload of SfZwedcSumAlTr20x.geojson completed successfully.
+{"id":"ck0vlohmr03nf2io5ic3m77vh","name":"SfZwedcSumAlTrAct","complete":false,"error":null,"created":"2019-09-22T23:15:48.200Z","modified":"2019-09-22T23:15:48.200Z","tileset":"sn50.SfZwedcSumAlTrAct","owner":"sn50","progress":0}
+++ OK ++ 299: upload of SfZwedcSumAlTrAct.geojson completed successfully.
+{"id":"ck0vlokw51m052tl5gtpdb9en","name":"SfZwedcSumHiAa05x","complete":false,"error":null,"created":"2019-09-22T23:15:52.211Z","modified":"2019-09-22T23:15:52.211Z","tileset":"sn50.SfZwedcSumHiAa05x","owner":"sn50","progress":0}
+++ OK ++ 300: upload of SfZwedcSumHiAa05x.geojson completed successfully.
+{"id":"ck0vlonw8evbn2op7xr7er28h","name":"SfZwedcSumHiAa10x","complete":false,"error":null,"created":"2019-09-22T23:15:56.319Z","modified":"2019-09-22T23:15:56.319Z","tileset":"sn50.SfZwedcSumHiAa10x","owner":"sn50","progress":0}
+++ OK ++ 301: upload of SfZwedcSumHiAa10x.geojson completed successfully.
+{"id":"ck0vlor1m03nk2io5rrkzhaxk","name":"SfZwedcSumHiAa15x","complete":false,"error":null,"created":"2019-09-22T23:16:00.182Z","modified":"2019-09-22T23:16:00.182Z","tileset":"sn50.SfZwedcSumHiAa15x","owner":"sn50","progress":0}
+++ OK ++ 302: upload of SfZwedcSumHiAa15x.geojson completed successfully.
+{"id":"ck0vlou1c112y2onqyzgbrpdc","name":"SfZwedcSumHiAa20x","complete":false,"error":null,"created":"2019-09-22T23:16:04.054Z","modified":"2019-09-22T23:16:04.054Z","tileset":"sn50.SfZwedcSumHiAa20x","owner":"sn50","progress":0}
+++ OK ++ 303: upload of SfZwedcSumHiAa20x.geojson completed successfully.
+{"id":"ck0vlox5716bf2omphoajw5wf","name":"SfZwedcSumHiAaAct","complete":false,"error":null,"created":"2019-09-22T23:16:08.300Z","modified":"2019-09-22T23:16:08.300Z","tileset":"sn50.SfZwedcSumHiAaAct","owner":"sn50","progress":0}
+++ OK ++ 304: upload of SfZwedcSumHiAaAct.geojson completed successfully.
+{"id":"ck0vlp09g00s42pmftxfsf0qx","name":"SfZwedcSumHiBi05x","complete":false,"error":null,"created":"2019-09-22T23:16:12.328Z","modified":"2019-09-22T23:16:12.328Z","tileset":"sn50.SfZwedcSumHiBi05x","owner":"sn50","progress":0}
+++ OK ++ 305: upload of SfZwedcSumHiBi05x.geojson completed successfully.
+{"id":"ck0vlp3de08pi2om3b2rm0691","name":"SfZwedcSumHiBi10x","complete":false,"error":null,"created":"2019-09-22T23:16:16.155Z","modified":"2019-09-22T23:16:16.155Z","tileset":"sn50.SfZwedcSumHiBi10x","owner":"sn50","progress":0}
+++ OK ++ 306: upload of SfZwedcSumHiBi10x.geojson completed successfully.
+{"id":"ck0vlp6fx139c2xqprx566vzr","name":"SfZwedcSumHiBi15x","complete":false,"error":null,"created":"2019-09-22T23:16:20.337Z","modified":"2019-09-22T23:16:20.337Z","tileset":"sn50.SfZwedcSumHiBi15x","owner":"sn50","progress":0}
+++ OK ++ 307: upload of SfZwedcSumHiBi15x.geojson completed successfully.
+{"id":"ck0vlp9sp11732pmn7tu7u57q","name":"SfZwedcSumHiBi20x","complete":false,"error":null,"created":"2019-09-22T23:16:24.688Z","modified":"2019-09-22T23:16:24.688Z","tileset":"sn50.SfZwedcSumHiBi20x","owner":"sn50","progress":0}
+++ OK ++ 308: upload of SfZwedcSumHiBi20x.geojson completed successfully.
+{"id":"ck0vlpcvt00ts2nmfn0rjohif","name":"SfZwedcSumHiBiAct","complete":false,"error":null,"created":"2019-09-22T23:16:28.484Z","modified":"2019-09-22T23:16:28.484Z","tileset":"sn50.SfZwedcSumHiBiAct","owner":"sn50","progress":0}
+++ OK ++ 309: upload of SfZwedcSumHiBiAct.geojson completed successfully.
+{"id":"ck0vlpg0r94f92no0vgaglt6s","name":"SfZwedcSumHiCo05x","complete":false,"error":null,"created":"2019-09-22T23:16:32.749Z","modified":"2019-09-22T23:16:32.749Z","tileset":"sn50.SfZwedcSumHiCo05x","owner":"sn50","progress":0}
+++ OK ++ 310: upload of SfZwedcSumHiCo05x.geojson completed successfully.
+{"id":"ck0vlpj5z08pr2om33uzwm0k2","name":"SfZwedcSumHiCo10x","complete":false,"error":null,"created":"2019-09-22T23:16:36.625Z","modified":"2019-09-22T23:16:36.625Z","tileset":"sn50.SfZwedcSumHiCo10x","owner":"sn50","progress":0}
+++ OK ++ 311: upload of SfZwedcSumHiCo10x.geojson completed successfully.
+{"id":"ck0vlpmdj112i2nnqgqixaao6","name":"SfZwedcSumHiCo15x","complete":false,"error":null,"created":"2019-09-22T23:16:41.008Z","modified":"2019-09-22T23:16:41.008Z","tileset":"sn50.SfZwedcSumHiCo15x","owner":"sn50","progress":0}
+++ OK ++ 312: upload of SfZwedcSumHiCo15x.geojson completed successfully.
+{"id":"ck0vlppw01kjy2ol5clap1cmm","name":"SfZwedcSumHiCo20x","complete":false,"error":null,"created":"2019-09-22T23:16:45.555Z","modified":"2019-09-22T23:16:45.555Z","tileset":"sn50.SfZwedcSumHiCo20x","owner":"sn50","progress":0}
+++ OK ++ 313: upload of SfZwedcSumHiCo20x.geojson completed successfully.
+{"id":"ck0vlpt8811p02jojl224at4p","name":"SfZwedcSumHiCoAct","complete":false,"error":null,"created":"2019-09-22T23:16:49.902Z","modified":"2019-09-22T23:16:49.902Z","tileset":"sn50.SfZwedcSumHiCoAct","owner":"sn50","progress":0}
+++ OK ++ 314: upload of SfZwedcSumHiCoAct.geojson completed successfully.
+{"id":"ck0vlpwh4113w2jmn1rss6qwp","name":"SfZwedcSumHiNc05x","complete":false,"error":null,"created":"2019-09-22T23:16:54.078Z","modified":"2019-09-22T23:16:54.078Z","tileset":"sn50.SfZwedcSumHiNc05x","owner":"sn50","progress":0}
+++ OK ++ 315: upload of SfZwedcSumHiNc05x.geojson completed successfully.
+{"id":"ck0vlpzvm1m0m2tl5trzl9ng4","name":"SfZwedcSumHiNc10x","complete":false,"error":null,"created":"2019-09-22T23:16:58.483Z","modified":"2019-09-22T23:16:58.483Z","tileset":"sn50.SfZwedcSumHiNc10x","owner":"sn50","progress":0}
+++ OK ++ 316: upload of SfZwedcSumHiNc10x.geojson completed successfully.
+{"id":"ck0vlq39h11p32jojyg3y9di4","name":"SfZwedcSumHiNc15x","complete":false,"error":null,"created":"2019-09-22T23:17:02.676Z","modified":"2019-09-22T23:17:02.676Z","tileset":"sn50.SfZwedcSumHiNc15x","owner":"sn50","progress":0}
+++ OK ++ 317: upload of SfZwedcSumHiNc15x.geojson completed successfully.
+{"id":"ck0vlq6f203ou2no57c15jv06","name":"SfZwedcSumHiNc20x","complete":false,"error":null,"created":"2019-09-22T23:17:06.997Z","modified":"2019-09-22T23:17:06.997Z","tileset":"sn50.SfZwedcSumHiNc20x","owner":"sn50","progress":0}
+++ OK ++ 318: upload of SfZwedcSumHiNc20x.geojson completed successfully.
+{"id":"ck0vlq9sl11h32qoj5biw59go","name":"SfZwedcSumHiNcAct","complete":false,"error":null,"created":"2019-09-22T23:17:11.338Z","modified":"2019-09-22T23:17:11.338Z","tileset":"sn50.SfZwedcSumHiNcAct","owner":"sn50","progress":0}
+++ OK ++ 319: upload of SfZwedcSumHiNcAct.geojson completed successfully.
+{"id":"ck0vlqd1n117k2pmnbvxlo0ic","name":"SfZwedcSumHiRe05x","complete":false,"error":null,"created":"2019-09-22T23:17:15.345Z","modified":"2019-09-22T23:17:15.345Z","tileset":"sn50.SfZwedcSumHiRe05x","owner":"sn50","progress":0}
+++ OK ++ 320: upload of SfZwedcSumHiRe05x.geojson completed successfully.
+{"id":"ck0vlqg8o00t72omf8us2sib0","name":"SfZwedcSumHiRe10x","complete":false,"error":null,"created":"2019-09-22T23:17:19.710Z","modified":"2019-09-22T23:17:19.710Z","tileset":"sn50.SfZwedcSumHiRe10x","owner":"sn50","progress":0}
+++ OK ++ 321: upload of SfZwedcSumHiRe10x.geojson completed successfully.
+{"id":"ck0vlqjmt10qz2pnqd9qdqc50","name":"SfZwedcSumHiRe15x","complete":false,"error":null,"created":"2019-09-22T23:17:24.122Z","modified":"2019-09-22T23:17:24.122Z","tileset":"sn50.SfZwedcSumHiRe15x","owner":"sn50","progress":0}
+++ OK ++ 322: upload of SfZwedcSumHiRe15x.geojson completed successfully.
+{"id":"ck0vlqn1w08tm2im37dh32rz8","name":"SfZwedcSumHiRe20x","complete":false,"error":null,"created":"2019-09-22T23:17:28.532Z","modified":"2019-09-22T23:17:28.532Z","tileset":"sn50.SfZwedcSumHiRe20x","owner":"sn50","progress":0}
+++ OK ++ 323: upload of SfZwedcSumHiRe20x.geojson completed successfully.
+{"id":"ck0vlqqac114d2jmno3jsqfw5","name":"SfZwedcSumHiReAct","complete":false,"error":null,"created":"2019-09-22T23:17:32.506Z","modified":"2019-09-22T23:17:32.506Z","tileset":"sn50.SfZwedcSumHiReAct","owner":"sn50","progress":0}
+++ OK ++ 324: upload of SfZwedcSumHiReAct.geojson completed successfully.
+{"id":"ck0vlqt7p00ug2nmf9lz3a15p","name":"SfZwedcSumHiTr05x","complete":false,"error":null,"created":"2019-09-22T23:17:36.305Z","modified":"2019-09-22T23:17:36.305Z","tileset":"sn50.SfZwedcSumHiTr05x","owner":"sn50","progress":0}
+++ OK ++ 325: upload of SfZwedcSumHiTr05x.geojson completed successfully.
+{"id":"ck0vlqwej03og2to5e22fwazu","name":"SfZwedcSumHiTr10x","complete":false,"error":null,"created":"2019-09-22T23:17:40.641Z","modified":"2019-09-22T23:17:40.641Z","tileset":"sn50.SfZwedcSumHiTr10x","owner":"sn50","progress":0}
+++ OK ++ 326: upload of SfZwedcSumHiTr10x.geojson completed successfully.
+{"id":"ck0vlqzod08wi2nm3gfe6ezup","name":"SfZwedcSumHiTr15x","complete":false,"error":null,"created":"2019-09-22T23:17:44.877Z","modified":"2019-09-22T23:17:44.877Z","tileset":"sn50.SfZwedcSumHiTr15x","owner":"sn50","progress":0}
+++ OK ++ 327: upload of SfZwedcSumHiTr15x.geojson completed successfully.
+{"id":"ck0vlr2sb11ph2jojtcjwt39g","name":"SfZwedcSumHiTr20x","complete":false,"error":null,"created":"2019-09-22T23:17:48.713Z","modified":"2019-09-22T23:17:48.713Z","tileset":"sn50.SfZwedcSumHiTr20x","owner":"sn50","progress":0}
+++ OK ++ 328: upload of SfZwedcSumHiTr20x.geojson completed successfully.
+{"id":"ck0vlr5rievcy2op74jnr0jr3","name":"SfZwedcSumHiTrAct","complete":false,"error":null,"created":"2019-09-22T23:17:52.783Z","modified":"2019-09-22T23:17:52.783Z","tileset":"sn50.SfZwedcSumHiTrAct","owner":"sn50","progress":0}
+++ OK ++ 329: upload of SfZwedcSumHiTrAct.geojson completed successfully.
+{"id":"ck0vlr8wj03pf2no56fvvx0g4","name":"SfZwedcSumLoAa05x","complete":false,"error":null,"created":"2019-09-22T23:17:56.642Z","modified":"2019-09-22T23:17:56.642Z","tileset":"sn50.SfZwedcSumLoAa05x","owner":"sn50","progress":0}
+++ OK ++ 330: upload of SfZwedcSumLoAa05x.geojson completed successfully.
+{"id":"ck0vlrbty03pi2no51e3ynj1c","name":"SfZwedcSumLoAa10x","complete":false,"error":null,"created":"2019-09-22T23:18:00.437Z","modified":"2019-09-22T23:18:00.437Z","tileset":"sn50.SfZwedcSumLoAa10x","owner":"sn50","progress":0}
+++ OK ++ 331: upload of SfZwedcSumLoAa10x.geojson completed successfully.
+{"id":"ck0vlrexb11mb2rojkjx4acai","name":"SfZwedcSumLoAa15x","complete":false,"error":null,"created":"2019-09-22T23:18:04.659Z","modified":"2019-09-22T23:18:04.659Z","tileset":"sn50.SfZwedcSumLoAa15x","owner":"sn50","progress":0}
+++ OK ++ 332: upload of SfZwedcSumLoAa15x.geojson completed successfully.
+{"id":"ck0vlri6i11kv2omntbc8nsn1","name":"SfZwedcSumLoAa20x","complete":false,"error":null,"created":"2019-09-22T23:18:08.663Z","modified":"2019-09-22T23:18:08.663Z","tileset":"sn50.SfZwedcSumLoAa20x","owner":"sn50","progress":0}
+++ OK ++ 333: upload of SfZwedcSumLoAa20x.geojson completed successfully.
+{"id":"ck0vlrl5c16c82omp8cl9x17k","name":"SfZwedcSumLoAaAct","complete":false,"error":null,"created":"2019-09-22T23:18:12.735Z","modified":"2019-09-22T23:18:12.735Z","tileset":"sn50.SfZwedcSumLoAaAct","owner":"sn50","progress":0}
+++ OK ++ 334: upload of SfZwedcSumLoAaAct.geojson completed successfully.
+{"id":"ck0vlroc403pl2no571r80idm","name":"SfZwedcSumLoBi05x","complete":false,"error":null,"created":"2019-09-22T23:18:16.643Z","modified":"2019-09-22T23:18:16.643Z","tileset":"sn50.SfZwedcSumLoBi05x","owner":"sn50","progress":0}
+++ OK ++ 335: upload of SfZwedcSumLoBi05x.geojson completed successfully.
+{"id":"ck0vlrrag08qp2om3l9cst919","name":"SfZwedcSumLoBi10x","complete":false,"error":null,"created":"2019-09-22T23:18:20.680Z","modified":"2019-09-22T23:18:20.680Z","tileset":"sn50.SfZwedcSumLoBi10x","owner":"sn50","progress":0}
+++ OK ++ 336: upload of SfZwedcSumLoBi10x.geojson completed successfully.
+{"id":"ck0vlrug914062qqpwyx7mgky","name":"SfZwedcSumLoBi15x","complete":false,"error":null,"created":"2019-09-22T23:18:24.790Z","modified":"2019-09-22T23:18:24.790Z","tileset":"sn50.SfZwedcSumLoBi15x","owner":"sn50","progress":0}
+++ OK ++ 337: upload of SfZwedcSumLoBi15x.geojson completed successfully.
+{"id":"ck0vlrxk216cd2ompiepf5qe2","name":"SfZwedcSumLoBi20x","complete":false,"error":null,"created":"2019-09-22T23:18:28.592Z","modified":"2019-09-22T23:18:28.592Z","tileset":"sn50.SfZwedcSumLoBi20x","owner":"sn50","progress":0}
+++ OK ++ 338: upload of SfZwedcSumLoBi20x.geojson completed successfully.
+{"id":"ck0vls0q194g72no0v7mwe9wd","name":"SfZwedcSumLoBiAct","complete":false,"error":null,"created":"2019-09-22T23:18:32.910Z","modified":"2019-09-22T23:18:32.910Z","tileset":"sn50.SfZwedcSumLoBiAct","owner":"sn50","progress":0}
+++ OK ++ 339: upload of SfZwedcSumLoBiAct.geojson completed successfully.
+{"id":"ck0vls3wkes3j2up7ua7k05be","name":"SfZwedcSumLoCo05x","complete":false,"error":null,"created":"2019-09-22T23:18:36.810Z","modified":"2019-09-22T23:18:36.810Z","tileset":"sn50.SfZwedcSumLoCo05x","owner":"sn50","progress":0}
+++ OK ++ 340: upload of SfZwedcSumLoCo05x.geojson completed successfully.
+{"id":"ck0vls7a11kzh2nl56eiio7um","name":"SfZwedcSumLoCo10x","complete":false,"error":null,"created":"2019-09-22T23:18:41.425Z","modified":"2019-09-22T23:18:41.425Z","tileset":"sn50.SfZwedcSumLoCo10x","owner":"sn50","progress":0}
+++ OK ++ 341: upload of SfZwedcSumLoCo10x.geojson completed successfully.
+{"id":"ck0vlsapw11892pmnlcgh906h","name":"SfZwedcSumLoCo15x","complete":false,"error":null,"created":"2019-09-22T23:18:45.885Z","modified":"2019-09-22T23:18:45.885Z","tileset":"sn50.SfZwedcSumLoCo15x","owner":"sn50","progress":0}
+++ OK ++ 342: upload of SfZwedcSumLoCo15x.geojson completed successfully.
+{"id":"ck0vlse19evdk2op7zp7dycy2","name":"SfZwedcSumLoCo20x","complete":false,"error":null,"created":"2019-09-22T23:18:49.942Z","modified":"2019-09-22T23:18:49.942Z","tileset":"sn50.SfZwedcSumLoCo20x","owner":"sn50","progress":0}
+++ OK ++ 343: upload of SfZwedcSumLoCo20x.geojson completed successfully.
+{"id":"ck0vlsh1f14742iqn99vo8c6k","name":"SfZwedcSumLoCoAct","complete":false,"error":null,"created":"2019-09-22T23:18:54.043Z","modified":"2019-09-22T23:18:54.043Z","tileset":"sn50.SfZwedcSumLoCoAct","owner":"sn50","progress":0}
+++ OK ++ 344: upload of SfZwedcSumLoCoAct.geojson completed successfully.
+{"id":"ck0vlskfg11q72jojlb5578zg","name":"SfZwedcSumLoNc05x","complete":false,"error":null,"created":"2019-09-22T23:18:58.455Z","modified":"2019-09-22T23:18:58.455Z","tileset":"sn50.SfZwedcSumLoNc05x","owner":"sn50","progress":0}
+++ OK ++ 345: upload of SfZwedcSumLoNc05x.geojson completed successfully.
+{"id":"ck0vlsnkz11mo2rojm45z4777","name":"SfZwedcSumLoNc10x","complete":false,"error":null,"created":"2019-09-22T23:19:02.320Z","modified":"2019-09-22T23:19:02.320Z","tileset":"sn50.SfZwedcSumLoNc10x","owner":"sn50","progress":0}
+++ OK ++ 346: upload of SfZwedcSumLoNc10x.geojson completed successfully.
+{"id":"ck0vlsqqb13at2xqpxnhiqzqn","name":"SfZwedcSumLoNc15x","complete":false,"error":null,"created":"2019-09-22T23:19:06.628Z","modified":"2019-09-22T23:19:06.628Z","tileset":"sn50.SfZwedcSumLoNc15x","owner":"sn50","progress":0}
+++ OK ++ 347: upload of SfZwedcSumLoNc15x.geojson completed successfully.
+{"id":"ck0vlsu1iewvj2np7ned6v4k2","name":"SfZwedcSumLoNc20x","complete":false,"error":null,"created":"2019-09-22T23:19:10.921Z","modified":"2019-09-22T23:19:10.921Z","tileset":"sn50.SfZwedcSumLoNc20x","owner":"sn50","progress":0}
+++ OK ++ 348: upload of SfZwedcSumLoNc20x.geojson completed successfully.
+{"id":"ck0vlsxb111hz2qoj8afw0yoj","name":"SfZwedcSumLoNcAct","complete":false,"error":null,"created":"2019-09-22T23:19:15.142Z","modified":"2019-09-22T23:19:15.142Z","tileset":"sn50.SfZwedcSumLoNcAct","owner":"sn50","progress":0}
+++ OK ++ 349: upload of SfZwedcSumLoNcAct.geojson completed successfully.
+{"id":"ck0vlt0hp98cu2oo06fddn1e5","name":"SfZwedcSumLoRe05x","complete":false,"error":null,"created":"2019-09-22T23:19:19.268Z","modified":"2019-09-22T23:19:19.268Z","tileset":"sn50.SfZwedcSumLoRe05x","owner":"sn50","progress":0}
+++ OK ++ 350: upload of SfZwedcSumLoRe05x.geojson completed successfully.
+{"id":"ck0vlt3ks08ue2im35rbg9h1z","name":"SfZwedcSumLoRe10x","complete":false,"error":null,"created":"2019-09-22T23:19:23.270Z","modified":"2019-09-22T23:19:23.270Z","tileset":"sn50.SfZwedcSumLoRe10x","owner":"sn50","progress":0}
+++ OK ++ 351: upload of SfZwedcSumLoRe10x.geojson completed successfully.
+{"id":"ck0vlt702ewvo2np7orl9u6bk","name":"SfZwedcSumLoRe15x","complete":false,"error":null,"created":"2019-09-22T23:19:27.488Z","modified":"2019-09-22T23:19:27.488Z","tileset":"sn50.SfZwedcSumLoRe15x","owner":"sn50","progress":0}
+++ OK ++ 352: upload of SfZwedcSumLoRe15x.geojson completed successfully.
+{"id":"ck0vlt9wlewvt2np7sycdmbhn","name":"SfZwedcSumLoRe20x","complete":false,"error":null,"created":"2019-09-22T23:19:31.251Z","modified":"2019-09-22T23:19:31.251Z","tileset":"sn50.SfZwedcSumLoRe20x","owner":"sn50","progress":0}
+++ OK ++ 353: upload of SfZwedcSumLoRe20x.geojson completed successfully.
+{"id":"ck0vltcx610sb2pnq59hq0zbm","name":"SfZwedcSumLoReAct","complete":false,"error":null,"created":"2019-09-22T23:19:35.383Z","modified":"2019-09-22T23:19:35.383Z","tileset":"sn50.SfZwedcSumLoReAct","owner":"sn50","progress":0}
+++ OK ++ 354: upload of SfZwedcSumLoReAct.geojson completed successfully.
+{"id":"ck0vltg2i11qm2jojywnrtu4q","name":"SfZwedcSumLoTr05x","complete":false,"error":null,"created":"2019-09-22T23:19:39.237Z","modified":"2019-09-22T23:19:39.237Z","tileset":"sn50.SfZwedcSumLoTr05x","owner":"sn50","progress":0}
+++ OK ++ 355: upload of SfZwedcSumLoTr05x.geojson completed successfully.
+{"id":"ck0vltj2t00vc2nmf0k3h3sa8","name":"SfZwedcSumLoTr10x","complete":false,"error":null,"created":"2019-09-22T23:19:43.355Z","modified":"2019-09-22T23:19:43.355Z","tileset":"sn50.SfZwedcSumLoTr10x","owner":"sn50","progress":0}
+++ OK ++ 356: upload of SfZwedcSumLoTr10x.geojson completed successfully.
+{"id":"ck0vltmiw10nt2qmn0wz0x2gg","name":"SfZwedcSumLoTr15x","complete":false,"error":null,"created":"2019-09-22T23:19:47.833Z","modified":"2019-09-22T23:19:47.833Z","tileset":"sn50.SfZwedcSumLoTr15x","owner":"sn50","progress":0}
+++ OK ++ 357: upload of SfZwedcSumLoTr15x.geojson completed successfully.
+{"id":"ck0vltpq9es402up742jryn1e","name":"SfZwedcSumLoTr20x","complete":false,"error":null,"created":"2019-09-22T23:19:51.975Z","modified":"2019-09-22T23:19:51.975Z","tileset":"sn50.SfZwedcSumLoTr20x","owner":"sn50","progress":0}
+++ OK ++ 358: upload of SfZwedcSumLoTr20x.geojson completed successfully.
+{"id":"ck0vltt25es412up7vlqmybuo","name":"SfZwedcSumLoTrAct","complete":false,"error":null,"created":"2019-09-22T23:19:56.074Z","modified":"2019-09-22T23:19:56.074Z","tileset":"sn50.SfZwedcSumLoTrAct","owner":"sn50","progress":0}
+++ OK ++ 359: upload of SfZwedcSumLoTrAct.geojson completed successfully.
+{"id":"ck0vltw6111qw2jojf06o217x","name":"SfZwedcWinAlAa05x","complete":false,"error":null,"created":"2019-09-22T23:20:00.100Z","modified":"2019-09-22T23:20:00.100Z","tileset":"sn50.SfZwedcWinAlAa05x","owner":"sn50","progress":0}
+++ OK ++ 360: upload of SfZwedcWinAlAa05x.geojson completed successfully.
+{"id":"ck0vltzeq14112qqpd7on19xq","name":"SfZwedcWinAlAa10x","complete":false,"error":null,"created":"2019-09-22T23:20:04.541Z","modified":"2019-09-22T23:20:04.541Z","tileset":"sn50.SfZwedcWinAlAa10x","owner":"sn50","progress":0}
+++ OK ++ 361: upload of SfZwedcWinAlAa10x.geojson completed successfully.
+{"id":"ck0vlu2me1kmc2il5yvrn5oob","name":"SfZwedcWinAlAa15x","complete":false,"error":null,"created":"2019-09-22T23:20:08.667Z","modified":"2019-09-22T23:20:08.667Z","tileset":"sn50.SfZwedcWinAlAa15x","owner":"sn50","progress":0}
+++ OK ++ 362: upload of SfZwedcWinAlAa15x.geojson completed successfully.
+{"id":"ck0vlu66e115r2jmnrdscr2xi","name":"SfZwedcWinAlAa20x","complete":false,"error":null,"created":"2019-09-22T23:20:13.284Z","modified":"2019-09-22T23:20:13.284Z","tileset":"sn50.SfZwedcWinAlAa20x","owner":"sn50","progress":0}
+++ OK ++ 363: upload of SfZwedcWinAlAa20x.geojson completed successfully.
+{"id":"ck0vlu9bo08xp2nm3gs0s4phz","name":"SfZwedcWinAlAaAct","complete":false,"error":null,"created":"2019-09-22T23:20:17.370Z","modified":"2019-09-22T23:20:17.370Z","tileset":"sn50.SfZwedcWinAlAaAct","owner":"sn50","progress":0}
+++ OK ++ 364: upload of SfZwedcWinAlAaAct.geojson completed successfully.
+{"id":"ck0vluct71klr2ol5f6wj8uqr","name":"SfZwedcWinAlBi05x","complete":false,"error":null,"created":"2019-09-22T23:20:21.872Z","modified":"2019-09-22T23:20:21.872Z","tileset":"sn50.SfZwedcWinAlBi05x","owner":"sn50","progress":0}
+++ OK ++ 365: upload of SfZwedcWinAlBi05x.geojson completed successfully.
+{"id":"ck0vlufzc08ut2im3cjqhrfov","name":"SfZwedcWinAlBi10x","complete":false,"error":null,"created":"2019-09-22T23:20:26.001Z","modified":"2019-09-22T23:20:26.001Z","tileset":"sn50.SfZwedcWinAlBi10x","owner":"sn50","progress":0}
+++ OK ++ 366: upload of SfZwedcWinAlBi10x.geojson completed successfully.
+{"id":"ck0vluja111lx2omnxzdf81rw","name":"SfZwedcWinAlBi15x","complete":false,"error":null,"created":"2019-09-22T23:20:30.287Z","modified":"2019-09-22T23:20:30.287Z","tileset":"sn50.SfZwedcWinAlBi15x","owner":"sn50","progress":0}
+++ OK ++ 367: upload of SfZwedcWinAlBi15x.geojson completed successfully.
+{"id":"ck0vlumj900vx2nmfclecd9gr","name":"SfZwedcWinAlBi20x","complete":false,"error":null,"created":"2019-09-22T23:20:34.271Z","modified":"2019-09-22T23:20:34.271Z","tileset":"sn50.SfZwedcWinAlBi20x","owner":"sn50","progress":0}
+++ OK ++ 368: upload of SfZwedcWinAlBi20x.geojson completed successfully.
+{"id":"ck0vlupyr14kl2kqppjmt7o5v","name":"SfZwedcWinAlBiAct","complete":false,"error":null,"created":"2019-09-22T23:20:38.951Z","modified":"2019-09-22T23:20:38.951Z","tileset":"sn50.SfZwedcWinAlBiAct","owner":"sn50","progress":0}
+++ OK ++ 369: upload of SfZwedcWinAlBiAct.geojson completed successfully.
+{"id":"ck0vlutdr98do2oo06fn4rdhw","name":"SfZwedcWinAlCo05x","complete":false,"error":null,"created":"2019-09-22T23:20:43.369Z","modified":"2019-09-22T23:20:43.369Z","tileset":"sn50.SfZwedcWinAlCo05x","owner":"sn50","progress":0}
+++ OK ++ 370: upload of SfZwedcWinAlCo05x.geojson completed successfully.
+{"id":"ck0vluwsc10t82inq9ulhcbkj","name":"SfZwedcWinAlCo10x","complete":false,"error":null,"created":"2019-09-22T23:20:47.761Z","modified":"2019-09-22T23:20:47.761Z","tileset":"sn50.SfZwedcWinAlCo10x","owner":"sn50","progress":0}
+++ OK ++ 371: upload of SfZwedcWinAlCo10x.geojson completed successfully.
+{"id":"ck0vlv04j11ix2qojqwnkps9c","name":"SfZwedcWinAlCo15x","complete":false,"error":null,"created":"2019-09-22T23:20:52.125Z","modified":"2019-09-22T23:20:52.125Z","tileset":"sn50.SfZwedcWinAlCo15x","owner":"sn50","progress":0}
+++ OK ++ 372: upload of SfZwedcWinAlCo15x.geojson completed successfully.
+{"id":"ck0vlv3jn13y42pqpg8xf1jb9","name":"SfZwedcWinAlCo20x","complete":false,"error":null,"created":"2019-09-22T23:20:56.521Z","modified":"2019-09-22T23:20:56.521Z","tileset":"sn50.SfZwedcWinAlCo20x","owner":"sn50","progress":0}
+++ OK ++ 373: upload of SfZwedcWinAlCo20x.geojson completed successfully.
+{"id":"ck0vlv6os08y12nm3z1mdkl5s","name":"SfZwedcWinAlCoAct","complete":false,"error":null,"created":"2019-09-22T23:21:00.390Z","modified":"2019-09-22T23:21:00.390Z","tileset":"sn50.SfZwedcWinAlCoAct","owner":"sn50","progress":0}
+++ OK ++ 374: upload of SfZwedcWinAlCoAct.geojson completed successfully.
+{"id":"ck0vlv9yy00uk2omfcbngy0so","name":"SfZwedcWinAlNc05x","complete":false,"error":null,"created":"2019-09-22T23:21:04.847Z","modified":"2019-09-22T23:21:04.847Z","tileset":"sn50.SfZwedcWinAlNc05x","owner":"sn50","progress":0}
+++ OK ++ 375: upload of SfZwedcWinAlNc05x.geojson completed successfully.
+{"id":"ck0vlvd6111662jmnomdpvv7k","name":"SfZwedcWinAlNc10x","complete":false,"error":null,"created":"2019-09-22T23:21:08.783Z","modified":"2019-09-22T23:21:08.783Z","tileset":"sn50.SfZwedcWinAlNc10x","owner":"sn50","progress":0}
+++ OK ++ 376: upload of SfZwedcWinAlNc10x.geojson completed successfully.
+{"id":"ck0vlvg8u1km42ol5fei7pmzv","name":"SfZwedcWinAlNc15x","complete":false,"error":null,"created":"2019-09-22T23:21:12.773Z","modified":"2019-09-22T23:21:12.773Z","tileset":"sn50.SfZwedcWinAlNc15x","owner":"sn50","progress":0}
+++ OK ++ 377: upload of SfZwedcWinAlNc15x.geojson completed successfully.
+{"id":"ck0vlvj9y00un2omf0zrjqv6t","name":"SfZwedcWinAlNc20x","complete":false,"error":null,"created":"2019-09-22T23:21:16.701Z","modified":"2019-09-22T23:21:16.701Z","tileset":"sn50.SfZwedcWinAlNc20x","owner":"sn50","progress":0}
+++ OK ++ 378: upload of SfZwedcWinAlNc20x.geojson completed successfully.
+{"id":"ck0vlvmfk13w52pqng9h5trzy","name":"SfZwedcWinAlNcAct","complete":false,"error":null,"created":"2019-09-22T23:21:21.030Z","modified":"2019-09-22T23:21:21.030Z","tileset":"sn50.SfZwedcWinAlNcAct","owner":"sn50","progress":0}
+++ OK ++ 379: upload of SfZwedcWinAlNcAct.geojson completed successfully.
+{"id":"ck0vlvpyaevet2op7wy2dy19g","name":"SfZwedcWinAlRe05x","complete":false,"error":null,"created":"2019-09-22T23:21:25.620Z","modified":"2019-09-22T23:21:25.620Z","tileset":"sn50.SfZwedcWinAlRe05x","owner":"sn50","progress":0}
+++ OK ++ 380: upload of SfZwedcWinAlRe05x.geojson completed successfully.
+{"id":"ck0vlvtrhewwq2np7mmdmndx8","name":"SfZwedcWinAlRe10x","complete":false,"error":null,"created":"2019-09-22T23:21:30.511Z","modified":"2019-09-22T23:21:30.511Z","tileset":"sn50.SfZwedcWinAlRe10x","owner":"sn50","progress":0}
+++ OK ++ 381: upload of SfZwedcWinAlRe10x.geojson completed successfully.
+{"id":"ck0vlvwy811sp2ooj2hl9b7h0","name":"SfZwedcWinAlRe15x","complete":false,"error":null,"created":"2019-09-22T23:21:34.648Z","modified":"2019-09-22T23:21:34.648Z","tileset":"sn50.SfZwedcWinAlRe15x","owner":"sn50","progress":0}
+++ OK ++ 382: upload of SfZwedcWinAlRe15x.geojson completed successfully.
+{"id":"ck0vlw084116f2jmnltsw23ke","name":"SfZwedcWinAlRe20x","complete":false,"error":null,"created":"2019-09-22T23:21:38.666Z","modified":"2019-09-22T23:21:38.666Z","tileset":"sn50.SfZwedcWinAlRe20x","owner":"sn50","progress":0}
+++ OK ++ 383: upload of SfZwedcWinAlRe20x.geojson completed successfully.
+{"id":"ck0vlw3ci1m3d2tl5k3tdxrml","name":"SfZwedcWinAlReAct","complete":false,"error":null,"created":"2019-09-22T23:21:42.938Z","modified":"2019-09-22T23:21:42.938Z","tileset":"sn50.SfZwedcWinAlReAct","owner":"sn50","progress":0}
+++ OK ++ 384: upload of SfZwedcWinAlReAct.geojson completed successfully.
+{"id":"ck0vlw6f0ewww2np7gjjvnzw0","name":"SfZwedcWinAlTr05x","complete":false,"error":null,"created":"2019-09-22T23:21:46.695Z","modified":"2019-09-22T23:21:46.695Z","tileset":"sn50.SfZwedcWinAlTr05x","owner":"sn50","progress":0}
+++ OK ++ 385: upload of SfZwedcWinAlTr05x.geojson completed successfully.
+{"id":"ck0vlw9eq10ti2pnqfxr1akmg","name":"SfZwedcWinAlTr10x","complete":false,"error":null,"created":"2019-09-22T23:21:50.798Z","modified":"2019-09-22T23:21:50.798Z","tileset":"sn50.SfZwedcWinAlTr10x","owner":"sn50","progress":0}
+++ OK ++ 386: upload of SfZwedcWinAlTr10x.geojson completed successfully.
+{"id":"ck0vlwcok141z2qqpe7nnmm04","name":"SfZwedcWinAlTr15x","complete":false,"error":null,"created":"2019-09-22T23:21:55.018Z","modified":"2019-09-22T23:21:55.018Z","tileset":"sn50.SfZwedcWinAlTr15x","owner":"sn50","progress":0}
+++ OK ++ 387: upload of SfZwedcWinAlTr15x.geojson completed successfully.
+{"id":"ck0vlwfvp13cj2xqpfnlu6uzf","name":"SfZwedcWinAlTr20x","complete":false,"error":null,"created":"2019-09-22T23:21:59.165Z","modified":"2019-09-22T23:21:59.165Z","tileset":"sn50.SfZwedcWinAlTr20x","owner":"sn50","progress":0}
+++ OK ++ 388: upload of SfZwedcWinAlTr20x.geojson completed successfully.
+{"id":"ck0vlwj9j11mj2omny1z105wj","name":"SfZwedcWinAlTrAct","complete":false,"error":null,"created":"2019-09-22T23:22:03.569Z","modified":"2019-09-22T23:22:03.569Z","tileset":"sn50.SfZwedcWinAlTrAct","owner":"sn50","progress":0}
+++ OK ++ 389: upload of SfZwedcWinAlTrAct.geojson completed successfully.
+{"id":"ck0vlwmf115v62nmp31u2ai82","name":"SfZwedcWinHiAa05x","complete":false,"error":null,"created":"2019-09-22T23:22:07.746Z","modified":"2019-09-22T23:22:07.746Z","tileset":"sn50.SfZwedcWinHiAa05x","owner":"sn50","progress":0}
+++ OK ++ 390: upload of SfZwedcWinHiAa05x.geojson completed successfully.
+{"id":"ck0vlwpt700vj2imfj9bviolb","name":"SfZwedcWinHiAa10x","complete":false,"error":null,"created":"2019-09-22T23:22:12.058Z","modified":"2019-09-22T23:22:12.058Z","tileset":"sn50.SfZwedcWinHiAa10x","owner":"sn50","progress":0}
+++ OK ++ 391: upload of SfZwedcWinHiAa10x.geojson completed successfully.
+{"id":"ck0vlwt9r14ol2oqnmaebj0sy","name":"SfZwedcWinHiAa15x","complete":false,"error":null,"created":"2019-09-22T23:22:16.530Z","modified":"2019-09-22T23:22:16.530Z","tileset":"sn50.SfZwedcWinHiAa15x","owner":"sn50","progress":0}
+++ OK ++ 392: upload of SfZwedcWinHiAa15x.geojson completed successfully.
+{"id":"ck0vlwwgb11mq2omnnhuhrnnn","name":"SfZwedcWinHiAa20x","complete":false,"error":null,"created":"2019-09-22T23:22:20.467Z","modified":"2019-09-22T23:22:20.467Z","tileset":"sn50.SfZwedcWinHiAa20x","owner":"sn50","progress":0}
+++ OK ++ 393: upload of SfZwedcWinHiAa20x.geojson completed successfully.
+{"id":"ck0vlwzn508yp2nm3zcrv71kl","name":"SfZwedcWinHiAaAct","complete":false,"error":null,"created":"2019-09-22T23:22:24.776Z","modified":"2019-09-22T23:22:24.776Z","tileset":"sn50.SfZwedcWinHiAaAct","owner":"sn50","progress":0}
+++ OK ++ 394: upload of SfZwedcWinHiAaAct.geojson completed successfully.
+{"id":"ck0vlx2ue08yq2nm3kvbjxrbr","name":"SfZwedcWinHiBi05x","complete":false,"error":null,"created":"2019-09-22T23:22:28.715Z","modified":"2019-09-22T23:22:28.715Z","tileset":"sn50.SfZwedcWinHiBi05x","owner":"sn50","progress":0}
+++ OK ++ 395: upload of SfZwedcWinHiBi05x.geojson completed successfully.
+{"id":"ck0vlx61d13yx2pqpiqvckf84","name":"SfZwedcWinHiBi10x","complete":false,"error":null,"created":"2019-09-22T23:22:33.100Z","modified":"2019-09-22T23:22:33.100Z","tileset":"sn50.SfZwedcWinHiBi10x","owner":"sn50","progress":0}
+++ OK ++ 396: upload of SfZwedcWinHiBi10x.geojson completed successfully.
+{"id":"ck0vlx9gv03rm2no5qdmaeyiw","name":"SfZwedcWinHiBi15x","complete":false,"error":null,"created":"2019-09-22T23:22:37.546Z","modified":"2019-09-22T23:22:37.546Z","tileset":"sn50.SfZwedcWinHiBi15x","owner":"sn50","progress":0}
+++ OK ++ 397: upload of SfZwedcWinHiBi15x.geojson completed successfully.
+{"id":"ck0vlxcve15tl2imppcdamxk5","name":"SfZwedcWinHiBi20x","complete":false,"error":null,"created":"2019-09-22T23:22:41.934Z","modified":"2019-09-22T23:22:41.934Z","tileset":"sn50.SfZwedcWinHiBi20x","owner":"sn50","progress":0}
+++ OK ++ 398: upload of SfZwedcWinHiBi20x.geojson completed successfully.
+{"id":"ck0vlxg8h10p42qmnhl87j676","name":"SfZwedcWinHiBiAct","complete":false,"error":null,"created":"2019-09-22T23:22:46.298Z","modified":"2019-09-22T23:22:46.298Z","tileset":"sn50.SfZwedcWinHiBiAct","owner":"sn50","progress":0}
+++ OK ++ 399: upload of SfZwedcWinHiBiAct.geojson completed successfully.
+{"id":"ck0vlxjoc116c2onqwj7nrq14","name":"SfZwedcWinHiCo05x","complete":false,"error":null,"created":"2019-09-22T23:22:50.751Z","modified":"2019-09-22T23:22:50.751Z","tileset":"sn50.SfZwedcWinHiCo05x","owner":"sn50","progress":0}
+++ OK ++ 400: upload of SfZwedcWinHiCo05x.geojson completed successfully.
+{"id":"ck0vlxmy1116f2onqeh2nkn4w","name":"SfZwedcWinHiCo10x","complete":false,"error":null,"created":"2019-09-22T23:22:54.772Z","modified":"2019-09-22T23:22:54.772Z","tileset":"sn50.SfZwedcWinHiCo10x","owner":"sn50","progress":0}
+++ OK ++ 401: upload of SfZwedcWinHiCo10x.geojson completed successfully.
+{"id":"ck0vlxpx5es5a2up7sgl3x3td","name":"SfZwedcWinHiCo15x","complete":false,"error":null,"created":"2019-09-22T23:22:58.847Z","modified":"2019-09-22T23:22:58.847Z","tileset":"sn50.SfZwedcWinHiCo15x","owner":"sn50","progress":0}
+++ OK ++ 402: upload of SfZwedcWinHiCo15x.geojson completed successfully.
+{"id":"ck0vlxt5s08z32nm3awzazsrz","name":"SfZwedcWinHiCo20x","complete":false,"error":null,"created":"2019-09-22T23:23:02.821Z","modified":"2019-09-22T23:23:02.821Z","tileset":"sn50.SfZwedcWinHiCo20x","owner":"sn50","progress":0}
+++ OK ++ 403: upload of SfZwedcWinHiCo20x.geojson completed successfully.
+{"id":"ck0vlxw54evfn2op7pubnwhey","name":"SfZwedcWinHiCoAct","complete":false,"error":null,"created":"2019-09-22T23:23:06.894Z","modified":"2019-09-22T23:23:06.894Z","tileset":"sn50.SfZwedcWinHiCoAct","owner":"sn50","progress":0}
+++ OK ++ 404: upload of SfZwedcWinHiCoAct.geojson completed successfully.
+{"id":"ck0vlxzfb142l2qqpfkegktls","name":"SfZwedcWinHiNc05x","complete":false,"error":null,"created":"2019-09-22T23:23:11.146Z","modified":"2019-09-22T23:23:11.146Z","tileset":"sn50.SfZwedcWinHiNc05x","owner":"sn50","progress":0}
+++ OK ++ 405: upload of SfZwedcWinHiNc05x.geojson completed successfully.
+{"id":"ck0vly2nn15vm2nmpe65ukibo","name":"SfZwedcWinHiNc10x","complete":false,"error":null,"created":"2019-09-22T23:23:15.133Z","modified":"2019-09-22T23:23:15.133Z","tileset":"sn50.SfZwedcWinHiNc10x","owner":"sn50","progress":0}
+++ OK ++ 406: upload of SfZwedcWinHiNc10x.geojson completed successfully.
+{"id":"ck0vly5oo13d52xqpmhek1p8e","name":"SfZwedcWinHiNc15x","complete":false,"error":null,"created":"2019-09-22T23:23:19.283Z","modified":"2019-09-22T23:23:19.283Z","tileset":"sn50.SfZwedcWinHiNc15x","owner":"sn50","progress":0}
+++ OK ++ 407: upload of SfZwedcWinHiNc15x.geojson completed successfully.
+{"id":"ck0vly91z116m2onqxut29497","name":"SfZwedcWinHiNc20x","complete":false,"error":null,"created":"2019-09-22T23:23:23.426Z","modified":"2019-09-22T23:23:23.426Z","tileset":"sn50.SfZwedcWinHiNc20x","owner":"sn50","progress":0}
+++ OK ++ 408: upload of SfZwedcWinHiNc20x.geojson completed successfully.
+{"id":"ck0vlycf61m482tl55knuevsy","name":"SfZwedcWinHiNcAct","complete":false,"error":null,"created":"2019-09-22T23:23:28.023Z","modified":"2019-09-22T23:23:28.023Z","tileset":"sn50.SfZwedcWinHiNcAct","owner":"sn50","progress":0}
+++ OK ++ 409: upload of SfZwedcWinHiNcAct.geojson completed successfully.
+{"id":"ck0vlyfue13ze2pqpoycamy0y","name":"SfZwedcWinHiRe05x","complete":false,"error":null,"created":"2019-09-22T23:23:32.229Z","modified":"2019-09-22T23:23:32.229Z","tileset":"sn50.SfZwedcWinHiRe05x","owner":"sn50","progress":0}
+++ OK ++ 410: upload of SfZwedcWinHiRe05x.geojson completed successfully.
+{"id":"ck0vlyjc61ko32il504zh90g0","name":"SfZwedcWinHiRe10x","complete":false,"error":null,"created":"2019-09-22T23:23:36.992Z","modified":"2019-09-22T23:23:36.992Z","tileset":"sn50.SfZwedcWinHiRe10x","owner":"sn50","progress":0}
+++ OK ++ 411: upload of SfZwedcWinHiRe10x.geojson completed successfully.
+{"id":"ck0vlymlp08zi2nm3picgdlhk","name":"SfZwedcWinHiRe15x","complete":false,"error":null,"created":"2019-09-22T23:23:40.978Z","modified":"2019-09-22T23:23:40.978Z","tileset":"sn50.SfZwedcWinHiRe15x","owner":"sn50","progress":0}
+++ OK ++ 412: upload of SfZwedcWinHiRe15x.geojson completed successfully.
+{"id":"ck0vlypri9aim2vo0posv3lia","name":"SfZwedcWinHiRe20x","complete":false,"error":null,"created":"2019-09-22T23:23:45.304Z","modified":"2019-09-22T23:23:45.304Z","tileset":"sn50.SfZwedcWinHiRe20x","owner":"sn50","progress":0}
+++ OK ++ 413: upload of SfZwedcWinHiRe20x.geojson completed successfully.
+{"id":"ck0vlysxv1kn92ol5v4rt8nvp","name":"SfZwedcWinHiReAct","complete":false,"error":null,"created":"2019-09-22T23:23:49.418Z","modified":"2019-09-22T23:23:49.418Z","tileset":"sn50.SfZwedcWinHiReAct","owner":"sn50","progress":0}
+++ OK ++ 414: upload of SfZwedcWinHiReAct.geojson completed successfully.
+{"id":"ck0vlywagewxx2np7efnqg9qp","name":"SfZwedcWinHiTr05x","complete":false,"error":null,"created":"2019-09-22T23:23:53.763Z","modified":"2019-09-22T23:23:53.763Z","tileset":"sn50.SfZwedcWinHiTr05x","owner":"sn50","progress":0}
+++ OK ++ 415: upload of SfZwedcWinHiTr05x.geojson completed successfully.
+{"id":"ck0vlyze611ni2omnjelcxfvf","name":"SfZwedcWinHiTr10x","complete":false,"error":null,"created":"2019-09-22T23:23:57.782Z","modified":"2019-09-22T23:23:57.782Z","tileset":"sn50.SfZwedcWinHiTr10x","owner":"sn50","progress":0}
+++ OK ++ 416: upload of SfZwedcWinHiTr10x.geojson completed successfully.
+{"id":"ck0vlz2hp00xe2nmf42eeyn5j","name":"SfZwedcWinHiTr15x","complete":false,"error":null,"created":"2019-09-22T23:24:01.791Z","modified":"2019-09-22T23:24:01.791Z","tileset":"sn50.SfZwedcWinHiTr15x","owner":"sn50","progress":0}
+++ OK ++ 417: upload of SfZwedcWinHiTr15x.geojson completed successfully.
+{"id":"ck0vlz5pz116z2onqiv9bd09c","name":"SfZwedcWinHiTr20x","complete":false,"error":null,"created":"2019-09-22T23:24:05.765Z","modified":"2019-09-22T23:24:05.765Z","tileset":"sn50.SfZwedcWinHiTr20x","owner":"sn50","progress":0}
+++ OK ++ 418: upload of SfZwedcWinHiTr20x.geojson completed successfully.
+{"id":"ck0vlz8xm09062tm3m85ez49e","name":"SfZwedcWinHiTrAct","complete":false,"error":null,"created":"2019-09-22T23:24:10.161Z","modified":"2019-09-22T23:24:10.161Z","tileset":"sn50.SfZwedcWinHiTrAct","owner":"sn50","progress":0}
+++ OK ++ 419: upload of SfZwedcWinHiTrAct.geojson completed successfully.
+{"id":"ck0vlzc6l14po2oqn8r8pirgx","name":"SfZwedcWinLoAa05x","complete":false,"error":null,"created":"2019-09-22T23:24:14.367Z","modified":"2019-09-22T23:24:14.367Z","tileset":"sn50.SfZwedcWinLoAa05x","owner":"sn50","progress":0}
+++ OK ++ 420: upload of SfZwedcWinLoAa05x.geojson completed successfully.
+{"id":"ck0vlzfc314pr2oqn45gkpz01","name":"SfZwedcWinLoAa10x","complete":false,"error":null,"created":"2019-09-22T23:24:18.222Z","modified":"2019-09-22T23:24:18.222Z","tileset":"sn50.SfZwedcWinLoAa10x","owner":"sn50","progress":0}
+++ OK ++ 421: upload of SfZwedcWinLoAa10x.geojson completed successfully.
+{"id":"ck0vlziks03se2no5wsgnxz53","name":"SfZwedcWinLoAa15x","complete":false,"error":null,"created":"2019-09-22T23:24:22.623Z","modified":"2019-09-22T23:24:22.623Z","tileset":"sn50.SfZwedcWinLoAa15x","owner":"sn50","progress":0}
+++ OK ++ 422: upload of SfZwedcWinLoAa15x.geojson completed successfully.
+{"id":"ck0vlzm4a1l1q2nl5grerbwtm","name":"SfZwedcWinLoAa20x","complete":false,"error":null,"created":"2019-09-22T23:24:27.234Z","modified":"2019-09-22T23:24:27.234Z","tileset":"sn50.SfZwedcWinLoAa20x","owner":"sn50","progress":0}
+++ OK ++ 423: upload of SfZwedcWinLoAa20x.geojson completed successfully.
+{"id":"ck0vlzpbr94iw2no0eix0siod","name":"SfZwedcWinLoAaAct","complete":false,"error":null,"created":"2019-09-22T23:24:31.165Z","modified":"2019-09-22T23:24:31.165Z","tileset":"sn50.SfZwedcWinLoAaAct","owner":"sn50","progress":0}
+++ OK ++ 424: upload of SfZwedcWinLoAaAct.geojson completed successfully.
+{"id":"ck0vlzslc16f72omp8617yhkz","name":"SfZwedcWinLoBi05x","complete":false,"error":null,"created":"2019-09-22T23:24:35.639Z","modified":"2019-09-22T23:24:35.639Z","tileset":"sn50.SfZwedcWinLoBi05x","owner":"sn50","progress":0}
+++ OK ++ 425: upload of SfZwedcWinLoBi05x.geojson completed successfully.
+{"id":"ck0vlzvtq090c2nm3mqvp0bnp","name":"SfZwedcWinLoBi10x","complete":false,"error":null,"created":"2019-09-22T23:24:39.587Z","modified":"2019-09-22T23:24:39.587Z","tileset":"sn50.SfZwedcWinLoBi10x","owner":"sn50","progress":0}
+++ OK ++ 426: upload of SfZwedcWinLoBi10x.geojson completed successfully.
+{"id":"ck0vlzyzo03rm2to5dtdt0ndh","name":"SfZwedcWinLoBi15x","complete":false,"error":null,"created":"2019-09-22T23:24:43.899Z","modified":"2019-09-22T23:24:43.899Z","tileset":"sn50.SfZwedcWinLoBi15x","owner":"sn50","progress":0}
+++ OK ++ 427: upload of SfZwedcWinLoBi15x.geojson completed successfully.
+{"id":"ck0vm02d21koo2il5plv0enb5","name":"SfZwedcWinLoBi20x","complete":false,"error":null,"created":"2019-09-22T23:24:48.275Z","modified":"2019-09-22T23:24:48.275Z","tileset":"sn50.SfZwedcWinLoBi20x","owner":"sn50","progress":0}
+++ OK ++ 428: upload of SfZwedcWinLoBi20x.geojson completed successfully.
+{"id":"ck0vm05y610py2qmnyon1pxcs","name":"SfZwedcWinLoBiAct","complete":false,"error":null,"created":"2019-09-22T23:24:52.924Z","modified":"2019-09-22T23:24:52.924Z","tileset":"sn50.SfZwedcWinLoBiAct","owner":"sn50","progress":0}
+++ OK ++ 429: upload of SfZwedcWinLoBiAct.geojson completed successfully.
+{"id":"ck0vm095u1kot2il5aow9ob4e","name":"SfZwedcWinLoCo05x","complete":false,"error":null,"created":"2019-09-22T23:24:56.871Z","modified":"2019-09-22T23:24:56.871Z","tileset":"sn50.SfZwedcWinLoCo05x","owner":"sn50","progress":0}
+++ OK ++ 430: upload of SfZwedcWinLoCo05x.geojson completed successfully.
+{"id":"ck0vm0c6g117i2onq99hz60ks","name":"SfZwedcWinLoCo10x","complete":false,"error":null,"created":"2019-09-22T23:25:00.790Z","modified":"2019-09-22T23:25:00.790Z","tileset":"sn50.SfZwedcWinLoCo10x","owner":"sn50","progress":0}
+++ OK ++ 431: upload of SfZwedcWinLoCo10x.geojson completed successfully.
+{"id":"ck0vm0i5u14mq2kqp96v7gm6f","name":"SfZwedcWinLoCo15x","complete":false,"error":null,"created":"2019-09-22T23:25:08.747Z","modified":"2019-09-22T23:25:08.747Z","tileset":"sn50.SfZwedcWinLoCo15x","owner":"sn50","progress":0}
+++ OK ++ 432: upload of SfZwedcWinLoCo15x.geojson completed successfully.
+{"id":"ck0vm0lew16fi2ompxe9ym807","name":"SfZwedcWinLoCo20x","complete":false,"error":null,"created":"2019-09-22T23:25:12.759Z","modified":"2019-09-22T23:25:12.759Z","tileset":"sn50.SfZwedcWinLoCo20x","owner":"sn50","progress":0}
+++ OK ++ 433: upload of SfZwedcWinLoCo20x.geojson completed successfully.
+{"id":"ck0vm0ojk1koz2il5jshh7vov","name":"SfZwedcWinLoCoAct","complete":false,"error":null,"created":"2019-09-22T23:25:16.806Z","modified":"2019-09-22T23:25:16.806Z","tileset":"sn50.SfZwedcWinLoCoAct","owner":"sn50","progress":0}
+++ OK ++ 434: upload of SfZwedcWinLoCoAct.geojson completed successfully.
+{"id":"ck0vm0rpg98fg2oo0khp3fb6y","name":"SfZwedcWinLoNc05x","complete":false,"error":null,"created":"2019-09-22T23:25:21.132Z","modified":"2019-09-22T23:25:21.132Z","tileset":"sn50.SfZwedcWinLoNc05x","owner":"sn50","progress":0}
+++ OK ++ 435: upload of SfZwedcWinLoNc05x.geojson completed successfully.
+{"id":"ck0vm0v3p11oi2omnxaa7y25g","name":"SfZwedcWinLoNc10x","complete":false,"error":null,"created":"2019-09-22T23:25:25.533Z","modified":"2019-09-22T23:25:25.533Z","tileset":"sn50.SfZwedcWinLoNc10x","owner":"sn50","progress":0}
+++ OK ++ 436: upload of SfZwedcWinLoNc10x.geojson completed successfully.
+{"id":"ck0vm0yb114n02kqp81hjciyi","name":"SfZwedcWinLoNc15x","complete":false,"error":null,"created":"2019-09-22T23:25:29.461Z","modified":"2019-09-22T23:25:29.461Z","tileset":"sn50.SfZwedcWinLoNc15x","owner":"sn50","progress":0}
+++ OK ++ 437: upload of SfZwedcWinLoNc15x.geojson completed successfully.
+{"id":"ck0vm11ls14072pqpe3u5k4l6","name":"SfZwedcWinLoNc20x","complete":false,"error":null,"created":"2019-09-22T23:25:33.955Z","modified":"2019-09-22T23:25:33.955Z","tileset":"sn50.SfZwedcWinLoNc20x","owner":"sn50","progress":0}
+++ OK ++ 438: upload of SfZwedcWinLoNc20x.geojson completed successfully.
+{"id":"ck0vm15lhes6n2up7bx4idvzg","name":"SfZwedcWinLoNcAct","complete":false,"error":null,"created":"2019-09-22T23:25:39.131Z","modified":"2019-09-22T23:25:39.131Z","tileset":"sn50.SfZwedcWinLoNcAct","owner":"sn50","progress":0}
+++ OK ++ 439: upload of SfZwedcWinLoNcAct.geojson completed successfully.
+{"id":"ck0vm18wr09112nm3w7mrorlm","name":"SfZwedcWinLoRe05x","complete":false,"error":null,"created":"2019-09-22T23:25:43.407Z","modified":"2019-09-22T23:25:43.407Z","tileset":"sn50.SfZwedcWinLoRe05x","owner":"sn50","progress":0}
+++ OK ++ 440: upload of SfZwedcWinLoRe05x.geojson completed successfully.
+{"id":"ck0vm1c7r11tb2jojep94t8v5","name":"SfZwedcWinLoRe10x","complete":false,"error":null,"created":"2019-09-22T23:25:47.715Z","modified":"2019-09-22T23:25:47.715Z","tileset":"sn50.SfZwedcWinLoRe10x","owner":"sn50","progress":0}
+++ OK ++ 441: upload of SfZwedcWinLoRe10x.geojson completed successfully.
+{"id":"ck0vm1fll13yi2pqny9w02jqw","name":"SfZwedcWinLoRe15x","complete":false,"error":null,"created":"2019-09-22T23:25:52.096Z","modified":"2019-09-22T23:25:52.096Z","tileset":"sn50.SfZwedcWinLoRe15x","owner":"sn50","progress":0}
+++ OK ++ 442: upload of SfZwedcWinLoRe15x.geojson completed successfully.
+{"id":"ck0vm1ixw10qf2qmnx3cquarr","name":"SfZwedcWinLoRe20x","complete":false,"error":null,"created":"2019-09-22T23:25:56.447Z","modified":"2019-09-22T23:25:56.447Z","tileset":"sn50.SfZwedcWinLoRe20x","owner":"sn50","progress":0}
+++ OK ++ 443: upload of SfZwedcWinLoRe20x.geojson completed successfully.
+{"id":"ck0vm1m441m5j2tl5ha1hlnr9","name":"SfZwedcWinLoReAct","complete":false,"error":null,"created":"2019-09-22T23:26:00.522Z","modified":"2019-09-22T23:26:00.522Z","tileset":"sn50.SfZwedcWinLoReAct","owner":"sn50","progress":0}
+++ OK ++ 444: upload of SfZwedcWinLoReAct.geojson completed successfully.
+{"id":"ck0vm1pca10vl2inq94oqek1k","name":"SfZwedcWinLoTr05x","complete":false,"error":null,"created":"2019-09-22T23:26:04.716Z","modified":"2019-09-22T23:26:04.716Z","tileset":"sn50.SfZwedcWinLoTr05x","owner":"sn50","progress":0}
+++ OK ++ 445: upload of SfZwedcWinLoTr05x.geojson completed successfully.
+{"id":"ck0vm1skm98ft2oo09hc68lgz","name":"SfZwedcWinLoTr10x","complete":false,"error":null,"created":"2019-09-22T23:26:08.688Z","modified":"2019-09-22T23:26:08.688Z","tileset":"sn50.SfZwedcWinLoTr10x","owner":"sn50","progress":0}
+++ OK ++ 446: upload of SfZwedcWinLoTr10x.geojson completed successfully.
+{"id":"ck0vm1vny09102tm38f5khlpj","name":"SfZwedcWinLoTr15x","complete":false,"error":null,"created":"2019-09-22T23:26:12.895Z","modified":"2019-09-22T23:26:12.895Z","tileset":"sn50.SfZwedcWinLoTr15x","owner":"sn50","progress":0}
+++ OK ++ 447: upload of SfZwedcWinLoTr15x.geojson completed successfully.
+{"id":"ck0vm1yxw13yp2pqn3u169506","name":"SfZwedcWinLoTr20x","complete":false,"error":null,"created":"2019-09-22T23:26:16.942Z","modified":"2019-09-22T23:26:16.942Z","tileset":"sn50.SfZwedcWinLoTr20x","owner":"sn50","progress":0}
+++ OK ++ 448: upload of SfZwedcWinLoTr20x.geojson completed successfully.
+{"id":"ck0vm223c00xo2imfd7ptb5g5","name":"SfZwedcWinLoTrAct","complete":false,"error":null,"created":"2019-09-22T23:26:21.241Z","modified":"2019-09-22T23:26:21.241Z","tileset":"sn50.SfZwedcWinLoTrAct","owner":"sn50","progress":0}
+++ OK ++ 449: upload of SfZwedcWinLoTrAct.geojson completed successfully.
+
+web site takes shows that server takes a long time to process the data after upload...  see a spinner running... or the client side GUI lost access... maybe worthwhile to query server for file dates to be sure it was processed correctly...
