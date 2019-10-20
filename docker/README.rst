@@ -2,12 +2,11 @@
 Learning docker
 ===============
 
-well, kinda testing, why isn't bofh building container??!!
-
 vi Dockerfile
 
 docker build -t tin6150/ubuntu-test .
 
+better examples in cmaq repo
 
 
 Docker X11 GUI apps
@@ -36,12 +35,9 @@ docker run -it \
 cathode 1995 era CRT terminal emulator
 --------------------------------------
 
-docker run -it  -v /tmp/.X11-unix:/tmp/.X11-unix  -e DISPLAY=unix$DISPLAY  jess/cathode
-
-# didn't work:
-No protocol specified
-qt.qpa.screen: QXcbConnection: Could not connect to display unix:0.0
-Could not connect to any X display.
+docker run -it  -v /tmp/.X11-unix:/tmp/.X11-unix  -e DISPLAY=$DISPLAY  jess/cathode
+docker run -it  -v /tmp/.X11-unix:/tmp/.X11-unix  -e DISPLAY=:0        jess/cathode
+# both works, just don't use unix$DISPLAY, maybe Jess meant unix was hostname...
 
 docker build  https://raw.githubusercontent.com/jessfraz/dockerfiles/master/cathode/Dockerfile
 
@@ -49,7 +45,9 @@ docker build  https://raw.githubusercontent.com/jessfraz/dockerfiles/master/cath
 xterm in cmaq container
 -----------------------
 
-docker run -it  -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY  --name xterm   --rm  tin6150/os4cmaq
+docker run -it  -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY  --name xterm   --rm  tin6150/os4cmaq /usr/bin/xterm
+# works.  used Docker version 18.09.7, build 2d0083d (ubuntu 18.04)
+# note that must use source and destination in -v map.
+# cannot just use -v /tmp/.X11-unix, nor -v /tmp
 
-docker exec -it xterm2 -e DISPLAY=unix$DISPLAY  /usr/bin/xterm
-
+# probably don't need to run xhost +
