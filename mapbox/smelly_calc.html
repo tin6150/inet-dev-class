@@ -4,11 +4,12 @@
 
 <!--
 Smelly with calculator  (Promise async load works, no longer hard coding the param in this file)
+(replaces old smelly.html aka smelly - ca air, which didn't have calculator working for other sites other than ZWEDC)
 Work for 26 sites
 
 enable gtag and adjust title before deploying to production.
 
-tin 2019.05.12
+tin 2019.05.12, 2019.1028
 -->
 <head>
     <meta charset='utf-8' />
@@ -413,7 +414,8 @@ tin 2019.05.12
                 <option value="Tr">Truck</option>
                 <option value="Aa">All Area Line</option>
             </select>
-			<select id="scaleSelectorUI">             <!-- disabling of  capacity choice need to be done in jQuery, see code below with this line -->
+			<select id="scaleSelectorUI">             
+				<!-- disabling of  capacity choice need to be done in jQuery, see code below (near line 718) like this line below: -->
 				<!-- document.getElementById("scaleSelectorUI").style.display = 'none'; -->
                 <option value="NA"  disabled >Capacity</option>	       
                 <option value="Act">Actual/Current</option>
@@ -699,9 +701,10 @@ const rateConstantUrl = "https://smelly.lbl.gov/data/rate_distance_table.csv";  
 
 // state wide map only have capacity=1.0 thus need to disable this html drop down choice.  
 // no way to do this in html, thus doing it here in jQuery 
-//~~document.getElementById("scaleSelectorUI").style.display = 'none'; 
-// Ling wanted it for demo in SF, so commented out above. 
-//document.getElementById("rateCalc").style.display = 'none';   // dont display calculator button till code is complete
+//	<!-- disabling of  capacity choice need to be done in jQuery, ie *HERE* (and not HTML code above): -->
+document.getElementById("scaleSelectorUI").style.display = 'none'; 
+// IFF want to demo with capacity as menu, commented out above.  BUT THERE IS no data other than 1x
+//document.getElementById("rateCalc").style.display = 'none';   // dont display calculator button (hidden during development)
 
 $("#ShowCalculator").click( function() {
 	console.log("#ShowCalculator was clicked" );
