@@ -12,6 +12,9 @@ so that future can easily use it
 	# may need to exclude ZWEDC for now.
  * caair_uploader.sh  # upload to mapbox 
 
+ - caair was renamed to smelly
+ - same data conversion works for adjoin (data file format remains the same)
+ - upload use a new username, from sn50 to tin117
 
 ~~~~
 

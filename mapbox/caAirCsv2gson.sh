@@ -5,6 +5,11 @@
 # this shell wrapper script loop over multiple input files
 # and generate correct output filename.
 
+# ++ ensure input filename does not have any symbols other than - and _
+# and tilename, after I strip _ from the separator, must be 32 chars max.
+# mapbox cli tool (or API server?) have this regex limit: r"^[a-z0-9-_]{1,32}\.[a-z0-9-_]{1,32}$"
+# (ie, 32 chars for username, 32 chars for tilename)
+
 # example run:
 # ./caAirCsv2gson.sh | tee caAirCsv2gson.25-sites-Al.2019.03.log   # Al was for "all" season or mixing hours...
 # ./caAirCsv2gson.sh 2>&1 | tee caAirCsv2gson.zwedc.2019.0920.log  # data by ling on gpanda
@@ -31,7 +36,8 @@
 # *sigh* gpanda is 6.9 and basename does not support -s :(
 # gpanda very sluggish, so xfering all files to bofh...
 
-# ./caAirCsv2gson.sh 2>&1 | tee caAirCsv2gson.adjoin.2020.0119.log # at home w10t054
+# example run for adjoin data (same as caAir/smelly):
+# ./caAirCsv2gson.sh 2>&1 | tee caAirCsv2gson.adjoin.2020.0119.log # on bofh after all
 
 # **>> after this is upload to mapbox using zwedc/caair_uploader.sh <<**
 
