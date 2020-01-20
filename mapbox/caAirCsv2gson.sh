@@ -18,7 +18,7 @@
 #InputDir="/home/wzhou/csv-25sites"	# these are the "fixed" to use "Al" timing mode.  maybe was just a file rename?
 #InputDir="/home/wzhou/csv_26sites_new0329"	# 0329 version, 26 sites cuz include ZWEDC.  this is the statemap version.
 #InputDir="/gpanda/temp_data/zwedc4tin/csv"  # 2019.0922 by Ling
-InputDir="/home/ljin/zwedc4tin/csv"  # 2019.0922 by Ling # scp -pR tin@gpanda:/gpanda/temp_data/zwedc4tin/csv .
+#InputDir="/home/ljin/zwedc4tin/csv"  # 2019.0922 by Ling # scp -pR tin@gpanda:/gpanda/temp_data/zwedc4tin/csv .
 
 
 # use caAirCsv2gson.py to convert csv to geojson
@@ -31,17 +31,22 @@ InputDir="/home/ljin/zwedc4tin/csv"  # 2019.0922 by Ling # scp -pR tin@gpanda:/g
 # *sigh* gpanda is 6.9 and basename does not support -s :(
 # gpanda very sluggish, so xfering all files to bofh...
 
+# ./caAirCsv2gson.sh 2>&1 | tee caAirCsv2gson.adjoin.2020.0119.log # at home w10t054
 
-# after this is upload to mapbox using zwedc_uploader.sh 
+# **>> after this is upload to mapbox using zwedc/caair_uploader.sh <<**
 
 #InputDir="/home/wzhou/csv"		# these had the "Hi" mixing time, need to create trimmed version to black out the data. # csv_Zwedc
 #InputDir="/home/wzhou/csv-25sites"	# these are the "fixed" to use "Al" timing mode.  maybe was just a file rename?
 #InputDir="/home/wzhou/csv_26sites_new0329"	# 0329 version, 26 sites cuz include ZWEDC.  this is the statemap version.
 #InputDir="/gpanda/temp_data/zwedc4tin/csv"  # 2019.0922 by Ling
-InputDir="/home/ljin/zwedc4tin/csv"  # 2019.0922 by Ling
+#InputDir="/home/ljin/zwedc4tin/csv"  # 2019.0922 by Ling
 #OutputDir="./DATA_zwedc"
 #OutputDir="./DATA_caair_Al_0329"  # some tmp dir under the git repo tree
-OutputDir="./DATA_zwedc_0922"      # ~/tin-gh/inet-dev-class/mapbox/
+#OutputDir="./DATA_zwedc_0922"      # ~/tin-gh/inet-dev-class/mapbox/
+
+#InputDir="~/Downloads/adjoin"  # 2020.0119 by Yuhan Wang
+InputDir="./CSV_adjoin"  # 2020.0119 by Yuhan Wang
+OutputDir="./DATA_adjoin_0119"  # ~/tin-gh/inet-dev-class/mapbox/
 
 [[ -d $OutputDir ]] || mkdir $OutputDir 
 
@@ -85,6 +90,6 @@ rename() {
 
 
 csv2gson
-rename
+#rename
 
 
