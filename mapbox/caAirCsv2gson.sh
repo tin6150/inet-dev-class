@@ -38,10 +38,13 @@ InputDir="/home/ljin/zwedc4tin/csv"  # 2019.0922 by Ling # scp -pR tin@gpanda:/g
 #InputDir="/home/wzhou/csv-25sites"	# these are the "fixed" to use "Al" timing mode.  maybe was just a file rename?
 #InputDir="/home/wzhou/csv_26sites_new0329"	# 0329 version, 26 sites cuz include ZWEDC.  this is the statemap version.
 #InputDir="/gpanda/temp_data/zwedc4tin/csv"  # 2019.0922 by Ling
-InputDir="/home/ljin/zwedc4tin/csv"  # 2019.0922 by Ling
+#InputDir="/home/ljin/zwedc4tin/csv"  # 2019.0922 by Ling
 #OutputDir="./DATA_zwedc"
 #OutputDir="./DATA_caair_Al_0329"  # some tmp dir under the git repo tree
-OutputDir="./DATA_zwedc_0922"      # ~/tin-gh/inet-dev-class/mapbox/
+#OutputDir="./DATA_zwedc_0922"      # ~/tin-gh/inet-dev-class/mapbox/
+# adjoin 2020.01
+InputDir="/home/ywang/CSV_data"  # 2019.0922 by Ling
+OutputDir="./DATA_adjoin"      # ~/tin-gh/inet-dev-class/mapbox/
 
 [[ -d $OutputDir ]] || mkdir $OutputDir 
 
@@ -55,7 +58,8 @@ csv2gson() {
 	# strip _ from input filename , add path, ext
 	OutFile="$OutputDir/"$( basename -s .csv $F | sed 's/_//g' )".geojson"
 	# call python script to do conversion
-	cat $F | python caAirCsv2gson.py > $OutFile 
+	#cat $F | python caAirCsv2gson.py > $OutFile 
+	cat $F | python adjoinCsv2gson.py > $OutFile 
 	exitCode=$?
 
 	if [[ $exitCode -ne 0 ]]; then 
