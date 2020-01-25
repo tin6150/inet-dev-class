@@ -1,0 +1,36 @@
+
+
+Google AI folks.
+guest lecture series, part of class CS
+2019.04.01 4pm
+
+info theory, learning representations, and robust Generalization.
+Alex A Alemi
+Ian Fisher
+Google AI
+
+
+paper>
+Thomas Landauwr
+how much do mempole remember
+some estimate of the quantity of learned...
+
+
+
+compress to 12 bit for long term memory.
+eg photo, speech, etc
+(how did they arrive to 12 bit as the number?)
+
+
+ELBO
+Distortion 
+Rate
+
+elbo fails to yield latent structure
+o
+
+minimun necessary information
+mni
+
+want one that capture the least info.
+(cuz human store a lot with just 12 bit!  don't overtrain 

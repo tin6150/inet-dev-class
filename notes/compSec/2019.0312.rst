@@ -1,0 +1,86 @@
+
+Tues.
+
+
+Next Tues, in person, 
+solution to learning exercise, design project.
+
+http://www-inst.cs.berkeley.edu/~cs161/sp19/
+
+http://www-inst.cs.berkeley.edu/~cs161/sp19/lectures/lec15_net_5.pdf
+
+TLS will be in the test.
+very important.
+
+2109.03.12
+
+PS parameter secret.
+
+hmac
+
+hash.
+O(1)
+unless hash to same.
+attacker may use it, generate O(N).
+
+so, instead of generic hash, use a hash with random number, ie HMAC (??)
+
+use alg that has good worse case running time.
+hmac has worse case expected time not dependent on input.
+
+
+captcha is really forcing attacker to spend resource to connect.
+
+
+captcha solving server.
+forward to massive human farm in indonesia... 
+cost a few seconds.
+cost money too.
+
+way overprovision, if have lots of money.
+which is what akamai, cloudflare, ... does.
+content delivery network.
+
+they have a vastly overprovisioned network.  
+need a massive DDoS to bring them down.
+
+CloudFlare was for a while hosting the service for DDoS as well.  
+	so, arm thiefs so folks buy the service!!!
+
+
+
+evasion attack
+semantics diff b/w firewall and attack destination.
+eg was with different TTL.
+
+
+SSL, makes stateful inspection on firewall hard.  actually, how?  not covered in class.
+
+berkeley has a vpn server 
+accessible for everyone.
+
+useful for accessing elsievere... other paywalled journals.
+cool service.
+
+
+firewall:
+peer2peer don't work well w/ firewall.
+
+permiter.
+if bad guy is inside, all bets are off.
+
+larger perimeter, has to get weaker.
+
+not all net traffic goes thru firewall.
+
+not all network goes to internet.
+but due to laptop, internet will reach most network.
+
+attack via pivoting.
+
+typically allow outbound 443.
+
+
+
+
+
