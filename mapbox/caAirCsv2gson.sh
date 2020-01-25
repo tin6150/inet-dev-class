@@ -38,7 +38,7 @@
 # gpanda very sluggish, so xfering all files to bofh...
 
 # example run for adjoin data (same as caAir/smelly):
-# ./caAirCsv2gson.sh 2>&1 | tee caAirCsv2gson.adjoin.2020.0119.log # on bofh after all
+# ./caAirCsv2gson.sh 2>&1 | tee caAirCsv2gson.adjoin.2020.0124.log # on bofh after all
 
 # **>> after this is upload to mapbox using zwedc/caair_uploader.sh <<**
 
@@ -56,7 +56,7 @@
 #InputDir="/home/ywang/CSV_data"  # 2019.0922 by Ling
 # adjoin 2020.01
 InputDir="./CSV_adjoin"  # 2020.0119 by Yuhan Wang
-OutputDir="./DATA_adjoin_0119"  # ~/tin-gh/inet-dev-class/mapbox/
+OutputDir="./DATA_adjoin_0124"  # ~/tin-gh/inet-dev-class/mapbox/
 
 [[ -d $OutputDir ]] || mkdir $OutputDir 
 
@@ -70,8 +70,8 @@ csv2gson() {
 	# strip _ from input filename , add path, ext
 	OutFile="$OutputDir/"$( basename -s .csv $F | sed 's/_//g' )".geojson"
 	# call python script to do conversion
-	#cat $F | python caAirCsv2gson.py > $OutFile 
-	cat $F | python adjoinCsv2gson.py > $OutFile 
+	#cat $F | python caAirCsv2gson.py -ddd > $OutFile 
+	cat $F | python adjoinCsv2gson.py      > $OutFile 
 	exitCode=$?
 
 	if [[ $exitCode -ne 0 ]]; then 

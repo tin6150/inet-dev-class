@@ -81,8 +81,7 @@ def print_gsonLine( value, color, mantissa, exponent, lon1,lat1, lon2,lat2, lon3
 	gprint( '    { "type":       "Feature", ', '1' ) 	## 1
 	gprint( '      "properties":            ', '2' ) 	## 2
 	#gprint( '           {"max": %s}' % value , "3" )        ## 3     #(this was max for caair/smelly)
-                       # {"val": 1.004e-4, "color": 1.004e+6, "mantissa": 1.004, "exponent": -4  }  # adjoin
-	gprint( '           {"val": %s, "color": %s, "mantissa": %s, "exponent": %s }' % (value,color,mantissa,exponent) , "3" )        ## 3     #(this was max for caair/smelly)
+	gprint( '           {"val": %s, "color": %s, "mantissa": %s, "exponent": %s, "max": %s }' % (value,color,mantissa,exponent,value) , "3" )        ## 3     # val repeated as max for backward compatibility with smelly
 	gprint( '      ,' , '2')
 	gprint( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ], [ %s,%s], [%s,%s], [%s,%s], [%s,%s]  ]]}' % (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4, lon1,lat1), '2b') 
 	gprint( '    }', '1' )
@@ -99,6 +98,7 @@ def print_closer() :
 
 # check input has format that fit req of lon/lat point
 # eg one of: -121.985002139616 or  37.4079452829464
+# eg adjoin value could be 3.70882583782077e-07
 def chkPtFormat( pt, wholeLine ) :
     if( re.search( '^[-]{0,1}[0-9]+\.[0-9]+$', pt ) ) :     
         # re is the regular expression match.  
@@ -180,7 +180,8 @@ def parse1line( line ) :
     lon4 = lineList[lon4_idx].strip()       # vertices #4
     lat4 = lineList[lat4_idx].strip() 
 
-    if( re.search( '^[-]{0,1}[0-9]+\.[0-9]+$', val ) ) :     
+		# adjoin could have value in exponent notation like: 3.70882583782077e-07
+    if( re.search( '^[-]{0,1}[0-9]+\.[0-9e\-]+$', val ) ) :     
         dbg( 2, "Extract ok for val [%14s] from input line '%s' " % (val, line) )
     else :
         dbg( 1, "Fail - val_idex %s had %s , unexpected pattern (input line was '%s')" % (val_idx, val, line) )
@@ -210,7 +211,8 @@ def run_conversion( args ) :
 	dbg( 5, "converting csv to gson...")
 	print_opener()  # some geojson header 
 	(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( 0, "","" , "","" , "","" , "",""  )  # 9-tuple initialized to blank
-  offset = 1e10
+	offset = float(1.0e+10)
+	#offset = 1.0**10
 
 	# loop to parse file
 	# maybe should have used  std unix input redirect, but future may need multiple input files
@@ -221,13 +223,24 @@ def run_conversion( args ) :
 	for line in inF:
 		#print line
 		#lineList = line.split( ',' )
+		color = 0.0
+		(mantissa, exponent) = (0.0, 0.0)
 		(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( parse1line( line ) )
+		if( val != "" ):  # ie make sure it was not empty, such as in comment line
+			msgValType = type( float( str( val ) ) )
+			print( "//---dbg--- val type is: %s" % msgValType )
+			print( "//---dbg--- val : %s" % val )
+			#if( type( float( str(val) ) ) == float ):  # ie make sure it was not empty, such as in comment line
+			color = float(val) * float(offset)
+			#color = float(val)
+			(mantissa, exponent) = math.frexp(float(val))
+			print( "//---dbg--- if val is float true " )
+		else :
+			print( "//---dbg--- if val is float was false " )
 		if ( lon1 == "" )  :
 			continue		# returned nothing, skipping the line   FIXME
 		if( lineNum > 0 ) :
 			gprint( ",", "//next feature//" )	# print separator iff not first line
-				color = val * offset
-				(mantissa, exponent) = math.frexp(val)
 		# adjoin needs more values: {"val": 1.004e-4, "color": 1.004e+6, "mantissa": 1.004, "exponent": "-4"  }
 		#print_gsonLine( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
 		print_gsonLine( val, color, mantissa, exponent, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
