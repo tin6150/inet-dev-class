@@ -27,6 +27,7 @@
 
 
 # use caAirCsv2gson.py to convert csv to geojson
+# ++TODO++ ^^^^ adjoin use "val" and smelly odor use "max" so change maybe needed
 # this shell wrapper script loop over multiple input files
 # and generate correct output filename.
 

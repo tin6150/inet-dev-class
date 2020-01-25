@@ -76,6 +76,8 @@ Reading list
 
 * https://docs.mapbox.com/mapbox-gl-js/example/query-similar-features/ has eg of popup, overlay that goes away, county boundary map, maybe county population.  saved to mapboxQuerySimilarFeatures.html
 
+* addLayer( source... ) vs addSource   eg see mapbox-addLayer.html , ZWEDC_50x50sq_js.html
+
 Examples
 ========
 

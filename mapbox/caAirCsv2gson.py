@@ -79,7 +79,8 @@ def gprint( str1, str2="#" ):
 def print_gsonLine( value, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :
 	gprint( '    { "type":       "Feature", ', '1' ) 	## 1
 	gprint( '      "properties":            ', '2' ) 	## 2
-	gprint( '           {"max": %s}' % value , "3" )        ## 3
+	#gprint( '           {"max": %s}' % value , "3" )        ## 3    # odor, keep using max there so not have to change JS code
+	gprint( '           {"val": %s}' % value , "3" )        ## 3     # adjoin values are not necessarily max.
 	gprint( '      ,' , '2')
 	gprint( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ], [ %s,%s], [%s,%s], [%s,%s], [%s,%s]  ]]}' % (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4, lon1,lat1), '2b') 
 	gprint( '    }', '1' )
