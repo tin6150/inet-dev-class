@@ -5,6 +5,11 @@
 # this shell wrapper script loop over multiple input files
 # and generate correct output filename.
 
+# ++ ensure input filename does not have any symbols other than - and _
+# and tilename, after I strip _ from the separator, must be 32 chars max.
+# mapbox cli tool (or API server?) have this regex limit: r"^[a-z0-9-_]{1,32}\.[a-z0-9-_]{1,32}$"
+# (ie, 32 chars for username, 32 chars for tilename)
+
 # example run:
 # ./caAirCsv2gson.sh | tee caAirCsv2gson.25-sites-Al.2019.03.log   # Al was for "all" season or mixing hours...
 # ./caAirCsv2gson.sh 2>&1 | tee caAirCsv2gson.zwedc.2019.0920.log  # data by ling on gpanda
@@ -18,7 +23,7 @@
 #InputDir="/home/wzhou/csv-25sites"	# these are the "fixed" to use "Al" timing mode.  maybe was just a file rename?
 #InputDir="/home/wzhou/csv_26sites_new0329"	# 0329 version, 26 sites cuz include ZWEDC.  this is the statemap version.
 #InputDir="/gpanda/temp_data/zwedc4tin/csv"  # 2019.0922 by Ling
-InputDir="/home/ljin/zwedc4tin/csv"  # 2019.0922 by Ling # scp -pR tin@gpanda:/gpanda/temp_data/zwedc4tin/csv .
+#InputDir="/home/ljin/zwedc4tin/csv"  # 2019.0922 by Ling # scp -pR tin@gpanda:/gpanda/temp_data/zwedc4tin/csv .
 
 
 # use caAirCsv2gson.py to convert csv to geojson
@@ -31,8 +36,10 @@ InputDir="/home/ljin/zwedc4tin/csv"  # 2019.0922 by Ling # scp -pR tin@gpanda:/g
 # *sigh* gpanda is 6.9 and basename does not support -s :(
 # gpanda very sluggish, so xfering all files to bofh...
 
+# example run for adjoin data (same as caAir/smelly):
+# ./caAirCsv2gson.sh 2>&1 | tee caAirCsv2gson.adjoin.2020.0119.log # on bofh after all
 
-# after this is upload to mapbox using zwedc_uploader.sh 
+# **>> after this is upload to mapbox using zwedc/caair_uploader.sh <<**
 
 #InputDir="/home/wzhou/csv"		# these had the "Hi" mixing time, need to create trimmed version to black out the data. # csv_Zwedc
 #InputDir="/home/wzhou/csv-25sites"	# these are the "fixed" to use "Al" timing mode.  maybe was just a file rename?
@@ -42,9 +49,13 @@ InputDir="/home/ljin/zwedc4tin/csv"  # 2019.0922 by Ling # scp -pR tin@gpanda:/g
 #OutputDir="./DATA_zwedc"
 #OutputDir="./DATA_caair_Al_0329"  # some tmp dir under the git repo tree
 #OutputDir="./DATA_zwedc_0922"      # ~/tin-gh/inet-dev-class/mapbox/
+#OutputDir="./DATA_adjoin"      # ~/tin-gh/inet-dev-class/mapbox/
+#OutputDir="./DATA_zwedc_0922"      # ~/tin-gh/inet-dev-class/mapbox/
+#InputDir="~/Downloads/adjoin"  # 2020.0119 by Yuhan Wang
+#InputDir="/home/ywang/CSV_data"  # 2019.0922 by Ling
 # adjoin 2020.01
-InputDir="/home/ywang/CSV_data"  # 2019.0922 by Ling
-OutputDir="./DATA_adjoin"      # ~/tin-gh/inet-dev-class/mapbox/
+InputDir="./CSV_adjoin"  # 2020.0119 by Yuhan Wang
+OutputDir="./DATA_adjoin_0119"  # ~/tin-gh/inet-dev-class/mapbox/
 
 [[ -d $OutputDir ]] || mkdir $OutputDir 
 
@@ -89,6 +100,6 @@ rename() {
 
 
 csv2gson
-rename
+#rename
 
 

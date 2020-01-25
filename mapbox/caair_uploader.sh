@@ -3,6 +3,7 @@
 # using the mapbox-cli-sdk, upload is much simpler.   
 # don't have to deal with AWS staging to S3 step.
 # may not have lot of tracking, but don't think i need that
+# ie, need to have a mapbox cli tool installed (done only on bofh at this point)
 
 # execute this after having converted csv to geojson using caAirCsv2gson.sh
 # example run
@@ -19,13 +20,15 @@
 #+cd DATA_caair_0329_zwedc   # 90 files, start:  end: 
 # for the CA state map overview of all sites:
 # ++TODO++ cd to the desired dir before starting upload script
-# ../caair_uploader.sh 2>&1 | tee -a  caair_uploader.log
+# ../caair_uploader.sh 2>&1 | tee -a  adjoin_uploader.log
 
 # renamed from zwedc_uploader.sh to caair_uploader.sh since it works for all sites geojson.  2019-01-23
 # maybe should have renamed it to smelley_uploader :)
 
+#### need to have a mapbox cli tool installed (done only on bofh at this point)
 PATH=$PATH:~/.local/bin  # from pip install --user mapbox (didn't bother creating virtual env)
-U=sn50
+##U=sn50
+U=tin117
 
 ## retrieve mapbox secret key 
 MAPBOX_ACCESS_TOKEN=$SECRET

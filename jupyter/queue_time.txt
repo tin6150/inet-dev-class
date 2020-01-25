@@ -1,0 +1,6 @@
+
+# see nick jupyther notebook, gmail: https://mail.google.com/mail/u/1/#search/nicolas+grafana/FMfcgxwDrbzNHChDCNvkCXXvdKRrfKDv?compose=CllgCJNwfPdDhfVpBQKVmLsDqXgQHBCTHKbcsfTClnrSjBNBhghpHmhztNpmCzkSKsXVmHJVjGq&projector=1&messagePartId=0.1
+
+sacct -aP --starttime 2019-11-11 --endtime 2019-12-11 --format JobID,Account,Submit,Start,End,NNodes,State,QoS,Partition > jobs-2019-11-11.txt
+
+

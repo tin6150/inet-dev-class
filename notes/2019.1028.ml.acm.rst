@@ -1,0 +1,14 @@
+
+
+2019.1028
+acm meetup (youtube livecast)
+Practical Time-Series Forecast and Anomaly Detection in Python
+
+~~
+
+das
+like pandas scaled out
+
+ARIMA
+
+
