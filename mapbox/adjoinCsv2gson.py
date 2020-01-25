@@ -211,8 +211,7 @@ def run_conversion( args ) :
 	dbg( 5, "converting csv to gson...")
 	print_opener()  # some geojson header 
 	(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( 0, "","" , "","" , "","" , "",""  )  # 9-tuple initialized to blank
-	offset = float(1.0e+10)
-	#offset = 1.0**10
+	offset = float(1.0e+10) # a constant multiplier to shift value like 1e-14 to 1e-4, so that they are not so close to zero
 
 	# loop to parse file
 	# maybe should have used  std unix input redirect, but future may need multiple input files
