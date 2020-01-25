@@ -223,22 +223,16 @@ def run_conversion( args ) :
 	for line in inF:
 		#print line
 		#lineList = line.split( ',' )
-		color = 0.0
-		(mantissa, exponent) = (0.0, 0.0)
 		(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( parse1line( line ) )
-		if( val != "" ):  # ie make sure it was not empty, such as in comment line
-			msgValType = type( float( str( val ) ) )
-			print( "//---dbg--- val type is: %s" % msgValType )
-			print( "//---dbg--- val : %s" % val )
-			#if( type( float( str(val) ) ) == float ):  # ie make sure it was not empty, such as in comment line
-			color = float(val) * float(offset)
-			#color = float(val)
-			(mantissa, exponent) = math.frexp(float(val))
-			print( "//---dbg--- if val is float true " )
-		else :
-			print( "//---dbg--- if val is float was false " )
 		if ( lon1 == "" )  :
 			continue		# returned nothing, skipping the line   FIXME
+		if( val != "" ):  # ie make sure it was not empty, such as in comment line
+			color = float(val) * float(offset)
+			(mantissa, exponent) = math.frexp(float(val))
+		else :
+			# it output some dummy just to keep format parsable
+			color = 0.0
+			(mantissa, exponent) = (0.0, 0.0)
 		if( lineNum > 0 ) :
 			gprint( ",", "//next feature//" )	# print separator iff not first line
 		# adjoin needs more values: {"val": 1.004e-4, "color": 1.004e+6, "mantissa": 1.004, "exponent": "-4"  }
