@@ -1,7 +1,7 @@
 { "type": "FeatureCollection", "features": [
     { "type":       "Feature", 
       "properties":            
-           {"max": 0.000100737835204601}
+           { "name": "DAC-type3", "source": "O3_GE66_outline_longlat.csv", "vertex_range": "492-562" }
       ,
       "geometry": { "type": "Polygon", "coordinates": 
 			[[ 
@@ -76,7 +76,6 @@
 [ -119.040855758276 , 36.3990476749281 ], 
 [ -119.08644438677 , 36.3997089595471 ], 
 [ -119.132033932099 , 36.400349258472 ] 
-
 			]]}
     }
 ] }
