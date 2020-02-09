@@ -1,0 +1,48 @@
+Traceback (most recent call last):
+  File "/home/tin/.local/bin/mapbox", line 11, in <module>
+    sys.exit(main_group())
+  File "/home/tin/anaconda3/lib/python3.6/site-packages/click/core.py", line 764, in __call__
+    return self.main(*args, **kwargs)
+  File "/home/tin/anaconda3/lib/python3.6/site-packages/click/core.py", line 717, in main
+    rv = self.invoke(ctx)
+  File "/home/tin/anaconda3/lib/python3.6/site-packages/click/core.py", line 1137, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "/home/tin/anaconda3/lib/python3.6/site-packages/click/core.py", line 956, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/home/tin/anaconda3/lib/python3.6/site-packages/click/core.py", line 555, in invoke
+    return callback(*args, **kwargs)
+  File "/home/tin/anaconda3/lib/python3.6/site-packages/click/decorators.py", line 17, in new_func
+    return f(get_current_context(), *args, **kwargs)
+  File "/home/tin/.local/lib/python3.6/site-packages/mapboxcli/scripts/uploads.py", line 71, in upload
+    callback=callback)
+  File "/home/tin/.local/lib/python3.6/site-packages/mapbox/services/uploads.py", line 276, in upload
+    tileset = self._validate_tileset(tileset)
+  File "/home/tin/.local/lib/python3.6/site-packages/mapbox/services/uploads.py", line 64, in _validate_tileset
+    tileset, pattern))
+mapbox.errors.ValidationError: tileset tin117.DAC-topo3JulNOxS+Al is invalid, must match r"^[a-z0-9-_]{1,32}\.[a-z0-9-_]{1,32}$"
+--FAIL-- 0: upload of DAC-topo3JulNOxS+Al.geojson failed with exit code 1
+
+==== above failed cuz had + in filename.  fixed ====
+
+{"id":"ck5lvbmg61j3f2oql8wkzheqs","name":"DAC-topo3JulNOxSpAl","complete":false,"error":null,"created":"2020-01-20T03:06:34.012Z","modified":"2020-01-20T03:06:34.012Z","tileset":"tin117.DAC-topo3JulNOxSpAl","owner":"tin117","progress":0}
+++ OK ++ 0: upload of DAC-topo3JulNOxSpAl.geojson completed successfully.
+{"id":"ck6edch3w41k62ilnn29uha1h","name":"DAC-topo306AVOCSpAl","complete":false,"error":null,"created":"2020-02-09T01:48:39.736Z","modified":"2020-02-09T01:48:39.736Z","tileset":"tin117.DAC-topo306AVOCSpAl","owner":"tin117","progress":0}
+++ OK ++ 0: upload of DAC-topo306AVOCSpAl.geojson completed successfully.
+{"id":"ck6edcl670i312qnxbzny07rx","name":"DAC-topo306NOxSpAl","complete":false,"error":null,"created":"2020-02-09T01:48:45.020Z","modified":"2020-02-09T01:48:45.020Z","tileset":"tin117.DAC-topo306NOxSpAl","owner":"tin117","progress":0}
+++ OK ++ 1: upload of DAC-topo306NOxSpAl.geojson completed successfully.
+{"id":"ck6edcora0ibc2onxi6p842cw","name":"DAC-topo307AVOCSpAl","complete":false,"error":null,"created":"2020-02-09T01:48:49.674Z","modified":"2020-02-09T01:48:49.674Z","tileset":"tin117.DAC-topo307AVOCSpAl","owner":"tin117","progress":0}
+++ OK ++ 2: upload of DAC-topo307AVOCSpAl.geojson completed successfully.
+{"id":"ck6edcsn72z3e2qoa151d7w93","name":"DAC-topo307NOxSpAl","complete":false,"error":null,"created":"2020-02-09T01:48:54.697Z","modified":"2020-02-09T01:48:54.697Z","tileset":"tin117.DAC-topo307NOxSpAl","owner":"tin117","progress":0}
+++ OK ++ 3: upload of DAC-topo307NOxSpAl.geojson completed successfully.
+{"id":"ck6edcw310d012ip83grl1smk","name":"DAC-topo308AVOCSpAl","complete":false,"error":null,"created":"2020-02-09T01:48:59.157Z","modified":"2020-02-09T01:48:59.157Z","tileset":"tin117.DAC-topo308AVOCSpAl","owner":"tin117","progress":0}
+++ OK ++ 4: upload of DAC-topo308AVOCSpAl.geojson completed successfully.
+{"id":"ck6edczsg41kh2ilntthsbybm","name":"DAC-topo308NOxSpAl","complete":false,"error":null,"created":"2020-02-09T01:49:03.735Z","modified":"2020-02-09T01:49:03.735Z","tileset":"tin117.DAC-topo308NOxSpAl","owner":"tin117","progress":0}
+++ OK ++ 5: upload of DAC-topo308NOxSpAl.geojson completed successfully.
+{"id":"ck6edd3dy4fmh2nmrisql5rr2","name":"DAC-topo309AVOCSpAl","complete":false,"error":null,"created":"2020-02-09T01:49:08.614Z","modified":"2020-02-09T01:49:08.614Z","tileset":"tin117.DAC-topo309AVOCSpAl","owner":"tin117","progress":0}
+++ OK ++ 6: upload of DAC-topo309AVOCSpAl.geojson completed successfully.
+{"id":"ck6edd7460s182ouub7zem5rx","name":"DAC-topo309NOxSpAl","complete":false,"error":null,"created":"2020-02-09T01:49:13.455Z","modified":"2020-02-09T01:49:13.455Z","tileset":"tin117.DAC-topo309NOxSpAl","owner":"tin117","progress":0}
+++ OK ++ 7: upload of DAC-topo309NOxSpAl.geojson completed successfully.
+{"id":"ck6eddanx0s672iuurq7mlhl9","name":"DAC-topo3AvAVOCSpAl","complete":false,"error":null,"created":"2020-02-09T01:49:18.049Z","modified":"2020-02-09T01:49:18.049Z","tileset":"tin117.DAC-topo3AvAVOCSpAl","owner":"tin117","progress":0}
+++ OK ++ 8: upload of DAC-topo3AvAVOCSpAl.geojson completed successfully.
+{"id":"ck6eddeiq0nxe2oqe6ecqr6pu","name":"DAC-topo3AvNOxSpAl","complete":false,"error":null,"created":"2020-02-09T01:49:23.048Z","modified":"2020-02-09T01:49:23.048Z","tileset":"tin117.DAC-topo3AvNOxSpAl","owner":"tin117","progress":0}
+++ OK ++ 9: upload of DAC-topo3AvNOxSpAl.geojson completed successfully.

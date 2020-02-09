@@ -26,8 +26,8 @@
 #InputDir="/home/ljin/zwedc4tin/csv"  # 2019.0922 by Ling # scp -pR tin@gpanda:/gpanda/temp_data/zwedc4tin/csv .
 
 
-# use caAirCsv2gson.py to convert csv to geojson
-# ++TODO++ ^^^^ adjoin use "val" and smelly odor use "max" so change maybe needed
+# use caAirCsv2gson.py  to convert csv to geojson (smelly, use use "max" as sole feature in each grid)
+# use adjoinCsv2gson.py to convert csv to geojson (adjoin, which use "val", but also add "max" for backwarrd compatibility
 # this shell wrapper script loop over multiple input files
 # and generate correct output filename.
 
@@ -38,9 +38,9 @@
 # gpanda very sluggish, so xfering all files to bofh...
 
 # example run for adjoin data (same as caAir/smelly):
-# ./caAirCsv2gson.sh 2>&1 | tee caAirCsv2gson.adjoin.2020.0124.log # on bofh after all
+# ./caAirCsv2gson.sh 2>&1 | tee adjoinCsv2gson.2020.0208.log # on bofh after all
 
-# **>> after this is upload to mapbox using zwedc/caair_uploader.sh <<**
+# **>> after above step, then  upload to mapbox using zwedc/caair_uploader.sh <<**
 
 #InputDir="/home/wzhou/csv"		# these had the "Hi" mixing time, need to create trimmed version to black out the data. # csv_Zwedc
 #InputDir="/home/wzhou/csv-25sites"	# these are the "fixed" to use "Al" timing mode.  maybe was just a file rename?
@@ -54,9 +54,12 @@
 #OutputDir="./DATA_zwedc_0922"      # ~/tin-gh/inet-dev-class/mapbox/
 #InputDir="~/Downloads/adjoin"  # 2020.0119 by Yuhan Wang
 #InputDir="/home/ywang/CSV_data"  # 2019.0922 by Ling
-# adjoin 2020.01
-InputDir="./CSV_adjoin"  # 2020.0119 by Yuhan Wang
-OutputDir="./DATA_adjoin_0124"  # ~/tin-gh/inet-dev-class/mapbox/
+# adjoin 2020.01 first dataset  (NOx July)
+#InputDir="./CSV_adjoin"  # 2020.0119 by Yuhan Wang
+#OutputDir="./DATA_adjoin_0124"  # ~/tin-gh/inet-dev-class/mapbox/
+# adjoin 2020.02 additional dataset (AVOC, NOx, a few episodes).
+InputDir="/home/ywang/CSV_adjoin" 
+OutputDir="./DATA_adjoin_0208"      # ~/tin-gh/inet-dev-class/mapbox/
 
 [[ -d $OutputDir ]] || mkdir $OutputDir 
 

@@ -20,7 +20,8 @@
 #+cd DATA_caair_0329_zwedc   # 90 files, start:  end: 
 # for the CA state map overview of all sites:
 # ++TODO++ cd to the desired dir before starting upload script
-# ../caair_uploader.sh 2>&1 | tee -a  adjoin_uploader.log
+# ../caair_uploader.sh 2>&1 | tee -a  ../adjoin_uploader.log
+# ++ login to mapbox studio to get some feedback on upload
 
 # renamed from zwedc_uploader.sh to caair_uploader.sh since it works for all sites geojson.  2019-01-23
 # maybe should have renamed it to smelley_uploader :)
