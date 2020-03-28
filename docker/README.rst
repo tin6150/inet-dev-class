@@ -32,6 +32,15 @@ docker run -it \
     jess/chrome
 
 
+docker run -it --cpuset-cpus 0  --memory 4096mb  -v /tmp/.X11-unix:/tmp/.X11-unix  -e DISPLAY=:0 \
+    -v $HOME/Downloads:/root/Downloads  -v $HOME/.config/google-chrome/:/data  
+    --device /dev/snd  --name chrome  jess/chrome
+
+tin@fed888xxx:~$ docker run -it  -v /tmp/.X11-unix:/tmp/.X11-unix  -e DISPLAY=:0     --rm  jess/chrome
+Failed to move to new namespace: PID namespaces supported, Network namespace supported, but failed: errno = Operation not permitted
+
+
+
 cathode 1995 era CRT terminal emulator
 --------------------------------------
 
