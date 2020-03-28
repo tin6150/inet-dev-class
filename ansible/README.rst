@@ -17,8 +17,11 @@ adhoc::
     ansible all -i inventory.ini -m ping -u root
     ansible all --inventory-file=inventory.ini --module-name ping -u vagrant --private-key=~/.vagrant.d/insecure_private_key
 
+
     ansible all -m shell -a "shellCmd"
     ansible all          -a "shellCmd"               # shortcut of above
+
+
 
     ansible servers -i inventory.ini -m command -u root --args "uptime"
     ansible workstn -i inventory.ini -u root -a "uptime"
@@ -33,7 +36,7 @@ adhoc::
 
 
 
-    ansible localhost -m setup              		# discoverd facts as dict ansible_facts
+    ansible localhost -m setup              		# discoverd facts as dict ansible_facts (eg ansible_distribution, ansible_os_family)
     ansible localhost -m setup -a 'filter=ansible_eth*'	# filter
 
     ansible-doc -l          # list docs
@@ -301,6 +304,8 @@ index of constructs
 * ansible facts hierarchy and access via variable
   https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#accessing-complex-variable-data
 
+* when: clause for specific version of linux :: cueball dev_tool_debian.yml
+
 
 
 Jinja2 and Ansbile
@@ -472,6 +477,13 @@ There are ways to include different yaml file depending on the OS platform using
 
 1. https://stackoverflow.com/questions/26226609/ansible-conditional-user-based-on-platform
 2. http://docs.ansible.com/ansible/latest/playbooks_best_practices.html#operating-system-and-distribution-variance
+3. jinja2 template for version comparison (https://docs.ansible.com/ansible/latest/user_guide/playbooks_test.html) 
+   when: ansible_distribution == 'Ubuntu' and {{ ansible_facts['distribution_version'] is version('20', operator='lt') }}
+4. https://raymii.org/s/tutorials/Ansible_-_Only_if_on_specific_distribution_or_distribution_version.html
+   when: ansible_distribution == 'Ubuntu' and ansible_lsb.major_release|int < 20 # cast to inteter...
+5. try:
+   when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int < 20
+
 
 But there are many tasks that maybe commont amont all platform.  and splitting 
 YAML file at the highest level for each OS platform may cause logic code to be repeated.  Cut-n-paste is easy, but having to update/maintain the same logic in multiple files is error prone.
@@ -600,5 +612,6 @@ not even when as footnote notation (cuz lacked ref?)  just avoid them for github
 
 :url: https://github.com/tin6150/inet-dev-class/tree/master/ansible
 :author: tin6150
-:version: 2017-1210
+:version: 2017-1210, 2020-0328
 
+# vim tabstop=4 paste
