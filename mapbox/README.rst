@@ -19,9 +19,9 @@ Gist: https://gist.github.com/tin6150/e271e5d3bef6d93ebc6817170ddd2456
 Mapbox FAQ
 ==========
 
-* Use LngLat, just like geoJSON.  ie, it is Longitude first, then Latitude (in the paired geo coordinate). 
-	* Lng is East-West.   range [-180,180].  Milpitas is -121.985.  Y-axis on paper map.
-	* Lat is North-South. range [-90,90].  Milpitas is 37.408.      X-axis on paper map.
+* Use LngLat, just like geoJSON  ie, it is Longitude first, then Latitude (in the paired (x,y) geo coordinate). 
+	* Lng is East-West.   range [-180,180].  Milpitas is -121.985.  X-axis on paper map.
+	* Lat is North-South. range [-90,90].  Milpitas is 37.408.      Y-axis on paper map.
 	* Leaflet seems to use LatLng :(
 
 * Use Mercator Coordinate
@@ -77,6 +77,8 @@ Reading list
 * https://docs.mapbox.com/mapbox-gl-js/example/query-similar-features/ has eg of popup, overlay that goes away, county boundary map, maybe county population.  saved to mapboxQuerySimilarFeatures.html
 
 * addLayer( source... ) vs addSource   eg see mapbox-addLayer.html , ZWEDC_50x50sq_js.html
+
+* https://github.com/tin6150/covid19_care_capacity_map/README.rst
 
 Examples
 ========
@@ -259,11 +261,12 @@ Below should work to create polygon to make density coloring on map easier.
 
 
 
-Snipplet from stateData.geojson  
--------------------------------
+Snippet from stateData.geojson
+------------------------------
 
-stateData.geojson is the example data source for the choropleth tutorial (mapbox, leaflet).
-The geojson file has the polygon info, as well as name and density value, all embeded as one record per state.
+stateData.geojson is the example data source for the choropleth tutorial (mapbox, leaflet), https://docs.mapbox.com/help/tutorials/choropleth-studio-gl-pt-1 .
+The geojson file has the polygon info of the 50 states, as well as name and density value, all embeded as one record per state.
+
 
 Note Alaska and some other state use "MultiPolygon", which are more time consuming to process.
 
