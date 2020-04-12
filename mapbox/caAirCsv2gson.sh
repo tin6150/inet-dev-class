@@ -59,7 +59,7 @@
 #OutputDir="./DATA_adjoin_0124"  # ~/tin-gh/inet-dev-class/mapbox/
 # adjoin 2020.02 additional dataset (AVOC, NOx, a few episodes).
 InputDir="/home/ywang/CSV_adjoin" 
-OutputDir="./DATA_adjoin_0208"      # ~/tin-gh/inet-dev-class/mapbox/
+OutputDir="./DATA_adjoin_0209"      # ~/tin-gh/inet-dev-class/mapbox/
 
 [[ -d $OutputDir ]] || mkdir $OutputDir 
 

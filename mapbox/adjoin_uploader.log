@@ -46,3 +46,7 @@ mapbox.errors.ValidationError: tileset tin117.DAC-topo3JulNOxS+Al is invalid, mu
 ++ OK ++ 8: upload of DAC-topo3AvAVOCSpAl.geojson completed successfully.
 {"id":"ck6eddeiq0nxe2oqe6ecqr6pu","name":"DAC-topo3AvNOxSpAl","complete":false,"error":null,"created":"2020-02-09T01:49:23.048Z","modified":"2020-02-09T01:49:23.048Z","tileset":"tin117.DAC-topo3AvNOxSpAl","owner":"tin117","progress":0}
 ++ OK ++ 9: upload of DAC-topo3AvNOxSpAl.geojson completed successfully.
+{"id":"ck6fncwm41jjn2opdnpzv41uq","name":"DAC-topo3AvAVOCSpAl","complete":false,"error":null,"created":"2020-02-09T23:16:42.185Z","modified":"2020-02-09T23:16:42.185Z","tileset":"tin117.DAC-topo3AvAVOCSpAl","owner":"tin117","progress":0}
+++ OK ++ 0: upload of DAC-topo3AvAVOCSpAl.geojson completed successfully.
+{"id":"ck6fnd0hz3hw02joas67c8sns","name":"DAC-topo3AvNOxSpAl","complete":false,"error":null,"created":"2020-02-09T23:16:47.213Z","modified":"2020-02-09T23:16:47.213Z","tileset":"tin117.DAC-topo3AvNOxSpAl","owner":"tin117","progress":0}
+++ OK ++ 1: upload of DAC-topo3AvNOxSpAl.geojson completed successfully.
