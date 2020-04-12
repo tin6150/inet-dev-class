@@ -207,16 +207,18 @@ geoJSON with single point
 :: 
 
 	verify file format/parseability   
-	(this in eg file single_point_eg.geojson, which github can preview automagically via calls to mapbox):
+	(this in eg file single_point_eg.json5, which github can preview automagically via calls to mapbox):
+	geojson and json doesn't support comment, json5 does.  for dev/debug, i like comments, thus most files saved as .json5
 
 	sudo npm install --global json5  # strip comments
 	sudo npm install -g d3-geo-projection 
-	json5 single_point_eg.geojson | geo2svg -w 600 -h 600 > single_point_eg.svg   
+	json5 single_point_eg.json5 | geo2svg -w 600 -h 600 > single_point_eg.svg   
 
 * geo2svg see https://medium.com/@mbostock/command-line-cartography-part-1-897aa8f8ca2c 
-* drop file into https://mapshaper.org 
+* drop file into https://mapshaper.org , but crook when it find comments :-/
 * Example geoJSON: https://www.mapbox.com/help/data/stations.geojson
 * Additional ref: https://www.mapbox.com/help/define-geojson/
+* json5, json for HUMANS!! https://json5.org/  How effing retarded did original json not support comment?!?!  is there a .gson5 yet??
 
 
 ZWEDC data with two example points
