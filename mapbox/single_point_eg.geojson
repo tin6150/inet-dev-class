@@ -1,0 +1,22 @@
+{
+  "type": "FeatureCollection",
+  "features":
+  [
+      {
+              "type": "Feature",
+              "properties": {
+                "name": "Van Dorn Street",
+                "marker-color": "#0000ff",
+                "marker-symbol": "rail-metro",
+                "line": "blue"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  -77.12911152370515,
+                  38.79930767201779
+                ]
+              }
+      }
+  ]
+}       // tagged as json5, comments would be allowed if parser supports this new version

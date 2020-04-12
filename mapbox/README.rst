@@ -176,6 +176,7 @@ Barebone geoJSON
 geoJSON with single point
 -------------------------
 
+
 .. code:: json5
 
         {
@@ -202,6 +203,18 @@ geoJSON with single point
         }       // tagged as json5, comments would be allowed if parser supports this new version
 
 
+
+:: 
+
+	verify file format/parseability   
+	(this in eg file single_point_eg.geojson, which github can preview automagically via calls to mapbox):
+
+	sudo npm install --global json5  # strip comments
+	sudo npm install -g d3-geo-projection 
+	json5 single_point_eg.geojson | geo2svg -w 600 -h 600 > single_point_eg.svg   
+
+* geo2svg see https://medium.com/@mbostock/command-line-cartography-part-1-897aa8f8ca2c 
+* drop file into https://mapshaper.org 
 * Example geoJSON: https://www.mapbox.com/help/data/stations.geojson
 * Additional ref: https://www.mapbox.com/help/define-geojson/
 
