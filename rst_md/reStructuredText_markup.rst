@@ -344,13 +344,16 @@ B. Adding space in the beginning will be treated as quoted text and add email-st
 
 
 
----------------------------------------------------------------------------
-  this is an example of boxed text, but github don't render them as boxed 
----------------------------------------------------------------------------
 
-===============================
- another example of boxed text
-===============================
+| ---------------------------------------------------------------------------
+|   this is an example of boxed text, but github don't render them as boxed 
+|   it was not to have the pipe in front, but github is my primary place for rst
+|   and it is utterly broken, so can't afford to have a thing that really break
+| ---------------------------------------------------------------------------
+
+| ===============================
+|  another example of boxed text
+| ===============================
 
 (note the starting space in the text line vs the dash line)
 
@@ -442,7 +445,7 @@ location of .rst and .md files are in 2 places so that I can see how it got rend
   - psg/reStructuredText_markup.rst
   - https://github.com/tin6150/inet-dev-class/rst_md
 
-  actually no, don't want to maintain 2 copies.  just mv to inet-dev-class.
+  PSG version will be master.  inet-dev-class is a cache (and not really needed, as error in rst will cause github not to render in both places, so just need to fix the error!).  
 
 
 Example os .rst that I maintain
