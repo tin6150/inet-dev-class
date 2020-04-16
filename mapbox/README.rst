@@ -204,18 +204,19 @@ geoJSON with single point
 
 
 
-:: 
 
-	verify file format/parseability   
-	(this in eg file single_point_eg.json5, which github can preview automagically via calls to mapbox):
-	geojson and json doesn't support comment, json5 does.  for dev/debug, i like comments, thus most files saved as .json5
+Verify file format/parseability:  
+* (above eg is in a file called single_point_eg.json5, which github can preview automagically via calls to mapbox)
+* geojson and json doesn't support comment, json5 does.  for dev/debug, i like comments, thus most files saved as .json5
+
+:: 
 
 	sudo npm install --global json5  # strip comments
 	sudo npm install -g d3-geo-projection 
 	json5 single_point_eg.json5 | geo2svg -w 600 -h 600 > single_point_eg.svg   
 
 * geo2svg see https://medium.com/@mbostock/command-line-cartography-part-1-897aa8f8ca2c 
-* drop file into https://mapshaper.org , but crook when it find comments :-/
+* drop file into https://mapshaper.org , but crook when it find comments :-/  not all that useful anyway.
 * Example geoJSON: https://www.mapbox.com/help/data/stations.geojson
 * Additional ref: https://www.mapbox.com/help/define-geojson/
 * json5, json for HUMANS!! https://json5.org/  How effing retarded did original json not support comment?!?!  is there a .gson5 yet??
@@ -302,21 +303,21 @@ mapbox zoom levels
 tileset have defined zoom extent, which is range where it can add/remove data depending on zoom level.
 vector data can zoom (in) all the way to z22, but if tileset don't have lots of data, it would seem simplified.
 
-- z22 : most detailed?
-
+- z22 : most detailed, max zoom from mapbox
+- z19 : odor data tileset is said to be z0-z19, 19+ will "appear simplified"
 - z16 : max zoom where data is relevant for census population tiger/line shapefile .  probably city block level detail.
 - z16 : lot size starts to show
 - z15 : see about 50 blocks of a city
+- z14.2 : zoomed in and good for zwedc demo with many low value data points // 1000 ft
 - z13 : streets starts to have some width
-- z12 : streets of one main city
-- z10 : min zoom for census population tiger/line to be visible.  Good starting point to work on Census data map. 
-- z10 : cut off for station-6yhf0y, a simple example shapefile by mapbox (for where?)
-
-- z8  : many cities name showed on a map
+- z12 : streets of one main city // whole coverd area of ZWEDC.
+- z10 : min zoom for census population tiger/line to be visible.  Good starting point to work on Census data map. // cut off for station-6yhf0y, a simple example shapefile by mapbox (for where?)
+- z9  : see most of BAAQMD   // 5mi 
+- z8  : many cities name showed on a map // site-info as polygon said to be good at z0-z8.  8+ will "appear simplified"
+- z6.1: see most of CA, smelly overview map use this. // 50mi
 - z6  : cut off used for cholopleth tutorial (state level data)  
-
-- z3  : continent wide
-
+- z5.5: see whole CA
+- z3  : continent wide, whole USA
 - z0  : least detailed , world wide map
 
 
@@ -326,11 +327,12 @@ ESRI shapefile
 Example from mapbox at
 https://www.mapbox.com/help/data/stations.zip ::
 
--rw-r--r-- 1 tin itd 87623 Nov  4  2015 stations.dbf	# dBase III, 86 records
--rw-r--r-- 1 tin itd  2508 Nov  4  2015 stations.shp	# esri binary
--rw-r--r-- 1 tin itd   788 Nov  4  2015 stations.shx    # esri binary
--rw-r--r-- 1 tin itd   143 Nov  4  2015 stations.prj	# ascii 
-GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]
+	-rw-r--r-- 1 tin itd 87623 Nov  4  2015 stations.dbf	# dBase III, 86 records
+	-rw-r--r-- 1 tin itd  2508 Nov  4  2015 stations.shp	# esri binary
+	-rw-r--r-- 1 tin itd   788 Nov  4  2015 stations.shx    # esri binary
+	-rw-r--r-- 1 tin itd   143 Nov  4  2015 stations.prj	# ascii 
+
+	GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]
 
 
 * no need to expand the zip file before upload to mapbox
@@ -505,7 +507,7 @@ TypeScript is superset of JS developed by MS.
         var H any; 
                 something along such line.
 
-React maybe easier for jQuery user, Angular use a very diff control mechanism.
+**React maybe easier for jQuery user, Angular use a very diff control mechanism.**
 
 
 * Mithril.  
