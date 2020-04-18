@@ -1,0 +1,10 @@
+--2020-04-18 14:26:47--  http://api.census.gov/data/2014/acs5?get=B01003_001E&for=tract:*&in=state:06
+Resolving api.census.gov (api.census.gov)... 148.129.75.191, 2610:20:2010:a05:1000:0:9481:4bbf
+Connecting to api.census.gov (api.census.gov)|148.129.75.191|:80... connected.
+HTTP request sent, awaiting response... 302 Moved Temporarily
+Location: https://api.census.gov/data/2014/acs5?get=B01003_001E&for=tract:*&in=state:06 [following]
+--2020-04-18 14:26:47--  https://api.census.gov/data/2014/acs5?get=B01003_001E&for=tract:*&in=state:06
+Connecting to api.census.gov (api.census.gov)|148.129.75.191|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2020-04-18 14:26:48 ERROR 404: Not Found.
+

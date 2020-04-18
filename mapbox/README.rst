@@ -160,6 +160,10 @@ Mapbox data structure
 
 * Brief doc on uploading data to mapbox studio: https://www.mapbox.com/studio-manual/overview/geospatial-data/ .  bottom of page has some tricks to shrink large .zip, though not sure if that will work for CA.
 
+* JSON syntax:
+  - { } is object - there are many items in a json file, each item is an object.  every object has to have the same set of fields. 
+  - [ ] is an array (think arbitrary length list) ie, diff obj could have differing array list in them.
+
 
 Barebone geoJSON
 ----------------
