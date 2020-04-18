@@ -359,6 +359,11 @@ centos 7::
     sudo yum -y install python2-pip 
     sudo pip install ansible         # 2.5.0
 
+Mint 19::
+
+    sudo apt -y install ansible          # ansible 2.5.1
+
+
 Mint 18.2 MATE::
 
     sudo apt-get -y install ansible          # ubuntu 16.04 comes with ansible 2.1.1.0, no "import_tasks"
