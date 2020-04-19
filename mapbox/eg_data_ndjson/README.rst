@@ -55,9 +55,10 @@ geo2svg -w 960 -h 960 < ca-albers.json > ca-albers.svg
 Part 2: https://medium.com/@mbostock/command-line-cartography-part-2-c3a82c5c0f3
 
 
+**Step 1: geojson to ndjson**
 To convert a GeoJSON feature collection to a newline-delimited stream of GeoJSON features, use ndjson-split:
 
-ndjson-split 'd.features'  < ca-albers.json  > ca-albers.ndjson # **$**
+ndjson-split 'd.features'  < ca-albers.json  > ca-albers.ndjson # **1** **geo2ndj**
         cat stateData-albers.json     | ndjson-split 'd.features' > stateData-albers.ndjson  # work 
         cat stateData.geojson         | ndjson-split 'd.features' > stateData.ndjson         # dont work :/
         cat stateData.geojson | json5 | ndjson-split 'd.features' > stateData.ndjson         # work, just that ndjson cant handle white space/newline! pff!
@@ -77,10 +78,10 @@ and result from the 3rd line are the items, which make sense.  (eg below, split 
 {"type":"Feature","properties":{"STATEFP":"06","COUNTYFP":"001",...
 
 
-
+**Step 2: add key field**
 add an id feature (think field key) to each entry (each line):
 
-ndjson-map 'd.id = d.properties.GEOID.slice(2), d'  < ca-albers.ndjson  > ca-albers-id.ndjson # **$**
+ndjson-map 'd.id = d.properties.GEOID.slice(2), d'  < ca-albers.ndjson  > ca-albers-id.ndjson # **2** **+key**
             ^^^^                               ^^
             new field to be added is named id
             the data is extracted from "properties:{... GEOID"
@@ -108,6 +109,7 @@ cb_2014_06_tract_B01003.json is a JSON array.  could not download, so just hand 
 ["3000","06","001","400200"],
 
 
+**step 3**
 The resulting file is a JSON array. To convert it to an NDJSON stream, use 
 * ndjson-cat (to remove the newlines), 
 * ndjson-split (to separate the array into multiple lines) and 
@@ -115,7 +117,7 @@ The resulting file is a JSON array. To convert it to an NDJSON stream, use
 - B01003_001E is the key for population estimate
 
 ndjson-cat cb_2014_06_tract_B01003.json            | ndjson-split 'd.slice(1)'  | ndjson-map '{id: d[2] + d[3], B01003: +d[0]}'  > cb_2014_06_tract_B01003.ndjson
-ndjson-cat cb_2014_06_tract_B01003.tin_manual.json | ndjson-split 'd.slice(1)'  | ndjson-map '{id: d[2] + d[3], B01003: +d[0]}'  > cb_2014_06_tract_B01003.ndjson # **$**
+ndjson-cat cb_2014_06_tract_B01003.tin_manual.json | ndjson-split 'd.slice(1)'  | ndjson-map '{id: d[2] + d[3], B01003: +d[0]}'  > cb_2014_06_tract_B01003.ndjson # **3**
 
 which result in file looking like this:
 
@@ -125,14 +127,15 @@ which result in file looking like this:
 
 
 
-
+**Step 4: join**
 Now, magic! Join the population data to the geometry using ndjson-join:
 
-ndjson-join 'd.id'  ca-albers-id.ndjson  cb_2014_06_tract_B01003.ndjson  > ca-albers-join.ndjson # **$**
+ndjson-join 'd.id'  ca-albers-id.ndjson  cb_2014_06_tract_B01003.ndjson  > ca-albers-join.ndjson # **4** **join**
                       |||                           ^^^--- {"id":...}                       
                       ...]]]},"id":"001400300"}
 
 a field named "id" exist on both file, so join is by explicit field name, easy enough.
+Note the shape/geometry is on the first item d[0], while information desired for the map is on the second item d[1]
 
 
 example result (originally in a single line):
@@ -147,18 +150,20 @@ example result (originally in a single line):
 It may be hard to see in the screenshot, but each line in the resulting NDJSON stream is a two-element array. 
 * The first element (d[0]) is from ca-albers-id.ndjson: a GeoJSON Feature representing a census tract polygon. 
 * The second element (d[1]) is from cb_2014_06_tract_B01003.ndjson: an object representing the population estimate for the same census tract.
+* since it is two element array, each entry is wrapped with [ ].
 
-
+**Step 5: re-map/restructure**
 To compute the population density using ndjson-map, and to remove the additional properties we no longer need:
 * some math was done to create density, converting units on the way.  
 
-ndjson-map 'd[0].properties = {density: Math.floor(d[1].B01003 / d[0].properties.ALAND * 2589975.2356)}, d[0]'  < ca-albers-join.ndjson  > ca-albers-density.ndjson  # **$**
+ndjson-map 'd[0].properties = {density: Math.floor(d[1].B01003 / d[0].properties.ALAND * 2589975.2356)}, d[0]'  < ca-albers-join.ndjson  > ca-albers-density.ndjson  # **5** **re-map/restructure**
                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  vvvv
             def new prop as:  the properties field got mapped/replaced by a single density field.        \+++---- 
 
 result is below.  Note:
 - properties now only have density, rest of the stuff stripped.  
 - there is still a tailing id field after geometry, but it is no longer a d[1] like before (ie, not at same level as (?property?)
+- outermost [ ] has been stripped!
 
 {"type":"Feature",
  "properties":{"density":1271},     // rest of fields inside property {} dropped.
@@ -171,15 +176,26 @@ result is below.  Note:
 To convert back to GeoJSON, use ndjson-reduce and ndjson-map:
 
 ndjson-reduce  < ca-albers-density.ndjson    | ndjson-map '{type: "FeatureCollection", features: d}'  > ca-albers-density.json     # or below, easier to read
-cat ca-albers-density.ndjson | ndjson-reduce | ndjson-map '{type: "FeatureCollection", features: d}'  > ca-albers-density.json     # **$**
-                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|^ re-add the opener needed to create geojson
+cat ca-albers-density.ndjson | ndjson-reduce | ndjson-map '{type: "FeatureCollection", features: d}'  > ca-albers-density.json     # **6a** **ndj2geo**
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|^---<<<--- re-add the opener needed to create geojson
+
+	opinion gratuita:
+	as used above, the ndjson-reduce just convert from ndjson back to bad old json.  
+	ie, it simply add a [ ] wrapper around the whole file, convert newline to comma, and the whole thing is one long ass ugly line.
+	maybe better called ndjson2json !
+
+	the ndjson-map add the header and wrap the json in more nesting to create geojson.
+	the "d" in there maybe the key for the whole ndjson entries to be added.
+	the [ ] that create array to be the list ofe entries is added by the ndjson reduce function, no need to spell that out here..
 
 
-the ndjson-reduce just convert from ndjson back to bad old json.  
-ie, it simply add a [ ] wrapper around the whole file, convert newline to comma, and the whole thing is one long ass ugly line.
-maybe better called ndjson2json !
+Or, using ndjson-reduce alone:   
+ndjson-reduce 'p.features.push(d), p' '{type: "FeatureCollection", features: []}'  < ca-albers-density.ndjson  > ca-albers-density.alt.json # **6b**  **ndj2geo** ndjson-reduce method, i like this better**
+                                   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^||^-------<<<--- re-add the opener needed to create geojson
+                                   more cler of where ndjson data get shoved into
 
-the ndjson-map add the header and wrap the json in more nesting to create geojson.
-the "d" in there maybe the key for the whole ndjson entries to be added.
-the [ ] that create array to be the list ofe entries is added by the ndjson reduce function, no need to spell that out here..
+
+
+Also see https://github.com/tin6150/covid19_care_capacity_map
+README there used these steps to create covid19 care capacity map
 
