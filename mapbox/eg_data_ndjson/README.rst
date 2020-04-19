@@ -34,9 +34,7 @@ ca.json is a geojson, looks like this:
 change map projection to ConicEqualArea (Albers?)
 
 geoproject 'd3.geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0]).fitSize([960, 960], d)' < ca.json > ca-albers.json
-
-        **>**
-        geoproject 'd3.geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0]).fitSize([960, 960], d)' < stateData.geojson > stateData-albers.json  #??
+geoproject 'd3.geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0]).fitSize([960, 960], d)' < stateData.geojson > stateData-albers.json  # works
 
 input is above geojson
 output is another geojson, but coordinate is different.  also notice "bbox" was dropped:
@@ -49,9 +47,7 @@ output is another geojson, but coordinate is different.  also notice "bbox" was 
 
 
 
-convert geojson to svg
-
-
+convert geojson to svg:
 geo2svg -w 960 -h 960 < ca-albers.json > ca-albers.svg
 
 
@@ -62,6 +58,9 @@ Part 2: https://medium.com/@mbostock/command-line-cartography-part-2-c3a82c5c0f3
 To convert a GeoJSON feature collection to a newline-delimited stream of GeoJSON features, use ndjson-split:
 
 ndjson-split 'd.features'  < ca-albers.json  > ca-albers.ndjson
+        cat stateData-albers.json     | ndjson-split 'd.features' > stateData-albers.ndjson  # work 
+        cat stateData.geojson         | ndjson-split 'd.features' > stateData.ndjson         # dont work :/
+        cat stateData.geojson | json5 | ndjson-split 'd.features' > stateData.ndjson         # work, just that ndjson cant handle white space/newline! pff!
 
 so, mainly stripping tailing , of json and convert to newline....
 BUT, to form proper json, the "opener marker of geojson" is stripped.  ie, remove the first two line what were:
@@ -73,10 +72,6 @@ and result from the 3rd line are the items, which make sense.
 
 {"type":"Feature","properties":{"STATEFP":"06","COUNTYFP":"001","TRACTCE":"400300","AFFGEOID":"1400000US06001400300","GEOID":"06001400300","NAME":"4003","LSAD":"CT","ALAND":1105329,"AWATER":0},"geometry":{"type":"Polygon","coordinates":[[[224.3021507494117,425.1613296471837],[224.4889212459765,425.02853000146524],[224.8054892227229,424.90924473882023],[225.09157727394734,424.797926817982],[225.29373002719294,424.7042420166931],[225.65996339344974,424.52901179192713],[225.95108431320563,424.3385241647384],[225.912059937863,424.3983338513344],[225.81079279254033,424.6100213459463],[225.58249395352414,425.05059707011105],[225.35882837057437,425.47619464326226],[225.22516372508392,425.73538936106115],[224.86658222608307,425.5294755512],[224.63434603931907,425.4732297669584],[224.43926884491924,425.4361850983005],[224.44504485979195,425.3811563562076],[224.37116077415172,425.3749388649712],[224.17960589902756,425.397389513148],[224.3021507494117,425.1613296471837]]]},"id":"001400300"}
 {"type":"Feature","properties":{"STATEFP":"06","COUNTYFP":"001",...
-
-        **>** 
-        so, i should be able to do this conversion as well... but failed ??
-
 
 
 
@@ -156,6 +151,8 @@ To compute the population density using ndjson-map, and to remove the additional
 * some math was done to create density, converting units on the way.  
 
 ndjson-map 'd[0].properties = {density: Math.floor(d[1].B01003 / d[0].properties.ALAND * 2589975.2356)}, d[0]'  < ca-albers-join.ndjson  > ca-albers-density.ndjson
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  vvvv
+                              the properties field got mapped/replaced by a single density field.        \+++---- and this is the geometry field?
 
 result is:
 
@@ -173,12 +170,14 @@ To convert back to GeoJSON, use ndjson-reduce and ndjson-map:
 
 ndjson-reduce  < ca-albers-density.ndjson    | ndjson-map '{type: "FeatureCollection", features: d}'  > ca-albers-density.json     # or below, easier to read
 cat ca-albers-density.ndjson | ndjson-reduce | ndjson-map '{type: "FeatureCollection", features: d}'  > ca-albers-density.json
-                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ readd the opener needed to create geojson
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*^ re-add the opener needed to create geojson
+
 
 the ndjson-reduce just convert from ndjson back to bad old json.  
 ie, it simply add a [ ] wrapper around the whole file, convert newline to comma, and the whole thing is one long ass ugly line.
 maybe better called ndjson2json !
 
 the ndjson-map add the header and wrap the json in more nesting to create geojson.
-
+the "d" in there maybe the key for the whole ndjson entries to be added.
+the [ ] that create array to be the list ofe entries is added by the ndjson reduce function, no need to spell that out here..
 
