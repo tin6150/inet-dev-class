@@ -77,6 +77,10 @@ Reading list
 * https://docs.mapbox.com/mapbox-gl-js/example/query-similar-features/ has eg of popup, overlay that goes away, county boundary map, maybe county population.  saved to mapboxQuerySimilarFeatures.html
 
 * addLayer( source... ) vs addSource   eg see mapbox-addLayer.html , ZWEDC_50x50sq_js.html
+    - addSource(...) define where the data is from, eg mapbox tile or geojson file via http (watch for CORS).
+    - addLayer(...) actually render information as a map layer, it need to be from a named source (defined by addSource()) or specified via the url subclause.
+    - a named addSource() can be used by multiple addLayer() to specify different view/feature
+    - there are fn for map.removeLayer() and map.removeSource() -- see smelly.html
 
 * https://github.com/tin6150/covid19_care_capacity_map/README.rst
 
