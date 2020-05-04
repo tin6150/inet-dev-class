@@ -385,7 +385,15 @@ But also watch for these things:
 	* gl-inspect - help with debugging... 
 * Mapbox React.  
 	* sync move - takes two or more maps and sync their move.  maybe similar to what Ling showed in leaflet for side-by-side comparison.  https://github.com/mapbox/mapbox-gl-sync-move
-	* need to learn what really is React.  (vs Angular, etc?) https://github.com/mapbox/mapbox-react-examples
+	* jQuery is old school, and modern JS can do most of the problem jQuery addressed.   for simple things, maybe just better with plain JS instead of learning new syntax like React.
+	* React is a more modern library, use .jsx lang.  It only address the View part, lacks Model and Controller component.  (MVC)
+	* Angular is a complete framework so larger learning curve, but more features.  Ditto for Vue.  Both need to learn new syntax.
+	* React is closer to jQuery DOM management and easier to transition for jQuery programmer (than Angular or Vue).
+	* mapbox supports react.  eg https://github.com/mapbox/mapbox-react-examples .  But no mention of Angular or Vue.
+	* React components are installed via npm...
+	* for covidtracking.html, so far been using just plain JS.  Date slider...  querySelector is feature in newer JS, mitigating need for jQuery
+	* https://demo.mobiscroll.com/javascript/slider-progress/date-slider#theme=windows has simple JS eg, but need the mobiscroll UI component...
+
 
 
 * Property Expression vs Property Function
@@ -569,6 +577,13 @@ Data imported into mapbox (tileset) as appropriate.
 They are large files, do not check them into git.
 eg.  Census zip file (shapefile), CalTrans/TASS zip (pbf)
 
+
+Misc
+----
+
+HTML DOM 
+#name is for id=name ??  
+.name is for class=name ??
 
 RST ref
 -------
