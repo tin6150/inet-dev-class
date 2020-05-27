@@ -307,6 +307,9 @@ index of constructs
 * when: clause for specific version of linux :: cueball dev_tool_debian.yml
 
 
+* tags, for include/exclue.  mostly failed experiment so far, may work better when used inside role. ::
+  wsl_localhost_playbook.yml
+
 
 Jinja2 and Ansbile
 ******************
