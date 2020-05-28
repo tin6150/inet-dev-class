@@ -1,0 +1,18 @@
+# docker compose file for Reis
+# ref https://kb.objectrocket.com/redis/run-redis-with-docker-compose-1055
+
+version: "2"
+
+services: 
+    redis:
+        user:  "999:1000" # passwd inside the container: redis:x:999:1000:Linux User,,,:/home/redis:/sbin/nologin
+        image: "redis:alpine"
+        #command: redis-server --requirepass helloHiroshi
+        command: redis-server /usr/local/etc/redis/redis.conf
+        ports: 
+            - "6379:6379"
+        volumes: 
+            - ./redis.conf:/usr/local/etc/redis/redis.conf:ro
+
+
+# vim: expandtab tabstop=2 paste list
