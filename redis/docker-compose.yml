@@ -7,7 +7,7 @@ services:
     redis:
         user:  "999:1000" # passwd inside the container: redis:x:999:1000:Linux User,,,:/home/redis:/sbin/nologin
         image: "redis:alpine"
-        #command: redis-server --requirepass helloHiroshi
+        #command: redis-server --requirepass not2secure:D 
         command: redis-server /usr/local/etc/redis/redis.conf
         ports: 
             - "6379:6379"
