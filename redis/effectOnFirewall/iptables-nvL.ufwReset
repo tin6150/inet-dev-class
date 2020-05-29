@@ -1,0 +1,144 @@
+Chain INPUT (policy ACCEPT 5977 packets, 1159K bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+21328 4052K KUBE-SERVICES  all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate NEW /* kubernetes service portals */
+21328 4052K KUBE-EXTERNAL-SERVICES  all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate NEW /* kubernetes externally-visible service portals */
+3265K 1654M KUBE-FIREWALL  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+6907K 5855M ufw-before-logging-input  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+6907K 5855M ufw-before-input  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+ 7927 1658K ufw-after-input  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+ 7164 1511K ufw-after-logging-input  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+ 7164 1511K ufw-reject-input  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+ 7164 1511K ufw-track-input  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DOCKER-USER  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 DOCKER-ISOLATION-STAGE-1  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ACCEPT     all  --  *      br-bb399c1157e5  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+    0     0 DOCKER     all  --  *      br-bb399c1157e5  0.0.0.0/0            0.0.0.0/0           
+    0     0 ACCEPT     all  --  br-bb399c1157e5 !br-bb399c1157e5  0.0.0.0/0            0.0.0.0/0           
+    0     0 ACCEPT     all  --  br-bb399c1157e5 br-bb399c1157e5  0.0.0.0/0            0.0.0.0/0           
+  255 87697 KUBE-FORWARD  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes forwarding rules */
+   13   772 KUBE-SERVICES  all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate NEW /* kubernetes service portals */
+    0     0 ACCEPT     all  --  *      docker0  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+    0     0 DOCKER     all  --  *      docker0  0.0.0.0/0            0.0.0.0/0           
+   13   772 ACCEPT     all  --  docker0 !docker0  0.0.0.0/0            0.0.0.0/0           
+    0     0 ACCEPT     all  --  docker0 docker0  0.0.0.0/0            0.0.0.0/0           
+    0     0 ufw-before-logging-forward  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ufw-before-forward  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ufw-after-forward  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ufw-after-logging-forward  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ufw-reject-forward  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ufw-track-forward  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ACCEPT     all  --  *      *       10.1.0.0/16          0.0.0.0/0            /* generated for MicroK8s pods */
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            10.1.0.0/16          /* generated for MicroK8s pods */
+    0     0 ACCEPT     all  --  *      *       10.1.0.0/16          0.0.0.0/0           
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            10.1.0.0/16         
+
+Chain OUTPUT (policy ACCEPT 6032 packets, 1174K bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+53619 8388K KUBE-SERVICES  all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate NEW /* kubernetes service portals */
+3003K  513M KUBE-FIREWALL  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+5083K  709M ufw-before-logging-output  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+5083K  709M ufw-before-output  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+78716   16M ufw-after-output  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+78716   16M ufw-after-logging-output  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+78716   16M ufw-reject-output  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+78716   16M ufw-track-output  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain DOCKER (2 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain DOCKER-ISOLATION-STAGE-1 (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DOCKER-ISOLATION-STAGE-2  all  --  br-bb399c1157e5 !br-bb399c1157e5  0.0.0.0/0            0.0.0.0/0           
+   13   772 DOCKER-ISOLATION-STAGE-2  all  --  docker0 !docker0  0.0.0.0/0            0.0.0.0/0           
+   13   772 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain DOCKER-ISOLATION-STAGE-2 (2 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DROP       all  --  *      br-bb399c1157e5  0.0.0.0/0            0.0.0.0/0           
+    0     0 DROP       all  --  *      docker0  0.0.0.0/0            0.0.0.0/0           
+   13   772 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain DOCKER-USER (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DROP       all  --  enp1s0 *       0.0.0.0/0            0.0.0.0/0            source IP range ! 192.168.28.131-192.168.28.140
+   13   772 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain KUBE-EXTERNAL-SERVICES (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain KUBE-FIREWALL (2 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes firewall for dropping marked packets */ mark match 0x8000/0x8000
+
+Chain KUBE-FORWARD (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate INVALID
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes forwarding rules */ mark match 0x4000/0x4000
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes forwarding conntrack pod source rule */ ctstate RELATED,ESTABLISHED
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes forwarding conntrack pod destination rule */ ctstate RELATED,ESTABLISHED
+
+Chain KUBE-KUBELET-CANARY (0 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain KUBE-PROXY-CANARY (0 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain KUBE-SERVICES (3 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-after-forward (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-after-input (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-after-logging-forward (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-after-logging-input (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-after-logging-output (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-after-output (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-before-forward (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-before-input (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-before-logging-forward (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-before-logging-input (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-before-logging-output (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-before-output (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-reject-forward (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-reject-input (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-reject-output (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-track-forward (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-track-input (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-track-output (1 references)
+ pkts bytes target     prot opt in     out     source               destination         

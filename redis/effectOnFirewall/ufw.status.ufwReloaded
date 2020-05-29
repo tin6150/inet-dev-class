@@ -1,0 +1,80 @@
+Status: active
+
+To                         Action      From
+--                         ------      ----
+113/tcp                    REJECT      Anywhere                   (log) # kept mostly as eg of reject (and nmap -6 to find something to report)
+22/tcp                     LIMIT       128.3.10.10                # safe host lbl/berkeley ssh in
+22/tcp                     LIMIT       128.3.10.18                # safe host lbl/berkeley ssh in
+22/tcp                     LIMIT       128.3.7.87                 # safe host lbl/berkeley ssh in
+22/tcp                     LIMIT       128.3.7.13                 # safe host lbl/berkeley ssh in
+22/tcp                     LIMIT       136.152.224.55             # safe host lbl/berkeley ssh in
+22/tcp                     LIMIT       169.229.176.18             # safe host lbl/berkeley ssh in
+22/tcp                     LIMIT       136.152.224.40             # safe host lbl/berkeley ssh in
+22/tcp                     LIMIT       136.152.224.41             # safe host lbl/berkeley ssh in
+22/tcp                     LIMIT       136.152.224.42             # safe host lbl/berkeley ssh in
+22/tcp                     LIMIT       136.152.224.43             # safe host lbl/berkeley ssh in
+22/tcp                     LIMIT       169.229.192.197            # safe host lbl/berkeley ssh in
+22/tcp                     LIMIT       169.229.192.134            # safe host lbl/berkeley ssh in
+22/tcp                     LIMIT       128.3.0.0/17               # wired networks ssh in
+22/tcp                     LIMIT       131.243.0.0/16             # wired networks ssh in
+22/tcp                     LIMIT       128.55.224.0/24            # wired networks ssh in
+22/tcp                     LIMIT       136.152.16.0/20            # wired networks ssh in
+22/tcp                     LIMIT       136.152.210.0/23           # wired networks ssh in
+22/tcp                     LIMIT       10.136.128.0/18            # wired networks ssh in
+22/tcp                     LIMIT       160.91.10.28               # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       160.91.94.190              # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       192.31.96.218              # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       160.91.195.157             # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       172.30.234.37              # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       24.130.95.70               # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       73.93.152.194              # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       73.93.153.12               # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       73.93.152.243              # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       73.93.155.67               # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       73.93.155.116              # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       192.168.28.0/24            # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       174.194.128.0/18           # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       174.194.134.0/24           # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       174.194.196.12             # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       174.194.192.0/18           # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       174.194.204.0/24           # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       174.194.209.39             # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       174.214.0.0/18             # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       174.215.0.0/18             # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       198.128.192.0/19           # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       169.229.199.56             # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       136.152.143.30             # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       136.152.143.0/24           # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       192.31.105.0/24            # wifi, home networks, etc ssh in
+22/tcp                     LIMIT       198.128.31.104             # wifi, home networks, etc ssh in
+80,443,5000:5002,8000,8080,8443,8888/tcp ALLOW       174.214.0.0/18             # http/s for machines i use
+80,443,5000:5002,8000,8080,8443,8888/tcp ALLOW       174.215.0.0/18             # http/s for machines i use
+80,443,5000:5002,8000,8080,8443,8888/tcp ALLOW       73.170.217.126             # http/s for machines i use
+80,443,5000:5002,8000,8080,8443,8888/tcp ALLOW       73.93.153.12               # http/s for machines i use
+80,443,5000:5002,8000,8080,8443,8888/tcp ALLOW       128.3.0.0/20               # http/s for machines i use
+80,443,5000:5002,8000,8080,8443,8888/tcp ALLOW       192.168.28.0/24            # http/s for machines i use
+80,443,5000:5002,8000,8080,8443,8888/tcp ALLOW       131.243.223.219            # http/s for machines i use
+80,443,5000:5002,8000,8080,8443,8888/tcp ALLOW       131.243.0.0/16             # http/s for machines i use
+80,443,5000:5002,8000,8080,8443,8888/tcp ALLOW       198.128.0.0/20             # http/s for machines i use
+80,443,5000:5002,8000,8080,8443,8888/tcp ALLOW       192.31.105.0/24            # http/s for machines i use
+80,443,5000:5002,8000,8080,8443,8888/tcp ALLOW       136.152.224.55             # http/s for machines i use
+80,443,5000:5002,8000,8080,8443,8888/tcp ALLOW       169.229.192.0/24           # http/s for machines i use
+80,443,5000:5002,8000,8080,8443,8888/tcp ALLOW       169.229.199.56             # http/s for machines i use
+2003,3000,4242,8083,8086,8089,8888,19995:19999/tcp ALLOW       192.168.28.0/24            # grafana/tig for machines i use
+2003,3000,4242,8083,8086,8089,8888,19995:19999/tcp ALLOW       73.170.217.126             # grafana/tig for machines i use
+2003,3000,4242,8083,8086,8089,8888,19995:19999/tcp ALLOW       128.3.10.10                # grafana/tig for machines i use
+2003,3000,4242,8083,8086,8089,8888,19995:19999/tcp ALLOW       128.3.10.18                # grafana/tig for machines i use
+2003,3000,4242,8083,8086,8089,8888,19995:19999/tcp ALLOW       169.229.199.56             # grafana/tig for machines i use
+2003,3000,4242,8083,8086,8089,8888,19995:19999/tcp ALLOW       172.17.0.0/24              # grafana/tig for machines i use
+2003,3000,4242,8083,8086,8089,8888,19995:19999/tcp ALLOW       172.18.0.0/24              # grafana/tig for machines i use
+2003,3000,4242,8083,8086,8089,8888,19995:19999/tcp ALLOW       172.19.0.0/24              # grafana/tig for machines i use
+2003,3000,4242,8083,8086,8089,8888,19995:19999/tcp ALLOW       172.20.0.0/24              # grafana/tig for machines i use
+2003,3000,4242,8083,8086,8089,8888,19995:19999/tcp ALLOW       172.21.0.0/24              # grafana/tig for machines i use
+5800,5801,5900,5901,6010,6011,6012/tcp ALLOW       128.3.29.15                # full X direct access for specific host (bearbin)
+Anywhere                   ALLOW       128.3.29.15                # full access for specific host (bearbin, bofh)
+Anywhere                   ALLOW       128.3.10.10                # full access for specific host (bearbin, bofh)
+Anywhere/ipv6              DENY        Anywhere/ipv6              # block all ipv6 traffic
+113/tcp (v6)               REJECT      Anywhere (v6)              (log) # kept mostly as eg of reject (and nmap -6 to find something to report)
+22                         LIMIT       2620:83:8001:572::1:a0c   
+22                         LIMIT       2600:1010:b062:a868:e4b3:d5f5:fe1b:9f69
+

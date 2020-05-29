@@ -1,0 +1,397 @@
+Chain INPUT (policy DROP 4 packets, 2180 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+23065 4424K KUBE-SERVICES  all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate NEW /* kubernetes service portals */
+23065 4424K KUBE-EXTERNAL-SERVICES  all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate NEW /* kubernetes externally-visible service portals */
+3495K 1802M KUBE-FIREWALL  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+7137K 6003M ufw-before-logging-input  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+7137K 6003M ufw-before-input  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+19667 4043K ufw-after-input  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+18903 3896K ufw-after-logging-input  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+18903 3896K ufw-reject-input  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+18903 3896K ufw-track-input  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain FORWARD (policy DROP 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DOCKER-USER  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 DOCKER-ISOLATION-STAGE-1  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ACCEPT     all  --  *      br-bb399c1157e5  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+    0     0 DOCKER     all  --  *      br-bb399c1157e5  0.0.0.0/0            0.0.0.0/0           
+    0     0 ACCEPT     all  --  br-bb399c1157e5 !br-bb399c1157e5  0.0.0.0/0            0.0.0.0/0           
+    0     0 ACCEPT     all  --  br-bb399c1157e5 br-bb399c1157e5  0.0.0.0/0            0.0.0.0/0           
+  255 87697 KUBE-FORWARD  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes forwarding rules */
+   13   772 KUBE-SERVICES  all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate NEW /* kubernetes service portals */
+    0     0 ACCEPT     all  --  *      docker0  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+    0     0 DOCKER     all  --  *      docker0  0.0.0.0/0            0.0.0.0/0           
+   13   772 ACCEPT     all  --  docker0 !docker0  0.0.0.0/0            0.0.0.0/0           
+    0     0 ACCEPT     all  --  docker0 docker0  0.0.0.0/0            0.0.0.0/0           
+    0     0 ufw-before-logging-forward  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ufw-before-forward  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ufw-after-forward  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ufw-after-logging-forward  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ufw-reject-forward  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ufw-track-forward  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ACCEPT     all  --  *      *       10.1.0.0/16          0.0.0.0/0            /* generated for MicroK8s pods */
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            10.1.0.0/16          /* generated for MicroK8s pods */
+    0     0 ACCEPT     all  --  *      *       10.1.0.0/16          0.0.0.0/0           
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            10.1.0.0/16         
+
+Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+57967 9062K KUBE-SERVICES  all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate NEW /* kubernetes service portals */
+3201K  544M KUBE-FIREWALL  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+5281K  740M ufw-before-logging-output  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+5281K  740M ufw-before-output  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+94230   19M ufw-after-output  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+94230   19M ufw-after-logging-output  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+94230   19M ufw-reject-output  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+94230   19M ufw-track-output  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain DOCKER (2 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 ACCEPT     tcp  --  !br-bb399c1157e5 br-bb399c1157e5  0.0.0.0/0            172.18.0.2           tcp dpt:6379
+
+Chain DOCKER-ISOLATION-STAGE-1 (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DOCKER-ISOLATION-STAGE-2  all  --  br-bb399c1157e5 !br-bb399c1157e5  0.0.0.0/0            0.0.0.0/0           
+   13   772 DOCKER-ISOLATION-STAGE-2  all  --  docker0 !docker0  0.0.0.0/0            0.0.0.0/0           
+   13   772 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain DOCKER-ISOLATION-STAGE-2 (2 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DROP       all  --  *      br-bb399c1157e5  0.0.0.0/0            0.0.0.0/0           
+    0     0 DROP       all  --  *      docker0  0.0.0.0/0            0.0.0.0/0           
+   13   772 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain DOCKER-USER (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DROP       all  --  enp1s0 *       0.0.0.0/0            0.0.0.0/0            source IP range ! 192.168.28.131-192.168.28.140
+   13   772 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain KUBE-EXTERNAL-SERVICES (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain KUBE-FIREWALL (2 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes firewall for dropping marked packets */ mark match 0x8000/0x8000
+
+Chain KUBE-FORWARD (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate INVALID
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes forwarding rules */ mark match 0x4000/0x4000
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes forwarding conntrack pod source rule */ ctstate RELATED,ESTABLISHED
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes forwarding conntrack pod destination rule */ ctstate RELATED,ESTABLISHED
+
+Chain KUBE-KUBELET-CANARY (0 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain KUBE-PROXY-CANARY (0 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain KUBE-SERVICES (3 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-after-forward (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-after-input (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 ufw-skip-to-policy-input  udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp dpt:137
+    0     0 ufw-skip-to-policy-input  udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp dpt:138
+    0     0 ufw-skip-to-policy-input  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:139
+    0     0 ufw-skip-to-policy-input  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:445
+    0     0 ufw-skip-to-policy-input  udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp dpt:67
+    0     0 ufw-skip-to-policy-input  udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp dpt:68
+    0     0 ufw-skip-to-policy-input  all  --  *      *       0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type BROADCAST
+
+Chain ufw-after-logging-forward (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 LOG        all  --  *      *       0.0.0.0/0            0.0.0.0/0            limit: avg 3/min burst 10 LOG flags 0 level 4 prefix "[UFW BLOCK] "
+
+Chain ufw-after-logging-input (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+   20 10900 LOG        all  --  *      *       0.0.0.0/0            0.0.0.0/0            limit: avg 3/min burst 10 LOG flags 0 level 4 prefix "[UFW BLOCK] "
+
+Chain ufw-after-logging-output (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-after-output (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-before-forward (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 3
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 11
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 12
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 8
+    0     0 ufw-user-forward  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain ufw-before-input (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+74650   14M ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0           
+22492   27M ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+    2    80 ufw-logging-deny  all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate INVALID
+    2    80 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate INVALID
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 3
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 11
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 12
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 8
+    0     0 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp spt:67 dpt:68
+  710  177K ufw-not-local  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+  690  166K ACCEPT     udp  --  *      *       0.0.0.0/0            224.0.0.251          udp dpt:5353
+    0     0 ACCEPT     udp  --  *      *       0.0.0.0/0            239.255.255.250      udp dpt:1900
+   20 10900 ufw-user-input  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain ufw-before-logging-forward (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-before-logging-input (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-before-logging-output (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-before-output (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+74650   14M ACCEPT     all  --  *      lo      0.0.0.0/0            0.0.0.0/0           
+15717 1471K ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+ 2054  327K ufw-user-output  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain ufw-logging-allow (0 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 LOG        all  --  *      *       0.0.0.0/0            0.0.0.0/0            limit: avg 3/min burst 10 LOG flags 0 level 4 prefix "[UFW ALLOW] "
+
+Chain ufw-logging-deny (2 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    2    80 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate INVALID limit: avg 3/min burst 10
+    0     0 LOG        all  --  *      *       0.0.0.0/0            0.0.0.0/0            limit: avg 3/min burst 10 LOG flags 0 level 4 prefix "[UFW BLOCK] "
+
+Chain ufw-not-local (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+   20 10900 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type LOCAL
+  690  166K RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type MULTICAST
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type BROADCAST
+    0     0 ufw-logging-deny  all  --  *      *       0.0.0.0/0            0.0.0.0/0            limit: avg 3/min burst 10
+    0     0 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain ufw-reject-forward (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-reject-input (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-reject-output (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-skip-to-policy-forward (0 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain ufw-skip-to-policy-input (7 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain ufw-skip-to-policy-output (0 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain ufw-track-forward (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-track-input (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-track-output (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+   88  5280 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate NEW
+ 1966  322K ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate NEW
+
+Chain ufw-user-forward (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-user-input (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 ufw-user-logging-input  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:113
+    0     0 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:113 reject-with tcp-reset
+    0     0            tcp  --  *      *       128.3.10.10          0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       128.3.10.10          0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       128.3.10.10          0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       128.3.10.18          0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       128.3.10.18          0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       128.3.10.18          0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       128.3.7.87           0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       128.3.7.87           0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       128.3.7.87           0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       128.3.7.13           0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       128.3.7.13           0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       128.3.7.13           0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       136.152.224.55       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       136.152.224.55       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       136.152.224.55       0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       169.229.176.18       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       169.229.176.18       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       169.229.176.18       0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       136.152.224.40       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       136.152.224.40       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       136.152.224.40       0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       136.152.224.41       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       136.152.224.41       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       136.152.224.41       0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       136.152.224.42       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       136.152.224.42       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       136.152.224.42       0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       136.152.224.43       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       136.152.224.43       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       136.152.224.43       0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       169.229.192.197      0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       169.229.192.197      0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       169.229.192.197      0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       169.229.192.134      0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       169.229.192.134      0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       169.229.192.134      0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       128.3.0.0/17         0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       128.3.0.0/17         0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       128.3.0.0/17         0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       131.243.0.0/16       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       131.243.0.0/16       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       131.243.0.0/16       0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       128.55.224.0/24      0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       128.55.224.0/24      0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       128.55.224.0/24      0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       136.152.16.0/20      0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       136.152.16.0/20      0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       136.152.16.0/20      0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       136.152.210.0/23     0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       136.152.210.0/23     0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       136.152.210.0/23     0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       10.136.128.0/18      0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       10.136.128.0/18      0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       10.136.128.0/18      0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       160.91.10.28         0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       160.91.10.28         0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       160.91.10.28         0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       160.91.94.190        0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       160.91.94.190        0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       160.91.94.190        0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       192.31.96.218        0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       192.31.96.218        0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       192.31.96.218        0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       160.91.195.157       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       160.91.195.157       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       160.91.195.157       0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       172.30.234.37        0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       172.30.234.37        0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       172.30.234.37        0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       24.130.95.70         0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       24.130.95.70         0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       24.130.95.70         0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       73.93.152.194        0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       73.93.152.194        0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       73.93.152.194        0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       73.93.153.12         0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       73.93.153.12         0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       73.93.153.12         0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       73.93.152.243        0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       73.93.152.243        0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       73.93.152.243        0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       73.93.155.67         0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       73.93.155.67         0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       73.93.155.67         0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       73.93.155.116        0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       73.93.155.116        0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       73.93.155.116        0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       192.168.28.0/24      0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       192.168.28.0/24      0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       192.168.28.0/24      0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       174.194.128.0/18     0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       174.194.128.0/18     0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       174.194.128.0/18     0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       174.194.134.0/24     0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       174.194.134.0/24     0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       174.194.134.0/24     0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       174.194.196.12       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       174.194.196.12       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       174.194.196.12       0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       174.194.192.0/18     0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       174.194.192.0/18     0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       174.194.192.0/18     0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       174.194.204.0/24     0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       174.194.204.0/24     0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       174.194.204.0/24     0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       174.194.209.39       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       174.194.209.39       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       174.194.209.39       0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       174.214.0.0/18       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       174.214.0.0/18       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       174.214.0.0/18       0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       174.215.0.0/18       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       174.215.0.0/18       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       174.215.0.0/18       0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       198.128.192.0/19     0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       198.128.192.0/19     0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       198.128.192.0/19     0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       169.229.199.56       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       169.229.199.56       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       169.229.199.56       0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       136.152.143.30       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       136.152.143.30       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       136.152.143.30       0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       136.152.143.0/24     0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       136.152.143.0/24     0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       136.152.143.0/24     0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       192.31.105.0/24      0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       192.31.105.0/24      0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       192.31.105.0/24      0.0.0.0/0            tcp dpt:22
+    0     0            tcp  --  *      *       198.128.31.104       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: SET name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit  tcp  --  *      *       198.128.31.104       0.0.0.0/0            tcp dpt:22 ctstate NEW recent: UPDATE seconds: 30 hit_count: 6 name: DEFAULT side: source mask: 255.255.255.255
+    0     0 ufw-user-limit-accept  tcp  --  *      *       198.128.31.104       0.0.0.0/0            tcp dpt:22
+    0     0 ACCEPT     tcp  --  *      *       174.214.0.0/18       0.0.0.0/0            multiport dports 80,443,5000:5002,8000,8080,8443,8888
+    0     0 ACCEPT     tcp  --  *      *       174.215.0.0/18       0.0.0.0/0            multiport dports 80,443,5000:5002,8000,8080,8443,8888
+    0     0 ACCEPT     tcp  --  *      *       73.170.217.126       0.0.0.0/0            multiport dports 80,443,5000:5002,8000,8080,8443,8888
+    0     0 ACCEPT     tcp  --  *      *       73.93.153.12         0.0.0.0/0            multiport dports 80,443,5000:5002,8000,8080,8443,8888
+    0     0 ACCEPT     tcp  --  *      *       128.3.0.0/20         0.0.0.0/0            multiport dports 80,443,5000:5002,8000,8080,8443,8888
+    0     0 ACCEPT     tcp  --  *      *       192.168.28.0/24      0.0.0.0/0            multiport dports 80,443,5000:5002,8000,8080,8443,8888
+    0     0 ACCEPT     tcp  --  *      *       131.243.223.219      0.0.0.0/0            multiport dports 80,443,5000:5002,8000,8080,8443,8888
+    0     0 ACCEPT     tcp  --  *      *       131.243.0.0/16       0.0.0.0/0            multiport dports 80,443,5000:5002,8000,8080,8443,8888
+    0     0 ACCEPT     tcp  --  *      *       198.128.0.0/20       0.0.0.0/0            multiport dports 80,443,5000:5002,8000,8080,8443,8888
+    0     0 ACCEPT     tcp  --  *      *       192.31.105.0/24      0.0.0.0/0            multiport dports 80,443,5000:5002,8000,8080,8443,8888
+    0     0 ACCEPT     tcp  --  *      *       136.152.224.55       0.0.0.0/0            multiport dports 80,443,5000:5002,8000,8080,8443,8888
+    0     0 ACCEPT     tcp  --  *      *       169.229.192.0/24     0.0.0.0/0            multiport dports 80,443,5000:5002,8000,8080,8443,8888
+    0     0 ACCEPT     tcp  --  *      *       169.229.199.56       0.0.0.0/0            multiport dports 80,443,5000:5002,8000,8080,8443,8888
+    0     0 ACCEPT     tcp  --  *      *       192.168.28.0/24      0.0.0.0/0            multiport dports 2003,3000,4242,8083,8086,8089,8888,19995:19999
+    0     0 ACCEPT     tcp  --  *      *       73.170.217.126       0.0.0.0/0            multiport dports 2003,3000,4242,8083,8086,8089,8888,19995:19999
+    0     0 ACCEPT     tcp  --  *      *       128.3.10.10          0.0.0.0/0            multiport dports 2003,3000,4242,8083,8086,8089,8888,19995:19999
+    0     0 ACCEPT     tcp  --  *      *       128.3.10.18          0.0.0.0/0            multiport dports 2003,3000,4242,8083,8086,8089,8888,19995:19999
+    0     0 ACCEPT     tcp  --  *      *       169.229.199.56       0.0.0.0/0            multiport dports 2003,3000,4242,8083,8086,8089,8888,19995:19999
+    0     0 ACCEPT     tcp  --  *      *       172.17.0.0/24        0.0.0.0/0            multiport dports 2003,3000,4242,8083,8086,8089,8888,19995:19999
+    0     0 ACCEPT     tcp  --  *      *       172.18.0.0/24        0.0.0.0/0            multiport dports 2003,3000,4242,8083,8086,8089,8888,19995:19999
+    0     0 ACCEPT     tcp  --  *      *       172.19.0.0/24        0.0.0.0/0            multiport dports 2003,3000,4242,8083,8086,8089,8888,19995:19999
+    0     0 ACCEPT     tcp  --  *      *       172.20.0.0/24        0.0.0.0/0            multiport dports 2003,3000,4242,8083,8086,8089,8888,19995:19999
+    0     0 ACCEPT     tcp  --  *      *       172.21.0.0/24        0.0.0.0/0            multiport dports 2003,3000,4242,8083,8086,8089,8888,19995:19999
+    0     0 ACCEPT     tcp  --  *      *       128.3.29.15          0.0.0.0/0            multiport dports 5800,5801,5900,5901,6010,6011,6012
+    0     0 ACCEPT     all  --  *      *       128.3.29.15          0.0.0.0/0           
+    0     0 ACCEPT     all  --  *      *       128.3.10.10          0.0.0.0/0           
+    0     0 DROP       41   --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain ufw-user-limit (44 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 LOG        all  --  *      *       0.0.0.0/0            0.0.0.0/0            limit: avg 3/min burst 5 LOG flags 0 level 4 prefix "[UFW LIMIT BLOCK] "
+    0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            reject-with icmp-port-unreachable
+
+Chain ufw-user-limit-accept (44 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain ufw-user-logging-forward (0 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-user-logging-input (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 LOG        tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:113 ctstate NEW limit: avg 3/min burst 10 LOG flags 0 level 4 prefix "[UFW BLOCK] "
+    0     0 RETURN     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:113
+
+Chain ufw-user-logging-output (0 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain ufw-user-output (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
