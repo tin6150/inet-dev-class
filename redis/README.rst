@@ -44,6 +44,8 @@ annoyingly `-h host` has to after it, then followed by args to redis-cli :/
 
 .. code:: bash 
 
+	docker run -it --rm redis redis-cli -h bofh -p 6379 ping
+
 	docker run --network host  --rm redis  redis-cli  -h localhost  ping
 	docker run --network host  --rm redis  redis-cli  -h localhost  set name foo
 	docker run --network host  --rm redis  redis-cli  -h localhost  get name
