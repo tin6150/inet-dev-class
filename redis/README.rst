@@ -3,10 +3,75 @@
 redis container for test by Hiroshi/ALS
 ***************************************
 
+startup
+-------
+
+export PASSWORD_FROM_ENV=myPassword
 docker-compose up
 
+Also need one time setup of iptables PREROUTE rule
+to limit which IP range can hit it, see
+DOCKER-USER iptables section below
 
-But should limit IP that can submit request.
+
+testing redis
+-------------
+
+telnet localhost 6379
+PING
+
+echo PING | nc localhost 6379
+
+(printf "PING\r\n";) | nc localhost 6379
+
+
+curl -w '\n' http://127.0.0.1:6379/ping
+https://stackoverflow.com/questions/33243121/abuse-curl-to-communicate-with-redis
+
+
+
+
+redis-cli
+---------
+
+.. code:: bash 
+
+	redis-cli -h redis15.localnet.org  -p 6379 ping 
+
+
+redis-cli is the entry point to the docker container, 
+annoyingly `-h host` has to after it, then followed by args to redis-cli :/
+
+.. code:: bash 
+
+	docker run --network host  --rm redis  redis-cli  -h localhost  ping
+	docker run --network host  --rm redis  redis-cli  -h localhost  set name foo
+	docker run --network host  --rm redis  redis-cli  -h localhost  get name
+	docker run --network host  --rm redis  redis-cli  -h localhost  
+
+	docker run -it --network host  --rm redis redis-cli -h 172.17.0.1 -p 6379 ping
+
+	docker run -it --network host  --rm redis redis-cli -h localhost redis-cli
+	ping
+	incr counter
+	get counter
+	flushall
+
+
+
+If need to provide password, use -a STRING 
+
+.. code:: bash 
+
+	docker run --network host  --rm redis  redis-cli  -h localhost  -a myPassword ping
+
+
+ref: https://redis.io/topics/rediscli
+
+
+
+DOCKER-USER iptables rule
+=========================
 
 seems like best to use 
 DOCKER-USER iptable chain

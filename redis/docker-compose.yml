@@ -1,5 +1,8 @@
 # docker compose file for Reis
-# ref https://kb.objectrocket.com/redis/run-redis-with-docker-compose-1055
+# run as:
+# export PASSWORD_FROM_ENV=myPassword
+# docker-compose up -d
+# if PASSWORD_FROM_ENV var is not set, redis exit with error about incorrect num of arguments
 
 version: "2"
 
@@ -7,8 +10,9 @@ services:
     redis:
         user:  "999:1000" # passwd inside the container: redis:x:999:1000:Linux User,,,:/home/redis:/sbin/nologin
         image: "redis:alpine"
-        #command: redis-server --requirepass not2secure:D 
-        command: redis-server /usr/local/etc/redis/redis.conf
+        #command: redis-server 
+        #command: redis-server /usr/local/etc/redis/redis.conf --requirepass myPassword 
+        command: redis-server /usr/local/etc/redis/redis.conf --requirepass $PASSWORD_FROM_ENV
         ports: 
             - "6379:6379"
         volumes: 
