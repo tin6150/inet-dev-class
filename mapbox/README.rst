@@ -351,6 +351,33 @@ https://www.mapbox.com/help/data/stations.zip ::
 * Then still need to extract the pouplation info which in in dBase III... and create it as a csv to be added as a layer to mapbox studio?
 
 
+tigris (CRAN)
+-------------
+
+https://cran.r-project.org/web/packages/tigris/index.html
+Load Census TIGER/Line shapefiles into R.
+No python equiv?
+
+
+tidycensus
+----------
+
+https://cran.r-project.org/web/packages/tidycensus/index.html
+Load US Census Boundary and Attribute Data as 'tidyverse' and 'sf'-Ready Data Frames
+
+tidyverse is a metapackage that include many things.
+it is opinionated, but the set way make it easy for beginner to do powerful things.
+tidyr is data framing that Pandas can do most of.  Pandas is faster.
+ggplot2 is for viz and that's does not have a direct python equiv?  Thus this keeps folks in the R world?
+
+see: https://analyticsindiamag.com/pythons-pandas-vs-rs-tidyverse-who-wins/
+
+https://itsalocke.com/blog/python-and-tidyverse/#:~:text=Tidyverse%20is%20an%20opinionated%20collection,%2C%20tibble%2C%20stringr%20and%20forcats. - some info for migrating from tidyr to pandas.  
+
+
+Used NDJSON for the COVID19 map project, found it tedious, essentially wrote shell script to use the tool.  Maybe better off using Pandas, which may do more of the new line separation automatically rather than having to deal manual converstion to json/geojson.  
+
+
 WebApp
 ======
 

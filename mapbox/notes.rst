@@ -86,3 +86,19 @@ see mpgl_index.html  hear start of JS section:
     $.getJSON("/static/geo_data/crp2050_pts.geojson", function(json) {
         crop_2050_pts = json; // this will show the info it in firebug console
     });    
+
+
+~~~~
+
+Census data for california
+tabblock2010_06_pophu.zip
+from census, URL in gist.
+
+gonna rename this ca2010census.zip
+
+
+Tile Brute? hadoop script for generating 14 zoom levels of all states?
+was for mapbox, but not sure what kind of result is produced.
+follow later if run into walls.  but probably better look into gdal and mapnik
+https://github.com/ndimiduk/tilebrute
+bg info in slide  https://www.slideshare.net/xefyr/cartography-to-the-cloud
