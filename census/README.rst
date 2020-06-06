@@ -50,14 +50,9 @@ part 2 -
 
 https://medium.com/@mbostock/command-line-cartography-part-2-c3a82c5c0f3
 
-ndjson-split 'd.features' \
-  < ca-albers.json \
-  > ca-albers.ndjson
+ndjson-split 'd.features' < ca-albers.json  > ca-albers.ndjson
 
-
-ndjson-map 'd.id = d.properties.GEOID.slice(2), d' \
-  < ca-albers.ndjson \
-  > ca-albers-id.ndjson
+ndjson-map 'd.id = d.properties.GEOID.slice(2), d'  < ca-albers.ndjson  > ca-albers-id.ndjson
 
 
 # census api to get pop 
@@ -69,15 +64,52 @@ B01003_001E	Estimate!!Total	TOTAL POPULATION	not required	B01003_001EA, B01003_0
 XX curl 'https://api.census.gov/data/2014/acs5?get=B01003_001EA&for=tract:*&in=state:06' -o cb_2014_06_tract_B01003.json # track pop ?
 slightly changed api
 
-Example Call: http://api.census.gov/data/2014/acs/acs5/profile?get=DP02_0001PE&for=state:*&key=... (See notes)
-
+Example Call:    http://api.census.gov/data/2014/acs/acs5/profile?get=DP02_0001PE&for=state:*&key=... (See notes)
 many examples : https://api.census.gov/data/2014/acs/acs5/examples.html
-
-https://api.census.gov/data/2014/acs/acs5?get=NAME,B00001_001E&for=tract:*&in=state:01&key=YOUR_KEY_GOES_HERE
-
+                https://api.census.gov/data/2014/acs/acs5?get=NAME,B00001_001E&for=tract:*&in=state:01&key=YOUR_KEY_GOES_HERE
 
 			  export ApiKey=c9b728... see bmail
-curl "https://api.census.gov/data/2014/acs/acs5?get=NAME,B01003_001E&for=tract:*&in=state:06&key=$ApiKey" -o cb_2014_06_tract_B01003.json # track pop ?
+curl "https://api.census.gov/data/2014/acs/acs5?get=NAME,B01003_001E&for=tract:*&in=state:06&key=$ApiKey" -o cb_2014_06_tract_B01003.json # track pop 
+curl "https://api.census.gov/data/2018/acs/acs5?get=NAME,B01003_001E&for=tract:*&in=state:06&key=$ApiKey" -o cb_2018_06_tract_B01003.json # track pop 2018
 
 works! 
 cat cb_2014_06_tract_B01003.json | wc
+
+
+ndjson-cat cb_2018_06_tract_B01003.json \
+  | ndjson-split 'd.slice(1)' \
+  | ndjson-map '{id: d[2] + d[3], B01003: +d[0]}' \
+  > cb_2018_06_tract_B01003.ndjson
+
+
+ndjson-join 'd.id' \
+  ca-albers-id.ndjson \
+  cb_2018_06_tract_B01003.ndjson \
+  > ca-albers-join.ndjson
+
+  **$** it is borked here.  result above is incorrect
+
+
+
+ndjson-map 'd[0].properties = {density: Math.floor(d[1].B01003 / d[0].properties.ALAND * 2589975.2356)}, d[0]' \
+  < ca-albers-join.ndjson \
+  > ca-albers-density.ndjson
+
+
+ndjson-reduce \
+  < ca-albers-density.ndjson \
+  | ndjson-map '{type: "FeatureCollection", features: d}' \
+  > ca-albers-density.json
+
+
+ndjson-map -r d3 \
+  '(d.properties.fill = d3.scaleSequential(d3.interpolateViridis).domain([0, 4000])(d.properties.density), d)' \
+  < ca-albers-density.ndjson \
+  > ca-albers-color.ndjson
+
+geo2svg -n --stroke none -p 1 -w 960 -h 960 \
+  < ca-albers-color.ndjson \
+  > ca-albers-color.svg
+
+
+xviewer ca-albers-color.svg
