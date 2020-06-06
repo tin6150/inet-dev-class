@@ -87,8 +87,8 @@ https://docs.docker.com/network/iptables/
 
 	Use 1 of, cannot be repeated:
 	sudo iptables -I DOCKER-USER -m iprange -i enp1s0 ! --src-range 192.168.28.1-192.168.28.140 -j DROP
-	sudo iptables -I DOCKER-USER -m iprange -i eno1   ! --src-range 131.243.75.1-131.243.86.255 -j DROP
-	sudo iptables -I DOCKER-USER -i eno1  ! -s 131.243.86/24   -j DROP
+	sudo iptables -I DOCKER-USER -m iprange -i eno1   ! --src-range 131.243.75.1-131.243.191.255 -j DROP
+	sudo iptables -I DOCKER-USER -i eno1  ! -s 131.243.86.1/24   -j DROP
 
 The above updated iptables.  ufw largely dont see the changes, but iptables -nvL reports them.
 Predicatably, `ufw reload` does not change any of the manual iptables cmd.
