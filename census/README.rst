@@ -45,11 +45,13 @@ geo2svg -w 960 -h 960 < ca-albers.json > ca-albers.svg
 
 
 
-part 2 - 
+part 2 - join shape with pop data by id
 ======
 
 https://medium.com/@mbostock/command-line-cartography-part-2-c3a82c5c0f3
 
+# xref: inet-dev-class/mapbox/eg_data_ndjson/README.txt.rst , which likely also in covid19_care_capacity_map/
+# **eg 2a**  geojson to ndjson
 ndjson-split 'd.features' < ca-albers.json  > ca-albers.ndjson
 
 ndjson-map 'd.id = d.properties.GEOID.slice(2), d'  < ca-albers.ndjson  > ca-albers-id.ndjson
@@ -68,26 +70,56 @@ Example Call:    http://api.census.gov/data/2014/acs/acs5/profile?get=DP02_0001P
 many examples : https://api.census.gov/data/2014/acs/acs5/examples.html
                 https://api.census.gov/data/2014/acs/acs5?get=NAME,B00001_001E&for=tract:*&in=state:01&key=YOUR_KEY_GOES_HERE
 
-			  export ApiKey=c9b728... see bmail
+			  export ApiKey=c9b728... see bmail or . .env , also in .ssh
 curl "https://api.census.gov/data/2014/acs/acs5?get=NAME,B01003_001E&for=tract:*&in=state:06&key=$ApiKey" -o cb_2014_06_tract_B01003.json # track pop 
 curl "https://api.census.gov/data/2018/acs/acs5?get=NAME,B01003_001E&for=tract:*&in=state:06&key=$ApiKey" -o cb_2018_06_tract_B01003.json # track pop 2018
 
-works! 
+works! but result now has extra descriptive fields in them...
 cat cb_2014_06_tract_B01003.json | wc
+cat cb_2014_06_tract_B01003.json | json2csv > cb_2014_06_tract_B01003.json.csv 
 
+[["NAME","B01003_001E","state","county","tract"],
+["Census Tract 4382.03, Alameda County, California","4384","06","001","438203"],
+["Census Tract 4382.04, Alameda County, California","5338","06","001","438204"],
+  ^^extra 1^^           ^^extra 2^^^^^  ^^extra 3^^  ^#0^  ^#1  ^#2^   ^^#3^^
+ ^^^^^^single^^field^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#1, ... #3 are the orig field bostock eg refers to.  so i am no off by +1 
 
-ndjson-cat cb_2018_06_tract_B01003.json \
+# **eg 2d** 
+
+ndjson-cat cb_2014_06_tract_B01003.json \
   | ndjson-split 'd.slice(1)' \
-  | ndjson-map '{id: d[2] + d[3], B01003: +d[0]}' \
-  > cb_2018_06_tract_B01003.ndjson
+  | ndjson-map '{id: d[2] + d[3], B01003: +d[0]}'  >        cb_2014_06_tract_B01003.ndjson
+#                    ^^^^^1^^^^^          ^^^2^^
+#   field 1 is combination of 2 column, 2 and 3, merged, no space.  0-idx
+#   field 2 is column 0
+#   ndjson has key: value pair, field 1 key is "id: ', field 2 key is "B01003: '
 
+# **fiexed 2d** 
+ndjson-cat cb_2014_06_tract_B01003.json \
+  | ndjson-split 'd.slice(1)' \
+  | ndjson-map '{id: d[3] + d[4], B01003: +d[1]}'  >        cb_2014_06_tract_B01003.ndjson
+#                    ^^^^^1^^^^^          ^^^2^^
+# should have been off by +1 in the new json retrieved via new census api...
+
+# result is this, which looks like what bostock expect
+{"id":"001438203","B01003":4384}
+{"id":"001438204","B01003":5338}
+{"id":"001438300","B01003":4133}
+
+
+# json2csv cannot handle ndjson
+# use vscode data preview extension to help viz file, using head -4 or so...
+
+# **eg 2e** 
 
 ndjson-join 'd.id' \
   ca-albers-id.ndjson \
-  cb_2018_06_tract_B01003.ndjson \
+  cb_2014_06_tract_B01003.ndjson \
   > ca-albers-join.ndjson
 
-  **$** it is borked here.  result above is incorrect
+# **$** it is borked here.  fixed now
+
 
 
 
@@ -113,3 +145,8 @@ geo2svg -n --stroke none -p 1 -w 960 -h 960 \
 
 
 xviewer ca-albers-color.svg
+
+
+.. # use 8-space tab as that's how github render the rst
+.. # vim: shiftwidth=8 tabstop=8 noexpandtab paste
+
