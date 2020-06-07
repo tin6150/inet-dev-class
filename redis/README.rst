@@ -44,6 +44,8 @@ annoyingly `-h host` has to after it, then followed by args to redis-cli :/
 
 .. code:: bash 
 
+	docker run -it --rm redis redis-cli -h bofh -p 6379 ping
+
 	docker run --network host  --rm redis  redis-cli  -h localhost  ping
 	docker run --network host  --rm redis  redis-cli  -h localhost  set name foo
 	docker run --network host  --rm redis  redis-cli  -h localhost  get name
@@ -86,7 +88,7 @@ https://docs.docker.com/network/iptables/
 	Use 1 of, cannot be repeated:
 	sudo iptables -I DOCKER-USER -m iprange -i enp1s0 ! --src-range 192.168.28.1-192.168.28.140 -j DROP
 	sudo iptables -I DOCKER-USER -m iprange -i eno1   ! --src-range 131.243.75.1-131.243.191.255 -j DROP
-	sudo iptables -I DOCKER-USER -i eno1  ! -s 131.243.86/24   -j DROP
+	sudo iptables -I DOCKER-USER -i eno1  ! -s 131.243.86.1/24   -j DROP
 
 The above updated iptables.  ufw largely dont see the changes, but iptables -nvL reports them.
 Predicatably, `ufw reload` does not change any of the manual iptables cmd.
