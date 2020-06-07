@@ -47,13 +47,14 @@ curl 'https://www2.census.gov/geo/tiger/GENZ2018/shp/cb_2018_06_tract_500k.zip' 
 curl 'https://www2.census.gov/geo/tiger/GENZ2018/shp/cb_2018_06_bg_500k.zip' -o cb_2018_06_bg_500k.zip  # block group shape + dbIII
 unzip ...
 
-shp2json cb_2018_06_bg_500k.shp -o ca2018.json
-geoproject 'd3.geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0]).fitSize([960, 960], d)' < ca2018.json > ca2018-albers.json
-geo2svg -w 960 -h 960 < ca2018-albers.json > ca2018-albers.svg
-# that svg file is huge, 11M, xviewer could not handle it.
+shp2json cb_2018_06_bg_500k.shp -o ca2018bg.json
+geoproject 'd3.geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0]).fitSize([960, 960], d)' < ca2018bg.json > ca2018bg-albers.json
+geo2svg -w 960 -h 960 < ca2018bg-albers.json > ca2018bg-albers.svg
+# that svg file is huge, 11M, xviewer could not handle it.  (but prev handled 6.7M file)
+# huge input lookup...   complain by xviewer and gimp
+# firefox handled it, but sometime crash
+# simplification by TopoJSON may be needed
 
-
-**2020.0606 stopped here**
 
 
 
@@ -64,27 +65,58 @@ https://medium.com/@mbostock/command-line-cartography-part-2-c3a82c5c0f3
 
 # xref: inet-dev-class/mapbox/eg_data_ndjson/README.txt.rst , which likely also in covid19_care_capacity_map/
 # **eg 2a**  geojson to ndjson
-ndjson-split 'd.features' < ca-albers.json  > ca-albers.ndjson
+ndjson-split 'd.features' < ca2018bg-albers.json  > ca2018bg-albers.ndjson
 
-ndjson-map 'd.id = d.properties.GEOID.slice(2), d'  < ca-albers.ndjson  > ca-albers-id.ndjson
+# prev census tract (2014?) :
+{"type":"Feature","properties":{"STATEFP":"06","COUNTYFP":"075","TRACTCE":"980401","AFFGEOID":"1400000US06075980401","GEOID":"06075980401","NAME":"9804.01","LSAD":"CT","ALAND":419323,"AWATER":247501271},"geometry":{"type":"Polygon","coordinates":[[[164.1468809671912,437.62295438355295],[164.63136562909594,437.78130627883274],[164.66061334779198,437.4585472897443],[164.99020559033386,437.24058568718465],[165.18788475165627,437.5895682364189],[165.34708696199812,437.95636228142894],[165.00971718370104,438.4217441413507],[164.76560417638595,438.337767038262],[164.64069467117463,438.0862550961165],[164.22534302939806,438.0159600586103],[164.1468809671912,437.62295438355295]]]}}
+
+
+
+# now census block group (2018) TRACTCE: 980401
+{"type":"Feature","properties":{"STATEFP":"06","COUNTYFP":"075","TRACTCE":"980401","BLKGRPCE":"1","AFFGEOID":"1500000US060759804011","GEOID":"060759804011","NAME":"1","LSAD":"BG","ALAND":419323,"AWATER":247501289},"geometry":{"type":"Polygon","coordinates":[[[164.1468809671912,437.62295438355295],[164.63136562909594,437.78130627883274],[164.66061334779198,437.4585472897443],[164.99020559033386,437.24058568718465],[165.18788475165627,437.5895682364189],[165.34708696199812,437.95636228142894],[165.00971718370104,438.4217441413507],[164.76560417638595,438.337767038262],[164.64069467117463,438.0862550961165],[164.22534302939806,438.0159600586103],[164.1468809671912,437.62295438355295]]]}}
+
+
+ndjson-map 'd.id = d.properties.GEOID.slice(2), d'  < ca2018bg-albers.ndjson  > ca2018bg-albers-id.ndjson
 
 
 # census api to get pop 
 # need census api key, see bmail.
 
-
-B01003_001E	Estimate!!Total	TOTAL POPULATION	not required	B01003_001EA, B01003_001M, B01003_001MA	0	int
-
-XX curl 'https://api.census.gov/data/2014/acs5?get=B01003_001EA&for=tract:*&in=state:06' -o cb_2014_06_tract_B01003.json # track pop ?
-slightly changed api
-
-Example Call:    http://api.census.gov/data/2014/acs/acs5/profile?get=DP02_0001PE&for=state:*&key=... (See notes)
+ref: https://www.census.gov/data/developers/data-sets/acs-5year.html
+B01003_001E is total population estimate 
+Example Call:
 many examples : https://api.census.gov/data/2014/acs/acs5/examples.html
-                https://api.census.gov/data/2014/acs/acs5?get=NAME,B00001_001E&for=tract:*&in=state:01&key=YOUR_KEY_GOES_HERE
+      tract eg: https://api.census.gov/data/2014/acs/acs5?get=NAME,B00001_001E&for=tract:*&in=state:01&key=YOUR_KEY_GOES_HERE
+    blk grp eg:	https://api.census.gov/data/2014/acs/acs5?get=NAME,B00001_001E&for=block%20group:*&in=state:01%20county:025&key=YOUR_KEY_GOES_HERE
 
 			  export ApiKey=c9b728... see bmail or . .env , also in .ssh
-curl "https://api.census.gov/data/2014/acs/acs5?get=NAME,B01003_001E&for=tract:*&in=state:06&key=$ApiKey" -o cb_2014_06_tract_B01003.json # track pop 
 curl "https://api.census.gov/data/2018/acs/acs5?get=NAME,B01003_001E&for=tract:*&in=state:06&key=$ApiKey" -o cb_2018_06_tract_B01003.json # track pop 2018
+
+curl "https://api.census.gov/data/2018/acs/acs5?get=NAME,B01003_001E&for=block%20group:*&in=state:06%20county:*&key=$ApiKey" -o cb_2018_06_bg_B01003.json # pop 2018 by block group?
+	# arrggg!!
+	# error: wildcard not allowed for 'county' in geography heirarchy 
+	
+
+# so would need to get 1 json per county
+# convert them to ndjson(s)
+# and merge
+# san joaquin valley counties... by census county number!!  not sure where to find such list :/
+
+#xx nope, not by county name (need number) curl "https://api.census.gov/data/2018/acs/acs5?get=NAME,B01003_001E&for=block%20group:*&in=state:06%20county:fresno&key=$ApiKey" -o cb_2018_06_bg_B01003.fresno.json
+# county # 025 is imperial county
+curl "https://api.census.gov/data/2018/acs/acs5?get=NAME,B01003_001E&for=block%20group:*&in=state:06%20county:025&key=$ApiKey" -o cb_2018_06_bg_B01003.025.json
+
+# county numbers are sequential, so not trivial to seq get countries in central valley.
+# get em all then.
+
+for NUM in $(seq -w 1 1 115); do
+	#echo $NUM
+	curl "https://api.census.gov/data/2018/acs/acs5?get=NAME,B01003_001E&for=block%20group:*&in=state:06%20county:$NUM&key=$ApiKey" -o cb_2018_06_bg_B01003.$NUM.json
+	sleep 181 # not sure if should sleep, but just in case, since downloading overnite on bofh
+done
+
+**2020.0606 stopped here**
+**below are prev census tract data**
 
 works! but result now has extra descriptive fields in them...
 cat cb_2014_06_tract_B01003.json | wc
