@@ -1,8 +1,10 @@
 
 
-2020.0605
+2020.0606
 
-playing with census data.
+
+playing with census data., this version tries to get population density at the census block level
+(prev was at tracts level)
 
 Ling is interested to see if can get pop at census tract vs block level.  
 preferably density, so need aland 
@@ -14,6 +16,7 @@ https://blog.mapbox.com/dive-into-large-datasets-with-3d-shapes-in-mapbox-gl-c89
 maybe tidycensus in R
 maybe mapbox
 tbd
+(prev was just reproducing blocstock tracts level map)
 
 
 ~~~~
@@ -32,16 +35,25 @@ need pop data matching shape: tract vs block
 CA FIPS code = 06.
 download data:
 
-mkdir TMP_DATA
-cd    TMP_DATA
+mkdir TMP_DATA_BLOCK
+cd    TMP_DATA_BLOCK
 
-curl 'https://www2.census.gov/geo/tiger/GENZ2014/shp/cb_2014_06_tract_500k.zip' -o cb_2014_06_tract_500k.zip  # shape + dbIII
+curl 'https://www2.census.gov/geo/tiger/GENZ2018/shp/cb_2018_06_tract_500k.zip' -o cb_2018_06_tract_500k.zip  # shape + dbIII
+# 500k is the map scale: 1:500,000 
+# there is a kml version at https://www2.census.gov/geo/tiger/GENZ2018/kml/
+# BG is block group
+# ref: https://www2.census.gov/geo/tiger/GENZ2018/2018_file_name_def.pdf
+
+curl 'https://www2.census.gov/geo/tiger/GENZ2018/shp/cb_2018_06_bg_500k.zip' -o cb_2018_06_bg_500k.zip  # block group shape + dbIII
 unzip ...
 
-shp2json cb_2014_06_tract_500k.shp -o ca.json
-geoproject 'd3.geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0]).fitSize([960, 960], d)' < ca.json > ca-albers.json
-geo2svg -w 960 -h 960 < ca-albers.json > ca-albers.svg
+shp2json cb_2018_06_bg_500k.shp -o ca2018.json
+geoproject 'd3.geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0]).fitSize([960, 960], d)' < ca2018.json > ca2018-albers.json
+geo2svg -w 960 -h 960 < ca2018-albers.json > ca2018-albers.svg
+# that svg file is huge, 11M, xviewer could not handle it.
 
+
+**2020.0606 stopped here**
 
 
 
