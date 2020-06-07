@@ -334,6 +334,9 @@ xviewer ***.svg
 
 # xref: https://mail.google.com/mail/u/2/#sent/QgrcJHrhwLQnRRMmGSkszxNZBkpDbDfHbPg
 # Bkly Gdrv prj/census  for some screenshots, svg and geojson.  slightly renamed compared to the TMP_DATA* folders on Zink 
+# most content placed in Medium post.  
+# Friends link (not metered): https://medium.com/@tin_2041/command-line-cartography-census-blockgroup-level-data-5aa222de8ab0?sk=07861cc1e0d1ef0e4e36be452302ffd5
+# metered.  stripped ?sk=...  https://medium.com/@tin_ho/command-line-cartography-census-blockgroup-level-data-5aa222de8ab0
 
 .. # use 8-space tab as that's how github render the rst
 .. # vim: shiftwidth=8 tabstop=8 noexpandtab paste
