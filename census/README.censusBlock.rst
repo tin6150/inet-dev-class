@@ -109,19 +109,20 @@ curl "https://api.census.gov/data/2018/acs/acs5?get=NAME,B01003_001E&for=block%2
 # county numbers are sequential, so not trivial to seq get countries in central valley.
 # get em all then.
 
-for NUM in $(seq -w 1 1 115); do
-	#echo $NUM
-	curl "https://api.census.gov/data/2018/acs/acs5?get=NAME,B01003_001E&for=block%20group:*&in=state:06%20county:$NUM&key=$ApiKey" -o cb_2018_06_bg_B01003.$NUM.json
-	sleep 181 # not sure if should sleep, but just in case, since downloading overnite on bofh
+.. code:: bash 
+
+for FIPS in $(seq -w 19 2 115); do
+	echo curl "https://api.census.gov/data/2018/acs/acs5?get=NAME,B01003_001E&for=block%20group:*&in=state:06%20county:$FIPS&key=$ApiKey" -o cb_2018_06_bg_B01003.$FIPS.json
 done
 
-**2020.0606 stopped here**
-**below are prev census tract data**
+# pfff... county FIPS are  only odd numbers, 001, 003, ... 115.  58 counties total in CA.
+
 
 works! but result now has extra descriptive fields in them...
 cat cb_2014_06_tract_B01003.json | wc
 cat cb_2014_06_tract_B01003.json | json2csv > cb_2014_06_tract_B01003.json.csv 
 
+prev census tract 
 [["NAME","B01003_001E","state","county","tract"],
 ["Census Tract 4382.03, Alameda County, California","4384","06","001","438203"],
 ["Census Tract 4382.04, Alameda County, California","5338","06","001","438204"],
@@ -129,57 +130,81 @@ cat cb_2014_06_tract_B01003.json | json2csv > cb_2014_06_tract_B01003.json.csv
  ^^^^^^single^^field^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #1, ... #3 are the orig field bostock eg refers to.  so i am no off by +1 
 
+new census block group 1 file per county - cb_2018_06_bg_B01003.001.json:
+#  offset, ----#0-----, #1----,#2------,#3,----,#4-----------
+[["NAME","B01003_001E","state","county","tract","block group"],
+["Block Group 2, Census Tract 4384, Alameda County, California","1623","06","001","438400","2"],
+["Block Group 1, Census Tract 4384, Alameda County, California","945" ,"06","001","438400","1"],
+ ^^^^^^single^^field^^^add^+1^as^offset^^^^^^^^^^^^^^^^^^^^^^^^ ^#0^   ^#1  ^#2^   ^^#3^^  +++--one more tailing column for BG
+ NAME                                                          ,pop, state,county,tract---,BG
+ #0 new numbering after +1 offset for NAME column              , #1,    #2,  #3  ,   #4   ,#5
+
+now now could have multple record per tract for population.  
+maybe combine #2, #3 and #4 in next step "2d"
+
 # **eg 2d** 
 
-ndjson-cat cb_2014_06_tract_B01003.json \
-  | ndjson-split 'd.slice(1)' \
-  | ndjson-map '{id: d[2] + d[3], B01003: +d[0]}'  >        cb_2014_06_tract_B01003.ndjson
-#                    ^^^^^1^^^^^          ^^^2^^
-#   field 1 is combination of 2 column, 2 and 3, merged, no space.  0-idx
-#   field 2 is column 0
-#   ndjson has key: value pair, field 1 key is "id: ', field 2 key is "B01003: '
+#   field f1 is "id" field, combination of 3 columns: 2 and 3, 4, merged, no space.  0-idx, add +1 as offset cuz NAME field from new census api
+#   field f2 is "B01003" (pop estimate, name from census var name): use column 0  [add +1 offset] [same as prev tract data]
+#   dont have State FIPS in it cuz always CA (06)
 
 # **fiexed 2d** 
-ndjson-cat cb_2014_06_tract_B01003.json \
+ndjson-cat cb_2018_06_bg_B01003.001.json \
   | ndjson-split 'd.slice(1)' \
-  | ndjson-map '{id: d[3] + d[4], B01003: +d[1]}'  >        cb_2014_06_tract_B01003.ndjson
-#                    ^^^^^1^^^^^          ^^^2^^
-# should have been off by +1 in the new json retrieved via new census api...
+  | ndjson-map '{id: d[3] + d[4] +d[5], B01003: +d[1]}'  >        cb_2018_06_bg_B01003.001.ndjson
+#                    ^^^^f1^^^^^                ^^f2^^
 
+#   ndjson has key: value pair, field 1 key is "id: ', field 2 key is "B01003: '
 # result is this, which looks like what bostock expect
+# prev (census tract):
 {"id":"001438203","B01003":4384}
 {"id":"001438204","B01003":5338}
 {"id":"001438300","B01003":4133}
 
+# new (census block group):
+{"id":"0014441003","B01003":1755}
+{"id":"0014441002","B01003":1320}
 
-# json2csv cannot handle ndjson
-# use vscode data preview extension to help viz file, using head -4 or so...
+# **2d addition** combine multiple counties ndjson into a single one
+
+# first repeat 2d for all counties
+
+for FIPS in $(seq -w 001 2 115); do
+  ndjson-cat cb_2018_06_bg_B01003.$FIPS.json  | ndjson-split 'd.slice(1)' | ndjson-map '{id: d[3] + d[4] +d[5], B01003: +d[1]}'  >  cb_2018_06_bg_B01003.$FIPS.ndjson
+done
+
+# 58 ndjson files, combine into single one.  (23212 lines, match prev wc sum for all counties)
+cat cb_2018_06_bg_B01003.???.ndjson > cb_2018_06_bg_B01003.CA.ndjson
+
 
 # **eg 2e** 
 
 ndjson-join 'd.id' \
-  ca-albers-id.ndjson \
-  cb_2014_06_tract_B01003.ndjson \
-  > ca-albers-join.ndjson
+  ca2018bg-albers-id.ndjson \
+  cb_2018_06_bg_B01003.CA.ndjson \
+  > ca2018bg-albers-join.ndjson
 
-# **$** previously  borked here.  fixed now
+# previously  borked here.  fixed now.  prev eg for tract level data (should be only 1 rec for TRACTCE 400300):
 # [{"type":"Feature","properties":{"STATEFP":"06","COUNTYFP":"001","TRACTCE":"400300","AFFGEOID":"1400000US06001400300","GEOID":"06001400300","NAME":"4003","LSAD":"CT","ALAND":1105329,"AWATER":0},"geometry":{"type":"Polygon","coordinates":[[[224.3021507494117,425.1613296471837],[224.4889212459765,425.02853000146524],[224.8054892227229,424.90924473882023],[225.09157727394734,424.797926817982],[225.29373002719294,424.7042420166931],[225.65996339344974,424.52901179192713],[225.95108431320563,424.3385241647384],[225.912059937863,424.3983338513344],[225.81079279254033,424.6100213459463],[225.58249395352414,425.05059707011105],[225.35882837057437,425.47619464326226],[225.22516372508392,425.73538936106115],[224.86658222608307,425.5294755512],[224.63434603931907,425.4732297669584],[224.43926884491924,425.4361850983005],[224.44504485979195,425.3811563562076],[224.37116077415172,425.3749388649712],[224.17960589902756,425.397389513148],[224.3021507494117,425.1613296471837]]]},"id":"001400300"},{"id":"001400300","B01003":5428}]
+
+# new eg for blocks group level data, seems like 4 rec for TRACTCE 400300, only showing first one
+# new field BLKGRPCE added.  but not consequential, just need population data (B01003) and ALAND (land area) in the next step "2f"
+# [{"type":"Feature","properties":{"STATEFP":"06","COUNTYFP":"001","TRACTCE":"400300","BLKGRPCE":"2","AFFGEOID":"1500000US060014003002","GEOID":"060014003002","NAME":"2","LSAD":"BG","ALAND":269347,"AWATER":0},"geometry":{"type":"Polygon","coordinates":[[[224.44636755999747,425.3691423744949],[224.5939145191771,425.21708244189904],[224.7830672777208,425.34538644862505],[225.07612515752876,425.52808473848654],[225.1067691336628,425.4894377365358],[225.31806810037276,425.1724692650978],[225.58249395352414,425.05059707011105],[225.35882837057437,425.47619464326226],[225.22516372508392,425.73538936106115],[224.86658222608307,425.5294755512],[224.6649471804986,425.47993141313145],[224.43926884491924,425.4361850983005],[224.44636755999747,425.3691423744949]]]},"id":"0014003002"},{"id":"0014003002","B01003":1404}]
+
 
 
 # **2f**
 
 ndjson-map 'd[0].properties = {density: Math.floor(d[1].B01003 / d[0].properties.ALAND * 2589975.2356)}, d[0]' \
-  < ca-albers-join.ndjson \
-  > ca-albers-density.ndjson
-
-# result of 2f seems good
+  < ca2018bg-albers-join.ndjson \
+  > ca2018bg-albers-density.ndjson
 
 # **2g**
 
 ndjson-reduce \
-  < ca-albers-density.ndjson \
+  < ca2018bg-albers-density.ndjson \
   | ndjson-map '{type: "FeatureCollection", features: d}' \
-  > ca-albers-density.json
+  > ca2018bg-albers-density.json
 
 # **2h**
 
@@ -189,11 +214,12 @@ ndjson-map -r d3 \
   > ca-albers-color.ndjson
 
 # borked after 2h actually
+# above not retried in block-group level data
 
 # **2h alt**
 ndjson-reduce 'p.features.push(d), p' '{type: "FeatureCollection", features: []}' \
-  < ca-albers-density.ndjson \
-  > ca-albers-density.json
+  < ca2018bg-albers-density.ndjson \
+  > ca2018bg-albers-density.json
 # this one worked.  result said to be viewable in mapshaper.org
 
 
@@ -203,14 +229,14 @@ npm install -g d3
 
 ndjson-map -r d3 \
   '(d.properties.fill = d3.scaleSequential(d3.interpolateViridis).domain([0, 4000])(d.properties.density), d)' \
-  < ca-albers-density.ndjson \
-  > ca-albers-color.ndjson
+  < ca2018bg-albers-density.ndjson \
+  > ca2018bg-albers-color.ndjson
 
 
 
 geo2svg -n --stroke none -p 1 -w 960 -h 960 \
-  < ca-albers-color.ndjson \
-  > ca-albers-color.purple.svg
+  < ca2018bg-albers-color.ndjson \
+  > ca2018bg-albers-color.purple.svg
 
 xviewer ca-albers-color.purple.svg  # work, but ugly purple map.
 
@@ -221,30 +247,35 @@ part 3 - shrink with TopoJSON
 
 https://medium.com/@mbostock/command-line-cartography-part-3-1158e4c55a1e
 
+# essentially same process as work with census block before, just changed file name
+# but maybe not needed if end result was to get the county borders to aid visualization
+
 npm install -g topojson
 
 # **3a**
 geo2topo -n \
-  tracts=ca-albers-density.ndjson \
-  > ca-tracts-topo.json
+  tracts=ca2018bg-albers-density.ndjson \
+  > ca2018bg-tracts-topo.json
 
 toposimplify -p 1 -f \
-  < ca-tracts-topo.json \
-  > ca-simple-topo.json
+  < ca2018bg-tracts-topo.json \
+  > ca2018bg-simple-topo.json
 
 topoquantize 1e5 \
-  < ca-simple-topo.json \
-  > ca-quantized-topo.json
+  < ca2018bg-simple-topo.json \
+  > ca2018bg-quantized-topo.json
 
 topomerge -k 'd.id.slice(0, 3)' counties=tracts \
-  < ca-quantized-topo.json \
-  > ca-merge-topo.json
+  < ca2018bg-quantized-topo.json \
+  > ca2018bg-merge-topo.json
 
 
 topomerge --mesh -f 'a !== b' counties=counties \
-  < ca-merge-topo.json \
-  > ca-topo.json
+  < ca2018bg-merge-topo.json \
+  > ca2018bg-topo.json
 
+ 4278961 Jun  7 09:38 ca2018bg-topo.json        # ok, this is bigger...
+ 1526619 Jun  6 16:52 ../TMP_DATA/ca-topo.json
 
 # tried preview, but don't work.  
 geo2svg -n --stroke none -p 1 -w 960 -h 960 \
@@ -258,6 +289,8 @@ https://medium.com/@mbostock/command-line-cartography-part-4-82d0d26df0cf
 
 # each version below are independent of one another
 # they just need input ca-topo.svg, the result of part 3 above.
+# for block group level data, skippig to the last step "4e"
+# (consider delete the middle ones 4a-4d)
 
 # **4a** linear transform
 
@@ -316,11 +349,11 @@ topo2geo tracts=- \
 # **4e fixing** actually just need to say -r d3-scale-chromatic (ie, just drop the prefix d3= )
 # ref: https://medium.com/@v.brusylovets/hi-dario-yeah-after-two-years-something-is-changed-in-d3-1e4222744c93
 topo2geo tracts=- \
-  < ca-topo.json \
+  < ca2018bg-topo.json \
   | ndjson-map -r d3 -r d3-scale-chromatic 'z = d3.scaleThreshold().domain([1, 10, 50, 200, 500, 1000, 2000, 4000]).range(d3.schemeOrRd[9]), d.features.forEach(f => f.properties.fill = z(f.properties.density)), d' \
   | ndjson-split 'd.features' \
   | geo2svg -n --stroke none -p 1 -w 960 -h 960 \
-  > ca-tracts-threshold.svg
+  > ca-2018bg-threshold.svg
 
 
 # **4f** add county borders 
@@ -328,23 +361,22 @@ topo2geo tracts=- \
 # but county lines may still be needed to help orientation, especially San Joaquin valley?
 # not if include some smaller state highway ?
 (topo2geo tracts=- \
-    < ca-topo.json \
+    < ca2018bg-topo.json \
     | ndjson-map -r d3 -r d3-scale-chromatic 'z = d3.scaleThreshold().domain([1, 10, 50, 200, 500, 1000, 2000, 4000]).range(d3.schemeOrRd[9]), d.features.forEach(f => f.properties.fill = z(f.properties.density)), d' \
     | ndjson-split 'd.features'; \
 topo2geo counties=- \
-    < ca-topo.json \
+    < ca2018bg-topo.json \
     | ndjson-map 'd.properties = {"stroke": "#000", "stroke-opacity": 0.3}, d')\
   | geo2svg -n --stroke none -p 1 -w 960 -h 960 \
-  > ca.svg
+  > ca2018bg.svg
 
-# ca.svg is final result presented on web page.
+# ca.svg/ca2018bg.svg is final result presented on web page.
 # all steps worked now, get ca map with pop density per census tracts, OrRd color scale
 # need to add a color scale, which was not well explained.
 # i dont think i want to deal with d3 graphics...
 
-# cp ca.svg ca-popDensityByTract-OrRd.svg
-
-# next step is try to do the same with census block level data
+# PREV: cp ca.svg ca-popDensityByTract-OrRd.svg
+# now have: ca2018bg.svg ca-popDensityByTract-OrRd.svg
 
 xviewer ca.svg
 
