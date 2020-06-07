@@ -206,21 +206,20 @@ ndjson-reduce \
   | ndjson-map '{type: "FeatureCollection", features: d}' \
   > ca2018bg-albers-density.json
 
-# **2h**
+# eg result:
+{"type":"Feature","properties":{"density":0},"geometry":{"type":"Polygon","coordinates":[[[164.1468809671912,437.62295438355295],[164.63136562909594,437.78130627883274],[164.66061334779198,437.4585472897443],[164.99020559033386,437.24058568718465],[165.18788475165627,437.5895682364189],[165.34708696199812,437.95636228142894],[165.00971718370104,438.4217441413507],[164.76560417638595,438.337767038262],[164.64069467117463,438.0862550961165],[164.22534302939806,438.0159600586103],[164.1468809671912,437.62295438355295]]]},"id":"0759804011"}
+{"type":"Feature","properties":{"density":5440},"geometry":{"type":"Polygon","coordinates":[[[583.3067862409382,854.8717329876263],[583.4813178511808,854.6585101562487],[583.7779327272376,854.7977310974125],[583.9655380355614,854.5602629991972],[584.0269325681705,854.6165658408554],[584.240683477404,854.7481359034291],[584.670342625474,855.0051488986787],[584.4905937377472,855.1348697365938],[584.3682429572099,855.3714858612866],[584.3205053355547,855.3970830898411],[583.9250158061104,855.0432402918268],[583.701365900805,854.8459183147456],[583.4133542298542,854.9140974854508],[583.3067862409382,854.8717329876263]]]},"id":"0590627021"}
 
-ndjson-map -r d3 \
-  '(d.properties.fill = d3.scaleSequential(d3.interpolateViridis).domain([0, 4000])(d.properties.density), d)' \
-  < ca-albers-density.ndjson \
-  > ca-albers-color.ndjson
-
-# borked after 2h actually
-# above not retried in block-group level data
 
 # **2h alt**
+# using the alternate method as it works reliably for me
 ndjson-reduce 'p.features.push(d), p' '{type: "FeatureCollection", features: []}' \
   < ca2018bg-albers-density.ndjson \
   > ca2018bg-albers-density.json
-# this one worked.  result said to be viewable in mapshaper.org
+# ca2018bg-albers-density.json is a geojson, so
+ln ca2018bg-albers-density.json ca2018bg-albers-density.geojson
+# result is viewable in mapshaper.org
+# but that only display map data (census block group outlines?), and density is not colored in.
 
 
 npm install -g d3
@@ -282,7 +281,7 @@ geo2svg -n --stroke none -p 1 -w 960 -h 960 \
   < ca-topo.json \
   > ca-topo.svg
 
-part 4 - improve color 
+part 4 - improve color, generate svg
 ======
 
 https://medium.com/@mbostock/command-line-cartography-part-4-82d0d26df0cf
@@ -290,61 +289,12 @@ https://medium.com/@mbostock/command-line-cartography-part-4-82d0d26df0cf
 # each version below are independent of one another
 # they just need input ca-topo.svg, the result of part 3 above.
 # for block group level data, skippig to the last step "4e"
-# (consider delete the middle ones 4a-4d)
-
-# **4a** linear transform
-
-topo2geo tracts=- \
-  < ca-topo.json \
-  | ndjson-map -r d3 'z = d3.scaleSequential(d3.interpolateViridis).domain([0, 4000]), d.features.forEach(f => f.properties.fill = z(f.properties.density)), d' \
-  | ndjson-split 'd.features' \
-  | geo2svg -n --stroke none -p 1 -w 960 -h 960 \
-  > ca-tracts-color.svg
-# result visually very similar to ca-albers-color.purple.svg, but about 1/4 the file size.
-
-# **4b** non-linear (sqrt) transform, still purple
-# used sqrt, which was said hard to conceptualize, not lots of point to do it.
-
-topo2geo tracts=- \
-  < ca-topo.json \
-  | ndjson-map -r d3 'z = d3.scaleSequential(d3.interpolateViridis).domain([0, 100]), d.features.forEach(f => f.properties.fill = z(Math.sqrt(f.properties.density))), d' \
-  | ndjson-split 'd.features' \
-  | geo2svg -n --stroke none -p 1 -w 960 -h 960 \
-  > ca-tracts-sqrt.svg
-
-# 4c = interesting looking
-topo2geo tracts=- \
-  < ca-topo.json \
-  | ndjson-map -r d3 'z = d3.scaleLog().domain(d3.extent(d.features.filter(f => f.properties.density), f => f.properties.density)).interpolate(() => d3.interpolateViridis), d.features.forEach(f => f.properties.fill = z(f.properties.density)), d' \
-  | ndjson-split 'd.features' \
-  | geo2svg -n --stroke none -p 1 -w 960 -h 960 \
-  > ca-tracts-log.svg
-
-# 4d p-quantile
-topo2geo tracts=- \
-  < ca-topo.json \
-  | ndjson-map -r d3 'z = d3.scaleQuantile().domain(d.features.map(f => f.properties.density)).range(d3.quantize(d3.interpolateViridis, 256)), d.features.forEach(f => f.properties.fill = z(f.properties.density)), d' \
-  | ndjson-split 'd.features' \
-  | geo2svg -n --stroke none -p 1 -w 960 -h 960 \
-  > ca-tracts-quantile.svg
-
-# result said to show diff even in densest area 
-# (ie, map isn't just a bright blob in metro area, but there are some fine details)
-
-
 
 npm install -g d3-scale-chromatic
 
 # **4e** OrRd color scheme, decent looking result
 
-topo2geo tracts=- \
-  < ca-topo.json \
-  | ndjson-map -r d3 -r d3=d3-scale-chromatic 'z = d3.scaleThreshold().domain([1, 10, 50, 200, 500, 1000, 2000, 4000]).range(d3.schemeOrRd[9]), d.features.forEach(f => f.properties.fill = z(f.properties.density)), d' \
-  | ndjson-split 'd.features' \
-  | geo2svg -n --stroke none -p 1 -w 960 -h 960 \
-  > ca-tracts-threshold.svg
-
-# borked again :/
+# borked again :/ , remove "d3=" in the -r option
 
 # **4e fixing** actually just need to say -r d3-scale-chromatic (ie, just drop the prefix d3= )
 # ref: https://medium.com/@v.brusylovets/hi-dario-yeah-after-two-years-something-is-changed-in-d3-1e4222744c93
@@ -376,10 +326,14 @@ topo2geo counties=- \
 # i dont think i want to deal with d3 graphics...
 
 # PREV: cp ca.svg ca-popDensityByTract-OrRd.svg
-# now have: ca2018bg.svg ca-popDensityByTract-OrRd.svg
+# now:  ln ca2018bg.svg ca-popDensityByBlockGrp-OrRd.svg
 
-xviewer ca.svg
+xviewer ***.svg
 
+
+
+# xref: https://mail.google.com/mail/u/2/#sent/QgrcJHrhwLQnRRMmGSkszxNZBkpDbDfHbPg
+# Bkly Gdrv prj/census  for some screenshots, svg and geojson.  slightly renamed compared to the TMP_DATA* folders on Zink 
 
 .. # use 8-space tab as that's how github render the rst
 .. # vim: shiftwidth=8 tabstop=8 noexpandtab paste
