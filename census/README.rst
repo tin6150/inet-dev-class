@@ -266,28 +266,38 @@ topo2geo tracts=- \
 
 # borked again :/
 
-# **4e fixing**
-
+# **4e fixing** actually just need to say -r d3-scale-chromatic (ie, just drop the prefix d3= )
+# ref: https://medium.com/@v.brusylovets/hi-dario-yeah-after-two-years-something-is-changed-in-d3-1e4222744c93
 topo2geo tracts=- \
   < ca-topo.json \
-  | ndjson-map -r d3 -r d3=d3-scale-chromatic 'z = d3.scaleThreshold().domain([1, 10, 50, 200, 500, 1000, 2000, 4000]).range(d3.schemeOrRd[9]),d[0].properties = {    fill: z(d[1].density)}, d[0]' \
-
+  | ndjson-map -r d3 -r d3-scale-chromatic 'z = d3.scaleThreshold().domain([1, 10, 50, 200, 500, 1000, 2000, 4000]).range(d3.schemeOrRd[9]), d.features.forEach(f => f.properties.fill = z(f.properties.density)), d' \
   | ndjson-split 'd.features' \
   | geo2svg -n --stroke none -p 1 -w 960 -h 960 \
   > ca-tracts-threshold.svg
 
 
-# https://medium.com/@v.brusylovets/hi-dario-yeah-after-two-years-something-is-changed-in-d3-1e4222744c93
+# **4f** add county borders 
+(topo2geo tracts=- \
+    < ca-topo.json \
+    | ndjson-map -r d3 -r d3-scale-chromatic 'z = d3.scaleThreshold().domain([1, 10, 50, 200, 500, 1000, 2000, 4000]).range(d3.schemeOrRd[9]), d.features.forEach(f => f.properties.fill = z(f.properties.density)), d' \
+    | ndjson-split 'd.features'; \
+topo2geo counties=- \
+    < ca-topo.json \
+    | ndjson-map 'd.properties = {"stroke": "#000", "stroke-opacity": 0.3}, d')\
+  | geo2svg -n --stroke none -p 1 -w 960 -h 960 \
+  > ca.svg
 
-ndjson-join 'd.id' municipalities.ndjson population-density.ndjson \
-  | ndjson-map -r d3 -r d3-scale-chromatic 'z = d3.scaleThreshold().domain([1, 10, 50, 200, 500, 1000, 2000, 4000]).range(d3.schemeOrRd[9]),d[0].properties = {    fill: z(d[1].density)}, d[0]' \
-  > merged-data.ndjson
+# ca.svg is final result presented on web page.
+# all steps worked now, get ca map with pop density per census tracts, OrRd color scale
+# need to add a color scale, which was not well explained.
+# i dont think i want to deal with d3 graphics...
 
+# cp ca.svg ca-popDensityByTract-OrRd.svg
 
+# next step is try to do the same with census block level data
 
-xviewer ca-albers-color.purple.svg
+xviewer ca.svg
 
 
 .. # use 8-space tab as that's how github render the rst
 .. # vim: shiftwidth=8 tabstop=8 noexpandtab paste
-
