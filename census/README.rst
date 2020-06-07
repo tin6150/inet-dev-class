@@ -118,33 +118,174 @@ ndjson-join 'd.id' \
   cb_2014_06_tract_B01003.ndjson \
   > ca-albers-join.ndjson
 
-# **$** it is borked here.  fixed now
+# **$** previously  borked here.  fixed now
+# [{"type":"Feature","properties":{"STATEFP":"06","COUNTYFP":"001","TRACTCE":"400300","AFFGEOID":"1400000US06001400300","GEOID":"06001400300","NAME":"4003","LSAD":"CT","ALAND":1105329,"AWATER":0},"geometry":{"type":"Polygon","coordinates":[[[224.3021507494117,425.1613296471837],[224.4889212459765,425.02853000146524],[224.8054892227229,424.90924473882023],[225.09157727394734,424.797926817982],[225.29373002719294,424.7042420166931],[225.65996339344974,424.52901179192713],[225.95108431320563,424.3385241647384],[225.912059937863,424.3983338513344],[225.81079279254033,424.6100213459463],[225.58249395352414,425.05059707011105],[225.35882837057437,425.47619464326226],[225.22516372508392,425.73538936106115],[224.86658222608307,425.5294755512],[224.63434603931907,425.4732297669584],[224.43926884491924,425.4361850983005],[224.44504485979195,425.3811563562076],[224.37116077415172,425.3749388649712],[224.17960589902756,425.397389513148],[224.3021507494117,425.1613296471837]]]},"id":"001400300"},{"id":"001400300","B01003":5428}]
 
 
-
+# **2f**
 
 ndjson-map 'd[0].properties = {density: Math.floor(d[1].B01003 / d[0].properties.ALAND * 2589975.2356)}, d[0]' \
   < ca-albers-join.ndjson \
   > ca-albers-density.ndjson
 
+# result of 2f seems good
+
+# **2g**
 
 ndjson-reduce \
   < ca-albers-density.ndjson \
   | ndjson-map '{type: "FeatureCollection", features: d}' \
   > ca-albers-density.json
 
+# **2h**
 
 ndjson-map -r d3 \
   '(d.properties.fill = d3.scaleSequential(d3.interpolateViridis).domain([0, 4000])(d.properties.density), d)' \
   < ca-albers-density.ndjson \
   > ca-albers-color.ndjson
 
+# borked after 2h actually
+
+# **2h alt**
+ndjson-reduce 'p.features.push(d), p' '{type: "FeatureCollection", features: []}' \
+  < ca-albers-density.ndjson \
+  > ca-albers-density.json
+# this one worked.  result said to be viewable in mapshaper.org
+
+
+npm install -g d3
+
+# **2i**
+
+ndjson-map -r d3 \
+  '(d.properties.fill = d3.scaleSequential(d3.interpolateViridis).domain([0, 4000])(d.properties.density), d)' \
+  < ca-albers-density.ndjson \
+  > ca-albers-color.ndjson
+
+
+
 geo2svg -n --stroke none -p 1 -w 960 -h 960 \
   < ca-albers-color.ndjson \
-  > ca-albers-color.svg
+  > ca-albers-color.purple.svg
+
+xviewer ca-albers-color.purple.svg  # work, but ugly purple map.
 
 
-xviewer ca-albers-color.svg
+
+part 3 - shrink with TopoJSON
+======
+
+https://medium.com/@mbostock/command-line-cartography-part-3-1158e4c55a1e
+
+npm install -g topojson
+
+# **3a**
+geo2topo -n \
+  tracts=ca-albers-density.ndjson \
+  > ca-tracts-topo.json
+
+toposimplify -p 1 -f \
+  < ca-tracts-topo.json \
+  > ca-simple-topo.json
+
+topoquantize 1e5 \
+  < ca-simple-topo.json \
+  > ca-quantized-topo.json
+
+topomerge -k 'd.id.slice(0, 3)' counties=tracts \
+  < ca-quantized-topo.json \
+  > ca-merge-topo.json
+
+
+topomerge --mesh -f 'a !== b' counties=counties \
+  < ca-merge-topo.json \
+  > ca-topo.json
+
+
+# tried preview, but don't work.  
+geo2svg -n --stroke none -p 1 -w 960 -h 960 \
+  < ca-topo.json \
+  > ca-topo.svg
+
+part 4 - improve color 
+======
+
+https://medium.com/@mbostock/command-line-cartography-part-4-82d0d26df0cf
+
+# **4a** linear transform
+
+topo2geo tracts=- \
+  < ca-topo.json \
+  | ndjson-map -r d3 'z = d3.scaleSequential(d3.interpolateViridis).domain([0, 4000]), d.features.forEach(f => f.properties.fill = z(f.properties.density)), d' \
+  | ndjson-split 'd.features' \
+  | geo2svg -n --stroke none -p 1 -w 960 -h 960 \
+  > ca-tracts-color.svg
+# result visually very similar to ca-albers-color.purple.svg, but about 1/4 the file size.
+
+# **4b** non-linear (sqrt) transform, still purple
+# used sqrt, which was said hard to conceptualize, not lots of point to do it.
+
+topo2geo tracts=- \
+  < ca-topo.json \
+  | ndjson-map -r d3 'z = d3.scaleSequential(d3.interpolateViridis).domain([0, 100]), d.features.forEach(f => f.properties.fill = z(Math.sqrt(f.properties.density))), d' \
+  | ndjson-split 'd.features' \
+  | geo2svg -n --stroke none -p 1 -w 960 -h 960 \
+  > ca-tracts-sqrt.svg
+
+# 4c = interesting looking
+topo2geo tracts=- \
+  < ca-topo.json \
+  | ndjson-map -r d3 'z = d3.scaleLog().domain(d3.extent(d.features.filter(f => f.properties.density), f => f.properties.density)).interpolate(() => d3.interpolateViridis), d.features.forEach(f => f.properties.fill = z(f.properties.density)), d' \
+  | ndjson-split 'd.features' \
+  | geo2svg -n --stroke none -p 1 -w 960 -h 960 \
+  > ca-tracts-log.svg
+
+# 4d p-quantile
+topo2geo tracts=- \
+  < ca-topo.json \
+  | ndjson-map -r d3 'z = d3.scaleQuantile().domain(d.features.map(f => f.properties.density)).range(d3.quantize(d3.interpolateViridis, 256)), d.features.forEach(f => f.properties.fill = z(f.properties.density)), d' \
+  | ndjson-split 'd.features' \
+  | geo2svg -n --stroke none -p 1 -w 960 -h 960 \
+  > ca-tracts-quantile.svg
+
+# result said to show diff even in densest area 
+# (ie, map isn't just a bright blob in metro area, but there are some fine details)
+
+
+
+npm install -g d3-scale-chromatic
+
+# **4e** OrRd color scheme, decent looking result
+
+topo2geo tracts=- \
+  < ca-topo.json \
+  | ndjson-map -r d3 -r d3=d3-scale-chromatic 'z = d3.scaleThreshold().domain([1, 10, 50, 200, 500, 1000, 2000, 4000]).range(d3.schemeOrRd[9]), d.features.forEach(f => f.properties.fill = z(f.properties.density)), d' \
+  | ndjson-split 'd.features' \
+  | geo2svg -n --stroke none -p 1 -w 960 -h 960 \
+  > ca-tracts-threshold.svg
+
+# borked again :/
+
+# **4e fixing**
+
+topo2geo tracts=- \
+  < ca-topo.json \
+  | ndjson-map -r d3 -r d3=d3-scale-chromatic 'z = d3.scaleThreshold().domain([1, 10, 50, 200, 500, 1000, 2000, 4000]).range(d3.schemeOrRd[9]),d[0].properties = {    fill: z(d[1].density)}, d[0]' \
+
+  | ndjson-split 'd.features' \
+  | geo2svg -n --stroke none -p 1 -w 960 -h 960 \
+  > ca-tracts-threshold.svg
+
+
+# https://medium.com/@v.brusylovets/hi-dario-yeah-after-two-years-something-is-changed-in-d3-1e4222744c93
+
+ndjson-join 'd.id' municipalities.ndjson population-density.ndjson \
+  | ndjson-map -r d3 -r d3-scale-chromatic 'z = d3.scaleThreshold().domain([1, 10, 50, 200, 500, 1000, 2000, 4000]).range(d3.schemeOrRd[9]),d[0].properties = {    fill: z(d[1].density)}, d[0]' \
+  > merged-data.ndjson
+
+
+
+xviewer ca-albers-color.purple.svg
 
 
 .. # use 8-space tab as that's how github render the rst
