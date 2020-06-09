@@ -36,6 +36,7 @@ shp2json cb_2018_06_bg_500k.shp -o ca2018bg.json
 ln ../TMP_DATA_BLOCK/ca2018bg.json .
 
 
+XX omiting ca albers projection
 XX geoproject 'd3.geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0]).fitSize([960, 960], d)' < ca2018bg.json > ca2018bg-albers.json
 # map project, changed coordinates to like [164.1468809671912,437.62295438355295]
 # anyway, lost lng/lat by here, not good for modeling work downstream.
@@ -61,10 +62,14 @@ ndjson-split 'd.features' < ca2018bg.json  > ca2018bg.ndjson
 # new lng/lat : 
 {"type":"Feature","properties":{"STATEFP":"06","COUNTYFP":"075","TRACTCE":"980401","BLKGRPCE":"1","AFFGEOID":"1500000US060759804011","GEOID":"060759804011","NAME":"1","LSAD":"BG","ALAND":419323,"AWATER":247501289},"geometry":{"type":"Polygon","coordinates":[[[-123.013916,37.700355],[-123.007786,37.698943],[-123.007548,37.70214],[-123.003507,37.704395999999996],[-123.00089299999999,37.701011],[-122.99875399999999,37.697438],[-123.002794,37.692736],[-123.005884,37.693489],[-123.007548,37.695934],[-123.012777,37.696498],[-123.013916,37.700355]]]}}
 
+# **2b** add id field
 
-XX ndjson-map 'd.id = d.properties.GEOID.slice(2), d'  < ca2018bg-albers.ndjson  > ca2018bg-albers-id.ndjson
 ndjson-map 'd.id = d.properties.GEOID.slice(2), d'  < ca2018bg.ndjson  > ca2018bg-id.ndjson
 
+eg extra id field at the end:
+{"type":"Feature","properties":{"STATEFP":"06","COUNTYFP":"075","TRACTCE":"980401","BLKGRPCE":"1","AFFGEOID":"1500000US060759804011","GEOID":"060759804011","NAME":"1","LSAD":"BG","ALAND":419323,"AWATER":247501289},"geometry":{"type":"Polygon","coordinates":[[[-123.013916,37.700355],[-123.007786,37.698943],[-123.007548,37.70214],[-123.003507,37.704395999999996],[-123.00089299999999,37.701011],[-122.99875399999999,37.697438],[-123.002794,37.692736],[-123.005884,37.693489],[-123.007548,37.695934],[-123.012777,37.696498],[-123.013916,37.700355]]]},"id":"0759804011"}
+
+# **2c** get data via census api
 
 # census api to get pop 
 # 58 ndjson files, combine into single one.  (23212 lines, match prev wc sum for all counties)
@@ -72,19 +77,20 @@ ndjson-map 'd.id = d.properties.GEOID.slice(2), d'  < ca2018bg.ndjson  > ca2018b
 # (skipped 2b to 2d, just reuse prev Block Grp data)
 ln ../TMP_DATA_BLOCK/cb_2018_06_bg_B01003.CA.ndjson  .
 
+# **2d** 
+# result is this, which looks like what bostock expect.  could be piped to a csv
+{"id":"0014441003","B01003":1755}
+{"id":"0014441002","B01003":1320}
+{"id":"0014445001","B01003":1199}
 
-# **eg 2e** 
 
-XX ndjson-join 'd.id' \
-  ca2018bg-albers-id.ndjson \
-  cb_2018_06_bg_B01003.CA.ndjson \
-  > ca2018bg-albers-join.ndjson
+
+# **eg 2e**  magic! join
 
 ndjson-join 'd.id' \
   ca2018bg-id.ndjson \
   cb_2018_06_bg_B01003.CA.ndjson \
   > ca2018bg-join.ndjson
-
 
 # new eg for blocks group level data, seems like 4 rec for TRACTCE 400300, only showing first one
 # new field BLKGRPCE added.  but not consequential, just need population data (B01003) and ALAND (land area) in the next step "2f"
@@ -95,7 +101,7 @@ ndjson-join 'd.id' \
 [{"type":"Feature","properties":{"STATEFP":"06","COUNTYFP":"001","TRACTCE":"400400","BLKGRPCE":"3","AFFGEOID":"1500000US060014004003","GEOID":"060014004003","NAME":"3","LSAD":"BG","ALAND":201094,"AWATER":0},"geometry":{"type":"Polygon","coordinates":[[[-122.260223,37.852793],[-122.25836699999999,37.853196],[-122.257251,37.853176],[-122.25657799999999,37.847773],[-122.25721300000001,37.847712],[-122.261019,37.847232999999996],[-122.260223,37.852793]]]},"id":"0014004003"},{"id":"0014004003","B01003":1240}]
 
 
-# **2f**
+# **2f** calc pop density
 
 XX ndjson-map 'd[0].properties = {density: Math.floor(d[1].B01003 / d[0].properties.ALAND * 2589975.2356)}, d[0]' \
   < ca2018bg-albers-join.ndjson \
@@ -109,22 +115,26 @@ ndjson-map 'd[0].properties = {density: Math.floor(d[1].B01003 / d[0].properties
 {"type":"Feature","properties":{"density":0},"geometry":{"type":"Polygon","coordinates":[[[164.1468809671912,437.62295438355295],[164.63136562909594,437.78130627883274],[164.66061334779198,437.4585472897443],[164.99020559033386,437.24058568718465],[165.18788475165627,437.5895682364189],[165.34708696199812,437.95636228142894],[165.00971718370104,438.4217441413507],[164.76560417638595,438.337767038262],[164.64069467117463,438.0862550961165],[164.22534302939806,438.0159600586103],[164.1468809671912,437.62295438355295]]]},"id":"0759804011"}
 {"type":"Feature","properties":{"density":5440},"geometry":{"type":"Polygon","coordinates":[[[583.3067862409382,854.8717329876263],[583.4813178511808,854.6585101562487],[583.7779327272376,854.7977310974125],[583.9655380355614,854.5602629991972],[584.0269325681705,854.6165658408554],[584.240683477404,854.7481359034291],[584.670342625474,855.0051488986787],[584.4905937377472,855.1348697365938],[584.3682429572099,855.3714858612866],[584.3205053355547,855.3970830898411],[583.9250158061104,855.0432402918268],[583.701365900805,854.8459183147456],[583.4133542298542,854.9140974854508],[583.3067862409382,854.8717329876263]]]},"id":"0590627021"}
 
-# new lng/lat:
+# new lng/lat: seems fine, first property is density, rid of rest of the fields.
 {"type":"Feature","properties":{"density":0},"geometry":{"type":"Polygon","coordinates":[[[-123.013916,37.700355],[-123.007786,37.698943],[-123.007548,37.70214],[-123.003507,37.704395999999996],[-123.00089299999999,37.701011],[-122.99875399999999,37.697438],[-123.002794,37.692736],[-123.005884,37.693489],[-123.007548,37.695934],[-123.012777,37.696498],[-123.013916,37.700355]]]},"id":"0759804011"}
 {"type":"Feature","properties":{"density":5440},"geometry":{"type":"Polygon","coordinates":[[[-117.878044124759,33.592764990129794],[-117.87591499999999,33.594837],[-117.87243,33.593393],[-117.870139,33.595701999999996],[-117.869425,33.595130999999995],[-117.866922,33.593781],[-117.86188899999999,33.591141],[-117.864058,33.589897],[-117.865574,33.587582],[-117.86614764088401,33.5873392496233],[-117.870749,33.59093],[-117.873352,33.592932999999995],[-117.87679,33.592321999999996],[-117.878044124759,33.592764990129794]]]},"id":"0590627021"}
 
 
-# **2g**
+skipped g?
 
-XX ndjson-reduce \
-  < ca2018bg-albers-density.ndjson \
-  | ndjson-map '{type: "FeatureCollection", features: d}' \
-  > ca2018bg-albers-density.json
+
+# **2h** - this should produce a proper geojson file.  
 
 ndjson-reduce \
   < ca2018bg-density.ndjson \
   | ndjson-map '{type: "FeatureCollection", features: d}' \
   > ca2018bg-density.json
+
+# also ln as ca2018bg-density.lngLat.geojson
+# vscode show this as upside down ca map.
+
+# eg: 
+{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"density":0},"geometry":{"type":"Polygon","coordinates":[[[-123.013916,37.700355],[-123.007786,37.698943],[-123.007548,37.70214],[-123.003507,37.704395999999996],[-123.00089299999999,37.701011],[-122.99875399999999,37.697438],[-123.002794,37.692736],[-123.005884,37.693489],[-123.007548,37.695934],[-123.012777,37.696498],[-123.013916,37.700355]]]},"id":"0759804011"},{"type":"Feature","properties":{"density":5440},"geometry":{"type":"Polygon","coordinates":[[[-117.878044124759,33.592764990129794],[-117.87591499999999,33.594837]...
 
 #### *not sure what 2g was for, result not used next*
 
