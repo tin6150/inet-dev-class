@@ -154,7 +154,7 @@ ndjson-reduce 'p.features.push(d), p' '{type: "FeatureCollection", features: []}
 XX geoproject 'd3.geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0]).fitSize([960, 960], d)' < ca.json > ca-albers.json
 geoproject 'd3.geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0]).fitSize([960, 960], d)' < ca2018bg-density.ndjson > ca2018bg-density-albers.json
 
-*didn't work.  so taking geojson from 2g and upload to mapbox as tilesets import and see.  name is ca2018bg-density-dbc449 *
+*didn't work.  so taking geojson from 2g and upload to mapbox as tilesets import and see.  name is ca2018bg-density-dbc449 -> sn50.4jkgze8k*
 
 
 # **2h** (prev 2i)
