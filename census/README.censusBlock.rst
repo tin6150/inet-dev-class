@@ -48,7 +48,13 @@ curl 'https://www2.census.gov/geo/tiger/GENZ2018/shp/cb_2018_06_bg_500k.zip' -o 
 unzip ...
 
 shp2json cb_2018_06_bg_500k.shp -o ca2018bg.json
+# above json is in lng/lat, truely geojson it seems)
+
 geoproject 'd3.geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0]).fitSize([960, 960], d)' < ca2018bg.json > ca2018bg-albers.json
+# map project, changed coordinates to like [164.1468809671912,437.62295438355295]
+# see medium post for screenshot.
+# anyway, lost lng/lat by here, not good for modeling work downstream.
+
 geo2svg -w 960 -h 960 < ca2018bg-albers.json > ca2018bg-albers.svg
 # that svg file is huge, 11M, xviewer could not handle it.  (but prev handled 6.7M file)
 # huge input lookup...   complain by xviewer and gimp
@@ -218,7 +224,7 @@ ndjson-reduce 'p.features.push(d), p' '{type: "FeatureCollection", features: []}
   > ca2018bg-albers-density.json
 # ca2018bg-albers-density.json is a geojson, so
 ln ca2018bg-albers-density.json ca2018bg-albers-density.geojson
-# result is viewable in mapshaper.org
+# result is viewable in mapshaper.org, but file isn't truly a geojson?
 # but that only display map data (census block group outlines?), and density is not colored in.
 
 

@@ -1,0 +1,31 @@
+
+coord_sys.txt
+
+  Meridian (-90..0..+90)
+  Prime Meridian, which passes by Greenwich
+	Latitude
+  Y
+
+  ^
+  |
+  |
+  |
+--+-------->   X  Longitude -180..+180
+  |               Parallel, eg equator
+
+
+eg 
+[ lng, lat]
+[-121.945,           37.434]            Alviso ZWEDC
+[-122.447303,        37.753574]         SF
+[ 122°25'52.6692" W, 37°46'26.2992" N]  SF
+
+Historically, most document would write Lat N/S and Lng E/W, which would be Y,X.
+
+
+Ref: 
+http://gif.berkeley.edu/documents/Projections_Datums.pdf
+
+geojson, mapbox, is in [lng,lat], like plana [x,y] seq.
+leaflet is in lat/lon I think :/
+
