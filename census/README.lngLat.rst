@@ -120,64 +120,61 @@ ndjson-map 'd[0].properties = {density: Math.floor(d[1].B01003 / d[0].properties
 {"type":"Feature","properties":{"density":5440},"geometry":{"type":"Polygon","coordinates":[[[-117.878044124759,33.592764990129794],[-117.87591499999999,33.594837],[-117.87243,33.593393],[-117.870139,33.595701999999996],[-117.869425,33.595130999999995],[-117.866922,33.593781],[-117.86188899999999,33.591141],[-117.864058,33.589897],[-117.865574,33.587582],[-117.86614764088401,33.5873392496233],[-117.870749,33.59093],[-117.873352,33.592932999999995],[-117.87679,33.592321999999996],[-117.878044124759,33.592764990129794]]]},"id":"0590627021"}
 
 
-skipped g?
 
-
-# **2h** - this should produce a proper geojson file.  
+# **2g** (prev 2h)- this should produce a proper geojson file.  
 
 ndjson-reduce \
   < ca2018bg-density.ndjson \
   | ndjson-map '{type: "FeatureCollection", features: d}' \
   > ca2018bg-density.json
 
-# also ln as ca2018bg-density.lngLat.geojson
 # vscode show this as upside down ca map.
+# took a long ass time to render in vscode preview, and CA is upside down.
+# long time cuz it has lots of details, not simplified with TopoJSON yet. 17M file.
+# coordinate is in lng/lat.
+# but that only display map data (census block group outlines?), and density is not colored in.
+
+# this time this json should really be a geojson, so
+ln ca2018bg-density.json ca2018bg-density.lngLat.geojson 
+
+# **2g alt** (prev 2h alt)
+
+ndjson-reduce 'p.features.push(d), p' '{type: "FeatureCollection", features: []}' \
+  < ca2018bg-density.ndjson \
+  > ca2018bg-density.2gAlt.json
+# diff ca2018bg-density.2gAlt.json ca2018bg-density.json # results are identical
 
 # eg: 
 {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"density":0},"geometry":{"type":"Polygon","coordinates":[[[-123.013916,37.700355],[-123.007786,37.698943],[-123.007548,37.70214],[-123.003507,37.704395999999996],[-123.00089299999999,37.701011],[-122.99875399999999,37.697438],[-123.002794,37.692736],[-123.005884,37.693489],[-123.007548,37.695934],[-123.012777,37.696498],[-123.013916,37.700355]]]},"id":"0759804011"},{"type":"Feature","properties":{"density":5440},"geometry":{"type":"Polygon","coordinates":[[[-117.878044124759,33.592764990129794],[-117.87591499999999,33.594837]...
 
-#### *not sure what 2g was for, result not used next*
+*up to here should be ok*
 
-# **2h alt**
-# using the alternate method as it works reliably for me
+# **2h prep**
+# *input is from result of 2f, not 2g*
+XX geoproject 'd3.geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0]).fitSize([960, 960], d)' < ca.json > ca-albers.json
+geoproject 'd3.geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0]).fitSize([960, 960], d)' < ca2018bg-density.ndjson > ca2018bg-density-albers.json
 
-XX ndjson-reduce 'p.features.push(d), p' '{type: "FeatureCollection", features: []}' \
-  < ca2018bg-albers-density.ndjson \
-  > ca2018bg-albers-density.json
+*didn't work.  so taking geojson from 2g and upload to mapbox as tilesets import and see.  name is ca2018bg-density-dbc449 *
+
+
+# **2h** (prev 2i)
 
 # *input is from result of 2f, not 2g*
-ndjson-reduce 'p.features.push(d), p' '{type: "FeatureCollection", features: []}' \
-  < ca2018bg-density.ndjson \
-  > ca2018bg-density.json
-
-# this time this json should really be a geojson, so
-
-ln ca2018bg-density.json ca2018bg-density.geojson 
-
-above took a long ass time to render in vscode preview, and CA is upside down.
-long time cuz it has lots of details, not simplified with TopoJSON yet. 17M file.
-coordinate is in lng/lat.
-
-# but that only display map data (census block group outlines?), and density is not colored in.
-
-
-npm install -g d3
-
-# **2i**
-
-XX ndjson-map -r d3 \
-  '(d.properties.fill = d3.scaleSequential(d3.interpolateViridis).domain([0, 4000])(d.properties.density), d)' \
-  < ca2018bg-albers-density.ndjson \
-  > ca2018bg-albers-color.ndjson
-
 ndjson-map -r d3 \
   '(d.properties.fill = d3.scaleSequential(d3.interpolateViridis).domain([0, 4000])(d.properties.density), d)' \
   < ca2018bg-density.ndjson \
   > ca2018bg-color.ndjson
 
+# eg
+{"type":"Feature","properties":{"density":0,"fill":"#440154"},"geometry":{"type":"Polygon","coordinates":[[[-123.013916,37.700355],[-123.007786,37.698943],[-123.007548,37.70214],[-123.003507,37.704395999999996],[-123.00089299999999,37.701011],[-122.99875399999999,37.697438],[-123.002794,37.692736],[-123.005884,37.693489],[-123.007548,37.695934],[-123.012777,37.696498],[-123.013916,37.700355]]]},"id":"0759804011"}
+{"type":"Feature","properties":{"density":5440,"fill":"#fde725"},"geometry":{"type":"Polygon","coordinates":[[[-117.878044124759,33.592764990129794],[-117.87591499999999,33.594837],[-117.87243,33.593393],[-117.870139,33.595701999999996],[-117.869425,33.595130999999995],[-117.866922,33.593781],[-117.86188899999999,33.591141],[-117.864058,33.589897],[-117.865574,33.587582],[-117.86614764088401,33.5873392496233],[-117.870749,33.59093],[-117.873352,33.592932999999995],[-117.87679,33.592321999999996],[-117.878044124759,33.592764990129794]]]},"id":"0590627021"}
 
 
-**double check here 2020.0608 1948**
+
+*bad result in svg gen 2020.0608 2147*
+# need to add a projection?  from skipped step 1...
+
+
 
 geo2svg -n --stroke none -p 1 -w 960 -h 960 \
   < ca2018bg-color.ndjson \
