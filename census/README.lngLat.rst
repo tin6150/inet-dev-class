@@ -144,6 +144,30 @@ ndjson-reduce 'p.features.push(d), p' '{type: "FeatureCollection", features: []}
   > ca2018bg-density.2gAlt.json
 # diff ca2018bg-density.2gAlt.json ca2018bg-density.json # results are identical
 
+
+# **QC**
+
+Ling asked to check density value between this and prev.
+ie ca2018bg-density.json and ca2018bg-albers-density.json
+maybe easier comaring 
+ca2018bg-density.ndjson ca2018bg-albers-density.ndjson
+
+	head -1  ca2018bg-albers-density.ndjson 
+{"type":"Feature","properties":{"density":0},"geometry":{"type":"Polygon","coordinates":[[[164.1468809671912,437.62295438355295],[164.63136562909594,437.78130627883274],[164.66061334779198,437.4585472897443],[164.99020559033386,437.24058568718465],[165.18788475165627,437.5895682364189],[165.34708696199812,437.95636228142894],[165.00971718370104,438.4217441413507],[164.76560417638595,438.337767038262],[164.64069467117463,438.0862550961165],[164.22534302939806,438.0159600586103],[164.1468809671912,437.62295438355295]]]},"id":"0759804011"}
+
+	# column 8 contains block group id, column 4 has pop density 
+	head -2  ca2018bg-albers-density.ndjson | awk -F: '{print $8 "\t" $4   }'
+"0759804011"}	0},"geometry"
+"0590627021"}	5440},"geometry"
+
+	cat ca2018bg-albers-density.ndjson | awk -F: '{print $8 "\t" $4   }' | sort -n > ca2018bg-albers-density.tsv 
+	cat ca2018bg-density.ndjson        | awk -F: '{print $8 "\t" $4   }' | sort -n > ca2018bg-density.tsv 
+
+vimdiff -o ca2018bg-density.tsv ../TMP_DATA_BLOCK/ca2018bg-albers-density.tsv 
+diff ca2018bg-density.tsv ../TMP_DATA_BLOCK/ca2018bg-albers-density.tsv 
+no diff shown, so they are the same.
+
+
 # eg: 
 {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"density":0},"geometry":{"type":"Polygon","coordinates":[[[-123.013916,37.700355],[-123.007786,37.698943],[-123.007548,37.70214],[-123.003507,37.704395999999996],[-123.00089299999999,37.701011],[-122.99875399999999,37.697438],[-123.002794,37.692736],[-123.005884,37.693489],[-123.007548,37.695934],[-123.012777,37.696498],[-123.013916,37.700355]]]},"id":"0759804011"},{"type":"Feature","properties":{"density":5440},"geometry":{"type":"Polygon","coordinates":[[[-117.878044124759,33.592764990129794],[-117.87591499999999,33.594837]...
 
@@ -154,7 +178,8 @@ ndjson-reduce 'p.features.push(d), p' '{type: "FeatureCollection", features: []}
 XX geoproject 'd3.geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0]).fitSize([960, 960], d)' < ca.json > ca-albers.json
 geoproject 'd3.geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0]).fitSize([960, 960], d)' < ca2018bg-density.ndjson > ca2018bg-density-albers.json
 
-*didn't work.  so taking geojson from 2g and upload to mapbox as tilesets import and see.  name is ca2018bg-density-dbc449 -> sn50.4jkgze8k*
+*didn't work.  so taking geojson from 2g and upload to mapbox as tilesets import and see.  name is ca2018bg-density-dbc449 -> sn50.4jkgze8k*  yeap, worked in mapbox.  probably want to avoid dealing with d3...
+
 
 
 # **2h** (prev 2i)
