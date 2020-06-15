@@ -293,9 +293,13 @@ index of constructs
 * block...when (so that multiple task can be run with single "if" condition): roles/container_stack/tasks/RedHat.yml
 * notify... with_items: mount/main/exalearn.yml, iptables maybe better...
  
-* search for *sigh* and/or :( in yml files for complains (in other repos as well)
+* search for *sigh* and/or :( and/or :/ in yml files for complains (in other repos as well)
 * no easy way to do block.  how to have a single named handler invoke multiple function? 
     + block/when inside a role: roles/container_stack/tasks/RedHat.yml  
+
+* package name and yum/dnf/apt is painful.  yet, no easy way to say things like
+  IFF RHEL check ver <= 7 
+  ELSE ...
 
 * debugging a role, run only 1 role
   https://stackoverflow.com/questions/38350674/ansible-can-i-execute-role-from-command-line
