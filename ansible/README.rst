@@ -303,6 +303,10 @@ index of constructs
 * no easy way to do block.  how to have a single named handler invoke multiple function? 
     + block/when inside a role: roles/container_stack/tasks/RedHat.yml  
 
+* package name and yum/dnf/apt is painful.  yet, no easy way to say things like
+  IFF RHEL check ver <= 7 
+  ELSE ...
+
 * debugging a role, run only 1 role
   https://stackoverflow.com/questions/38350674/ansible-can-i-execute-role-from-command-line
   eg site.exalearn.yml for mount role

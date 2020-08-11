@@ -1,0 +1,9 @@
+pandas==0.22.0
+numpy==1.14.1
+netCDF
+# https://anaconda.org/conda-forge/matplotlib
+# conda install -c conda-forge matplotlib
+matplotlib
+# https://anaconda.org/anaconda/basemap
+# conda install -c anaconda basemap
+basemap
