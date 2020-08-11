@@ -49,6 +49,6 @@
 
         #ignore_errors: yes   # to block level
         # *sigh* can't have ignore_errors at the block level.
-        # FIXME maybe just not getting syntax right :(   
+        # FIXME maybe just not getting syntax right :-\
         # f'ing hate YAML.  It is really a crime against humanity.  okay, mbaybe just crime against programmer!!
 

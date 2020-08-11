@@ -23,7 +23,7 @@
             rpm_key:
               key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
               state: present
-              #validate_certs: no    # still get prompt to accept the key  :(
+              #validate_certs: no    # still get prompt to accept the key  :-\
 
 
           - name: Install EPEL packages
