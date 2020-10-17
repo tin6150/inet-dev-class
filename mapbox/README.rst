@@ -276,7 +276,7 @@ Below should work to create polygon to make density coloring on map easier.
                       [ -121.984, 37.407 ],     // RT
                       [ -121.984, 37.406 ],     // RB
                       [ -121.985, 37.406 ],     // LB
-                      [ -121.985, 37.407 ],     // LT, close it back.  5 points make a square :)
+                      [ -121.985, 37.407 ]     // LT, close it back.  5 points make a square :)  no tailing comma!
               ] ] }  // strangely need to open two square bracket (support for multi-polygon?)
             }
             //,   // add comma iff there is next entry, json don't have a comment officially
