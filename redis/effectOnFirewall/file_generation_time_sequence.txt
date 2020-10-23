@@ -1,0 +1,20 @@
+total 424
+-rw-rw-r-- 1 tin users  7936 May 27 18:31 ufw.status.noDocker
+-rw-rw-r-- 1 tin users 42639 May 27 18:31 iptables-nvL.noDocker
+-rw-rw-r-- 1 tin users  7936 May 27 18:32 ufw.status.redisUp
+-rw-rw-r-- 1 tin users 42760 May 27 18:33 iptables-nvL.redisUp
+-rw-rw-r-- 1 tin users  7936 May 27 18:43 ufw.status.aftIptableCmd
+-rw-rw-r-- 1 tin users 42897 May 27 18:43 iptables-nvL.aftIptableCmd
+-rw-rw-r-- 1 tin users  7936 May 27 18:48 ufw.status.redisStop
+-rw-rw-r-- 1 tin users 42776 May 27 18:49 iptables-nvL.redisStop
+-rw-rw-r-- 1 tin users  7936 May 27 18:50 ufw.status.ufwReloaded
+-rw-rw-r-- 1 tin users 42776 May 27 18:50 iptables-nvL.ufwReloaded
+-rw-rw-r-- 1 tin users    17 May 27 18:58 ufw.status.ufwReset
+-rw-rw-r-- 1 tin users  9785 May 27 18:58 iptables-nvL.ufwReset
+-rw-rw-r-- 1 tin users  7936 May 27 19:12 ufw.status.aftAnsible
+-rw-rw-r-- 1 tin users 42779 May 27 19:12 iptables-nvL.aftAnsible
+-rw-rw-r-- 1 tin users 42900 May 27 19:17 iptables-nvL.redisUpAgain
+-rw-rw-r-- 1 tin users 43030 May 27 19:20 iptables-nvL.aftIptableCmd2
+drwxrwxr-x 3 tin users  4096 May 27 20:02 ..
+-rw-rw-r-- 1 tin users     0 May 28 12:18 file_generation_time_sequence.txt
+drwxrwxr-x 2 tin users  4096 May 28 12:18 .

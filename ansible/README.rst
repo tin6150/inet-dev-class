@@ -131,6 +131,7 @@ YAML, example of craziness/insanity
 -----------------------------------
 
 - pay very careful attention to indent level and when to use '-' and when NOT to use '-'.
+  the dash (-) is for array elements.
 
 - Only "hosts:" is prefixed with '-', none of the other clauses at the same indent level.  
 
@@ -261,6 +262,9 @@ I have not been able to find the "Regular Grammar" definition for any ansible ya
 The list of playbook keywords is the closest thing.  But I am still very fuzzy what is allowed where.  
 http://docs.ansible.com/ansible/latest/playbooks_keywords.html#task
 
+* Dash (-) is for array elements
+* Each module need a list of declarations, and those are NOT prefixed with dash
+
 
 Ansible constructs/keywords
 ************************
@@ -293,9 +297,15 @@ index of constructs
 * block...when (so that multiple task can be run with single "if" condition): roles/container_stack/tasks/RedHat.yml
 * notify... with_items: mount/main/exalearn.yml, iptables maybe better...
  
-* search for *sigh* and/or :( in yml files for complains (in other repos as well)
+* search for *sigh* and/or :-\ :/ :-/ :( in yml files for complains (in other repos as well)
+  Want to standardize on :-\ for frown smiley.  :/ may get matched in http:// and smilley with parenthesis sometime screw up () matching.
+  Ditto, use :-D in my code for happy smiley.
 * no easy way to do block.  how to have a single named handler invoke multiple function? 
     + block/when inside a role: roles/container_stack/tasks/RedHat.yml  
+
+* package name and yum/dnf/apt is painful.  yet, no easy way to say things like
+  IFF RHEL check ver <= 7 
+  ELSE ...
 
 * debugging a role, run only 1 role
   https://stackoverflow.com/questions/38350674/ansible-can-i-execute-role-from-command-line
@@ -306,6 +316,9 @@ index of constructs
 
 * when: clause for specific version of linux :: cueball dev_tool_debian.yml
 
+
+* tags, for include/exclue.  mostly failed experiment so far, may work better when used inside role. ::
+  wsl_localhost_playbook.yml
 
 
 Jinja2 and Ansbile

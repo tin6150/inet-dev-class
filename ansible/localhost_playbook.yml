@@ -43,7 +43,7 @@
 # worse than python, yaml say not to use space in the beginning of line to do indentation/blocking level.
 # and with the use of '-', yeah, it is a mess!!
 
-#    but the "-" to define list has to stick out for visibility.  this make shifting block level a real PITA  !!!! :( 
+#    but the "-" to define list has to stick out for visibility.  this make shifting block level a real PITA  !!!! :-\
 #    Not sure when need to use "-" and when don't.  Best to use 4 space tab even for "-" and the next/prev block
 #    especially when the "when" clause is at the end of the block!!
 

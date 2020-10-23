@@ -21,7 +21,7 @@
 # --- means start of doc
 # ... means end of doc (but often not seen)
 # like python, space matter!  it dictates the hierarchy
-#    but the "-" to define list has to stick out for visibility.  this make shifting block level a real PITA  !!!! :( 
+#    but the "-" to define list has to stick out for visibility.  this make shifting block level a real PITA  !!!! :-\
 # vi use
 # : set shiftwidth=2 tabstop=4
 

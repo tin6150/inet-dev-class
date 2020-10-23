@@ -1,0 +1,654 @@
+
+docker live 2020
+
+recordings: https://docker.events.cube365.net/docker/dockercon
+
+my screenshots from Zink
+
+
+xref:
+- https://photos.app.goo.gl/UJgAPpgVgKgKD9yM6
+- https://mail.google.com/mail/u/1/#search/docker+live/FMfcgxwHNMcmxJmnSWvDfXXtQNtWfJvb
+
+
+
+10:30 am - wsl2
+===============
+
+wsl
+multiple tab in termainals = same kernel,same vm.  (so same IP)
+
+nsenter -a -t PID
+	PID is dockerd process id.
+
+namespace enter ....
+
+
+cat /proc/self/mountinfo | grep /mnt/wsl
+	mounted with shared propagation for every wsl instance
+
+mkdir /mnt/wsl/test
+sudo mount --bind / /mnt/wsl/test
+	then the mount see the root of the other distro (of host?)
+	useful for sharing, but may have security implications. but can disable such mount as necessary?
+	these are wsl feature, not docker itself?
+
+	ls /mnt/wsl/docker-desktop/shared-sockets/guest-services
+
+	docker run --rm -it -v ~/:/test/... alpine
+
+	alpine is image name
+
+	docker inspect
+	see bind mount is translated to ... 
+	rewrite container config
+	(as magic service by wsl?, which is why "it just work"?)
+
+	port 4242 for nginx
+	curl http://localhost:4242/ 
+
+
+samething for k8s
+
+expose k8s api to host and to wsl env.
+
+kubectl apply -f nginx.yml
+
+kubectl get all
+
+(go back in recording, what was installed?
+just wsl2?  docker-desktop for win?
+what k8s package?  not as package inside the wsl vm is it?
+)
+
+
+npm run wordpress?
+
+npm run env:stop
+
+npm run env:start
+
+
+
+
+
+ls /run/desktop/mnt/
+
+
+docker info
+
+
+
+
+11am - python & docker compose
+==============================
+
+eg:
+nginx - flask(python) - mysql
+
+Dockerfile ::
+
+FROM python:3.8
+WORKDIR /src
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY src/ .
+CMD ["python", "./server.py"]
+
+
+peep like COPY, which i guess is fine for local build, but not cloud build in dockerhub.  
+
+cd Project
+docker build -t myimage app/
+docker images
+docker run --rm myimage
+
+add DB
+use docker-compose.yml
+
+o
+
+NODE
+====
+
+bind mount working dir into container.
+instant changes?  doesn't container need to be restarted?
+some content that npm read from file each time is served can do this?
+
+this is why developer use COPY and not git pull inside the container to be independent of their laptop?
+they publish image, not dockercompose file ?
+
+actually, git clone
+docker file in there
+so COPY is legit?
+just doesn't work in docker hub cloud build?
+
+docker-compose
+	env
+		can use env var to get password...
+
+
+did later say that for production
+need to push to a repo
+so can't bind mount locally
+use name volume instead
+
+
+
+11:30 - VScode Docker power user
+================================
+
+* Docker Desktop 
+* WS code
+
+power user mode
+streamline command
+connecto to multiple server in production, so be careful
+
+vscode create docker-compose and docker file on the fly automagically.
+dockerfiles with code completion
+
+install docker extension
+
+(maybe send link of video to Eric..., saying if he is still on the fence, maybe useful...)
+if you are still exploring, don't be pushy
+
+it covers docker-in-docker and remote registries
+
+
+https://docker.events.cube365.net/docker/dockercon/content/Videos/4YkHYPnoQshkmnc26
+.dockerignore
+.vscode
+	code integration with docker
+
+
+	docker-compose.debug.yml version created in parallel to std yml
+
+
+	ctrl-space to lookup name (query dockerhub for actually avail version numbers)
+	code already pop up with suggestion (general static command file)
+
+
+
+
+
+12:00 Docker Image pipeline with GitHub Action
+==============================================
+
+- it is more than just build in CI system.  but it is more.
+- 
+
+${{ secrets.DOCKER_USERNAME }}
+${{ secrets.DOCKER_PASSWORD }}
+
+only pushing an image when there is a tag.
+eg, evaluate a boolean before carrying out an action
+
+
+
+
+12:30 Hands on Helm
+===================
+
+
+Migrate from helm2 to helm3
+Specific build for k8s, 
+de facto std.
+build/share chart
+
+198% in certification test for CNCF - so a top level project.
+there should be no hessitation.
+have been in GA for a while, this graduation makes it extra ready.
+ver 3.0.
+
+can have both helm2 and helm3 installed on sys side by side.
+
+
+helm ls
+helm repo ls
+h3 upgrade --install nginx-...
+
+k get pods
+tiller has been removed in helm3
+helm is almost as old as k8s, only 1.5 years younger, but predate some security features from CRD and k8s RBAC.  role base acc, security.
+by end of helm2.  
+
+help move between dev/test/qa/prod
+
+helm2, tiller was sitting in cluster.
+helm3 removed this mediator (tiller).  helm became simpler and more flexible.
+
+
+~~~~
+
+13:30 Distributed Deep Learn @ Salesforce
+=====
+
+(very high level, whatever)
+
+split into 3 containers 
+	preprocess, inference, postprocess
+
+use kafka to give stage-wise checkpointing.
+	kafka allow checkpoint at each stage.
+
+use a pod to host the model server.
+	single jvm, all address use localhost
+	kafka is the glue b/w stages.
+	use gRPC or HTTP to interact b/w stages.
+	relay from kafka to model server
+
+	but, who own the model server?  --> data sci team.
+
+integrate with Maven and Gradle to do integrationtest.
+
+
+
+13:30 - NGINX for security 
+==========================
+
+maybe go back and check video of:
+F5 bought them, use it as reverse proxy.
+limit IP?
+no, restrict access to URL.
+
+recorded, 24 min.  can play with speed up too :P
+
+
+http security and fazade routing, 
+tls
+authentication and authorization offload
+
+reverse proxy:
+
+talks about features of nginx to help with security
+and how to configure nginx for better tls, ciphers, etc.
+
+
+deploy nginx in docker.
+sit in front of docker container.
+3MB in size.  
+can run as a service
+
+docker ... sidecar... 
+see screenshot.
+
+
+
+2:30pm - Desktop app in container
+======
+
+X-window app, run in windows?
+
+eg:
+abiword, cuz it was simple X app.
+
+windows 10, X server app, disable access control (cuz just desktop app at home).
+
+
+docker run  -v C:\:/c-drive -e DISPLAY=192.168.255.134:0 abiword
+
+
+the mount for C:\ works?
+used DOS cmd.exe
+
+linux app access files on windows c: drive!
+
+how was the DBUS or xwin socket handled?
+
+Next: use VNC approach.
+
+takes longer, bootstrap many more components.
+then web based vnc, http://localhost:8080/
+a bit laggy at time, but mostly usable.
+can be accelerated.
+
+
+
+Next: more performance.
+support OpenGL.
+stack is from lots of piecemeal app.
+Ratpoison - window manager , designed for keyboard centric usage (ie, no mouse!)
+which i guess is also very lightweight.
+
+stack:
+app - ratpoison - X-server -  virtual frame buffer - TurboVNC - websocksify (take tcp stream, wrap it in web socket, then serve to a browser) - HTML 5 NoVNC client.
+
+lot more performant than #2 above.
+but can't move windows around or resize it.
+
+(what was wrong with approach #1?)
+
+huge docker file
+port 5901
+
+
+docker file for google-chrome
+
+run as root, used --no-sandbox
+not really secure...
+
+docker build -t ...
+build and run command from cmd.exe
+
+docker for win (docker desktop?)
+needed to support c:\ drive, 
+but i guess wsl could probably do /mnt/c ...
+
+opengl support.  chrome css opengl , almost native speed.
+a browser inside a browser!
+
+linux container only, no windows container with graphics.
+
+
+winforms, .NET, mono, for porting old windows app to run on linux, 
+then can get them dockerized as desktop app.
+
+
+wine is not an emulator.
+interpreter.  some stuff works well, other not at all.
+some app work ok in some button, crashes when click something else.
+
+./winetricks
+
+
+m net35
+CMD winde /MyApp.exe
+
+
+he talked about chrome, but no talk about DBUS
+
+@thenemule
+blaize.net
+github.com/thenemule/... for demo docker files.
+
+
+
+15:00 - labels, labels, labels
+=====
+
+sounds like a cocky guy - dod contractor.
+
+Q: why labels?
+- where image come from, how did it get here, etc.
+  established baseline set of labels.
+  metadata.
+  oh whatever.
+
+  singularity signing would be much more reliable than just tagging with labels no?
+
+
+15:00 - k8s & docker
+=====
+
+kubernets instead of direct docker
+
+CI
+
+
+
+15:30 - Optimization for Container registry
+=====
+
+https://photos.app.goo.gl/yaNcB7RwhzuAxDpr5 - screenshots from 2nd view of video, should be pretty complete of all the commands, instead of tediously watching the video again...
+
+
+3:30 container registry optimization -  cache  
+@sudo_bmitch 
+
+https://docker.events.cube365.net/docker/dockercon/content/Videos/f7WF5xt7jRsDJePCG
+
+github.com/sudo-bmitch/presentations
+https://github.com/sudo-bmitch/presentations/blob/master/registry/presentation.pdf
+bleh, the pdf has lot of screencast which doesn't show up :/
+better, but still dont have the cmd used in screencast: 
+https://github.com/sudo-bmitch/presentations/blob/master/registry/presentation.md
+
+there are some example/***yml
+
+
+token registration...
+something about password that can only be used to do docker  pull and push
+so limit damage
+
+
+
+	also have script that deal with the self signed cert.
+
+caching: this is the easy part.
+cache docker hub so that they can continue to build even if o
+
+dockerd has to be told it has a registry mirror
+
+	dockerd --registry-mirror CACHE-URL
+
+and 
+create a registry
+	docker run -e REGISTRY_PROXY_REMOTEURL=Upstream-URL  registry:2
+
+	[video @7:04]
+
+# seems to be what was done in beagle.
+# but did not use the REGISTRY_PROXY_REMOTEURL ...
+
+maybe worth review video to ensure got all details.
+o
+
+private repo
+
+cache, credential to local registry
+
+some issue about mount, extra : in there, 
+had a work around.
+was supposed to be able to escape it.
+: is used as separator.  so learn this trick.
+
+
+	[video @ 15:28 about escaping : separator]
+-v $(pwd)/ca.pem:/etc/docker/certs.d/hub-cache:5000/ca.crt:ro"
+don't work
+need to use a comma separate mount syntax instead
+	[video @ 15:42]
+--mount "type=bind,src=$(pwd)/ca.pem,dst=/etc/docker/certs.d/hub-cache:5000/ca.crt,readonly" 
+	ie, when using comma syntax, : is no longer the map separator and can be used as is, w/o quote.
+	(is there similar trick to url/hostname/port number?, maybe use the --option form?)
+
+
+alt:
+- could do a squid HTTP caching proxy instead of docker registry as cache.
+- pull directly from the cache (how?)
+
+
+
+actual docker registry path for official ubuntu had /library/ubuntu 
+that it shortened for user, and cache need to worry about it
+pull hub-cache:5000/library/ubuntu
+                    ^^^^^^^
+ie, to use the cache, can  no longer use the shortname ubuntu, but give it the full path (which work with the docker-hub web too)
+
+
+
+[video @20 min into talk - step7]
+gitlab cache
+	that was changing registry name.
+	compose file, etc, all need to be updated to use the new name.
+	we had to do this for greta?
+see make-certs.demo7.sh - in https://github.com/sudo-bmitch/presentations/tree/master/registry/example
+	the cert has extra dns name?
+		subjectAltName = DNS:hub-cache,DNS:gitlab-cache" > reg.ext
+
+by now the docker commands are actually in compose.yml file.
+eg docker-compose.demo7.yml
+
+**> 
+stuff are in .env file that is not checked into repo. 
+(passwords?) 
+<**
+
+
+[video @24:10]
+mirroring
+	pull, retag, 
+	all done in the mirror
+	need to maintain this.
+	24 min into talk.
+	use Harbor as sandbox env
+	docker container run -p 5000:5000 registry:2
+	docker image pull  ... tag... push ...  # simplest case.
+		eg [video @#25:13], 
+		docker image pull ubuntu
+		docker image tag  ubuntu  beagle:5000/ubuntu
+		docker image push         beagle:5000/ubuntu
+
+		# ie have to run a lot of work to retag each container and push it to a registry run locally (but beagle was transparent? or beagle only hosted locally created images, and still pull ubuntu directly from docker-hub?)
+
+
+	more elaborate: 
+		pull first local mirror, fast, 
+		compare local and remote id, if don't match, need to update.
+
+		but, really, better to use harbor than do this by hand.
+
+
+	complications:
+	shell script, etc.
+	*harbor*: has func that does this, got gui that just need to click.
+	have better control of when to run it.
+	it also serve as a backup.
+	pull-thru cache can't serve as backup.
+	fully disconnected from outside.
+	But overhead of needing to run sync script or get out of date quickly.
+
+
+[video @ 30:20]
+
+	recovery is more complicated.
+	need to recreate the mirror by running script and pulling all the images
+	(this is if the mirror server crash, lost disk, etc).
+	it would take a while to download all the images, and dev will need to wait for this local mirror/cache
+	to be up before can do build again.
+
+	use a var (ARG) as registry name, so that it can be changed quickly
+	worthwhile, so that we can change server easily.
+
+	ARG REGISTRY=docker.io
+	FROM ${REGISTRY}/alpine:3.9
+	...
+
+ 	docker build --build-arg REGISTRY=local-mirror:5000 .
+
+	**SUGGESTIONS** ++
+	new docker-compose or build cmd to use the REGISTRY ARG/var.
+	above also help flip to use non local mirror if it is down.
+
+	overall, current dev env is ok.  
+	but if need to create air-gapped env, then may need to really build a full mirror server
+	using steps outlined in this talk.
+
+
+
+
+
+
+3:30 vulnerabilities in container...
+====
+
+ref: 
+https://docker.events.cube365.net/docker/dockercon/content/Videos/GZpzJAapdrSXohzNz
+
+
+++TODO++
+
+
+
+
+16:00 - Integration testing w/ Compose
+=====
+
+in a nutshell, write a docker-compose that use all services, 
+so that it is known that they work together.
+there are some dockerfile that define specific action to insert record to mongo db, and use google pub/sub service...
+
+but yeah, docker-compose.yml.  
+
+RUN foo && npm ci 
+
+
+16:30 - rootless docker 
+=====
+
+https://docker.events.cube365.net/docker/dockercon/content/Videos/wHjxizoWgFgCYu6aF
+
+see https://docs.docker.com/engine/security/rootless/
+
+figlet
+create ascii art
+
+hard to understand presenter (from NTT)
+there is a katacoda scenario... maybe check that...
+
+or see
+https://get.docker.com/rootless
+
+
+~11 min into talk,
+is he talking about the rootless docker they created, that still some semblance of root?
+
+User Namespaces:
+unshare --user --map-root-user
+
+so not fully user, eg, can't do "touch /evil"
+it is fake root env for emulating.
+create other namespace, change hostname, bind mount and tmpfs
+(can install packages, cuz it was chrooted?)
+
+
+unshare --uts
+
+vanilla kernel 
+
+docker 20.0X  use FUSE-OverlayFS if installed.
+
+
+user-mode tcp/ip stack instead of vEth.
+slirp4netns
+SETUID helper lxc-user-nic is experimental.
+
+cgroup --cpus, --memory, --pids-limt
+req docker 20.0x
+
+see caveats of things not supported, eg appArmor, docker run --net=host
+
+
+rootless mode is graduating in next version, 20.0X, in the next couple of months.
+
+
+can no longer use priviledged port, need to map instead
+docker run -p 8080:80 
+for http server 
+	the above is 8080 on the host, 80 inside the container.
+	so app inside the container still think it has root and so can bind to port 80, 
+	but on the host it has effectively no root access (since it is running as user), and so externally, can't listen on priviledged port.
+	but this is probably ok with most modern app except for web/ssh/mail server?
+	should be ok with greta since we can define all the ports we need to use.
+
+
+	podman can't "docker network create", ie cant create custom network.
+	rootless docker lack --net=host
+	so two of them becoming similar ?
+
+	curl -fsSL https://get.docker.com/rootless | sh
+what is it?
+to install rootless docker??
+
+ended in 22 min.
+
+
+
+
+
+
+
+
+
+

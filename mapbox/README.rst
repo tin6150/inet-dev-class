@@ -62,8 +62,14 @@ Shape file (from ESRI) import into Mapbox (Census TIGER data are provided as sha
 https://www.mapbox.com/help/define-shapefile/
 
 Convert shapefile and GeoJSON to MBTiles (tileset importable into Mapbox)
- * https://openmaptiles.org/docs/generate/custom-vector-from-shapefile-geojson/
- * tippecanoe
+* https://openmaptiles.org/docs/generate/custom-vector-from-shapefile-geojson/
+* tippecanoe
+
+MBTile server
+* https://openmaptiles.org/docs/host/tileserver-gl/
+* So dont really have to use mapbox server if all data are in MBtiles (or geojson?), can run my own server (it is a docker container).  However, if map is styled using mapbox studio, then likely still need it served off mapbox.
+* Potentially get CA census data shape/zip file, tippecanoe convert to MBTiles (or TileBrute with Hadoop), then use MBTile server out of linux box and self serve.  But combine with other data, eg ozone, would still need serious work to combine data into a single "tile layer".
+
 
 
 Reading list
@@ -228,6 +234,7 @@ Verify file format/parseability:
 * Example geoJSON: https://www.mapbox.com/help/data/stations.geojson
 * Additional ref: https://www.mapbox.com/help/define-geojson/
 * json5, json for HUMANS!! https://json5.org/  How effing retarded did original json not support comment?!?!  is there a .gson5 yet??
+* ndjson, new line delimited json.  it helps with merge/join of two files, but the fact that it create a two-element array for each row means there is a manual step to remap things to produce proper geojson.  Pandas frame would remove this json imposed bracket/braces mess.  
 
 
 ZWEDC data with two example points
@@ -305,6 +312,12 @@ Note Alaska and some other state use "MultiPolygon", which are more time consumi
 ... }}]}
 
 
+TopoJSON
+--------
+
+TOPO-json use series of arcs (segments) instead of series of coordinates.  This allow county (and census tracts) boundaries to be defined once and used multiple times, thereby resulting in ~80% file size reduction.
+https://medium.com/@mbostock/command-line-cartography-part-3-1158e4c55a1e
+
 mapbox zoom levels
 ------------------
 
@@ -349,6 +362,33 @@ https://www.mapbox.com/help/data/stations.zip ::
 * so, shapefile can be imported directly into a tileset.  hopefully style it to be visually useful.
 
 * Then still need to extract the pouplation info which in in dBase III... and create it as a csv to be added as a layer to mapbox studio?
+
+
+tigris (CRAN)
+-------------
+
+https://cran.r-project.org/web/packages/tigris/index.html
+Load Census TIGER/Line shapefiles into R.
+No python equiv?
+
+
+tidycensus
+----------
+
+https://cran.r-project.org/web/packages/tidycensus/index.html
+Load US Census Boundary and Attribute Data as 'tidyverse' and 'sf'-Ready Data Frames
+
+tidyverse is a metapackage that include many things.
+it is opinionated, but the set way make it easy for beginner to do powerful things.
+tidyr is data framing that Pandas can do most of.  Pandas is faster.
+ggplot2 is for viz and that's does not have a direct python equiv?  Thus this keeps folks in the R world?
+
+see: https://analyticsindiamag.com/pythons-pandas-vs-rs-tidyverse-who-wins/
+
+https://itsalocke.com/blog/python-and-tidyverse/#:~:text=Tidyverse%20is%20an%20opinionated%20collection,%2C%20tibble%2C%20stringr%20and%20forcats. - some info for migrating from tidyr to pandas.  
+
+
+Used NDJSON for the COVID19 map project, found it tedious, essentially wrote shell script to use the tool.  Maybe better off using Pandas, which may do more of the new line separation automatically rather than having to deal manual converstion to json/geojson.  
 
 
 WebApp
@@ -451,12 +491,13 @@ Census data
 ===========
 
 probably need some conversion to get population density (population divided by the census block or census track area). 
+( https://medium.com/@mbostock/command-line-cartography-part-3-1158e4c55a1e says census track area is provided, as well as population in that track.  Density needs to be calculated.
 
 census block geo boundary and population data can be found here: https://www2.census.gov/geo/tiger/TIGER2010BLKPOPHU/
 California is:
 
 [   ]	tabblock2010_06_pophu.zip	08-Jun-2011 07:28	408M
-(CA is state 06 always?) 
+(CA is state 06 always, that's census FIPS code for CA) 
 https://www2.census.gov/geo/tiger/TIGER2010BLKPOPHU/tabblock2010_06_pophu.zip ::
 
 	-rw-rw-r-- 1 tin itd  34M Mar 28  2011 tabblock2010_06_pophu.dbf
@@ -501,6 +542,24 @@ Bounds for Delaware ::
  * Mapbox GL JS use `center: [-121.95978, 34.73907],` ie, lng, lat (cuz geoJson is ordered as longitude, lat pair as well).
 
 
+Census hierachy of information ( https://medium.com/@mbostock/command-line-cartography-part-1-897aa8f8ca2c )
+Census Blocks -> Block Groups -> Tacts -> Counties.
+In a parallel environment, Counties could have subdivision by Voting Districs, Traffic Analysis Zones (TAZ? by Caltrans),  etc.
+
+
+Population is recorded by Blocks (3D diagram by Peter Liu)?
+Aggregated? into Tracts (mbostock) ?
+
+
+
+Instead of downloading the whole census CA Tiger Shape into 408 MB zip, could download individual components, eg
+- geometry of tract (with ALAND and AWATER, for area in (sq meter?))
+- population eg curl 'http://api.census.gov/data/2014/acs5?get=B01003_001E&for=tract:*&in=state:06' -o cb_2014_06_tract_B01003.json
+  - population density need to be computed by population (B01003) div by area of land (ALAND).  
+	The constant 2589975.2356 = 1609.34² converts the land area from square meters to square miles:
+    ndjson-map 'd[0].properties = {density: Math.floor(d[1].B01003 / d[0].properties.ALAND * 2589975.2356)}, d[0]' \
+      < ca-albers-join.ndjson \
+      > ca-albers-density.ndjson
 
 
 
