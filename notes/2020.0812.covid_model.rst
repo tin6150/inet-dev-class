@@ -1,0 +1,27 @@
+
+Mathematical Models For Prediction And Control Of Epidemics (Virtual Workshop) August 12, 2020 - August 14, 2020
+
+https://www.msri.org/workshops/1002/schedules
+
+
+2020.0812.covid_model.rst
+
+
+seir model.
+
+non-transmission/transmission model
+all the way to agent model
+
+what is the level of detail needed to answer the question.
+never use more complex model than needed.
+but sometime q has lots of complex, but don't have the data.
+don't try to fit the data, lack rigor, so just to try to find general pattern.
+summary stats of the data.
+o
+
+netwrok vs seir model.
+network maybe very interesting.
+
+
+~~~~~
+

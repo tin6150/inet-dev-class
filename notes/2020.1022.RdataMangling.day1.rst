@@ -1,0 +1,298 @@
+
+Adv data wrangling in R
+D-Lab
+2020-10-22 day 1
+
+
+git repo: https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/
+suggested use blender link in it.
+but i like jupyter notebook better (Rmd is less obvious about code and notes)
+Don't really need his code in the jupyter notebook, just need tidyverse installed.
+(alt, run Rstudio locally)
+
+day 1 start with:
+https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/01_tidy_reshaping.Rmd
+~~~~
+
+R has 2 (?) data structure:
+- df
+- matraix
+
+
+assumption is tidy data
+easy to visualize (tidyverse tool)
+
+library(vroom)
+# this library can load csv data at 1 GB/sec
+
+
+[9:36]
+gather()
+a function in tydiverse, help pivot data into "tidy data"
+
+eg:
+table4a %>%
+gather(key = "year",
+       value = "cases", 
+       c("1999", "2000"))
+
+[9:42]
+pivot_longer() was another data mangling command
+can do the same thing as gather()
+argument positioning is probably more intuitive than gather()
+
+
+pivot_longer() can also be used when df is too wide.
+
+
+reshaped$year = as.numeric(year)  # convert year from char to numeric
+
+alt, arg for pivot_longer :
+names_transform = list(year = readr::parse_integer)
+
+around line 154 in https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/01_tidy_reshaping.Rmd
+
+
+eg data "billboard"
+it is too wide.  week as col name.  many NA.
+use pivot_longer to tidy
+	around line 205 
+	in https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/01_tidy_reshaping.Rmd
+
+gather(... startwith="wk" )  # this use regular expression to match column name and pivot them all
+	# instead of having to do c("wk1", "wk2", ... )
+
+		billboard %>%
+		  pivot_longer(
+			cols = starts_with("wk"), # Use regular expressions
+			names_to = "week",
+			values_to = "rank",						## rank instead of value... cuz want to count seq ranking in this particular data set
+			values_drop_na = TRUE # Drop NAs
+		  )
+
+drop_na()  # drop the cells with NA
+# but careful, may skew data range/stat stuff
+
+line 201
+
+
+line 239 
+--------
+table2
+table is too wide, not tidy.
+can't do
+lm ( cases ~ population )
+with data in table2, as cases and pop are not in their own col.  use pivot_wider() to tidy the data.
+
+could use 
+	spread( key = type, value = count ) 
+but this is old way
+dyplr 1.0 change this fn name to 
+	pivot_wider
+
+also see ch 4 of tidyverse book (O'reily, avail online for free r4ds.com?)   [10:18]
+
+
+
+fish_encounters
+---------------
+
+eval problem at [10:26], return at [10:35]
+
+pivot_wider( name_from =   # can take value in the df and turn it into col name
+			 value_from =  # then this extract value from adj cell of df/csv by clearly saying which col to take data from
+
+this help avoid writing lots of if statement, which isn't scalable to acc for all possilbe value in input data.
+
+
+line 308
+--------
+
+https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/01_tidy_reshaping.Rmd
+implicit vs explicit missing data.
+[10:42]
+
+separate() 
+default separator is dot for this fn.  eg
+dad.apple
+get split into two col as dad   then apple
+
+table3
+rate col
+745/1998701
+separator is /
+separate( rate, into = c( "cases", "pop" )
+		  sep = "/"  )
+
+# new separator() seems to be able to detect that / as separator as default too!   so not exactly needed to explicity state it.
+
+
+
+unit()
+------
+
+[10:51]
+
+join 2 col into 1.
+but might get NA_NA, which is no longer treated as NA by R
+so be sure to handle the NA before unite() 
+
+
+
+arrange()
+---------
+
+last part of reshaping.
+go from tidyr to dplyr.
+
+mtcars data set
+dplyr::arrange(mtcars,desc(mpg))
+desc() is descending order sort
+
+
+pacman
+------
+
+line 36 of
+https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/01_tidy_reshaping.Rmd
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(
+  tidyverse, # for the tidyverse framework
+  here # for computational reproducibility
+  )
+
+
+
+starwars
+--------
+
+2nd file in git repo: https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/02_subsetting.Rmd
+
+[10:59]
+data set (in tidyverse?)
+
+starwars
+starwars$films[1]
+
+verbs
+data.frame 2 dim, 1 rows, 2 col.
+1. filter - by rows
+2. select - by col
+
+starwars.
+
+
+filter(height <= 180, height > 160) %>% 
+nrow()
+
+filter(height <= 180 & height > 160) %>% 
+
+OR: 
+
+filter(height <= 180 | height > 160) %>% 
+
+filter(between(heights, 161,179)) 
+between() take value inside a range, avoid having to use & or | or , 
+it maybe a bit more readable using between() or if not sure of logical operator syntax in R.
+
+	
+filter name - eg get those with "ars" in the name
+grepl 
+grep lower ?
+kinda weired, not sure... take some true/false as argument?
+starwars %>% filter(grepl("ars", tolower(name)))
+
+
+filter(str_detect(tolower(name), "ars"))
+
+[11:15]
+starwars %>% 
+filter(hair_color %in% c("black", "brown"))
+
+starwars$hair_color %in% c('black', 'brown')
+	return bunch of T/F for each entry
+
+so filter just output T/F ?
+oh, %in% return T/F
+
+
+
+break, return at [11:27]
+str_detect() 
+	return T/F 
+so can use it with filter
+
+see ine 110
+https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/02_subsetting.Rmd
+
+
+set.seed(1234) # set the seed for rnd, so that it is reproducible in code writting.
+# or for reproducibility
+
+%>% slice(1:6)
+pick select rows (instead of head() or tail() )
+
+
+useful for random sampling
+
+slice_sample()
+
+old:
+smaple_frac(0.10, replace = FALSE )  # take 10% random rows, do NOT replace ?
+
+new:
+starwars %>% 
+slice_sample( prop = 0.10, replace = FALSE )
+kinda like slice(1:6) idea above.
+
+
+select()
+------
+
+msleep
+
+bio eg
+
+msleep %>% select(name, genus) 
+	# pick column.  think SQL :D
+
+select(where(is.numeric))   # pick col whose data are numbers # cuz stat, no use for the string/char col :D
+select(where(is.character))
+
+filter = subsetting rows
+select = subsetting cols
+
+
+
+msleep %>% slect(contains("sleep"))
+
+msleep[grepl('sleep|wt', names(msleep))]
+	# eh, what's that sq bracket??
+
+	# something like this: ??
+str_detect(names(msleep), "sleep_wt" )
+  
+
+msleep %>%
+  select(starts_with("c"))
+
+  select(contains("c"))
+
+  select(ends_with("wt")) 
+
+
+  select(num_range("week", c(1:12)))
+
+
+today covered 
+reshaping (too long, too wide)
+subsetting (filter rows, seclect cols)
+select by pattern
+
+
+
+
+
+###################
+# vim: tabstop=4
