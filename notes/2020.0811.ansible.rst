@@ -1,0 +1,312 @@
+
+
+
+red8 ansible workshop by Steve Tobias
+=====================================
+
+instruction for the exercise, public:
+https://ansible.github.io/workshops/exercises/ansible_rhel/
+
+online ansible environment (ssh to hosts, tower, etc), private only usable during training:
+http://login.lbl-wshop.red8.cloud/
+
+
+~~~~
+
+ansible plugin are free. cli util is free.
+they are like feature add to modules ?
+
+{{ some_variable | to_nice_yaml }} # some sort of plugin 
+
+
+side note:
+code ready workspace - allow similar thing to vscode on web
+	maybe in liue of open on-demand? not likely
+
+
+~~~~~
+
+
+[student20@ansible lab_inventory]$ cat ~/.ansible.cfg 
+[defaults]
+stdout_callback = yaml
+connection = smart
+timeout = 60
+deprecation_warnings = False
+host_key_checking = False
+retry_files_enabled = False
+inventory = /home/student20/lab_inventory/hosts
+[persistent_connection]
+connect_timeout = 200
+command_timeout = 200
+
+
+
+~~~~~
+
+[student20@ansible ~]$ cat lab_inventory/hosts 
+[all:vars]
+ansible_user=student20
+ansible_ssh_pass=red8-lbl-buddies
+ansible_port=22
+
+[web]
+node1 ansible_host=54.202.141.209
+node2 ansible_host=52.12.208.239
+node3 ansible_host=34.216.199.215
+
+[control]
+ansible ansible_host=18.236.103.168
+
+~~~~
+
+In the lab environment we provide Midnight Commander (just run mc, function keys can be reached via Esc-<n> or simply clicked with the mouse) or Nano (run nano)
+
+~~~~
+
+ansible web,ansible --list-hosts
+#       ^^^^^^^^^^^-----section group name
+
+
+ansible web -m ping
+
+
+
+
+ansible-doc -l | grep -i yum
+ansible-doc yum
+
+ansible node1 -m command -a "uname -r" -o
+	# -o is for one liner output
+
+
+[student<X>@ansible ~]$ ansible node1 -m copy -a 'content="Managed by Ansible\n" dest=/etc/motd' -b
+	# copy from an echo to a file
+	# -b = become (root)
+
+
+[student<X>@ansible ~]$ ansible node1 -m yum -a 'name=squid state=latest' -b
+
+
+ansible --help
+
+-m MODULE_NAME 
+-a MODULR_ARGS
+-e EXTRA_VARS
+
+
+~~~~
+
+exercise 1.3
+------------
+
+https://ansible.github.io/workshops/exercises/ansible_rhel/
+
+[student<X>@ansible ansible-files]$ ansible-playbook --syntax-check apache.yml
+
+
+[student<X>@ansible ansible-files]$ ansible-playbook apache.yml
+
+[student<X>@ansible ansible-files]$ ansible node1 -m command -a 'rpm -qi httpd'
+[student<X>@ansible ansible-files]$ ansible localhost -m uri -a "url=http://<IP>"
+
+
+
+
+exercise 1.4
+------------
+
+https://ansible.github.io/workshops/exercises/ansible_rhel/1.4-variables/
+adding host specific vars as
+
+~/ansible-files/host_vars/node2.yml
+
+::
+	
+	---
+	stage: dev
+
+
+and use as:
+
+
+  - name: copy web.html
+    copy:
+      src: "{{ stage }}_web.html"
+      dest: /var/www/html/index.html
+
+
+ansible node1 -m setup
+	# list all variables
+[student<X>@ansible ansible-files]$ ansible node1 -m setup -a 'filter=ansible_eth0'
+
+[student<X>@ansible ansible-files]$ ansible node1 -m setup -a 'filter=ansible_*_mb'
+	# above look for memory related facts
+
+
+# print the distributio of redhat
+[student<X>@ansible ansible-files]$ ansible node1 -m setup|grep distribution
+[student<X>@ansible ansible-files]$ ansible node1 -m setup -a 'filter=ansible_distribution' -o
+
+
+using facts in playbook ::
+
+- name: Output facts within a playbook
+  hosts: all
+  tasks:
+  - name: Prints Ansible facts
+    debug:
+      msg: The default IPv4 address of {{ ansible_fqdn }} is {{ ansible_default_ipv4.address }}
+
+
+
+so ansible use of variables or facts are same.
+and it is referred as jinja template/var
+{{ var_name }} 
+is the syntax.
+
+
+
+exercise 1.5 - Flow Control
+---------------------------
+
+
+loop:
+  - item1
+  - item2
+
+but require ansible 2.9
+replaced the old "with item"
+
+
+exercise 1.7 - Roles
+--------
+
+[student<X>@ansible ansible-files]$ ansible-galaxy init --offline roles/apache_vhost
+# create a dir tree structure for a role
+# galaxy follow the same structure
+
+https://ansible.github.io/workshops/exercises/ansible_rhel/1.7-role/
+debug info via pre_tasks and post_tasks:
+
+---
+- name: use apache_vhost role playbook
+  hosts: node2
+  become: true
+
+  pre_tasks:
+    - debug:
+        msg: 'Beginning web server configuration.'
+
+  roles:
+    - apache_vhost
+
+  post_tasks:
+    - debug:
+        msg: 'Web server has been configured.'
+
+
+
+[student<X>@ansible ansible-files]$ ansible-playbook test_apache_role.yml
+
+# hmm... it can run a role yaml file as a playbook... not sure we can do that with ours...
+
+
+~~~~
+
+Molecule
+- think of ci/cd for role devlopment.
+
+
+Tower
+awx is the free version of tower, including the clicky gui.
+
+
+~~~~
+
+
+
+Day 3 - HPCS discussion
+
+
+it seems that distfile should move to warewulf
+and then all the files for other roles moved to their respective files dir.
+role should take variable to configure them (maybe except warewulf).
+
+should think of them as same roles/config
+but has a dev vs prod env
+
+one possible thing is to have a group for dev, 
+another group for prod
+then have a dev.yml and group.yml that define variables for these 
+(eg ntp servers, dns server).
+so we could have brc.yml, lrc.yml, abc.yml, gretadev.yml, greta.yml (prod), etc.
+
+
+
+hostvars and groupvars
+
+john wants to rename distfiles to files and help reduce path length, but i wonder if that has to move under a role, eg warewulf.
+wants to avoid {{ distfiles }}/../../{{ supercluster }}/etc/somefile
+to just {{ supercluster }}/etc/...
+and ultimately should use template
+	
+
+
+hashi_vault
+	module in ansible
+	allow rotate secrete underneath
+	when user execute, still need to enter password once to unlock the vault.
+	https://docs.ansible.com/ansible/latest/plugins/lookup/hashi_vault.html
+	    msg: "{{ lookup('hashi_vault', 'secret=secret/hello:value token=c975b780-d1be-8016-866b-01d0f9b688a5 url=http://myvault:8200')}}"
+	
+
+9:53am
+galaxy file
+	at the top of role, have a requirement.yml
+	
+	ansible-galaxy intall geerlininux:1.2.3
+	let galaxy version control things.
+	(cuz loop need ansible 2.9 instead of with_items, but that's server side ansible
+
+
+John mentioned ceph has an asible galaxy for managing cluster, down to including hosts
+how best to use it?
+	seems like a role and a group for ceph...
+
+(integration with 3rd party)
+
+groupvars and inventory
+
+ceph is doing a collection
+
+fork and maintain our own stuff.
+
+tower, can then assign groupvars in our own inventory.
+
+
+
+ansible dry run:
+dev mode
+check mode
+then it tells the set of files that will be changed.
+
+review those, refine playbook, till it is good.
+
+
+
+full product
+
+
+~~~~~
+
+tower/awx
+maybe useful as central server to run ansible playbook rather than cron
+this way it logs the output, and have a dashboard of what happens.
+	Jackie says will deploy a test env of awx.
+
+
+ended at 1:30
+
+
+
