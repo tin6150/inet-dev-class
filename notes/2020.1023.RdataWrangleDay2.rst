@@ -1,0 +1,355 @@
+
+2020.1023
+D-Lab training
+Advanced DAta wrangling in R
+Day 2.
+
+https://github.com/dlab-berkeley/advanced-data-wrangling-in-R
+
+
+Part 2: Learn how to summarize data using the tidyverse packages
+
+Summarising
+Grouping, Nesting, and Mapping
+Joining
+
+
+xref: see ch 25 of R4ds: https://r4ds.had.co.nz/many-models.html
+
+
+fctr = factor (predefined category, eg Asia, America, Africa...)
+not sure how that is created, see eg in gapminder (pacman pkg?)
+
+
+gapminder %>% count(continent) 
+# split , apply, combine 
+# count() is one of those S-A-C fn.
+
+# split
+africa = gapminder %>% filter(continent=="Africa")
+
+n_africa = nrow(africa)
+europe = ...
+# combine: 
+cbind(n_africa, n_europe)
+
+
+
+gapminder %>% count(continent, sort = TRUE)
+
+gapminder %>% count(continent) %>% arrange(desc) 
+
+
+tally_out = gapminder %>%
+	tally()
+
+similar to 
+nrow_out = nrow(gapminder)
+
+but small subtle difference.
+
+class(tally_out)  # df  (vector)
+class(nrow_out)   # scalar ?
+
+
+gapminder %>%
+group_by(continent, year) %>% count()
+vs
+group_by(continent) %>% count(year)
+
+Remember count() is split-apply-combine
+group_by does the same s-a-c
+# s-a-c is fundamental in data science (or maybe data handling)
+
+group by - 
+
+n() # this fn... count().  is like nrow().  but n() count like words
+
+gapminder %>% group_by(continent) %>%
+summarise( n = n(),							# summarise create these new 3 cols.  results are df
+		  mean_gdp = mean(gdpPercap),
+		  sd_gdp = sd(gdpPercap))
+
+
+class( summary(gapminder)) # class is table
+
+summary(gapminder)	# nice, but output is not further actionable, ie hard to build model using this output
+# so often have to do s-a-c by hand on desired fields
+
+
+
+summarise(gapminder) %>%
+
+kableExtra::kable()
+	# output any df/table into latex, word, etc for paper publishing
+flextable
+	is another table publishing package
+
+
+
+
+scoped summaries
+----------------
+
+[9:54]
+gapminder %>%
+select(where()) # new to deplyr 1.0 
+select_at
+select_if   if column type =factor then select    :: select(where(is.factor))
+select_all
+
+mutate_at
+mutate_if
+   	....
+	linearize was confusing...
+these have been unified to a simpler to understand dplyr1 under 
+select(where())
+
+
+
+select(-c(1:4) )   # -c means except 
+
+summarise_all(mean, na.rm = TRUE )   # take mean of each country in the df.
+	# no need to spell out the country name!  was that only cuz they are factor, rather than char ?
+
+summarise_if( is.double, mean, na.rm=TRUE )
+vars(-c(1:4))... it same as select()
+name is confusing, so dplyr 1.0 fixed it too.
+
+
+
+new way
+-------
+
+[9:56]
+
+osumarise(across(Albania
+sumarise(across(-c(1:4), mean )))
+-c() means take out column 1 to 4
+
+summarise(across(is.double, mean, na.rm=TRUE)))
+# just check whehter column has data type of double, then take mean for it (whole col)
+
+
+## class provide a .Rmd file
+## executable in R studio, not jupyter :-\
+
+
+overall, syntax is 
+sumarise(acros( <condition>, 
+				<sumary function>
+				))
+
+
+[10:02]
+challenge #4
+------------
+
+gapminder
+
+LL = c(TRUE, FALSE, TRUE, FALSE)
+sum(LL)
+mean(LL)
+
+
+
+window function
+----------------
+
+[10:28]
+from sql world
+
+cumsum(df)
+lag(df)
+
+df = sample( c(1:10), 10) 
+df
+sum(df)
+cumsum(df)
+# cumulative sum, give couting sum over a window
+
+lag(df)
+
+
+
+
+Nest
+=====
+
+[10:34]
+
+nesting data, each row is a group!
+
+https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/04_grouping_nesting_mapping.Rmd
+line 151
+
+
+nested <- gapminder %>%
+  group_by(country, continent) %>%
+    nest() 
+	head(nested)
+	nested$data[[1]]
+
+nested$data[[1]]
+	row has "tibble" in it.  # when viewed in Rstudio
+	
+nest() absorbed several columns.
+
+need careful study on this.
+very powerful
+
+also talked about 
+angola = gapminder %>% lm ( y~x, data=angola)
+line 167
+	
+briefly touched lapply
+
+
+
+History on R
+<S3:lm>
+	S3 is one of the really old R object
+	linear model
+[10:49]
+
+
+
+unpack
+======
+
+unested
+re-expand what nested() has done
+
+glanced = map(models, broom::glance))
+
+tidymodels
+	broom is part of it
+
+	readr
+	tidyr
+	dplyr
+	lot of package for modeling now as part of tidyverse
+	model eval
+
+
+arrange(BIC)
+AIC = 
+BIC = bayesian criteria ...
+
+can run 100s of regression in a couple of lines.
+
+
+
+Mapping
+-------
+
+
+nest() + map() + broom:: 
+can create 1000s of subgroup and subset, 
+	apply bayesian model, calc std err, etc.
+
+still using the split-apply-combine workflow
+
+visualizing at scale
+
+tmp_obj = filter...
+summary
+model
+lot of steps
+
+s-a-c allow efficient coding , and easier to understand too.
+may take some time to fully grasp this idea.
+a little unintuitive.
+work with small simple examples first  to learn it.
+[11:03]
+
+
+
+map # main goal is automate iteration
+multipley(df[[1]])
+multipley(df[[2]])
+
+# for loop is sequential
+for (in 1in 1:2) {
+	multiply( df [[ i ]] )
+}
+better to do 
+lapply(df, multiply )  # !!  this run in parallel
+map(df, multiply )      # 
+map_df(df, multiply )	# output in df, useful if next step is modeling with it
+
+
+do.call(list, rbind)  # the map_df will take away the need for this step.
+
+
+purrr::
+	there is another workshop on 
+	functional programming / 
+	or automating ... workshop to learn more about map()
+
+[11:04]
+	with nested dataframe, map() and purrr, these all seems to blend in well with SparkR !
+	especially when data can be partitioned a lot, like the countries in gapminder :-D
+
+
+
+[11:11]
+relational database
+PK, FK, join
+df
+rowid_to_columnt("ID")
+from flight data example
+
+inner join
+left join
+are the typical/most used ones.
+
+x = tibble(key=c(1:4) val_x=c("x1, "x2, "x3", "x4"))
+ 
+
+
+
+creating list-columns
+----------------------
+
+https://r4ds.had.co.nz/many-models.html#model-quality
+
+r4ds ::
+
+	25.4 Creating list-columns
+	Typically, you won’t create list-columns with tibble(). Instead, you’ll create them from regular columns, using one of three methods:
+
+	With tidyr::nest() to convert a grouped data frame into a nested data frame where you have list-column of data frames.
+
+	With mutate() and vectorised functions that return a list.
+
+	With summarise() and summary functions that return multiple results.
+
+	Alternatively, you might create them from a named list, using tibble::enframe()
+
+
+
+
+named list, enframe
+-------------------
+
+## ++ place pointer in R.html ++
+
+x <- list(
+  a = 1:5,
+  b = 3:4, 
+  c = 5:6
+) 
+
+df <- enframe(x)
+df
+#> # A tibble: 3 x 2
+#>   name  value    
+#>   <chr> <list>   
+#> 1 a     <int [5]>
+#> 2 b     <int [2]>
+#> 3 c     <int [2]>
+
+
+# vim: tabstop=4 paste
+
