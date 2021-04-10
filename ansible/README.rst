@@ -292,6 +292,7 @@ index of constructs
 * nesting quotes  '"foo" bar' is allowed.  -vvv may also help?
 * escaping quotes: maybe easier to go hang yourself.   Maybe a Jinja2 issue...
 * default variable for a role:    roles/mount/default/main.yml
+  (bofh:~/tin-gh/ansible, former framework for beppic)
 * lineinfile, regex replace: roles/usercfg_standalone/tasks/sysAdmin.yml 
 * ini_file module: roles/container_stack/tasks/RedHat.yml
 * block...when (so that multiple task can be run with single "if" condition): roles/container_stack/tasks/RedHat.yml
