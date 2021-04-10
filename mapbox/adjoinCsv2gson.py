@@ -1,15 +1,17 @@
 #!/usr/bin/env python 
 
-# convert csv into geoJSON   # i will just call it gson
-# based on caAirCsv2gson_sq.py , 
-# this one use "val" instead of max.  
+## adjoinCsv2gson.py : script convert csv to gson 
+## updated for adjoin data (but same code for 2019 or 2021 data)
+# this script converts csv into geoJSON   # i will just call it gson
+# (based on caAirCsv2gson_sq.py)
+# this one use "val" instead of max.    but name dont really matter, just use array index 4.
 # for debugging, there are a few more entries added, 
 # - "shifter" value so to avoid really small number (input range 1e-14 to 1e-4)
 # - mantissa, exponent, just to try out color and be sure data is there.
 
 # example run
 # don't run this python script, use the wrapper shell script:
-# ./caAirCsv2gson.sh   ++CHANGEME for adjoin
+# ./caAirCsv2gson.sh   # old script name, but also work with this adjoinCsv2gson.py script
 # it loop over many input file, and generate appropriate output filename
 
 
@@ -131,13 +133,20 @@ INPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"
  |   |
  v   v   
 "", "id","lon1"          ,"lat1"          ,"Max"           ,"lon2"           ,"lat2"          ,"lon3"          ,"lat3"          ,"lon4"           ,"lat4"
- 0 , 1  , 2              , 3              , 4              , 5               , 6              , 7              , 8              , 9               , 10
+ 0 , 1  , 2              , 3              , 4              , 5               , 6              , 7              , 8              , 9               , 10    # py array index
 "1","1",-121.984557282895,37.4617964867235,1.22821750333907,-121.983991985539,37.4617916274105,-121.98399808318,37.4613410121812,-121.984563377145,37.4613458714155
 "2","2",-121.983991985539,37.4617916274105,1.28725760513053,-121.983426688318,37.4617867653938,-121.983432789351,37.4613361502432,-121.98399808318,37.4613410121812
-
 """
 
-val_idx = 4 # value of the feature at the lon, lat (in this case, wants Max)   Unit is ou/m3
+## VV below adjoin 2021 data from Yuhan   dacsjvnew_AVOC_07_Day_Sp.csv 
+## same format as before.  col name changed from max to value  , but expect to have max on it per Ling, since no longer using avg
+
+"""
+"","id","lon1","lat1","value","lon2","lat2","lon3","lat3","lon4","lat4"
+"1","1",-122.921617885187,38.9689712780554,3.44251245817624e-07,-122.874163293308,38.9700811773257,-122.872756412373,38.93303669161,-122.920182917571,38.9319275226955
+"""
+
+val_idx = 4 # value of the feature at the lon, lat (in this case, wants Max)   Unit is ...
 lon1_idx = 2 # column index containing longitude
 lat1_idx = 3
 lon2_idx = 5 # 

@@ -38,7 +38,7 @@
 # gpanda very sluggish, so xfering all files to bofh...
 
 # example run for adjoin data (same as caAir/smelly):
-# ./caAirCsv2gson.sh 2>&1 | tee adjoinCsv2gson.2020.0208.log # on bofh after all
+# ./caAirCsv2gson.sh 2>&1 | tee adjoinCsv2gson.2021.0410.log # on 054t ??  ++
 
 # **>> after above step, then  upload to mapbox using zwedc/caair_uploader.sh <<**
 
@@ -58,8 +58,9 @@
 #InputDir="./CSV_adjoin"  # 2020.0119 by Yuhan Wang
 #OutputDir="./DATA_adjoin_0124"  # ~/tin-gh/inet-dev-class/mapbox/
 # adjoin 2020.02 additional dataset (AVOC, NOx, a few episodes).
-InputDir="/home/ywang/CSV_adjoin" 
-OutputDir="./DATA_adjoin_0209"      # ~/tin-gh/inet-dev-class/mapbox/
+#--InputDir="/home/ywang/CSV_adjoin" 
+InputDir="./CSV_adjoin"  # 054t:/mnt/c/Users/t/Downloads/adjoin
+OutputDir="./DATA_adjoin_0410"      # ~/tin-gh/inet-dev-class/mapbox/
 
 [[ -d $OutputDir ]] || mkdir $OutputDir 
 
