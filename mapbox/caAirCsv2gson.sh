@@ -60,7 +60,7 @@
 # adjoin 2020.02 additional dataset (AVOC, NOx, a few episodes).
 #--InputDir="/home/ywang/CSV_adjoin" 
 InputDir="./CSV_adjoin"  # 054t:/mnt/c/Users/t/Downloads/adjoin
-OutputDir="./DATA_adjoin_0410"      # ~/tin-gh/inet-dev-class/mapbox/
+OutputDir="./DATA_adjoin_0413"      # ~/tin-gh/inet-dev-class/mapbox/
 
 [[ -d $OutputDir ]] || mkdir $OutputDir 
 
