@@ -21,6 +21,7 @@
 # for the CA state map overview of all sites:
 # ++TODO++ cd to the desired dir before starting upload script
 # ../caair_uploader.sh 2>&1 | tee -a  ../adjoin_uploader.log
+# ../caair_uploader.sh 2>&1 | tee -a  ../adjoin_uploader.2021_0411.log
 # ++ login to mapbox studio to get some feedback on upload
 
 # renamed from zwedc_uploader.sh to caair_uploader.sh since it works for all sites geojson.  2019-01-23
@@ -28,8 +29,8 @@
 
 #### need to have a mapbox cli tool installed (done only on bofh at this point)
 PATH=$PATH:~/.local/bin  # from pip install --user mapbox (didn't bother creating virtual env)
-##U=sn50
-U=tin117
+##U=sn50  ## smelly data
+U=tin117  ## adjoin data
 
 ## retrieve mapbox secret key 
 MAPBOX_ACCESS_TOKEN=$SECRET
@@ -39,7 +40,7 @@ if [[ x"$MAPBOX_ACCESS_TOKEN" == x ]]; then
 	exit 007
 fi
 
-
+# install this toolkit for this script to work
 # ref https://github.com/mapbox/mapbox-cli-py#upload
 
 #F=$U.SF_ZWEDC_Spring_High_AllAreaLine_10x.geojson
