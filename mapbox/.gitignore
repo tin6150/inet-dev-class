@@ -10,7 +10,11 @@ DATA_caair_Al_0123/
 DATA_caair_Al_0125_misspell/
 DATA_caair_BadName_Hi/
 DATA_zwedc_0922/
+DATA_*
+CSV_*
 node_modules/
 sitesinfo.unix.csv
 siteXY_polygon.unix.csv
 coord_sys.xoop
+venv4mapbox
+LOG
