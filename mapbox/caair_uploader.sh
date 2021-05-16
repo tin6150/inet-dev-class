@@ -1,5 +1,19 @@
 #!/bin/bash
 
+exit 007
+
+## **** ++++ 
+## **** ++++ 
+## **** ++++  STOP using this
+## **** ++++  upload map at 1m resolution and rack up lots of charges!  
+## **** ++++  2021.05 charges to tin117 
+## **** ++++ 
+## **** ++++  Need to transition to use MTS - Mapbox Tiling Service
+## **** ++++  with json file to specify resolution at 10m 
+## **** ++++ 
+
+exit 007
+
 # using the mapbox-cli-sdk, upload is much simpler.   
 # don't have to deal with AWS staging to S3 step.
 # may not have lot of tracking, but don't think i need that
