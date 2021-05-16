@@ -1,0 +1,5 @@
+
+
+
+numa node per socket... maybe 2% gain in perf in reduced latency.
+useful for hpc, but maybe not worth the headache outside hpc
