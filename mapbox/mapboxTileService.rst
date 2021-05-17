@@ -64,12 +64,15 @@ cd ~/tin-gh/inet-dev-class/mapbox/DATA_adjoin_0413 # luna
 #File=o3gt70sjvNOxMxDaySp_h3
 File=o3gt70sjvNOxMxDaySp
 Name=$File   # tile source name, can have up to 10 ource files # currently empty
-curl -X POST "https://api.mapbox.com/tilesets/v1/sources/tin117/$Name?access_token=$TOKEN" \
+#// curl -X POST "https://api.mapbox.com/tilesets/v1/sources/tin117/$Name?access_token=$TOKEN" \
+    curl -X PUT  "https://api.mapbox.com/tilesets/v1/sources/tin117/$Name?access_token=$TOKEN" \
     -F file=@${File}.geojson.ld \
     --header "Content-Type: multipart/form-data"
 
 ## got output: {"id":"mapbox://tileset-source/tin117/o3gt70sjvNOxMxDaySp","files":1,"source_size":5702002,"file_size":5702002}
 
+  -X POST = create/append tileset
+  -X PUT  = create/replace tileset - so, maybe better to use PUT
 
 the Tileset CLI toolkit (github) does this conversion automatically, so good reason to use it (installed to lunaria) ref: https://docs.mapbox.com/help/tutorials/get-started-mts-and-tilesets-cli/#create-a-tileset-source
 	source venv4mapbox/bin/activate
@@ -78,11 +81,21 @@ the Tileset CLI toolkit (github) does this conversion automatically, so good rea
 
 
 
-list existing tileset source (stored in mapbox.com)
+list existing tileset source (stored in mapbox.com) (like dir?)
 curl "https://api.mapbox.com/tilesets/v1/sources/tin117?access_token=$TOKEN"
 
+	eg output:
+	[{"id":"mapbox://tileset-source/tin117/o3gt70sjvNOxMxDaySp","size":5702002,"files":1},
+     {"id":"mapbox://tileset-source/tin117/o3gt70sjvNOxMxDaySp_h3","size":1006,"files":1},
+     {"id":"mapbox://tileset-source/tin117/mapbox_hello","size":467,"files":1}]
 
-**next step 05.16 >>**
+retrieve tileset source info (for a specific tileset?, like cat?)
+uname=tin117
+curl "https://api.mapbox.com/tilesets/v1/sources/tin117/$uname.$tileset?access_token=$TOKEN"
+curl "https://api.mapbox.com/tilesets/v1/sources/tin117/mapbox_hello?access_token=$TOKEN"
+curl "https://api.mapbox.com/tilesets/v1/sources/tin117/o3gt70sjvNOxMxDaySp?access_token=$TOKEN"
+
+
 
 get tileset's recipe
 --------------------
@@ -100,9 +113,16 @@ validate recipe
 ref: https://docs.mapbox.com/api/maps/mapbox-tiling-service/#validate-a-recipe
 
 curl -X PUT "https://api.mapbox.com/tilesets/v1/validateRecipe?access_token=$TOKEN" \
-  -d @recipe.json \
+  -d @o3gt70sjvNOxMxDaySp.json \
   --header "Content-Type:application/json"
 
+resolution info is not explicityly defined, but embeded in zoom
+https://www.mapbox.com/pricing/#tilesets 
+10m is zoom  6-10
+ 1m is zoom 11-13
+
+so, let's try a recipe with maxzoom 10
+but recipe keep getting rejected.  API vs 
 
 create tileset 
 --------------
@@ -113,17 +133,37 @@ this is like uploading source data to mapbox, a prep step (later need conversion
 ref: https://docs.mapbox.com/api/maps/mapbox-tiling-service/#create-a-tileset
 need a recipe, so create and validate that first 
 
-curl -X POST "https://api.mapbox.com/tilesets/v1/{tileset}?access_token=YOUR MAPBOX ACCESS TOKEN" \
-  -d @tileset-recipe.json \
+tileset=o3gt70sjvNOxMxDaySp
+#-- curl -X POST "https://api.mapbox.com/tilesets/v1/${tileset}?access_token=$TOKEN" \
+#-- this result in error "Not Found"
+
+#++ below seems to be the right syntax.  should make a suggestion to the doc
+curl -X POST "https://api.mapbox.com/tilesets/v1/tin117.${tileset}?access_token=$TOKEN" \
+  -d @${tileset}.json \
   --header "Content-Type:application/json"
+
+	# eg output
+	{"message":"Successfully created empty tileset tin117.o3gt70sjvNOxMxDaySp. Publish your tileset to begin processing your data into vector tiles."}
+
+
+get list of tileset:
+curl "https://api.mapbox.com/tilesets/v1/tin117?access_token=$TOKEN" | tee tileset_list.json
+
+delete a tileset
+
+username=tin117
+tileset=o3gt70sjvNOxMxDaySp
+curl -X DELETE "https://api.mapbox.com/tilesets/v1/${username}.${tileset}?access_token=$TOKEN"
+
 
 contrast this curl API method vs Tileset CLI 
 https://docs.mapbox.com/help/tutorials/get-started-mts-and-tilesets-cli/
 	Tileset CLI has: 
 	- estimate area size
 	- overwrite existing data
-	- need to install some sdk (github)
+	- need to install some sdk (github), and i got some error and abandoned the install
 	- output/result probably more human readable than API/curl, which is likely json.
+
  
 
 publish tileset
@@ -133,9 +173,22 @@ publish actually convert the "created tileset" into vectors, this is the step th
 
 ref: https://docs.mapbox.com/api/maps/mapbox-tiling-service/#publish-a-tileset
 
+username=tin117
+tileset=o3gt70sjvNOxMxDaySp
+#xx curl -X POST "https://api.mapbox.com/tilesets/v1/{tileset}/publish?access_token=$TOKEN"
+curl -X POST "https://api.mapbox.com/tilesets/v1/$username.${tileset}/publish?access_token=$TOKEN"
+
+	eg output from above, with $username
+	{"message":"Processing tin117.o3gt70sjvNOxMxDaySp","jobId":"ckosble6i000008lccevs3drf"}
+
 
 ~~~~
 
+notes
+=====
+
+- tileset created in studio is not covered in the tileset processing pricelist
+  (so my big box around adjoint sim coverage was likely free and not cause of invoice.
 
 
 
