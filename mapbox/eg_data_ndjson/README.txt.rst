@@ -1,5 +1,25 @@
 (this likely won't render well in rst, mostly code needing to be lined by character/column.  but using rst as highlight)
 
+~~~~~
+
+see mapbox simple example of ndjson as brief intro to what they call line-delimited geojson (geojson.ld)
+which is the format for tileset sources
+https://docs.mapbox.com/mapbox-tiling-service/guides/tileset-sources/#line-delimited-geojson
+eg: mapbox_hello.geojson.ld
+
+File=mapbox_hello2
+Name=$File   # tile source name, can have up to 10 ource files # currently empty
+curl -X POST "https://api.mapbox.com/tilesets/v1/sources/tin117/$Name?access_token=$TOKEN" \
+        -F file=@${File}.geojson.ld \
+        --header "Content-Type: multipart/form-data"
+
+above worked.  structure is type-geometry-properties
+mapbox_hello2.geojson.ld -- flipping structure to type-properties-geometry
+worked as well.
+
+
+~~~~
+
 trying to learn ndjson
 as it should make processing files in a more standard way rather than writting custom script
 to generate csv files.
@@ -198,4 +218,5 @@ ndjson-reduce 'p.features.push(d), p' '{type: "FeatureCollection", features: []}
 
 Also see https://github.com/tin6150/covid19_care_capacity_map
 README there used these steps to create covid19 care capacity map
+
 
