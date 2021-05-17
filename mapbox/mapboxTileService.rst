@@ -70,15 +70,16 @@ cat o3gt70sjvNOxMxDaySp.geojson | ~/node_modules/geojson2ndjson/geojson2ndjson.j
         i guess may as well update csv2geojson script to csv2ldgeojson directly...
 cat o3gt70sjvNOxMxDaySp.geojson.ld | ~/node_modules/geojson2ndjson/geojson2ndjson.js  > o3gt70sjvNOxMxDaySp_h2.geojson.ld
 
-trying:
 cd ~/tin-gh/inet-dev-class/mapbox/DATA_adjoin_0413 # luna
-File=o3gt70sjvNOxMxDaySp_h2
+#File=o3gt70sjvNOxMxDaySp_h3
+File=o3gt70sjvNOxMxDaySp
 Name=$File   # tile source name, can have up to 10 ource files # currently empty
 curl -X POST "https://api.mapbox.com/tilesets/v1/sources/tin117/$Name?access_token=$TOKEN" \
     -F file=@${File}.geojson.ld \
     --header "Content-Type: multipart/form-data"
 
-above curl api upload would need .geojson.ld
+## got output: {"id":"mapbox://tileset-source/tin117/o3gt70sjvNOxMxDaySp","files":1,"source_size":5702002,"file_size":5702002}
+
 
 the Tileset CLI toolkit (github) does this conversion automatically, so good reason to use it (installed to lunaria) ref: https://docs.mapbox.com/help/tutorials/get-started-mts-and-tilesets-cli/#create-a-tileset-source
 

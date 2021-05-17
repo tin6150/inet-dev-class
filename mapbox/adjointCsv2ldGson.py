@@ -80,9 +80,19 @@ def gprint( str1, str2="#" ):
 # generate a single line of geojson  from a given input arg of 
 # need to be sure points are 4 vertices in seq, something like TL, TR, BR, BL.  will name them seq in case polygon becomes more than just square
 # gson need 5 poionts to close off a square, this fn will print first point last again for that purpose
-#def print_gsonLine( value, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :
-# adjoin needed a few more values, mostly for dubbugging
+## mts api will take this format, 1 line per record of "gson" data, i have lots of space padding here, but no complain from mapbox.  this works :D
 def print_gsonLine( rid, value, color, mantissa, exponent, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :
+	 print( '    { "type":       "Feature", '             ,end='') 	## 1
+	 print( '      "id"  :       %s,        ' % rid       ,end='') 	## 1a # record id field, from the new 10-tuple
+	 print( '      "properties":            '      ,end='') 	## 2
+	 print( '           {"val": %s, "color": %s, "mantissa": %s, "exponent": %s, "max": %s }' % (value,color,mantissa,exponent,value)       ,end='')        ## 3     # val repeated as max for backward compatibility with smelly
+	 print( '      ,'      ,end='')
+	 print( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ], [ %s,%s], [%s,%s], [%s,%s], [%s,%s]  ]]}' % (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4, lon1,lat1)      ,end='') 
+	 print( '    }'      )
+# print_gsonLine()-end 
+
+## use below to properly format the output, the concatenate to produce fn above
+def OLD_print_gsonLine( rid, value, color, mantissa, exponent, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :
 	gprint( '    { "type":       "Feature", ',       '1'  ) 	## 1
 	gprint( '      "id"  :       %s,        ' % rid, '1a' ) 	## 1a # record id field, from the new 10-tuple
 	gprint( '      "properties":            ', '2' ) 	## 2
@@ -199,8 +209,8 @@ def parse1line( line ) :
 # read it, generate converged geojson output, write it out to std out
 def run_conversion( args ) :
 	dbg( 5, "converting csv to gson...")
-	print_opener()  # some geojson header 
-	(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( 0, "","" , "","" , "","" , "",""  )  # 9-tuple initialized to blank
+	##//print_opener()  # some geojson header  ##// not needed in geojson.ld
+	(rid, val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4)  = ( 0, 0, "","" , "","" , "","" , "",""  )  # 10-tuple initialized to blank
 	offset = float(1.0e+10) # a constant multiplier to shift value like 1e-14 to 1e-4, so that they are not so close to zero
 
 	# loop to parse file
@@ -222,14 +232,14 @@ def run_conversion( args ) :
 			# it output some dummy just to keep format parsable
 			color = 0.0
 			(mantissa, exponent) = (0.0, 0.0)
-		if( lineNum > 0 ) :
-			gprint( ",", "//next feature//" )	# print separator iff not first line
+		##//if( lineNum > 0 ) :
+		##//	gprint( ",", "//next feature//" )	# print separator iff not first line
 		# adjoin needs more values: {"val": 1.004e-4, "color": 1.004e+6, "mantissa": 1.004, "exponent": "-4"  }
 		#print_gsonLine( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
 		print_gsonLine( rid, val, color, mantissa, exponent, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
 		#lineNum =+ 1		# WRONG, this just assign (+1) into the var
 		lineNum += 1		# RIGHT, this increment.  this is almost the equivof c++
-	print_closer() # close out parenthesis...
+	##//print_closer() # close out parenthesis...  ##// not needed for newline delimited gson
 # run_conversion()-end
 
 
@@ -280,7 +290,14 @@ new example output for 2 record:
 
 """
 
+"""
+final output in .geojson.ld format, 2 records:
 
+    { "type":       "Feature",       "id"  :       "1",              "properties":                       {"val": 8.2556524994357e-07, "color": 8255.652499435699, "mantissa": 0.8656679075248288, "exponent": -20, "max": 8.2556524994357e-07 }      ,      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.921617885187,38.9689712780554 ], [ -122.874163293308,38.9700811773257], [-122.872756412373,38.93303669161], [-122.920182917571,38.9319275226955], [-122.921617885187,38.9689712780554]  ]]}    }
+    { "type":       "Feature",       "id"  :       "2",              "properties":                       {"val": 8.24764418094005e-07, "color": 8247.64418094005, "mantissa": 0.8648281744673394, "exponent": -20, "max": 8.24764418094005e-07 }      ,      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.874163293308,38.9700811773257 ], [ -122.826707032564,38.9711691196357], [-122.825328241273,38.934123918001], [-122.872756412373,38.93303669161], [-122.874163293308,38.9700811773257]  ]]}    }
+
+
+"""
 
 
 # vim: syntax=python noexpandtab nosmarttab noautoindent nosmartindent

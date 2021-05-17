@@ -19,7 +19,7 @@
 
 # example run for adjoin data (same as caAir/smelly):
 # ./caAirCsv2gson.sh 2>&1 | tee adjoinCsv2gson.2021.0410.log # on 054t ??  ++
-# ./batchCsv2ldGson.sh 2>&1 | tee adjointCsv2ldGson.2021.0516.log # on domingo
+# ./batchCsv2ldGson.sh 2>&1 | tee -a adjointCsv2ldGson.2021.0516.log # on domingo
 
 # **>> after above step, then  upload to mapbox using zwedc/caair_uploader.sh <<**
 
@@ -30,7 +30,8 @@ OutputDir="./DATA_adjoin_0413a"
 
 [[ -d $OutputDir ]] || mkdir $OutputDir 
 
-InputFileList=$( ls -1 $InputDir/o3gt70sjv_NOx_Mx_Day_Sp.csv_h3 )  # tmp test
+##InputFileList=$( ls -1 $InputDir/o3gt70sjv_NOx_Mx_Day_Sp.csv_h3 )  # tmp test
+InputFileList=$( ls -1 $InputDir/o3gt70sjv_NOx_Mx_Day_Sp.csv )  # tmp test
 ##InputFileList=$( ls -1 $InputDir/*_*csv )
 FileNum=0
 
