@@ -49,11 +49,9 @@ there is storage cost, think that's after the conversion step (and not stuff upl
 tools
 =====
 
-- npm install geojson2ndjson
 - https://stevage.github.io/ndgeojson/
-- I can likely generate geojson.ld from csv easier than geojson!  since it doesn't need that stupid wrapper 
-  "type": "FeatureCollection", "features"
-- yeap, now should use batchCsv2ldGson.sh / adjointCsv2ldGson.py
+- npm install geojson2ndjson
+- no need for geojson2ndjson conversion now, use batchCsv2ldGson.sh / adjointCsv2ldGson.py
 
 
 create tileset source
@@ -61,14 +59,6 @@ create tileset source
 
 trying api route first, since lazy with installing another sdk
 ref: https://docs.mapbox.com/api/maps/mapbox-tiling-service/#create-a-tileset-source
-
-# This endpoint requires a token with tilesets:write scope.
-
-
-cat o3gt70sjvNOxMxDaySp.geojson | ~/node_modules/geojson2ndjson/geojson2ndjson.js  > o3gt70sjvNOxMxDaySp.geojson.ld
-        above has missing "id" field and thus rejected by mapbox  **++**
-        i guess may as well update csv2geojson script to csv2ldgeojson directly...
-cat o3gt70sjvNOxMxDaySp.geojson.ld | ~/node_modules/geojson2ndjson/geojson2ndjson.js  > o3gt70sjvNOxMxDaySp_h2.geojson.ld
 
 cd ~/tin-gh/inet-dev-class/mapbox/DATA_adjoin_0413 # luna
 #File=o3gt70sjvNOxMxDaySp_h3
@@ -82,7 +72,6 @@ curl -X POST "https://api.mapbox.com/tilesets/v1/sources/tin117/$Name?access_tok
 
 
 the Tileset CLI toolkit (github) does this conversion automatically, so good reason to use it (installed to lunaria) ref: https://docs.mapbox.com/help/tutorials/get-started-mts-and-tilesets-cli/#create-a-tileset-source
-
 	source venv4mapbox/bin/activate
 	pip install mapbox-tilesets
 	didn't work... problem with pyrsistent... will try ndjson stuff... 
@@ -93,6 +82,7 @@ list existing tileset source (stored in mapbox.com)
 curl "https://api.mapbox.com/tilesets/v1/sources/tin117?access_token=$TOKEN"
 
 
+**next step 05.16 >>**
 
 get tileset's recipe
 --------------------
