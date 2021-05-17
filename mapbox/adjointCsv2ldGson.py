@@ -1,21 +1,20 @@
 #!/usr/bin/env python 
 
-#### There is a new adjointCsv2gson.py (and adjointCsv2ldGson.py)
-#### that produces 10-tuple, with an id field, which should have been needed by geojson, and mandatory in geojson.ld
-#### so this script should be retired.
+## this is now a working script that produce a 10-tuple .geojson
+## should use this instead of old adjoinCsv2gson.py
 
-## adjoinCsv2gson.py : script convert csv to gson 
-## updated for adjoin data (but same code for 2019 or 2021 data)
-# this script converts csv into geoJSON   # i will just call it gson
-# (based on caAirCsv2gson_sq.py)
+## adjointCsv2ldGson.py : script convert csv to line-delimited gson 
+## adopted from adjoinCsv2gson.py
+# this script converts csv into newline geoJSON   # mapbox call this .geojson.ld
 # this one use "val" instead of max.    but name dont really matter, just use array index 4.
 # for debugging, there are a few more entries added, 
 # - "shifter" value so to avoid really small number (input range 1e-14 to 1e-4)
 # - mantissa, exponent, just to try out color and be sure data is there.
+## adjointCsv2Gson.py add "id" field needed by geojson.ld (but not before)
 
-# example run
-# don't run this python script, use the wrapper shell script:
-# ./caAirCsv2gson.sh   # old script name, but also work with this adjoinCsv2gson.py script
+# example run ++FIXME++ update needed.
+# don't run this python script, use the wrapper shell script: 
+# ./batchCsv2ldGson.sh   # updated to work with  adjoinCsv2gson.py script having 10-tuple, ie include an id field
 # it loop over many input file, and generate appropriate output filename
 
 
@@ -23,10 +22,10 @@
 # json actually took out ability to support comment early on!
 # json5 supports comments with // 
 # geojson may tolerate comment with //  see https://gis.stackexchange.com/questions/22474/geojson-styling-information
+# newline delimited geojson stripped out outermost wrapper of the json, and use \n instead of , to separate records
 
 # test gson output at http://geojson.io/#map=15/37.4045/-121.9810
 
-# ref taxo-spark/taxorpt.py
 
 import argparse
 import os
@@ -83,8 +82,9 @@ def gprint( str1, str2="#" ):
 # gson need 5 poionts to close off a square, this fn will print first point last again for that purpose
 #def print_gsonLine( value, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :
 # adjoin needed a few more values, mostly for dubbugging
-def print_gsonLine( value, color, mantissa, exponent, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :
-	gprint( '    { "type":       "Feature", ', '1' ) 	## 1
+def print_gsonLine( rid, value, color, mantissa, exponent, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) :
+	gprint( '    { "type":       "Feature", ',       '1'  ) 	## 1
+	gprint( '      "id"  :       %s,        ' % rid, '1a' ) 	## 1a # record id field, from the new 10-tuple
 	gprint( '      "properties":            ', '2' ) 	## 2
 	#gprint( '           {"max": %s}' % value , "3" )        ## 3     #(this was max for caair/smelly)
 	gprint( '           {"val": %s, "color": %s, "mantissa": %s, "exponent": %s, "max": %s }' % (value,color,mantissa,exponent,value) , "3" )        ## 3     # val repeated as max for backward compatibility with smelly
@@ -116,32 +116,6 @@ def chkPtFormat( pt, wholeLine ) :
 #end chkPtFormat()
 
 
-"""
-ZWEDC_Biofilter_10X_2016_LongLat_25m_cbind.csv ::
-example input lines (didn't start with 0-index, been working on octave lately), so parser will -1
-1   2     3     4   5   6     7      8      9    10   11     12     13   14   15     16     17   18   19     20     21   22
-"","lon","lat","x","y","Max","lon1","lat1","x1","y1","lon2","lat2","x2","y2","lon3","lat3","x3","y3","lon4","lat4","x4","y4"
-"1",-121.985002139616,37.4079452829464,589827,4140612,0.18577,-121.985287624997,37.4077223978109,589802,4140587,-121.984722734052,37.4077175479308,589852,4140587,-121.984716652544,37.4081681673591,589852,4140637,-121.985281546871,37.4081730173178,589802,4140637
-"2",-121.984437247048,37.4079404316778,589877,4140612,0.18817,-121.984722734052,37.4077175479308,589852,4140587,-121.984157843243,37.4077126953524,589902,4140587,-121.984151758353,37.4081633147021,589902,4140637,-121.984716652544,37.4081681673591,589852,4140637
-
-"""
-
-## ^^ above, old format from ZWEDC.  obsolete now really.
-## vv below, new format, for 450 ZWEDC files.  also used for remaining 25-sites, with 750 files.  
-
-"""
-
-INPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"
-
- +---+------- note that there was a "" column, then an "id" column.  both have the same value.  as long as all data file has this then ok.  
- |   |
- v   v   
-"", "id","lon1"          ,"lat1"          ,"Max"           ,"lon2"           ,"lat2"          ,"lon3"          ,"lat3"          ,"lon4"           ,"lat4"
- 0 , 1  , 2              , 3              , 4              , 5               , 6              , 7              , 8              , 9               , 10    # py array index
-"1","1",-121.984557282895,37.4617964867235,1.22821750333907,-121.983991985539,37.4617916274105,-121.98399808318,37.4613410121812,-121.984563377145,37.4613458714155
-"2","2",-121.983991985539,37.4617916274105,1.28725760513053,-121.983426688318,37.4617867653938,-121.983432789351,37.4613361502432,-121.98399808318,37.4613410121812
-"""
-
 ## VV below adjoin 2021 data from Yuhan   dacsjvnew_AVOC_07_Day_Sp.csv 
 ## same format as before.  col name changed from max to value  , but expect to have max on it per Ling, since no longer using avg
 
@@ -150,6 +124,7 @@ INPUT="Sf_Zwedc_All_Al_Aa_10x.head10.csv"
 "1","1",-122.921617885187,38.9689712780554,3.44251245817624e-07,-122.874163293308,38.9700811773257,-122.872756412373,38.93303669161,-122.920182917571,38.9319275226955
 """
 
+rid_idx  = 1 ## should always have an record id field in geojson!  (id maybe some reserved word)
 val_idx = 4 # value of the feature at the lon, lat (in this case, wants Max)   Unit is ...
 lon1_idx = 2 # column index containing longitude
 lat1_idx = 3
@@ -161,20 +136,21 @@ lon4_idx = 9 #
 lat4_idx = 10
 min_col = 11   # min number of columns in file
 # this takes one input line, 
-# return a 9-tuple  of form ( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
+# return a 10-tuple  of form ( record-id, val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
 # which are the exact same params  the geojson print fn need
 def parse1line( line ) :
+    rid = 0
     val = 0
     (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( 0,0 , 0,0 , 0,0 , 0,0 ) # struct may have been nice...
     ifs = ","
     # comment line, blank lines, nothing to process, just return
     if( re.search( '^#', line ) ) :     
-        return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+        return ("", "", "","" , "","" , "","" , "",""  )  # 10-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
     if( re.search( '^$', line ) ) :     
-        return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+        return ("", "", "","" , "","" , "","" , "",""  )  # 10-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
     # Wei has a header line which this will ignore
     if( re.search( '^"","id","lon1","lat1",', line ) ) :     
-         return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+         return ("", "", "","" , "","" , "","" , "",""  )  # 10-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
     line = line.rstrip("\n\r") 
     lineList = line.split( ifs )
 
@@ -182,7 +158,8 @@ def parse1line( line ) :
         dbg( 1, "Not enough columns.  cannot extract features" )
         dbg( 3, "Line split into %s words" % len (lineList) )
         #dbg4( "col idx %s not found in this line, returning empty string." % colidx )
-        return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+        return ("", "", "","" , "","" , "","" , "",""  )  # 10-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+    rid  = lineList[rid_idx].strip()        ## new for gson.ld, so now a 10 tuple
     val = lineList[val_idx].strip()
     lon1 = lineList[lon1_idx].strip()       # strip() removes white space on left and right ends only, not middle
     lat1 = lineList[lat1_idx].strip() 
@@ -198,12 +175,12 @@ def parse1line( line ) :
         dbg( 2, "Extract ok for val [%14s] from input line '%s' " % (val, line) )
     else :
         dbg( 1, "Fail - val_idex %s had %s , unexpected pattern (input line was '%s')" % (val_idx, val, line) )
-        return ("", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+        return ("", "", "","" , "","" , "","" , "",""  )  # 10-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
 
     # ++ loop to test all 8 coordinates...
     pt = chkPtFormat( lon1, line )
     if( pt == "NaN" ) :
-        return ( "", "","" , "","" , "","" , "",""  )  # 9-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
+        return ( "", "", "","" , "","" , "","" , "",""  )  # 10-tuple of blank, easier for caller to handle, struct may have been prettier syntatically
     # lazy, they should be okay as csv created by R... run with -d and chkPtFormat would spill error message :)
     pt = chkPtFormat( lat1, line )
     pt = chkPtFormat( lon2, line )
@@ -213,7 +190,7 @@ def parse1line( line ) :
     pt = chkPtFormat( lon4, line )
     pt = chkPtFormat( lat4, line )
 
-    return( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
+    return( rid, val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 ) # now a 10-tuple
 #end
 
 
@@ -235,7 +212,7 @@ def run_conversion( args ) :
 	for line in inF:
 		#print line
 		#lineList = line.split( ',' )
-		(val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( parse1line( line ) )
+		(rid, val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4) = ( parse1line( line ) )
 		if ( lon1 == "" )  :
 			continue		# returned nothing, skipping the line   FIXME
 		if( val != "" ):  # ie make sure it was not empty, such as in comment line
@@ -249,7 +226,7 @@ def run_conversion( args ) :
 			gprint( ",", "//next feature//" )	# print separator iff not first line
 		# adjoin needs more values: {"val": 1.004e-4, "color": 1.004e+6, "mantissa": 1.004, "exponent": "-4"  }
 		#print_gsonLine( val, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
-		print_gsonLine( val, color, mantissa, exponent, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
+		print_gsonLine( rid, val, color, mantissa, exponent, lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4 )
 		#lineNum =+ 1		# WRONG, this just assign (+1) into the var
 		lineNum += 1		# RIGHT, this increment.  this is almost the equivof c++
 	print_closer() # close out parenthesis...
@@ -281,25 +258,25 @@ main()
 
 
 """
-example output for 2 record:
+new example output for 2 record:
 
 { "type": "FeatureCollection", "features": [
     { "type":       "Feature", 
+      "id"  :       "1",        
       "properties":            
-         {"val": 1.004e-4, "color": 1.004e+6, "mantissa": 1.004, "exponent": -4 }
+           {"val": 8.2556524994357e-07, "color": 8255.652499435699, "mantissa": 0.8656679075248288, "exponent": -20, "max": 8.2556524994357e-07 }
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.985287624997,37.4077223978109 ], [ -121.984722734052,37.4077175479308], [-121.984716652544,37.4081681673591], [-121.985281546871,37.4081730173178], [-121.985287624997,37.4077223978109]  ]]}
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.921617885187,38.9689712780554 ], [ -122.874163293308,38.9700811773257], [-122.872756412373,38.93303669161], [-122.920182917571,38.9319275226955], [-122.921617885187,38.9689712780554]  ]]}
     }
 ,
     { "type":       "Feature", 
+      "id"  :       "2",        
       "properties":            
-           {"val": 1.004e-4, "color": 1.004e+6, "mantissa": 1.004, "exponent": -4 }
+           {"val": 8.24764418094005e-07, "color": 8247.64418094005, "mantissa": 0.8648281744673394, "exponent": -20, "max": 8.24764418094005e-07 }
       ,
-      "geometry": { "type": "Polygon", "coordinates": [[ [ -121.984722734052,37.4077175479308 ], [ -121.984157843243,37.4077126953524], [-121.984151758353,37.4081633147021], [-121.984716652544,37.4081681673591], [-121.984722734052,37.4077175479308]  ]]}
+      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.874163293308,38.9700811773257 ], [ -122.826707032564,38.9711691196357], [-122.825328241273,38.934123918001], [-122.872756412373,38.93303669161], [-122.874163293308,38.9700811773257]  ]]}
     }
 ] }
-
-
 
 """
 

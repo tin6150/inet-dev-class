@@ -53,7 +53,7 @@ tools
 - https://stevage.github.io/ndgeojson/
 - I can likely generate geojson.ld from csv easier than geojson!  since it doesn't need that stupid wrapper 
   "type": "FeatureCollection", "features"
-
+- yeap, now should use batchCsv2ldGson.sh / adjointCsv2ldGson.py
 
 
 create tileset source
@@ -68,6 +68,7 @@ ref: https://docs.mapbox.com/api/maps/mapbox-tiling-service/#create-a-tileset-so
 cat o3gt70sjvNOxMxDaySp.geojson | ~/node_modules/geojson2ndjson/geojson2ndjson.js  > o3gt70sjvNOxMxDaySp.geojson.ld
         above has missing "id" field and thus rejected by mapbox  **++**
         i guess may as well update csv2geojson script to csv2ldgeojson directly...
+cat o3gt70sjvNOxMxDaySp.geojson.ld | ~/node_modules/geojson2ndjson/geojson2ndjson.js  > o3gt70sjvNOxMxDaySp_h2.geojson.ld
 
 trying:
 cd ~/tin-gh/inet-dev-class/mapbox/DATA_adjoin_0413 # luna
