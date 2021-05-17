@@ -182,6 +182,14 @@ curl -X POST "https://api.mapbox.com/tilesets/v1/$username.${tileset}/publish?ac
 	{"message":"Processing tin117.o3gt70sjvNOxMxDaySp","jobId":"ckosble6i000008lccevs3drf"}
 
 
+get status of job for specific tileset
+#xx curl "https://api.mapbox.com/tilesets/v1/${tileset}/jobs?access_token=$TOKEN"               # did not work
+    curl "https://api.mapbox.com/tilesets/v1/${username}.${tileset}/jobs?access_token=$TOKEN"   # worked
+
+
+    # [{"id":"ckosble6i000008lccevs3drf","stage":"success","created":1621238584842,"created_nice":"Mon May 17 2021 08:03:04 GMT+0000 ... 
+data not showing up in stats dashboard yet 
+
 ~~~~
 
 notes
