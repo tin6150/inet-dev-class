@@ -32,8 +32,8 @@ OutputDir="./DATA_adjoin_0413a"
 [[ -d $OutputDir ]] || mkdir $OutputDir 
 
 ##InputFileList=$( ls -1 $InputDir/o3gt70sjv_NOx_Mx_Day_Sp.csv_h3 )  # tmp test
-InputFileList=$( ls -1 $InputDir/o3gt70sjv_NOx_Mx_Day_Sp.csv )  # tmp test
-##InputFileList=$( ls -1 $InputDir/*_*csv )
+#-InputFileList=$( ls -1 $InputDir/o3gt70sjv_NOx_Mx_Day_Sp.csv )  # tmp test
+InputFileList=$( ls -1 $InputDir/*_*csv )
 FileNum=0
 
 

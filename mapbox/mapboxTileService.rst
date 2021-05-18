@@ -59,6 +59,8 @@ tools
 create tileset source
 ---------------------
 
+edit + run batchCsv2ldGson.sh to generate .geojson.ld needed for this step
+
 trying api route first, since lazy with installing another sdk
 ref: https://docs.mapbox.com/api/maps/mapbox-tiling-service/#create-a-tileset-source
 
@@ -142,6 +144,10 @@ create tileset
 this is like uploading source data to mapbox, a prep step (later need conversion into mapbox tileset using PUBLISH)
 ref: https://docs.mapbox.com/api/maps/mapbox-tiling-service/#create-a-tileset
 need a recipe, so create and validate that first 
+see eg_data_mts/o3gt70sjvNOxMxDaySp.json, which worked.  had used min,max zoom of 0,10, but realistically 0-3 has no data due to tile size constrain
+
+edit + run batchRecipe.py to generate recipe for each tileset
+aid: generateTilesetList.sh > tilesetList.txt # TBD
 
 tileset=o3gt70sjvNOxMxDaySp
 #-- curl -X POST "https://api.mapbox.com/tilesets/v1/${tileset}?access_token=$TOKEN" \
