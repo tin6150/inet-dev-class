@@ -1,6 +1,7 @@
 #!/usr/bin/env python 
 
 # 2021.0517: removed mantissa, exponent, color, only left single value for properties, to make for more compact geojson.ld
+# 2021.0517a: use single properties: max (not val)
 
 ## this is now a working script that produce a 10-tuple .geojson
 ## should use this instead of old adjoinCsv2gson.py
@@ -88,7 +89,7 @@ def print_gsonLine( rid, value, color, mantissa, exponent, lon1,lat1, lon2,lat2,
 	 print( '      "id"  :       %s,        ' % rid       ,end='') 	## 1a # record id field, from the new 10-tuple
 	 print( '      "properties":            '      ,end='') 	## 2
 	 #--print( '           {"val": %s, "color": %s, "mantissa": %s, "exponent": %s, "max": %s }' % (value,color,mantissa,exponent,value)       ,end='')        ## 3     # val repeated as max for backward compatibility with smelly
-	 print( '           {"val": %s }' % value       ,end='')        ## 3     # val repeated as max for backward compatibility with smelly
+	 print( '           {"max": %s }' % value       ,end='')        ## 3     # val repeated as max for backward compatibility with smelly
 	 print( '      ,'      ,end='')
 	 print( '      "geometry": { "type": "Polygon", "coordinates": [[ [ %s,%s ], [ %s,%s], [%s,%s], [%s,%s], [%s,%s]  ]]}' % (lon1,lat1, lon2,lat2, lon3,lat3, lon4,lat4, lon1,lat1)      ,end='') 
 	 print( '    }'      )
@@ -303,10 +304,12 @@ semi-final output in .geojson.ld format, 2 records:
 """
 
 """
-updated final output to .geojson.ld format, 2 records, this only has single property: value, stripped mantissa, color, expeonent, etc to make for smaller tileset
+updated final output to .geojson.ld format, 2 records, this only has single property: max (not val), stripped mantissa, color, expeonent, etc to make for smaller tileset
 
-    { "type":       "Feature",       "id"  :       "1",              "properties":                       {"val": 8.2556524994357e-07 }      ,      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.921617885187,38.9689712780554 ], [ -122.874163293308,38.9700811773257], [-122.872756412373,38.93303669161], [-122.920182917571,38.9319275226955], [-122.921617885187,38.9689712780554]  ]]}    }
-    { "type":       "Feature",       "id"  :       "2",              "properties":                       {"val": 8.24764418094005e-07 }      ,      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.874163293308,38.9700811773257 ], [ -122.826707032564,38.9711691196357], [-122.825328241273,38.934123918001], [-122.872756412373,38.93303669161], [-122.874163293308,38.9700811773257]  ]]}    }
+
+
+    { "type":       "Feature",       "id"  :       "1",              "properties":                       {"max": 8.2556524994357e-07 }      ,      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.921617885187,38.9689712780554 ], [ -122.874163293308,38.9700811773257], [-122.872756412373,38.93303669161], [-122.920182917571,38.9319275226955], [-122.921617885187,38.9689712780554]  ]]}    }
+    { "type":       "Feature",       "id"  :       "2",              "properties":                       {"max": 8.24764418094005e-07 }      ,      "geometry": { "type": "Polygon", "coordinates": [[ [ -122.874163293308,38.9700811773257 ], [ -122.826707032564,38.9711691196357], [-122.825328241273,38.934123918001], [-122.872756412373,38.93303669161], [-122.874163293308,38.9700811773257]  ]]}    }
 
 """
 

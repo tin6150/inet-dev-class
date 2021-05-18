@@ -78,7 +78,7 @@ Name=$File   # tile source name, can have up to 10 ource files # currently empty
   -X POST = create/append tileset
   -X PUT  = create/replace tileset - so, maybe better to use PUT
 
-even after replace (ie there is existing tileset recipe, have to run other commands to recreate tileset, probably a publish)
+even after replace (ie there is existing tileset recipe, have to the publish step to get it reprocesssed to a new vector tileset
 
 the Tileset CLI toolkit (github) does this conversion automatically, so good reason to use it (installed to lunaria) ref: https://docs.mapbox.com/help/tutorials/get-started-mts-and-tilesets-cli/#create-a-tileset-source
 	source venv4mapbox/bin/activate
@@ -190,12 +190,13 @@ curl -X POST "https://api.mapbox.com/tilesets/v1/$username.${tileset}/publish?ac
 
 	eg output from above, with $username
 	{"message":"Processing tin117.o3gt70sjvNOxMxDaySp","jobId":"ckosble6i000008lccevs3drf"}
-    {"message":"Processing tin117.o3gt70sjvNOxMxDaySp","jobId":"ckote6u5q000208l6e8tugmxx"} # resubmit processing smaller ldgson
-
+	{"message":"Processing tin117.o3gt70sjvNOxMxDaySp","jobId":"ckote6u5q000208l6e8tugmxx"} # resubmit processing smaller ldgson
+	{"message":"Processing tin117.o3gt70sjvNOxMxDaySp","jobId":"ckothbw2i002809mm27if9v6k"} # 3rd run with max instead of val
 
 get status of job for specific tileset
 #xx curl "https://api.mapbox.com/tilesets/v1/${tileset}/jobs?access_token=$TOKEN"               # did not work
-    curl "https://api.mapbox.com/tilesets/v1/${username}.${tileset}/jobs?access_token=$TOKEN"   # worked
+    curl "https://api.mapbox.com/tilesets/v1/${username}.${tileset}/jobs?access_token=$TOKEN" | tee job.$tileset.json  # worked
+    cat job.$tileset.json | json2csv | awk -F, '{print $1 "\t" $2 "\t" $4 "\t" $6 "\t" $7 "\t" $8}'  # check error,warning
 
 
     # [{"id":"ckosble6i000008lccevs3drf","stage":"success","created":1621238584842,"created_nice":"Mon May 17 2021 08:03:04 GMT+0000 ... 
