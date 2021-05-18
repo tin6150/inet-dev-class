@@ -52,6 +52,8 @@ tools
 - https://stevage.github.io/ndgeojson/
 - npm install geojson2ndjson
 - no need for geojson2ndjson conversion now, use batchCsv2ldGson.sh / adjointCsv2ldGson.py
+- cat ls-tielsetSource.json | jq        # much easier to read
+- cat ls-tielsetSource.json | json2tsv  # like a compact csv
 
 
 create tileset source
@@ -60,19 +62,23 @@ create tileset source
 trying api route first, since lazy with installing another sdk
 ref: https://docs.mapbox.com/api/maps/mapbox-tiling-service/#create-a-tileset-source
 
-cd ~/tin-gh/inet-dev-class/mapbox/DATA_adjoin_0413 # luna
+cd ~/tin-gh/inet-dev-class/mapbox/DATA_adjoin_0413a # domingo
 #File=o3gt70sjvNOxMxDaySp_h3
+username=tin117
 File=o3gt70sjvNOxMxDaySp
 Name=$File   # tile source name, can have up to 10 ource files # currently empty
-#// curl -X POST "https://api.mapbox.com/tilesets/v1/sources/tin117/$Name?access_token=$TOKEN" \
-    curl -X PUT  "https://api.mapbox.com/tilesets/v1/sources/tin117/$Name?access_token=$TOKEN" \
+#// curl -X POST "https://api.mapbox.com/tilesets/v1/sources/$username/$Name?access_token=$TOKEN" \
+    curl -X PUT  "https://api.mapbox.com/tilesets/v1/sources/$username/$Name?access_token=$TOKEN" \
     -F file=@${File}.geojson.ld \
     --header "Content-Type: multipart/form-data"
 
-## got output: {"id":"mapbox://tileset-source/tin117/o3gt70sjvNOxMxDaySp","files":1,"source_size":5702002,"file_size":5702002}
+## got output:                  {"id":"mapbox://tileset-source/tin117/o3gt70sjvNOxMxDaySp","files":1,"source_size":5702002,"file_size":5702002}
+## replace with smaller ldgson: {"id":"mapbox://tileset-source/tin117/o3gt70sjvNOxMxDaySp","files":1,"source_size":4517867,"file_size":4517867}
 
   -X POST = create/append tileset
   -X PUT  = create/replace tileset - so, maybe better to use PUT
+
+even after replace (ie there is existing tileset recipe, have to run other commands to recreate tileset, probably a publish)
 
 the Tileset CLI toolkit (github) does this conversion automatically, so good reason to use it (installed to lunaria) ref: https://docs.mapbox.com/help/tutorials/get-started-mts-and-tilesets-cli/#create-a-tileset-source
 	source venv4mapbox/bin/activate
@@ -82,7 +88,9 @@ the Tileset CLI toolkit (github) does this conversion automatically, so good rea
 
 
 list existing tileset source (stored in mapbox.com) (like dir?)
-curl "https://api.mapbox.com/tilesets/v1/sources/tin117?access_token=$TOKEN"
+curl "https://api.mapbox.com/tilesets/v1/sources/tin117?access_token=$TOKEN" | tee ls-tielsetSource.json
+cat ls-tielsetSource.json | jq       # much easier to read
+cat ls-tielsetSource.json | json2tsv # like compact csv, tab separated
 
 	eg output:
 	[{"id":"mapbox://tileset-source/tin117/o3gt70sjvNOxMxDaySp","size":5702002,"files":1},
@@ -96,14 +104,16 @@ curl "https://api.mapbox.com/tilesets/v1/sources/tin117/mapbox_hello?access_toke
 curl "https://api.mapbox.com/tilesets/v1/sources/tin117/o3gt70sjvNOxMxDaySp?access_token=$TOKEN"
 
 
-
 get tileset's recipe
 --------------------
 
 # curl "https://api.mapbox.com/tilesets/v1/{tileset}/recipe?access_token=$TOKEN"
 # This endpoint requires a token with tilesets:list scope.
 
-tileset=tin117.o3gt70sjvNOxMxDaySp
+## this is pretty inconsistent, tileset here need username embeded in it?
+
+tileset=o3gt70sjvNOxMxDaySp        # {"message":"Not Found"}
+tileset=tin117.o3gt70sjvNOxMxDaySp # worked
 curl "https://api.mapbox.com/tilesets/v1/${tileset}/recipe?access_token=$TOKEN"
 # no recipe for tilesetup uploaded using old mapbox python sdk
 
@@ -180,6 +190,7 @@ curl -X POST "https://api.mapbox.com/tilesets/v1/$username.${tileset}/publish?ac
 
 	eg output from above, with $username
 	{"message":"Processing tin117.o3gt70sjvNOxMxDaySp","jobId":"ckosble6i000008lccevs3drf"}
+    {"message":"Processing tin117.o3gt70sjvNOxMxDaySp","jobId":"ckote6u5q000208l6e8tugmxx"} # resubmit processing smaller ldgson
 
 
 get status of job for specific tileset
@@ -189,6 +200,15 @@ get status of job for specific tileset
 
     # [{"id":"ckosble6i000008lccevs3drf","stage":"success","created":1621238584842,"created_nice":"Mon May 17 2021 08:03:04 GMT+0000 ... 
 data not showing up in stats dashboard yet 
+
+    "tilesetId": "tin117.o3gt70sjvNOxMxDaySp",
+    "errors": [],
+    "warnings": [
+      "W201: Features were dropped from o3gt70sjvNOxMxDaySp layer in 2 tile(s) to enforce tile size limits. Affected zoom levels are: 4,5"
+
+no warnings for ckote6u5q000208l6e8tugmxx (2nd run with smaller ldgson)
+++ TODO: should actually query for all job output to track results.
+	
 
 ~~~~
 

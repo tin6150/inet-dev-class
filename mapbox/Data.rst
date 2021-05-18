@@ -1,5 +1,5 @@
 This file contain
-Notes on data processing
+Notes on data processing (for Smelly)
 (what google says to use kubeflow or whatever pipeline tool 
 eg Apache Kafka)
 so that future can easily use it
@@ -22,6 +22,12 @@ once in a blue moon, may need to generate info for new sites
 
  * sites_lonLat4js.py -- generate snipplet of js/html for flyTo()
  * caAirCsv2gson.py
+
+~~~~~
+
+for Adjoint 2021.05, use different scripts:  adjointCsv2ldGson.py + batchCsv2ldGson.sh
+see mapboxTileService.rst
+
 
 
 Tin

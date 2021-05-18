@@ -1,5 +1,6 @@
 #!/bin/bash
 
+## 2021.0517: produce ldgson for mts (adjoint 2021.0413 data reprocess)
 
 ## adopted from caAirCsv2gson.sh
 ## new script name ./batchCsv2ldGson.sh, 
@@ -19,7 +20,7 @@
 
 # example run for adjoin data (same as caAir/smelly):
 # ./caAirCsv2gson.sh 2>&1 | tee adjoinCsv2gson.2021.0410.log # on 054t ??  ++
-# ./batchCsv2ldGson.sh 2>&1 | tee -a adjointCsv2ldGson.2021.0516.log # on domingo
+# ./batchCsv2ldGson.sh 2>&1 | tee -a adjointCsv2ldGson.2021.0517.log # on domingo
 
 # **>> after above step, then  upload to mapbox using zwedc/caair_uploader.sh <<**
 
