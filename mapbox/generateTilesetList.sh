@@ -21,7 +21,7 @@ FileNum=0
 
 generateFileList() {
 	for F in $InputFileList; do
-		baseF=$(basename $F)
+		baseF=$(basename $F .geojson.ld)
 		echo $baseF
 	done
 }

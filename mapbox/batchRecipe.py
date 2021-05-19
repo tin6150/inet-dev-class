@@ -60,6 +60,7 @@ def main():
     tilesetId="o3gt70sjvNOxMxAllSp" # #2
     #tilesetId="o3gt70sjvNOxMxNitSp" # #3 
 
+    ## ++FIXME++ this reading loop part incomplete
     #tilenameListFilePath = "
     tilenameListFH = open( "DATA_adjoin_0413a/tilesetList.txt", 'r' )
     for tilenameId in tilenameListFH : 

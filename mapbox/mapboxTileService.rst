@@ -56,6 +56,20 @@ tools
 - cat ls-tielsetSource.json | json2tsv  # like a compact csv
 
 
+manual run for additional tileset
+=================================
+
+define these sh variables and don't redefine them
+then can largely paste the curl commands below
+username=tin117
+File=o3gt70sjvNOxMxAllSp
+Name=$File
+tileset=$File
+TOKEN=$a51...
+
+# the repeated variable names are cuz commands pasted from mapbox tutorials use different names for things I use the same string for.
+
+
 create tileset source
 ---------------------
 
@@ -64,11 +78,11 @@ edit + run batchCsv2ldGson.sh to generate .geojson.ld needed for this step
 trying api route first, since lazy with installing another sdk
 ref: https://docs.mapbox.com/api/maps/mapbox-tiling-service/#create-a-tileset-source
 
-cd ~/tin-gh/inet-dev-class/mapbox/DATA_adjoin_0413a # domingo
+cd ~/tin-gh/inet-dev-class/mapbox/DATA_adjoin_0413a # domingo,zink
 #File=o3gt70sjvNOxMxDaySp_h3
-username=tin117
 File=o3gt70sjvNOxMxDaySp
 Name=$File   # tile source name, can have up to 10 ource files # currently empty
+username=tin117
 #// curl -X POST "https://api.mapbox.com/tilesets/v1/sources/$username/$Name?access_token=$TOKEN" \
     curl -X PUT  "https://api.mapbox.com/tilesets/v1/sources/$username/$Name?access_token=$TOKEN" \
     -F file=@${File}.geojson.ld \
@@ -76,6 +90,7 @@ Name=$File   # tile source name, can have up to 10 ource files # currently empty
 
 ## got output:                  {"id":"mapbox://tileset-source/tin117/o3gt70sjvNOxMxDaySp","files":1,"source_size":5702002,"file_size":5702002}
 ## replace with smaller ldgson: {"id":"mapbox://tileset-source/tin117/o3gt70sjvNOxMxDaySp","files":1,"source_size":4517867,"file_size":4517867}
+##2                             {"id":"mapbox://tileset-source/tin117/o3gt70sjvNOxMxAllSp","files":1,"source_size":4517858,"file_size":4517858}
 
   -X POST = create/append tileset
   -X PUT  = create/replace tileset - so, maybe better to use PUT
@@ -124,9 +139,11 @@ validate recipe
 
 ref: https://docs.mapbox.com/api/maps/mapbox-tiling-service/#validate-a-recipe
 
+
 curl -X PUT "https://api.mapbox.com/tilesets/v1/validateRecipe?access_token=$TOKEN" \
-  -d @o3gt70sjvNOxMxDaySp.json \
+  -d @${File}.json \
   --header "Content-Type:application/json"
+  # -d @o3gt70sjvNOxMxDaySp.json \
 
 resolution info is not explicityly defined, but embeded in zoom
 https://www.mapbox.com/pricing/#tilesets 
@@ -164,6 +181,7 @@ curl -X POST "https://api.mapbox.com/tilesets/v1/tin117.${tileset}?access_token=
 
 get list of tileset:
 curl "https://api.mapbox.com/tilesets/v1/tin117?access_token=$TOKEN" | tee tileset_list.json
+cat tileset_list.json | json2tsv
 
 delete a tileset
 
@@ -198,6 +216,9 @@ curl -X POST "https://api.mapbox.com/tilesets/v1/$username.${tileset}/publish?ac
 	{"message":"Processing tin117.o3gt70sjvNOxMxDaySp","jobId":"ckosble6i000008lccevs3drf"}
 	{"message":"Processing tin117.o3gt70sjvNOxMxDaySp","jobId":"ckote6u5q000208l6e8tugmxx"} # resubmit processing smaller ldgson
 	{"message":"Processing tin117.o3gt70sjvNOxMxDaySp","jobId":"ckothbw2i002809mm27if9v6k"} # 3rd run with max instead of val
+    {"message":"Processing tin117.o3gt70sjvNOxMxAllSp","jobId":"ckov1esds000008l18n3wgk6y"} # 2nd run, publish o3gt70sjvNOxMxAllSp
+
+	## ++ FIXME should capture these outputs.  maybe typescript? error prone but not critical
 
 get status of job for specific tileset
 #xx curl "https://api.mapbox.com/tilesets/v1/${tileset}/jobs?access_token=$TOKEN"               # did not work
