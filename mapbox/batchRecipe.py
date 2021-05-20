@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+# take input file with list of tileset id (name)
+# and generate json recipe for mapbox tiling service 
+# so that they can be processed by mts
+# designed for Adjoint, 2021.0519
+
 sampleContent="""
 {
   "recipe": {
@@ -53,29 +58,37 @@ def recipePrint( tilesetId, outFH ):
 
 # end-recipePrint()
 
+import re;
 
 def main():
+    outDir = "DATA_recipe"  ## ++ write bunch of json to this dir, must already exist
 
-    tilesetId="o3gt70sjvNOxMxDaySp" # 1st one, tested previously via static recipe sample
-    tilesetId="o3gt70sjvNOxMxAllSp" # #2
+    # these next few are tmp test
+    #tilesetId="o3gt70sjvNOxMxDaySp" # 1st one, tested previously via static recipe sample
+    #tilesetId="o3gt70sjvNOxMxAllSp" # #2
     #tilesetId="o3gt70sjvNOxMxNitSp" # #3 
 
-    ## ++FIXME++ this reading loop part incomplete
-    #tilenameListFilePath = "
-    tilenameListFH = open( "DATA_adjoin_0413a/tilesetList.txt", 'r' )
-    for tilenameId in tilenameListFH : 
-        print( tilenameId + ".tbd" )
-        # ++ add check for comment
-        # need "chomp" etc
+    # open a file containing list of tilesetId, like those above, without .geojson.ld extension
+    # only the first word of each line will be evaluated, expect at least start with o or d
+    tilesetListFH = open( "DATA_adjoin_0413a/tilesetList.txt", 'r' )
+    ifs = " "
+    for line in tilesetListFH : 
+        #line = line.rstrip("\n\r")
+        lineList = line.split( ifs )
+        tilesetId = lineList[0].strip()
+        # just want to match tileset name like o3gt70sjvNOxMxDaySp or dacsjvnewNOx08AllSp; exclude commented out lines
+        if( re.search( '^[od][\w]+$', tilesetId ) ) : 
+            print( "ok, got name as:" + tilesetId + ":" )
+            outFile = outDir + "/" + tilesetId + ".json"
+            outFH = open( outFile, 'w' )
+            recipePrint( tilesetId, outFH )
+            outFH.close()
+        else :
+            print( "-xx-" + tilesetId + "-xx-" )
+        #end-if
     #end-for
-    tilenameListFH.close()
+    tilesetListFH.close()
 
-    outDir = "DATA_recipe"
-    #outFH = open( outDir/tilesetId, 'w' )
-    outFile = outDir + "/" + tilesetId + ".json"
-    outFH = open( outFile, 'w' )
-    #++recipePrint( tilesetId, outFH )
-    outFH.close()
 # end-main()
 
 

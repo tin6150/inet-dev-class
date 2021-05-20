@@ -56,19 +56,6 @@ tools
 - cat ls-tielsetSource.json | json2tsv  # like a compact csv
 
 
-manual run for additional tileset
-=================================
-
-define these sh variables and don't redefine them
-then can largely paste the curl commands below
-username=tin117
-File=o3gt70sjvNOxMxAllSp
-Name=$File
-tileset=$File
-TOKEN=$a51...
-
-# the repeated variable names are cuz commands pasted from mapbox tutorials use different names for things I use the same string for.
-
 
 create tileset source
 ---------------------
@@ -145,6 +132,9 @@ curl -X PUT "https://api.mapbox.com/tilesets/v1/validateRecipe?access_token=$TOK
   --header "Content-Type:application/json"
   # -d @o3gt70sjvNOxMxDaySp.json \
 
+cat tilesetList.o.txt  | awk '{print " curl -X PUT https://api.mapbox.com/tilesets/v1/validateRecipe?access_token=$TOKEN -d @" $1 ".json --header Content-Type:application/json" }'  | bash
+## current json get error of missing version info, but it actually works.
+
 resolution info is not explicityly defined, but embeded in zoom
 https://www.mapbox.com/pricing/#tilesets 
 10m is zoom  6-10
@@ -157,6 +147,7 @@ create tileset
 --------------
 
 (think of upload tileset)
+(need to delete existing before doing this if replace)
 
 this is like uploading source data to mapbox, a prep step (later need conversion into mapbox tileset using PUBLISH)
 ref: https://docs.mapbox.com/api/maps/mapbox-tiling-service/#create-a-tileset
@@ -237,6 +228,52 @@ data not showing up in stats dashboard yet
 no warnings for ckote6u5q000208l6e8tugmxx (2nd run with smaller ldgson)
 ++ TODO: should actually query for all job output to track results.
 	
+
+~~~~
+
+
+manual run for additional tileset
+=================================
+
+define these sh variables and don't redefine them
+then can largely paste the curl commands below
+username=tin117
+File=o3gt70sjvNOxMxAllSp
+Name=$File
+tileset=$File
+TOKEN=$a51...
+
+# the repeated variable names are cuz commands pasted from mapbox tutorials use different names for things I use the same string for.
+
+
+batch processing
+================
+
+mostly automatic, but still need careful cut-n-paste and analyze 2021-05-19
+
+this was for the ozone set (o*.geojson.ld)
+need to repeat for d* set
+publish API call is limited to 2 per minute, since it takes some significant time to process.  thus sleep 35 sec after each publish request
+
+hand edit tilesetList.o.txt to have the correct set of files 
+
+cat tilesetList.o.txt  | awk '{print " curl -X PUT    https://api.mapbox.com/tilesets/v1/validateRecipe?access_token=$TOKEN -d @" $1 ".json --header Content-Type:application/json" }'  | bash   # validate recipe, skip
+
+cat tilesetList.o.txt  | awk '{print " curl -X PUT    https://api.mapbox.com/tilesets/v1/sources/tin117/" $1 "?access_token=$TOKEN -F file=@" $1 ".geojson.ld --header Content-Type:multipart/form-data" }' # create tileset source
+cat tilesetList.o.txt  | awk '{print " curl -X DELETE https://api.mapbox.com/tilesets/v1/tin117."         $1 "?access_token=$TOKEN" }'                                                                      # delete existing tileset
+cat tilesetList.o.txt  | awk '{print " curl -X POST   https://api.mapbox.com/tilesets/v1/tin117."         $1 "?access_token=$TOKEN      -d @" $1 ".json       --header Content-Type:application/json"    }' # create tileset
+
+# need to add some sleep between publish, limit to 2 publish per minute.  :-\
+cat  tilesetList.o.txt  | awk '{print " curl -X POST   https://api.mapbox.com/tilesets/v1/tin117."         $1 "/publish?access_token=$TOKEN ; sleep 35;" }'   | bash  # publish
+#cat tilesetList.o.txt  | awk '{print " curl           https://api.mapbox.com/tilesets/v1/tin117."         $1 "/jobs?access_token=$TOKEN" }'                          # check publish-job of a given tileset
+cat  tilesetList.o.txt  | awk '{print " curl           https://api.mapbox.com/tilesets/v1/tin117."         $1 "/jobs?access_token=$TOKEN > job."  $1 ".json" }'       # check publish-job of a given tileset
+
+#x# cat tilesetList.o.txt  | awk '{print "cat job."  $1 ".json | json2csv " }' #x# not too useful.  just did grep success ***json   ## only first 2 tileset published.
+
+
+## error is: {"message":"tin117.o3gt70sjvAVOCMxNitSp has no jobs."}
+
+
 
 ~~~~
 
