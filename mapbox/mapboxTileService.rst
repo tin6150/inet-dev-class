@@ -257,22 +257,35 @@ publish API call is limited to 2 per minute, since it takes some significant tim
 
 hand edit tilesetList.o.txt to have the correct set of files 
 
-cat tilesetList.o.txt  | awk '{print " curl -X PUT    https://api.mapbox.com/tilesets/v1/validateRecipe?access_token=$TOKEN -d @" $1 ".json --header Content-Type:application/json" }'  | bash   # validate recipe, skip
+cat tilesetList.d.txt  | awk '{print " curl -X PUT    https://api.mapbox.com/tilesets/v1/validateRecipe?access_token=$TOKEN -d @" $1 ".json --header Content-Type:application/json" }'  | bash   # validate recipe, skip
 
-cat tilesetList.o.txt  | awk '{print " curl -X PUT    https://api.mapbox.com/tilesets/v1/sources/tin117/" $1 "?access_token=$TOKEN -F file=@" $1 ".geojson.ld --header Content-Type:multipart/form-data" }' # create tileset source
-cat tilesetList.o.txt  | awk '{print " curl -X DELETE https://api.mapbox.com/tilesets/v1/tin117."         $1 "?access_token=$TOKEN" }'                                                                      # delete existing tileset
-cat tilesetList.o.txt  | awk '{print " curl -X POST   https://api.mapbox.com/tilesets/v1/tin117."         $1 "?access_token=$TOKEN      -d @" $1 ".json       --header Content-Type:application/json"    }' # create tileset
+## consider adding sleep to next one, takes a while in round 2 processing the "dacs" set
+cat tilesetList.d.txt  | awk '{print " curl -X PUT    https://api.mapbox.com/tilesets/v1/sources/tin117/" $1 "?access_token=$TOKEN -F file=@" $1 ".geojson.ld --header Content-Type:multipart/form-data" }' # create tileset source
 
-# need to add some sleep between publish, limit to 2 publish per minute.  :-\
-cat  tilesetList.o.txt  | awk '{print " curl -X POST   https://api.mapbox.com/tilesets/v1/tin117."         $1 "/publish?access_token=$TOKEN ; sleep 35;" }'   | bash  # publish
+cat tilesetList.d.txt  | awk '{print " curl -X DELETE https://api.mapbox.com/tilesets/v1/tin117."         $1 "?access_token=$TOKEN" }'                                                                      # delete existing tileset
+cat tilesetList.d.txt  | awk '{print " curl -X POST   https://api.mapbox.com/tilesets/v1/tin117."         $1 "?access_token=$TOKEN      -d @" $1 ".json       --header Content-Type:application/json ; sleep 1;"  }' # create tileset
+
+# sleep between publish absolutely required, limit to 2 publish per minute.  :-\
+cat  tilesetList.d.txt  | awk '{print " curl -X POST   https://api.mapbox.com/tilesets/v1/tin117."         $1 "/publish?access_token=$TOKEN ; sleep 35;" }'   | bash  # publish
 #cat tilesetList.o.txt  | awk '{print " curl           https://api.mapbox.com/tilesets/v1/tin117."         $1 "/jobs?access_token=$TOKEN" }'                          # check publish-job of a given tileset
-cat  tilesetList.o.txt  | awk '{print " curl           https://api.mapbox.com/tilesets/v1/tin117."         $1 "/jobs?access_token=$TOKEN > job."  $1 ".json" }'       # check publish-job of a given tileset
+cat  tilesetList.d.txt  | awk '{print " curl           https://api.mapbox.com/tilesets/v1/tin117."         $1 "/jobs?access_token=$TOKEN > job."  $1 ".json" }'       # check publish-job of a given tileset
 
-#x# cat tilesetList.o.txt  | awk '{print "cat job."  $1 ".json | json2csv " }' #x# not too useful.  just did grep success ***json   ## only first 2 tileset published.
+
+## good enough to check jobs: 
+grep success       job.***.json   
+grep 'has no job'  job.***.json   
+
+## more extensive check:
+cat ./tilesetList.d.txt.24  | awk '{print "cat job."  $1 ".json | json2csv; " }'  | bash  | tee publish_job_summary.d.txt
+grep "published" publish_job_summary.d.txt | wc
+
+cat ./tilesetList.txt  | awk '{print "cat job."  $1 ".json | jq . | grep id    ; " }'  | bash  
+cat ./tilesetList.txt  | awk '{print "cat job."  $1 ".json | jq . | grep stage ; " }'  | bash  
+cat ./tilesetList.txt  | awk '{print "cat job."  $1 ".json | jq . | grep minzoom ; " }'  | bash  
 
 
 ## error is: {"message":"tin117.o3gt70sjvAVOCMxNitSp has no jobs."}
-
+## good job publish process example output json:  [{"id":"ckowdxuf2001g08kwc6gz1pfd","stage":"success","created":1621484389694,"created_nice":"Thu May 20 2021 04:19:49 GMT+0000 (Coordinated Universal Time)","published":1621484389694,"tilesetId":"tin117.o3gt70sjvNOx07AllSp","errors":[],"warnings":[],"completed":1621484491948,...
 
 
 ~~~~
