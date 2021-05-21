@@ -267,7 +267,8 @@ cat tilesetList.d.txt  | awk '{print " curl -X POST   https://api.mapbox.com/til
 
 # sleep between publish absolutely required, limit to 2 publish per minute.  :-\
 cat  tilesetList.d.txt  | awk '{print " curl -X POST   https://api.mapbox.com/tilesets/v1/tin117."         $1 "/publish?access_token=$TOKEN ; sleep 35;" }'   | bash  # publish
-#cat tilesetList.o.txt  | awk '{print " curl           https://api.mapbox.com/tilesets/v1/tin117."         $1 "/jobs?access_token=$TOKEN" }'                          # check publish-job of a given tileset
+
+# check result of job, can be done from anywhere much after the facts
 cat  tilesetList.d.txt  | awk '{print " curl           https://api.mapbox.com/tilesets/v1/tin117."         $1 "/jobs?access_token=$TOKEN > job."  $1 ".json" }'       # check publish-job of a given tileset
 
 
@@ -282,10 +283,17 @@ grep "published" publish_job_summary.d.txt | wc
 cat ./tilesetList.txt  | awk '{print "cat job."  $1 ".json | jq . | grep id    ; " }'  | bash  
 cat ./tilesetList.txt  | awk '{print "cat job."  $1 ".json | jq . | grep stage ; " }'  | bash  
 cat ./tilesetList.txt  | awk '{print "cat job."  $1 ".json | jq . | grep minzoom ; " }'  | bash  
+cat ./tilesetList.txt  | awk '{print "cat job."  $1 ".json | jq . | grep warning ; " }'  | bash
+cat ./tilesetList.txt  | awk '{print "cat job."  $1 ".json | jq . | grep error ; " }'  | bash
+
 
 
 ## error is: {"message":"tin117.o3gt70sjvAVOCMxNitSp has no jobs."}
 ## good job publish process example output json:  [{"id":"ckowdxuf2001g08kwc6gz1pfd","stage":"success","created":1621484389694,"created_nice":"Thu May 20 2021 04:19:49 GMT+0000 (Coordinated Universal Time)","published":1621484389694,"tilesetId":"tin117.o3gt70sjvNOx07AllSp","errors":[],"warnings":[],"completed":1621484491948,...
+
+
+TBD: 
+delete the tileset source (geojson.ld) from mapbox after publish job is complete (ie converted to vector tileset)
 
 
 ~~~~
