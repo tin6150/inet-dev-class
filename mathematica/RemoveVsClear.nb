@@ -1,0 +1,25 @@
+Notebook[{Cell[
+CellGroupData[{Cell[
+BoxData[{RowBox[{"Remove","[",RowBox[{"x",",","y"}],"]"}],"\n","x","\n","y",RowBox[
+{"\n","\n"}],RowBox[{"DSolve","[",RowBox[{RowBox[{"{",RowBox[{RowBox[{RowBox[{"y","'"}],"[","x","]"}],"==",RowBox[
+{"y","[","x","]"}]}],"}"}],",",RowBox[{"y","[","x","]"}],",","x"}],"]"}]}],"Input",
+CellLabel -> "In[197]:= ",ExpressionUUID -> "ad388781-cb05-4d90-8b37-55b034130f01"],Cell[
+BoxData[
+"x",StandardForm],"Output",CellLabel -> "Out[198]= ",ExpressionUUID -> "a9de7779-cd2f-4d01-bee3-33cae08538cc"],Cell[
+BoxData[
+"y",StandardForm],"Output",CellLabel -> "Out[199]= ",ExpressionUUID -> "f7e040e2-79b3-45f6-ba58-05a734b132ce"],Cell[
+BoxData[
+RowBox[{"{",RowBox[{"{",RowBox[{RowBox[{"y","[","x","]"}],"\[Rule]",RowBox[{SuperscriptBox[
+"\[ExponentialE]","x"]," ",TemplateBox[{"1"},"C"]}]}],"}"}],"}"}],StandardForm],"Output",
+CellLabel -> "Out[200]= ",ExpressionUUID -> "fc447d96-2043-4e28-929e-dd6c2446e839"]},
+Open],ExpressionUUID -> "3749907e-9827-4313-8044-589f37ce4c28"],Cell[
+BoxData[RowBox[
+{RowBox[{"(*"," ",RowBox[{RowBox[{"above"," ","is"," ","clearly"," ","wrong"}],","," ",RowBox[
+{"it"," ","is"," ","just"," ","plain"," ","example"," ","from"," ","their"," ","doc"}],","," ",RowBox[
+{RowBox[{RowBox[{"what","'"}],"s"," ",RowBox[{"wrong","?","  ",RowBox[{"https",":"}]}]}],"//",RowBox[
+{RowBox[{RowBox[{RowBox[{"reference",".","wolfram",".","com"}],"/","language"}],"/","tutorial"}],"/",RowBox[
+{"DSolveIntroduction",".","html"}]}]}]}]," ","*)"}],"\n",RowBox[{"(*",RowBox[{RowBox[
+{"needed"," ","Remove"}],","," ",RowBox[{RowBox[{"ClearAll","[","]"}]," ","or"," ",RowBox[
+{"Clear","["," ","]"}]," ",RowBox[{"didn","'"}],"t"," ","cut"," ",RowBox[{"it","!!"}]}]}]," ","*)"}],"\n"}]],
+"Input",ExpressionUUID -> "05989d52-261a-4181-9845-23d8cfc3ff83"]},StyleDefinitions -> "Default.nb",
+FrontEndVersion -> "12.2 for Wolfram Cloud 1.57.0.2 (December 8, 2020)"]

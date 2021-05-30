@@ -1,0 +1,71 @@
+Notebook[{Cell[
+CellGroupData[{Cell[
+BoxData[RowBox[{"z","=",RowBox[{"2","+",RowBox[
+{"3","I"}]}]}]],"Input",CellLabel -> "In[54]:= ",ExpressionUUID -> "0f0b1872-d7d3-4de6-b71f-3a16e8fa06c1"],Cell[
+BoxData[
+RowBox[{"2","+",RowBox[{"3"," ","\[ImaginaryI]"}]}],StandardForm],"Output",CellLabel -> "Out[54]= ",
+ExpressionUUID -> "3db04706-f6ff-42d1-8eb5-133c404a9748"]},Open],ExpressionUUID -> "759e965d-087c-4187-bfb7-98818bd40185"],Cell[
+CellGroupData[
+{Cell[
+BoxData[RowBox[{"2","+",RowBox[{"3","\[ImaginaryI]"}]}]],"Input",ExpressionUUID -> "70a51135-9c3c-48ae-881f-81e781fbcc45"],Cell[
+BoxData[
+RowBox[{"2","+",RowBox[{"3"," ","\[Iota]"}]}],StandardForm],"Output",CellLabel -> "Out[55]= ",
+ExpressionUUID -> "7f2b2f37-b717-469e-8f97-a38b38440209"]},Open],ExpressionUUID -> "3985d88f-be8b-4144-8bd0-03945aac7b64"],Cell[
+CellGroupData[
+{Cell[
+BoxData[RowBox[{RowBox[{"(",RowBox[{"2","+","\[ImaginaryI]"}],")"}],"/",RowBox[
+{"(",RowBox[{"1","-",RowBox[{"3","\[ImaginaryI]"}]}],")"}]}]],"Input",CellLabel -> "In[57]:= ",
+ExpressionUUID -> "684ed70b-e2d9-445c-9807-f515b983ad40"],Cell[
+BoxData[RowBox[{RowBox[
+{"-",FractionBox["1","10"]}],"+",FractionBox[RowBox[{"7"," ","\[ImaginaryI]"}],"10"]}],
+StandardForm],"Output",CellLabel -> "Out[57]= ",ExpressionUUID -> "eed0cbb4-d8ce-4e8b-a5b4-e6d28c29a346"]},
+Open],ExpressionUUID -> "63291495-7546-45fd-9ed7-54ec8a3ba025"],Cell[
+BoxData[RowBox[
+{"z",":=",RowBox[{RowBox[{"(",RowBox[{"2","+","I"}],")"}],"/",RowBox[{"(",RowBox[
+{"1","-",RowBox[{"3","I"}]}],")"}]," "," "," ",RowBox[{"(*",RowBox[{"use"," ","I"," ","to"," ","represent"," ","ESC"," ","ii"," ","ESC"}]," ","*)"}]}]}]],
+"Input",CellLabel -> "In[5]:= ",ExpressionUUID -> "a694aab9-6fed-438c-b4e5-d90b52df1ce8"],Cell[
+CellGroupData[
+{Cell[
+BoxData["z"],"Input",CellLabel -> "In[6]:= ",ExpressionUUID -> "1dc8e3ac-9dfb-4d41-81c3-c4840a9f649c"],Cell[
+BoxData[
+RowBox[{RowBox[{"-",FractionBox["1","10"]}],"+",FractionBox[RowBox[{"7"," ","\[ImaginaryI]"}],
+"10"]}],StandardForm],"Output",CellLabel -> "Out[6]= ",ExpressionUUID -> "0e02f2c6-68ba-4a56-89e5-6a5e225c686a"]},
+Open],ExpressionUUID -> "a155e618-f044-4352-b837-b84f0d16473b"],Cell[
+CellGroupData[
+{Cell[
+BoxData[RowBox[{"Re","[","z","]"}]],"Input",CellLabel -> "In[64]:= ",ExpressionUUID -> "18e4cba8-6f61-4c24-bf03-36b61a845560"],Cell[
+BoxData[
+RowBox[{"-",FractionBox["1","10"]}],StandardForm],"Output",CellLabel -> "Out[64]= ",
+ExpressionUUID -> "054e1f2a-37af-4995-94f0-89aeb59f0e35"]},Open],ExpressionUUID -> "f08ff141-75e7-46ed-8a2e-e30fc74b2eba"],Cell[
+CellGroupData[
+{Cell[
+BoxData[RowBox[{"Im","[","z","]"}]],"Input",CellLabel -> "In[65]:= ",ExpressionUUID -> "4c72b02c-567e-4b56-a91b-8a7ade8c2b1c"],Cell[
+BoxData[
+FractionBox["7","10"],StandardForm],"Output",CellLabel -> "Out[65]= ",ExpressionUUID -> "d804abd3-26ec-44bb-8447-013c7fad2ad6"]},
+Open],ExpressionUUID -> "f6bf8328-3a17-4c52-a1d4-0b06c35c2983"],Cell[
+CellGroupData[
+{Cell[
+BoxData[RowBox[{RowBox[{"{",RowBox[{RowBox[{"r","=",RowBox[{"Abs","[","z","]"}]}],","," ",RowBox[
+{"theta","=",RowBox[{"Arg","[","z","]"}]}]}],"}"}]," ",RowBox[{"(*"," ",RowBox[{"get"," ","polar"," ","coordinate"," ","of"," ","a"," ","complex"," ","number"," ","z"}]," ","*)"}]}]],
+"Input",CellLabel -> "In[9]:= ",ExpressionUUID -> "dc8bf9ee-58c0-4602-b2e8-0eaa00e6a9f2"],Cell[
+BoxData[
+RowBox[{"{",RowBox[{FractionBox["1",SqrtBox["2"]],",",RowBox[{"\[Pi]","-",RowBox[
+{"ArcTan","[","7","]"}]}]}],"}"}],StandardForm],"Output",CellLabel -> "Out[9]= ",
+ExpressionUUID -> "875606ef-0d77-4007-987f-396def070868"]},Open],ExpressionUUID -> "99bbba15-3786-4df4-bd6c-b1b9d76c1b8d"],Cell[
+BoxData[
+""],"Input",ExpressionUUID -> "b6e78491-1fce-4790-84b7-aca5047c2c54"],Cell[
+CellGroupData[
+{Cell[
+BoxData[RowBox[{"zbar","=",RowBox[{"Conjugate","[","z","]"}]}]],"Input",CellLabel -> "In[7]:= ",
+ExpressionUUID -> "82bf8bd0-9642-48f6-b662-46dcdc27b6b5"],Cell[
+BoxData[RowBox[{RowBox[
+{"-",FractionBox["1","10"]}],"-",FractionBox[RowBox[{"7"," ","\[ImaginaryI]"}],"10"]}],
+StandardForm],"Output",CellLabel -> "Out[7]= ",ExpressionUUID -> "767dfc9e-00a8-4c83-ab9f-8e36e370fc18"]},
+Open],ExpressionUUID -> "8b376959-166f-41df-b712-f7f2fbb14533"],Cell[
+CellGroupData[
+{Cell[
+BoxData["zbar"],"Input",CellLabel -> "In[2]:= ",ExpressionUUID -> "6f711b25-3677-4fc2-8f60-a37455850826"],Cell[
+BoxData[
+RowBox[{"Conjugate","[","z","]"}],StandardForm],"Output",CellLabel -> "Out[2]= ",
+ExpressionUUID -> "dfe8eb2b-ed5f-455d-bd14-1c053bacaceb"]},Open],ExpressionUUID -> "ad084846-db63-462b-8b09-1db57f0790f1"]},
+StyleDefinitions -> "Default.nb",FrontEndVersion -> "12.2 for Wolfram Cloud 1.57.0.2 (December 8, 2020)"]
