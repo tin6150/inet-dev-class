@@ -1,0 +1,24 @@
+Notebook[{Cell[
+CellGroupData[{Cell[
+BoxData[RowBox[{"D","[",RowBox[{RowBox[{"x","^","5"}],",","x"}],"]"}]],
+"Input",CellLabel -> "In[1]:= ",ExpressionUUID -> "5734050f-5ebe-47a8-9805-1a654a87fed3"],Cell[
+BoxData[
+RowBox[{"5"," ",SuperscriptBox["x","4"]}],StandardForm],"Output",CellLabel -> "Out[1]= ",
+ExpressionUUID -> "97afeeeb-4f32-420b-bb37-ac9e48c415e3"]},Open],ExpressionUUID -> "31f530ae-f2ad-44bd-bf08-dd0ce9b5dae3"],Cell[
+CellGroupData[
+{Cell[
+BoxData[RowBox[{"\[PartialD]",NamespaceBox["LinguisticAssistant",DynamicModuleBox[
+{Set[Typeset`query$$,"\"subscript\"x"],Set[Typeset`boxes$$,RowBox[{"\"subscript\"","*","x"}]],Set[
+Typeset`allassumptions$$,{}],Set[Typeset`assumptions$$,{}],Set[Typeset`open$$,{1,2}],Set[
+Typeset`querystate$$,{}]},DynamicBox[ToBoxes[AlphaIntegration`LinguisticAssistantBoxes[
+"",4,Automatic,Dynamic[Typeset`query$$],Dynamic[Typeset`boxes$$],Dynamic[Typeset`allassumptions$$],
+Dynamic[Typeset`assumptions$$],Dynamic[Typeset`open$$],Dynamic[Typeset`querystate$$]],
+StandardForm],RuleDelayed[TrackedSymbols,{Typeset`query$$,Typeset`boxes$$,Typeset`allassumptions$$,Typeset`assumptions$$,Typeset`open$$,Typeset`querystate$$}]],
+RuleDelayed[UndoTrackedVariables,{Typeset`open$$}]],BaseStyle -> {"Deploy"},DeleteWithContents -> True,
+Editable -> False,SelectWithContents -> True]}]],"Input",CellLabel -> "In[1]:= ",
+ExpressionUUID -> "cf725965-04b4-4b5b-a826-874b698391f0"],Cell[
+BoxData[TemplateBox[
+{"Derivative","novar","\"\!\(\*RowBox[{\"\\:f3b5\", StyleBox[TagBox[RowBox[{\"\\:2202\", NamespaceBox[\"LinguisticAssistant\", DynamicModuleBox[{Set[Typeset`query$$, \"\\\"subscript\\\"x\"], Set[Typeset`boxes$$, RowBox[{\"\\\"subscript\\\"\", \"*\", \"x\"}]], Set[Typeset`allassumptions$$, {}], Set[Typeset`assumptions$$, {}], Set[Typeset`open$$, {1, 2}], Set[Typeset`querystate$$, {}]}, DynamicBox[ToBoxes[AlphaIntegration`LinguisticAssistantBoxes[\"\", 4, Automatic, Dynamic[Typeset`query$$], Dynamic[Typeset`boxes$$], Dynamic[Typeset`allassumptions$$], Dynamic[Typeset`assumptions$$], Dynamic[Typeset`open$$], Dynamic[Typeset`querystate$$]], StandardForm], TrackedSymbols :> {Typeset`query$$, Typeset`boxes$$, Typeset`allassumptions$$, Typeset`assumptions$$, Typeset`open$$, Typeset`querystate$$}], UndoTrackedVariables :> {Typeset`open$$}], BaseStyle -> {\"Deploy\"}, DeleteWithContents -> True, Editable -> False, SelectWithContents -> True]}], Function[Short[Slot[1], 5]]], ShowStringCharacters -> False], \" cannot be interpreted. A partial derivative requires a subscript differentiation variable.\\:f3b5\"}]\)\"",2,1,1,29217760911438259972,"Local"},
+"MessageTemplate"]],"Message","MSG",ExpressionUUID -> "61b6e352-8f5c-4f5c-b1a9-a136ab86b39f"]},
+Open],ExpressionUUID -> "1866696d-4cfa-41bc-821d-f723c6dd1652"]},StyleDefinitions -> "Default.nb",
+FrontEndVersion -> "12.2 for Wolfram Cloud 1.57.0.2 (December 8, 2020)",TaggingRules -> {"TryRealOnly" -> False}]
