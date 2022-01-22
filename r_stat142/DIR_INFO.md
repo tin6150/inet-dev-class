@@ -1,14 +1,25 @@
+
+
+
+====>> **consider moving this to my fork under phw142-sp22**  <<===
+if do, this and other annotabion may want to be in a "tin" branch
+
+
 R lab (required) and assignments (optional) for Stat 142 (Spring 2022)
 from datahub terminal, in 
 
+careful not to copy the .git from the source, as they are also using git to create these files.
+hmm... maybe i should just fork it!
+see https://github.com/tin6150/phw142-sp22
 
+rstudio@jupyter-tin:~/phw142-sp22$ scp -pr /home/rstudio/phw142-sp22/* tin@bofh.lbl.gov:~/tin-gh/inet-dev-class/r_stat142
 
+``` {bash}
 find . -name '*md' -exec git add {} \;
 find . -name '*csv' -exec git add {} \;
 find . -name '*PNG' -exec git add {} \;
-
 # might need lower case png?  
-
+```
 
 ~~~~~
 
