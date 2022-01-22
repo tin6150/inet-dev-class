@@ -1,0 +1,31 @@
+R lab (required) and assignments (optional) for Stat 142 (Spring 2022)
+from datahub terminal, in 
+
+IP of datahub is??   probably in the cloud, tmp: ufw disable
+
+https://publichealth.datahub.berkeley.edu/user/tin/rstudio/
+
+
+first copy on 2022.0122, beginning of the semester, most files are not released yet.
+i have done edit to lab01.Rmd, about to submit to autograder.
+no work on hw yet.
+may be won't be syncing them unless really want to use local Rstudio, which i likely won't, as submission may become a mess.
+
+consider copying files at end of semester... 
+
+
+
+rstudio@jupyter-tin:~/phw142-sp22$ ifconfig -a | less
+bash: ifconfig: command not found
+rstudio@jupyter-tin:~/phw142-sp22$ 
+rstudio@jupyter-tin:~/phw142-sp22$ ls
+hw  lab  lec  Welcome-To-PH142.md
+rstudio@jupyter-tin:~/phw142-sp22$ pwd
+/home/rstudio/phw142-sp22
+rstudio@jupyter-tin:~/phw142-sp22$ scp -pr /home/rstudio/^C
+rstudio@jupyter-tin:~/phw142-sp22$ df -h .
+Filesystem                                        Size  Used Avail Use% Mounted on
+nfsserver-01:/export/ischool-2021-07-01/prod/tin  1.0T  457G  568G  45% /home/rstudio
+rstudio@jupyter-tin:~/phw142-sp22$ pwd -P
+/home/rstudio/phw142-sp22
+rstudio@jupyter-tin:~/phw142-sp22$ scp -pr /home/rstudio/phw142-sp22/* tin@bofh.lbl.gov:~/tin-gh/inet-dev-class/r_stat142

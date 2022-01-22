@@ -1,0 +1,5 @@
+*.docx
+*.tex
+*.knit.md
+*.log
+*_files
