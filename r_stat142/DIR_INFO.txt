@@ -1,6 +1,18 @@
 R lab (required) and assignments (optional) for Stat 142 (Spring 2022)
 from datahub terminal, in 
 
+
+
+find . -name '*md' -exec git add {} \;
+find . -name '*csv' -exec git add {} \;
+find . -name '*PNG' -exec git add {} \;
+
+# might need lower case png?  
+
+
+~~~~~
+
+
 IP of datahub is??   probably in the cloud, tmp: ufw disable
 
 https://publichealth.datahub.berkeley.edu/user/tin/rstudio/

@@ -3,3 +3,4 @@
 *.knit.md
 *.log
 *_files
+tests/
