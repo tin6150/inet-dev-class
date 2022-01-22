@@ -65,6 +65,22 @@ help::
     ansible-doc yum     # doc on the yum module
     ANSIBLE_LIBRARY     # default search for ./library 
 
+Variable precedence, defaults
+=============================
+
+https://cheat.readthedocs.io/en/latest/ansible/variables.html
+
+## increasing var precedence :
+## role/defaults/main.yml
+## hosts_var, 
+## role/vars/main.yml      # so vars here should largely be considered non changeable
+## cli -e 
+
+## alt, the task should be able to use default like this:
+## security: "{{ securityOnlyUpdate | default false }}"
+
+
+
 YAML
 ****
 
@@ -261,6 +277,8 @@ But not inside a block construct?
 I have not been able to find the "Regular Grammar" definition for any ansible yaml definition.  
 The list of playbook keywords is the closest thing.  But I am still very fuzzy what is allowed where.  
 http://docs.ansible.com/ansible/latest/playbooks_keywords.html#task
+okay, now there is this syntax 
+https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html#yaml-syntax
 
 * Dash (-) is for array elements
 * Each module need a list of declarations, and those are NOT prefixed with dash
@@ -352,6 +370,9 @@ ref
 * https://www.dasblinkenlichten.com/ansible-roles-and-variables/ - vars declaration in various places, use diff delimters.  ansible yaml is so annyoning!  in playbook, vars is under "hosts" section.  but unlike tasks, do not prefix vars with - !
 
 * ansible yaml is like a f'ing castrated language.  why can't i just have if-else and for loop and all that regular stuff??!!
+
+
+* https://www.toptechskills.com/ansible-tutorials-courses/ansible-include-import-variables-tutorial-examples/
 
 
 Installing Ansible
