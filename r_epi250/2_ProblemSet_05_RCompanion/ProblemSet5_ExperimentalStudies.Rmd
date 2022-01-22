@@ -1,0 +1,344 @@
+---
+output:
+  pdf_document: default
+  word_document: default
+  html_document: default
+always_allow_html: yes    
+---
+
+# PH250A: PROBLEM SET #5:Experimental Studies
+
+Welcome back! This is the second of four **optional** data analysis companions to our weekly Problem Sets. Remember that these companions are intended to be a fun introduction to how epidemiologists perform the calculations you are learning in class. Of course, make sure that you understand how to do the problem sets manually (on paper) _first_ since that's what you'll be asked to do on exams.
+
+Before you get started on this companion, you should have already reviewed the **"Getting Started with R Companions.Rmd"** file within the "0_Start_Here" folder on the 250-Intro-to-Epidemiology RStudio Cloud workspace. This file will provide you with a brief orientation to RStudio Cloud as well as Datahhub. It also includes instructions about how to submit the assignment for extra credit, if you choose to do so. Don't forget, you only need to complete the **## ACTIVTY** sections to get extra credit. The additional questions are just for you to think about.
+
+Work through this data analysis companion by running each chunk or line of code one by one within this file. You can execute an entire chunk of code by clicking the green arrow located at the top right of the chunk - if you hover your cursor above this arrow, you will see "Run current chunk." You can also run individual lines of code by placing your cursor inside a line of code and pressing  *Cmd+Enter* for Mac users or *Ctrl+Enter* for Windows users. For the chunks with multiple lines of code, it may be helpful to run each line of code separately to help you understand what every line is doing.
+
+### Overview
+
+This data analysis companion covers Problem #1 from Problem Set 5. These questions focus on the design and analysis of the MORDOR trial (https://www.nejm.org/doi/full/10.1056/NEJMoa1715474). MORDOR was designed to determine the effect of the biannual mass distribution of oral azithromycin on childhood mortality. Communities from three countries in sub-Saharan Africa (Malawi, Niger, Tanzania) were randomized to receive biannual oral azithromycin or placebo over two years. Treatment was targeted to children 1-59 months old. A biannual census was conducted to determine the vital status of children over the course of the study ('vital status' refers to whether children are alive or have died). The primary outcome was all-cause mortality.
+
+This problem set will use a subset of trial data from the Niger site.
+
+*Fun Fact:* As you may know, Mordor is the name of a fictional region in J. R. R. Tolkien's Lord of the Rings universe. When the study team was designing this trial, they had been actively working in an Ethiopian region called Gondar, which is similar to the name of another Tolkien kingdom. At this time, Gondar was being considered as a potential site for the trial, and the acronym was born - and it stuck. MORDOR stands for Macrolides Oraux pour Reduire les Deces avec un Oeil sur la Resistance, which means "oral macrolides to reduce deaths with an eye on resistance" in French.
+
+Let's start by running this setup code:
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, eval=T)
+
+```
+
+### Preparing to work with the data
+
+First, let's set our working directory and install then load the packages that we'll be using for this problem set.
+
+```{r}
+
+# First set your directory to where files for this problem set are stored
+setwd("~/250-Intro-to-Epidemiology/2_ProblemSet_05_RCompanion")
+
+# This package gives us access to tools to help us manipulate and manage the dataset
+install.packages("plyr") 
+library(plyr) 
+
+# This package enables us to create better graphics with more options than in base R
+install.packages("ggplot2") 
+library(ggplot2) 
+
+# This package includes tools to make prettier tables than in base R
+install.packages("kableExtra") 
+library(kableExtra) 
+
+```
+
+Now, let's read in the dataset:
+
+```{r}
+
+mordor <- read.csv("mordor_niger.csv",header=TRUE)
+
+```
+
+### Exploring the dataset
+
+Let's learn more about this dataset 
+
+
+```{r}
+
+str(mordor)
+
+```
+
+In this dataset, we have 594 observations and 7 variables. MORDOR randomized communities to receive biannual azithromycin or placebo and the data were analyzed at the community level. In this dataset, each row is a community.
+
+Next, let's take a closer look at the variables in the dataset:
+
+```{r}
+
+# In the first data analysis companion, we used the following code to print the first 5 rows of the dataset:
+mordor[1:5,]
+
+# Another way to do this is using the following code, which prints the first 6 rows:
+head(mordor)
+
+# Or this code, which prints the last 6 rows
+tail(mordor)
+
+```
+
+To get a quick view of the dataset, we can use any of the three commands in the previous code chunk. In the output above, you may see a small black arrow which you can use to scroll to the right to see the rest of the dataset (if needed). 
+
+We can see what the dataset looks like from reviewing the dataset's first few rows. Variables include:
+- community (name of the community included in the study)
+- children (the number of children under 5 per community as counted at baseline)
+- biological sex at birth (proportion of male children under 5 in the community at the baseline study visit)
+- age (mean age in months of children under 5 in the community at the baseline study visit)
+- treatment (indicates whether a community was randomized to receive azithromycin (1) or placebo (0)) 
+- deaths (count of deaths among children under 5 that occurred during the study period per community)
+- persontime (sum person days at risk for the study period per community).
+
+Per row 594 (which we can see after running the *tail(mordor)* line or the third data frame if you ran the chunk in one go), we can see that the "Zozo Tombo Koda" community had 145 children under 5. Of these, 53.1% were male and the average age of children in Abouja was 29.3 months at baseline. Zozo Tombo Koda was randomized to receive placebo, experienced 18 deaths during the study period, and had 96,229.5 person-days at risk. 
+
+## ACTIVITY
+
+Choose one of the coding options from the chunk above to *only* see information about the first row. Write your interpretation of the information for row 1 in a comment under your line of code, similar to the example above. Remember that any text after a "#" sign is a comment and will not run as code). 
+
+```{r}
+
+# Write your code below this line. Hint: mordor[1,] or head(mordor, 1) might work.
+head(mordor,1)
+
+```
+
+*Our Interpretation: We can see that the Abouja community had 136 children under 5. Of these, 55.1% were male and the average age of children in Abouja was 30.6 months at baseline. Abouja was randomized to receive azithromycin, experienced 6 deaths during the study period, and had 85002.5 person-days at risk.*
+
+
+### Getting our variables ready for analysis 
+
+We saw in the previous step that person-time was in days. We usually present person-time in years, though, so we'd like our person-time variable to be in years as well. To do this, we can create a new variable that converts the existing variable to person-time in years.
+
+```{r}
+
+# By dividing the existing variable (person-time in days) by the number of days in a year, we get person-time in years.
+mordor$persontime_years = (mordor$persontime/365)
+
+```
+
+*Based on the code above, what do you think the name of this new variable will be?*
+
+## persontime-year
+```{r}
+
+# Confirm the new variable name by running the following code:
+head(mordor)
+
+```
+
+*Hint: Scroll to the right in the output to see our new variable, persontime_years.*
+
+### ACTIVITY
+
+You might have noticed that we reported the variable "sex" as a percentage. Using the code above as guide, try to make a new variable called "sex_perc" that converts the proportion in "sex" to a percentage.
+
+You can confirm that your new variable is correct by using the head function. 
+
+```{r}
+
+# Write your code below this line to conver the sex variable to a percentage
+mordor$sexAsPercent = (mordor$sex*100)
+
+
+# Then confirm the name of you your new variable 
+head(mordor)
+
+```
+
+*hint:* try: mordor$sex_perc = (mordor$sex*100) 
+
+
+### Exploring our intervention variable
+
+Let's see how many communities were randomized to each arm in the study
+
+```{r}
+
+# Basic Table - the table command below uses base R, which refers to the commands that come with the R program
+table(mordor$treatment) 
+
+
+# Prettier table with labels - the commands below use the KableExtra package we installed earlier in order to add visual features
+
+table1 <- xtabs (data=mordor, ~treatment)
+table1 %>% kable(col.names=c("Treatment Arm", "Number of Communities")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, position = "left")
+
+```
+
+We see that 291 communities in Niger were randomized to placebo, and 303 communities were randomized to azithromycin.
+
+Next, let's look at some baseline characteristics of the study population overall
+
+```{r}
+
+# The summary command shows us the minimum, maximum, mean, 25th, 50th, and 75th percentiles of the selected variables. Here, we are asking R for this information about the children, biological sex at birth, and age variables.
+
+summary(mordor$children)
+summary(mordor$sex)
+summary(mordor$age)
+
+```
+
+*Hint: If you're having trouble distinguishing which output corresponds with which characteristic, try running each line one at a time*
+
+From this output (with rounding), we see that the mean number of children per community is 128, 51% of children in the study were male, and the mean age was 31 months.
+
+Now, let's look at the baseline characteristics of the study population by treatment arm.
+
+```{r}
+
+# We can use the ddply command to create a table of summary statistics by treatment arm. 
+ddply(mordor, .(treatment), summarize, Children=mean(children), Sex=mean(sex), Age=mean(age))
+
+```
+
+*Where in this code do we tell R to look at these data by treatment arm? Can you see where in the code we tell R how to summarize each variable?*
+
+This table shows the baseline characteristics for each treatment arm separately. We see that the placebo arm had on average 123 children per community and the azithromycin arm had 133 children per community. In both arms, 51% of children were male and the average age was 31 months. 
+
+*Do you think that randomization was successful? Why or why not?*
+// randomization was able to balance the group between treatment and non treatment, as their stats are very similar, within a narrow margin of error.
+### Exploring our outcome variable
+
+Let's look at the overall number of deaths and person-time at risk in years in the study. This corresponds to problem #1(C) in the problem set. 
+
+```{r}
+
+sum(mordor$deaths)
+sum(mordor$persontime_years)
+
+```
+
+During the study period, a total of 3615 deaths occurred in Niger, and 145,714.9 person-years at risk were followed. *Does this correspond to what you calculated by hand?*
+// hmm... this is the 2nd R assignment, and working in week 4 with problem set 4, don't have this mordor problem...  ++
+
+### ACTIVITY
+
+In an earlier companion guide, we learned that R can be used as a simple calculator. R can also conduct these calculations on commands that output numbers, such as the "sum" command from the code chunk above.
+
+Compute the overall rate of death (per 1000 person-years) by combining R's calculator functionality and the "sum" commands above. 
+
+```{r}
+
+# Write your code below this line
+(sum(mordor$deaths)/sum(mordor$persontime_years))*1000
+
+```
+
+*Hint* Try: (sum(mordor$deaths)/sum(mordor$persontime_years))*1000
+
+*How would you interpret this number? Why did we multiply the quotient by 1000?*
+// 24 death per 1000 person-years
+
+Next, let's look at our outcome by arm, visually.
+
+```{r}
+
+# First, let's use base R to create a histogram of the overall number of deaths like we did in the first data analysis companion:
+hist(mordor$deaths)
+
+```
+
+```{r}
+
+# Now, let's create a new character variable to use in the histograms by treatment arm so the labelling is clearer. This code is saying that we want to create a new variable called "tx" which equals "Azithromycin" if the existing "treatment" variable equals 1. Otherwise ("ifelse"), we want this variable to equal "Placebo").
+
+mordor$tx=ifelse(mordor$treatment==1, "Azithromcyin", "Placebo") 
+
+# To create the histograms by arm, let's try ggplot. This package is more robust than base R for graphics and allows for greater formatting control.
+
+ggplot(mordor, aes(x=deaths, fill=factor(tx)))+
+  geom_histogram(binwidth = 1.0)+
+  facet_grid(tx ~.)+
+  ggtitle("Histogram of Deaths per Community by Treatment Arm")+
+  labs(x="Number of Deaths", y="Number of Communities") +
+  guides(fill=FALSE)
+
+```
+
+The second set of histograms from the ggplot code show us the number of communities that experienced various counts of death for each arm. *How do these distributions compare to each other?* 
+// a bit hard to see, maybe easier if graph over-imposed one another.  but placebo has slightly larger number of communities with more deaths, around the 5-8 Num Of Death marks
+## ACTIVITY
+
+Please modify the code below to change the width of the bins in the histogram to 3.
+
+```{r}
+
+# Modify this code to change the width of the bins shown in the histogram in the code chunk below to a width of 3. 
+
+ggplot(mordor, aes(x=deaths, fill=factor(tx)))+
+  geom_histogram(binwidth = 3.0)+
+  facet_grid(tx ~.)+
+  ggtitle("Histogram of Deaths per Community by Treatment Arm")+
+  labs(x="Number of Deaths", y="Number of Communities") +
+  guides(fill=FALSE)
+
+```
+
+*Hint: change binwidth = 3*
+
+Now, let's look at the outcome by treatment arm numerically. This corresponds to problems #1(D) and (E) in the problem set. *How is this code different from the ddply code we used earlier?*
+// palcebo has fewer deaths!
+```{r}
+
+# Let's use ddply again for this table. 
+ddply(mordor, .(treatment), summarize, Deaths=sum(deaths), Persontime=sum(persontime_years), IR=(Deaths/Persontime)*1000)
+
+
+```
+
+We can see that there were 1888 deaths in communities randomized to receive placebo, and 1727 deaths in communities randomized to receive azithromycin. *Can you see how the IRs were calculated in the code used to create this table?*
+
+// IR is death / person time, mult by 1000 to be per 100 person-year
+
+## ACTIVITY
+
+Using the table we just created, let's calculate the IRR using R like a calculator.
+
+```{r}
+
+# Write your code below this line
+
+22.44776/27.44957
+```
+
+*Hint: The answer should be 0.818.* How would you interpret this IRR?
+
+### Next time
+
+Congratulations! We've reached the end of this data analysis companion. We'll return to learn more R in Problem Set #7 on Cross-sectional and Ecologic Studies.
+
+### Submitting your file for credit
+
+As a reminder, here's how create a file to submit for extra credit:
+
+1. Execute all of the code chunks in this companion. 
+
+2. Modify code as directed in the sections titled  “ACTIVITY”. This might mean modifying a calculation or changing the look of a graph. You do *not* have to answer the optional questions posed throughout. 
+
+*Note that when you access a project created by someone else, RStudio Cloud automatically creates a copy of the project for you. You can play with and make edits to it, but none of your changes will be reflected in the original. You can go ahead and save the project within your instance of RStudio Cloud*
+
+3. ‘Knit’ the RMarkdown file to create a Microsoft Word document by pressing the down arrow next to ‘Knit’ on the tool bar (with a ball of yarn) and selecting the option ‘Knit to Word’.
+
+4. A pop-up prompt will appear that says: “R Markdown Render Completed.” Select "Download File" to download the Word document. This document will also appear in the "files" pane in the lower right of R Studio Cloud. You can click on it to download it.
+
+*If you receive a message indicating that packages need to be installed, select the option to automatically install the packages and then try knitting again. You may need to disable pop-ups.*
+
+5. Save the resulting Word document as follows: PH250A_PS5_KN. Replace KN with your own initials. 
+
+6. Upload your Word document to the appropriate assignment on bCourses before the deadline. (Late submissions will not receive credit- see bCourses for details.)
+
+
+

@@ -1,0 +1,288 @@
+---
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+
+always_allow_html: yes 
+---
+
+# PH250A: PROBLEM SET #3: Descriptive Epidemiology I: Measures of Association
+
+This is the first of four **optional** data analysis companions to our weekly Problem Sets. These are intended to be fun and inspire you to be curious about epidemiological data. We'll show you how epidemiologists perform some of the calculations you learn about in class, as well as how to explore data on your own. Of course, make sure that you understand how to do the problem sets manually (on paper) _first_ since that's what you'll be asked to do on exams.
+
+No previous programming experience? No problem - you're in the right place! These companions are intended for people without any programming experience or knowledge about statistical software. **Our goal isn't to teach you how to code in R**; rather, we hope to demystify how actual epidemiologists and statisticians conduct analyses in real life. In other classes you will learn the details about coding on your own. For now, just follow along and have fun!
+
+Before you get started on this companion, you should have already reviewed the **"Getting Started with R Companions.Rmd"** file within the "0_Start_Here" folder on the 250-Intro-to-Epidemiology RStudio Cloud workspace. This file will provide you with a brief orientation to RStudio Cloud as well as Datahhub. It also includes instructions about how to submit the assignment for extra credit, if you choose to do so. Don't forget, you only need to complete the **## ACTIVTY** sections to get extra credit. The additional questions are just for you to think about.
+
+In brief, this is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. In addition to plain text like this, we can write code in "chunks" that appear with a grey background. When you execute code within the notebook, the results appear beneath the code. 
+
+Work through this data analysis companion by running each chunk or line of code one by one within this file. You can execute an entire chunk of code by clicking the green arrow located at the top right of the chunk - if you hover your cursor above this arrow, you will see the text "Run current chunk." You can also run individual lines of code by placing your cursor inside a line of code and pressing  *Cmd+Enter* for Mac users or *Ctrl+Enter* for Windows users. For the chunks with multiple lines of code, it may be helpful to run each line of code separately to help you understand what every line is doing.
+
+Try to execute these two chunks of code to get started:
+
+```{r setup, include=FALSE}
+
+# Try executing this setup code by clicking the green 'Run' arrow or by placing your cursor inside the code chunk and pressing Cmd+Enter (Mac) or Ctrl+Enter (Windows)
+
+knitr::opts_chunk$set(echo = TRUE, eval=T)
+
+```
+
+```{r}
+# Try executing this setup code by clicking the green 'Run' arrow or by placing your cursor inside the code chunk and pressing Cmd+Enter (Mac) or Ctrl+Enter (Windows)
+
+paste("Let's get started!")
+
+```
+
+### Overview
+
+This analysis companion will cover Problems #2 and #3 from Problem Set 3. These questions focus on sleep health and use data from the National Health and Nutrition Examination Survey ([NHANES](https://www.cdc.gov/nchs/nhanes/index.htm)). NHANES is a program of studies designed to assess the health and nutritional status of adults and children in the United States.  We will be using data from 2015-2016 to correspond with the Problem Set questions. Note that we'll be using *unweighted* data for this exercise.
+
+### NHANES methodology
+
+In brief, the NHANES survey examines a nationally representative sample of about 5,000 persons each year. These persons are located in counties across the United States, 15 of which are visited each year. The study is unique in that it combines interviews and physical examinations. The NHANES interview includes demographic, socioeconomic, dietary, and health-related questions. The examination component consists of medical, dental, and physiological measurements, as well as laboratory tests administered by highly-trained medical personnel. You can read more about the methodology [here](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2015).
+
+### Install R Packages
+
+First let's load the packages we'll need for this exercise. R comes with a number of built in commands for different functions. There are also external packages that we can install to execute different commands. To use an external package, we must first ask R to install it. We only have to install it once. After that, we must load the package using the "library" command each time we start a new session and want to use it.
+
+```{r}
+
+#  Note that to install a package, we must put quotes around it's name. To load a package, we do not use quotes.
+
+install.packages("EpiStats")
+library(EpiStats)
+
+# If you attempt to load a package that you think has already been installed, but get an error, try installing it again.
+
+```
+
+### Learning about the dataset
+
+Let's read in our data:
+
+```{r}
+# This code sets the working directory. It tells R where to find the data. Here, we're telling R that our working directory is "250-Intro-to-Epidemiology/1_ProblemSet_03_RCompanion." 
+
+setwd("~/250-Intro-to-Epidemiology/1_ProblemSet_03_RCompanion")
+
+# This code reads in the data and assigns it to an object called "nhanes". We're telling R that the data are stored in comma-separated file (CSV) format, which means the individual data values are separated by commas.
+
+nhanes <- read.csv("nhanes.csv",header=TRUE)
+
+```
+
+Note that after you ran the code chunk above, the dataset "nhanes" appeared in your "Environment" pane in the top right hand side of the screen. 
+
+Let's get some information about the dataset:
+
+```{r}
+
+str(nhanes)
+
+```
+
+You can see that the dataset includes 5,687 observations (which represent people) and 11 variables. Listed to the right of each variable is a list of the values that variable can take, like 0 or 1. 
+
+Let's print out the first five records in the dataset to see what individual records look like:
+
+```{r}
+
+nhanes[1:5, ]
+
+```
+
+You can see that there are variables to indicate the record number (X), patient ID (seqn), the participant's age, sex (1=male, 2=female), the average night's sleep in hours (length), whether the participant is a short sleeper (short, 1=yes, 0=no), and other variables describing their health (press the right arrow button above to see all columns). In general, a value of 1 usually means that the characteristic is present. 
+
+*Can you guess what the square brackets in the above code chunk do? Does the first value (before the comma) indicate the rows or the columns we wish to select?*
+
+### Exploring the outcome: Sleep duration
+
+For fun, let's look at the distribution of sleep times by examining the variable "length":
+
+```{r}
+
+hist(nhanes$length, col="lightblue", main = "Usual sleep per night in hours", xlab="Hours of sleep")
+
+```
+
+*What do you think the "$" operator does?*
+
+## ACTIVITY
+
+Please modify the code below to change the color of the histogram to red:
+
+```{r}
+
+# Modify the line below where appropriate
+hist(nhanes$length, col="red", main = "Usual sleep per night on weekdays or workdays in hours", xlab="Hours of sleep")
+
+```
+
+*Hint: Change col="red"*
+
+### Short Sleepers
+
+In this problem, we categorized sleep duration into *short* sleepers (someone who sleeps less than 6 hours a night) and *regular* sleepers. Let's check to see how the variable "short" is different than the variable "length" that we used to make the histograms above. We can do this with a cross-tabulation of the variables "length" and "short". 
+
+```{r}
+
+table(nhanes$length, nhanes$short) 
+
+```
+
+**Here's how to interpret this output:** You can see the various lengths of sleep in the column on the far left (2 hours, 2.5 hours, 3 hours, etc). The options for the variable "short" are 0 (=no) and 1 (=yes), listed across the top. Whenever length of sleep is less than  6, the value of short is 1, indicating a short sleeper. The numbers listed in the cells of the table are the number of people with that characteristic. So, 137 people reported sleeping 5.5 hours per night. These people were appropriately classified as being a short sleeper (short=1). 
+
+Note that this is a very simple table output - in the next analysis companion we'll show you how to make prettier tables. 
+
+### Problem #2: Sleep duration and coronary heart disease (CHD)
+
+So, how many people in the study sample were short sleepers? 
+
+```{r}
+
+table(nhanes$short) 
+
+```
+
+What **proportion** of the sample was a short sleeper? 
+
+```{r}
+
+table(nhanes$short)/sum(table(nhanes$short))
+
+```
+
+*Did you get the same answer that you computed in Problem #2(B) by hand? What does the value in the first column of the table above represent?*
+
+Moving forward, we'll assume that these are data from a prospective study where people were followed over time. What is the risk of CHD among short sleepers?
+
+To answer the remaining parts of Question #2, let's make a 2x2 table of sleep duration (using the variable "short") and CHD (using the variable "chd_ever"). We'll use the CS command, part of the EpiStats package, which enables us to use commands to do standard epidemiological calculations. In this case, CS is used to analyze data from cohort studies. 
+
+To learn more about individual commands and packages, you can type in a command or package name into the Help command or in the search bar found in the Help tab located in the lower right pane. Read more about the CS command by running the code chunk. 
+
+```{r}
+# More info should automatically appear in the lower right pane once you run this code.
+help(CS)
+
+```
+
+Go ahead and run the CS command with the NHANES dataset and variables of interest. 
+
+```{r}
+# Keep in mind that order matters when you input the two variables into the CS command. The first variable in the CS command is the outcome ("chd_ever") and the second variable is the exposure ("short"). 
+
+CS(nhanes, "chd_ever", "short", full=FALSE) 
+
+```
+
+We can see numerous helpful statistics in the output tables produced by this command. You can display different tables by clicking on them above. "Data.frame 3x4" shows the 2x2 table with risks and "data.frame 6x4" shows additional calculations.
+
+*Can you match up the answers you hand-calculated for problems #2(C), (D) and (F) to this output? (Note that R may have rounded answers to fewer decimal places then you)*
+
+//  no for 2C... where is 5.6% ??    Re ... Risk exposure... 
+// yes for 2D, 
+// yes for 2F... where is 1.42% ??   RD should be top row... oh, .01 instead of .0142
+
+It's exciting to see how easy it is to generate all of these useful measures of association. However, we have to be careful because R doesn't know what kind of study this was and which measures of association are appropriate. That's for you, as the analyst, to decide! 
+
+### Problem #3: Sleep duration and high blood pressure
+
+Let's move on to Problem #3, which focuses on sleep duration and high blood pressure. We can start by examining what proportion of the sample reported ever having high blood pressure. 
+
+```{r}
+# Calculate number of people with and without high blood
+table(nhanes$hbp_ever) 
+## displayed NBP, then HBP ; reverse order of confusion matrix in homework. 
+
+
+# Calculate proportions
+table(nhanes$hbp_ever)/sum(table(nhanes$hbp_ever))
+
+```
+
+So, 2052 people, or 36% of respondents, reported ever having high blood pressure. 
+
+To answer the attributable proportion questions in parts (A), (B), and (C) of Problem #3, let's generate a similar table as we did for Problem #2. 
+
+```{r}
+
+CS(nhanes, "hbp_ever", "short", full=FALSE) 
+
+```
+
+Take a close look at the tables above. *Can you find the elements that would help you check your work for Problem #3?*
+
+// AP_e ... attr.frac.ex  9.158%... R showing 0.09... how to get more demimal places??
+// AP_T ... attr.frac.pop .85%  here is .01... which is why homework answer says 1% ??!!
+// 3D... AP_t for CA... 1.8%  ... well, not in above table.
+
+
+
+Now let's consider problem #3(D). Here you are being asked about the attributable proportion in the total population for high blood pressure due to short sleep duration **in California** - a different population than the previous question. Here we can use R as a calculator using the APe from problem #3(A) _recall that APt = APe * Prevalence (exposure)|Disease_. We will assume that in the state of California, 20% of those with high blood pressure are also short sleepers.  
+
+## ACTIVITY
+
+Can you modify and successfully execute the code below to get the correct answer, the same you computed by hand in problem #3(D)?
+
+```{r}
+
+# Modify the code below to calculate the attributable proportion in the total population for high blood pressure due to short sleep duration in California
+
+0.092*0.20
+
+```
+
+*Hint: the second value needs to be updated -- the prevalence of exposure given disease is not 55%, but 20%*
+
+
+## ACTIVITY
+
+Now that you've worked through problems #2 and #3 from Problem set 3, you're ready to conduct your own epidemiologic analysis! You will use the CS command you just learned to investigate the relationship between sleep duration and diabetes in the NHANES sample population. 
+
+**Calculate the risk of diabetes among short sleepers, the relative risk of diabetes among short sleepers compared to regular sleepers, and the risk difference of diabetes for short sleepers compared to regular sleepers.** 
+
+// short  diabetes 
+
+Before you get started, identify the variables that you will need for your analysis. Do you see the variable names in any of the code chunks you previously ran? 
+
+Once you've identified the variables you need, complete the CS command to find your estimates of interest. 
+
+```{r}
+
+# fill in the arguments for this command below
+## CS()
+CS(nhanes, "diabetes", "short", full=FALSE) 
+
+
+```
+
+*Hint: There should be 4 arguments within the CS() function separated by commas. The first corresponds to the dataset you are using (nhanes), the second to the column name of the outcome ("diabetes"), the third to the column name of the exposure ("short"), and the last should say: full = FALSE). Note that to specify the dataset we do not put it in quotes since it is a named object. We must use quotes to specify the column names though.*
+
+
+### Next time
+
+Congratulations, you've completed the first data analysis companion! You can return to learn more R in Problem Set #5 on Experimental Studies. 
+
+### Submitting your file for credit
+
+As a reminder, here's how create a file to submit for extra credit:
+
+1. Execute all of the code chunks in this companion. 
+
+2. Modify code as directed in the sections titled  “ACTIVITY”. This might mean modifying a calculation or changing the look of a graph. You do *not* have to answer the optional questions posed throughout. 
+
+*Note that when you access a project created by someone else, RStudio Cloud automatically creates a copy of the project for you. You can play with and make edits to it, but none of your changes will be reflected in the original. You can go ahead and save the project within your instance of RStudio Cloud*
+
+3. ‘Knit’ the RMarkdown file to create a Microsoft Word document by pressing the down arrow next to ‘Knit’ on the tool bar (with a ball of yarn) and selecting the option ‘Knit to Word’.
+
+4. A pop-up prompt will appear that says: “R Markdown Render Completed.” Select "Download File" to download the Word document. This document will also appear in the "files" pane in the lower right of R Studio Cloud. You can click on it to download it.
+
+*If you receive a message indicating that packages need to be installed, select the option to automatically install the packages and then try knitting again. You may need to disable pop-ups.*
+
+5. Save the resulting Word document as follows: PH250A_PS3_KN. Replace KN with your own initials. 
+
+6. Upload your Word document to the appropriate assignment on bCourses before the deadline. (Late submissions will not receive credit - see bCourses for details.)
+

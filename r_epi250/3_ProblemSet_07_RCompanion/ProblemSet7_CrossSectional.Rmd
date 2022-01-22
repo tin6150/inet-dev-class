@@ -1,0 +1,375 @@
+---
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+
+always_allow_html: no
+---
+
+
+
+### always_allow_html: yes    
+
+# PH250A: PROBLEM SET #7: Ecologic Studies & Cross-Sectional Studies
+
+Welcome to the third of four **optional** data analysis companions to our weekly Problem Sets! Remember that these companions are intended to be a fun introduction to how epidemiologists perform the calculations you are learning in class. Of course, make sure that you understand how to do the problem sets manually (on paper) _first_ since that's what you'll be asked to do on exams. 
+Before you get started on this companion, you should have already reviewed the **"Getting Started with R Companions.Rmd"** file within the "0_Start_Here" folder on the 250-Intro-to-Epidemiology RStudio Cloud workspace. This file will provide you with a brief orientation to RStudio Cloud as well as Datahhub. It also includes instructions about how to submit the assignment for extra credit, if you coose to do so. Don't forget, you only need to complete the **## ACTIVTY** sections to get extra credit. The additional questions are just for you to think about.
+
+Work through this data analysis companion by running each chunk or line of code one by one within this file. You can execute an entire chunk of code by clicking the green arrow located at the top right of the chunk - if you hover your cursor above this arrow, you will see "Run current chunk." You can also run individual lines of code by placing your cursor inside a line of code and pressing  *Cmd+Enter* for Mac users or *Ctrl+Enter* for Windows users. For the chunks with multiple lines of code, it may be helpful to run each line of code separately to help you understand what every line is doing.
+
+### Overview
+
+This data analysis companion will cover Problem #2 from Problem Set 7. These questions focus on vitamin D deficiency and depression using data from the National Health and Nutrition Examination Survey ([NHANES](https://www.cdc.gov/nchs/nhanes/index.htm)). 
+
+### NHANES Methodology (reminder)
+
+As we learned in the first data analysis companion, NHANES is a program of studies designed to assess the health and nutritional status of adults and children in the United States. For this problem set, we will be using data from 2013-2014. Note that we'll be using *unweighted* data for this exercise.
+
+In brief, the NHANES survey examines a nationally representative sample of about 5,000 persons each year. These persons are located in counties across the United States, 15 of which are visited each year. The study is unique in that it combines interviews and physical examinations. The NHANES interview includes demographic, socioeconomic, dietary, and health-related questions. The examination component consists of medical, dental, and physiological measurements, as well as laboratory tests administered by highly trained medical personnel. You can read more about the methodology [here](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2015).
+
+As always, let's run this setup code chunk:
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+?knitr
+```
+
+### Preparing to work with the data
+
+First, let's set our working directory and load the packages that we'll be using for this problem set.
+
+```{r, echo=FALSE}
+
+# This code sets the working directory. It tells R where to find the data.
+setwd("~/250-Intro-to-Epidemiology/3_ProblemSet_07_RCompanion")
+
+# This package gives us access to tools to help us manipulate and manage the dataset
+install.packages("plyr") 
+library(plyr) 
+
+# This package enables us to easily conduct epidemiologic calculations
+install.packages("EpiStats")
+library(EpiStats) 
+
+# This package includes tools to make prettier tables than in base R
+install.packages("kableExtra") 
+library(kableExtra) 
+
+```
+
+Let's read in our dataset. 
+
+```{r}
+
+nhanes <- read.csv("ps7_nhanes.csv",header=TRUE)
+
+```
+
+### Exploring our data
+
+Let's take a look at the structure of data.
+
+```{r}
+
+str(nhanes)
+
+```
+
+This dataset has 5,200 observations and includes 5 variables. *What are the different variables included in this dataset? What can we learn about these variables from this output?*
+
+## some sort of sequence number, maybe participant identifier.  age, sex, dementia outcome? as bin Y/N, and vitamin D deficiency, likely as Yes/No but coded as integer 0 and 1 (so could have a 2, 3, etc :P)
+
+Now, let's take a closer look at the data themselves.
+
+```{r}
+
+# This is just one way to look at a few rows of the dataset. Do you remember another way to do this? See the R Companion for Problem Set 5 for additional methods.
+head(nhanes) 
+tail(nhanes)
+
+## hey, sex is coded as 1 and 2?  not 0 and 1, so both sexes are true?  anyway, where does LGBTTQ fits? :P
+```
+
+This dataset includes the following variables:
+
+-seqn: NHANES participant identification number  ## does returning participant get same id, don't suppose they care historical seq of specific individual?
+-age: age of participant
+-sex: biological sex at birth of participant, 1=Male, 2=Female  ## ah! gender at birth!
+-dpq_bin: binary indicator of depression. The depression screener used in NHANES includes 9 questions. Responses to these questions are summed to create an overall depression score that ranges from  0 to 28. Individuals with a score greater than or equal to 10 are classified as having moderate to severe depression (dpq_bin=1). Individuals with a score less than 10 are classified as having no/minimal/mild depression (dpq_bin=0). This cutoff was chosen per this validation study: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1495268/
+-vitd_def: binary indicator of vitamin D deficiency. Serum vitamin D concentrations are measured during the laboratory examinations in NHANES. Individuals with a serum vitamin D concentration of <50 nmol/L are classified as being vitamin D deficient (vitd_def=1). Individuals with a serum vitamin D concentration of >=50 nmol/L are classified as not being vitamin D deficient. This cutoff was chosen per this CDC brief report: https://www.cdc.gov/nutritionreport/99-02/pdf/nr_ch2b.pdf
+
+Next, let's take a look at who is in this dataset.
+
+First, let's look at biological sex at birth.
+
+```{r}
+
+# Let's create a new categorical variable to use in the table. This command is saying if sex = 1, then the new sex_cat variable should = Male. Otherwise, (ifelse), the sex_cat variable will = Female.
+
+nhanes$sex_cat = ifelse(nhanes$sex==1, "Male", "Female") 
+
+# Now, let's create a simple table to view the number of people in each category of biological sex at birth. This command is telling R to create and save a table of the sex_cat variable called "table1" - if we save the table like this, we can use it in other commands.
+
+table1 <- table(nhanes$sex_cat) 
+table1 # This line tells R to print table1
+
+##tin
+str(table1)
+
+
+# We can add margins to the table to see the total number of people:
+
+
+addmargins(table1)
+
+#We can also view the table as proportions instead of counts:
+
+prop.table(table1)
+
+```
+
+*What proportion of the sample is female?* Remember, if you ran the code chunk all at once all outputs will be displayed together. Try running the code by line to see what each line does. 
+
+## prop.table() is the name of the func!!  
+table1
+
+?prop.table
+prop.table(sex,nhanes)
+
+##prop.table(nhanes$sex_cat)
+
+
+## Tin play
+nhanes2 <- nhanes
+##addmargins(nhanes2)
+##prop.table(nhanes2)
+
+
+Next, let's look at age.
+
+```{r}
+
+mean(nhanes$age) 
+
+```
+
+*Do you remember another command we can use to look at the mean age as well as other summary statistics for continuous variables?*
+
+```{r}
+
+summary(nhanes$age)
+
+```
+
+*What is the range of ages included in this sample?*
+
+Let's also look at summary statistics of age stratified (grouped) by biological sex at birth.
+
+```{r}
+
+ddply(nhanes, .(sex_cat), summarize, MinAge=min(age), MaxAge=max(age), MeanAge=mean(age), StandardDeviationAge=sd(age))
+
+
+##
+nhanes %>% summary()
+```
+
+We can see that the ages of both males and females range from 18-80 years old. Females in the sample have an average age of 47.8 years (SD=18.3) and males have an average age of 47.3 years (SD=18.5).
+
+### Exploring our outcome
+
+How many people in our sample were classified as having moderate to severe depression? From here forward, we will refer to this group as having depression.
+
+```{r}
+
+table2 <- table(nhanes$dpq_bin)
+table2
+
+
+##
+head(nhanes$dpq_bin)
+?table
+table(nhanes$sex)
+tab2 <- table(nhanes$sex_cat)
+proportions(tab2)
+tab2
+sum(tab2)
+```
+
+We see that 507 people in our sample had depression. *What code could we use to add the total number of people in the sample to this table?*
+
+What's the prevalence of depression?
+
+```{r}
+
+# As is often the case with R, there are many ways to obtain a correct solution. Here is one solution:
+table(nhanes$dpq_bin)/sum(table(nhanes$dpq_bin)) 
+
+# Another way to get this same information would be to use the command 'prop.table'
+prop.table(table2)
+
+table2
+
+```
+
+This table tells us that 9.75% of this sample had depression according to the depression screener. *Does this match the solution you calculated by hand?*
+
+### ACTIVITY
+
+Now that you have explored the outcome of depression, let's look into our exposure of vitamin D deficiency using the same process. 
+
+How many people in our sample have vitamin D deficiency? Create table3 with the table command to view the number of people who do and do not have vitamin D deficiency. 
+
+```{r}
+
+# Complete the code below by filling in what goes inside the parenthesis. 
+table3 <- table(nhanes$vitd_def)
+table3
+
+# If you're up for a challenge, add margins to table3 to see the total number of people in the sample.
+addmargins(table3)
+
+```
+
+*Hint: Remember the data we are working with is stored in a object called nhanes. To obtain information about a specific variable, we can identify the corresponding column (in this case vitd_def) by using '$'. The addmargins() command is helpful for the second part.*
+
+### ACTIVITY
+
+Using table3, calculate the prevalence of vitamin D deficiency instead of depression.
+
+```{r}
+
+# Add your code below this line. Remember: Prevalence is a proportion. 
+
+table(nhanes$vitd_def)/sum(table(nhanes$vitd_def)) 
+##prop.table(table(nhanes$sex))
+##proportions(nhanes$sex_cat)
+proportions(table(nhanes$vitd_def))
+```
+
+*HINT: There are multiple ways to arrive at the correct answer. You can use prop.table or you can divide your table by the sum of the table*
+
+
+#### Examining depression by vitamin D deficiency status
+
+Now let's create a 2x2 table to look at depression by vitamin D deficiency status
+
+```{r}
+
+table4 <- table(nhanes$dpq_bin, nhanes$vitd_def)
+table4
+
+# Note that this creates the 2x2 table, but the setup is a bit different than we've done in class. Pay attention to the column and row headers and remember how we coded the variables so you don't get tripped up. The first input are the rows (dpq_bin) and the second input are the columns (vitd_def). Which is the exposure and which is the outcome? 
+
+addmargins(table4)
+
+```
+
+Let's look at depression by vitamin D, visually.
+
+```{r}
+
+counts <- table(nhanes$vitd_def,nhanes$dpq_bin)
+barplot(counts, 
+        main = "Depression by Vitamin D Deficiency Status", 
+        col = c("darkblue","red"), 
+        legend = rownames(counts), 
+        xlab = "Depression") 
+
+```
+
+*What does this graphic tell us about the distribution of depression and vitamin D deficiency in our population?* Hint: look at the relative proportion of vitamin D deficient people in each bar (shown in red) relative to the size of the total bar for each depression category. 
+
+*Is this graphic helpful in understanding this distribution? Why or why not?*
+
+## yes and no, numbers indicating proportion of the bars proably help.  or maybe set them as pie chart? since human perceive angle difference better?   cuz we have to look at ratio of red vs blue... larger pies for larger counts?
+
+Let's take a look at a similar graphic, this time looking at depression by biological sex at birth.
+
+```{r}
+
+counts <- table(nhanes$sex_cat,nhanes$dpq_bin)
+barplot(counts, 
+        main = "Depression by Sex Assigned at Birth", 
+        col = c("darkblue","red"), 
+        legend = rownames(counts), 
+        xlab = "Depression")
+
+
+###library(ggplot2)
+###bp <- ggplot(as.data.frame.matrix(counts), aes(x="Depression", y=nhanes$dpq_bin, fill=nhanes$sex_cat))
+###bp
+###pie <- bp + coord_polar("y", start=0)
+###pie
+```
+
+*Can you see how the code was modified to look at sex assigned at birth instead of vitamin D deficiency? What does this tell us about the distribution of depression by sex? *
+
+#### oh, depression is also gender correlated!  or is it?  hard to interpret proportion out of the bars...
+
+## ACTIVITY
+
+In the data analysis companion for Problem Set#3, we learned about the CS command for cohort studies. It calculated basic epidemiologic measures. Use the CS command to look at a prevalence ratio for this relationship. 
+
+```{r}
+
+# Write your code below this line
+
+
+# Recall that if you can't remember the CS command, you can ask R for help by running the following command.
+help(CS)
+str(nhanes)
+#  CS( tableName, outcome, exposure, full=FALSE)
+CS(nhanes, "dpq_bin", "vitd_def", full=FALSE) 
+CS(nhanes, "dpq_bin", "sex_cat", full=FALSE) 
+### LOL... gender is the exposure :-P
+
+```
+
+*Hint: There should be 4 arguments. The first is the name of your data (nhanes), the second is the name of the column corresponding to the outcome ("dpq_bin"), the third is the name of the column corresponding to the exposure ("vitf_def"), and the last should say: full=FALSE. Remember the name of the data doesn't need quotations around it, but the names of the columns do.*
+
+Note that we are using the CS command here for cohort studies, but the ratio measure being calculated for this sample is a prevalence ratio since all data were collected at one point in time. 
+
+Click on data.frame 3x4 to see the 2x2 table. *Does this match the one we created above? What is the prevalence of depression in those exposed to vitamin D deficiency? What is the prevalence of depression in those not exposed to vitamin D deficiency?* 
+
+## yes :)
+
+
+Click on data.frame 6x3 to see the measures of association. *Which one is the prevalence ratio? How would you interpret this measure? Can you see how, mathematically, the risk ratio and prevalence ratio are calculated in the same way?*
+
+## Prev Ratio: is the RR value reported:
+## vitD deficiency as exposure, PR is 1.22
+## The prevalence of dementia among VitD deficient participant of the NHANES survey population (2013-2014) is 1.22 times the prevalence of non VitD deficient participants.
+## sex/gender as exposure.  PR is 0.55
+## The prevalence of dementia among male participant of the NHANES survey population (2013-2014) is 0.55 times the prevalence of female participant.
+
+
+
+### Next time
+
+Great work! We've reached the end of data analysis companion #3. We'll return to learn more R one more time in Problem Set 11.
+
+### Submitting your file for credit
+
+As a reminder, here's how create a file to submit for extra credit:
+
+1. Execute all of the code chunks in this companion. 
+
+2. Modify code as directed in the sections titled  “ACTIVITY”. This might mean modifying a calculation or changing the look of a graph. You do *not* have to answer the optional questions posed throughout. 
+
+*Note that when you access a project created by someone else, RStudio Cloud automatically creates a copy of the project for you. You can play with and make edits to it, but none of your changes will be reflected in the original. You can go ahead and save the project within your instance of RStudio Cloud*
+
+3. ‘Knit’ the RMarkdown file to create a Microsoft Word document by pressing the down arrow next to ‘Knit’ on the tool bar (with a ball of yarn) and selecting the option ‘Knit to Word’.
+
+4. A pop-up prompt will appear that says: “R Markdown Render Completed.” Select "Download File" to download the Word document. This document will also appear in the "files" pane in the lower right of R Studio Cloud. You can click on it to download it.
+
+*If you receive a message indicating that packages need to be installed, select the option to automatically install the packages and then try knitting again. You may need to disable pop-ups.*
+
+5. Save the resulting Word document as follows: PH250A_PS7_KN. Replace KN with your own initials. 
+
+6. Upload your Word document to the appropriate assignment on bCourses before the deadline. (Late submissions will not receive credit - see bCourses for details.)
+
+

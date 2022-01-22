@@ -1,0 +1,96 @@
+---
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+always_allow_html: yes 
+---
+
+# EPIDEMIOLOGICAL METHODS I: GUIDE TO R DATA ANALYSIS COMPANIONS 
+
+This course has four **optional** data analysis R companions corresponding to Problem Sets in weeks 3, 5, 7, and 11. These companions are intended to be fun and inspire you to be curious about epidemiological data. We'll show you how epidemiologists perform some of the calculations you learn about in class, as well as how to explore data on your own. Of course, make sure that you understand how to do the problem sets manually (on paper) _first_ since that's what you'll be asked to do on exams. 
+
+No previous programming experience? No problem - you're in the right place! These companions are intended for people without any programming experience or knowledge about statistical software. **Our goal isn't to teach you how to code in R**; rather, we hope to demystify how actual epidemiologists and statisticians conduct analyses in real life. In other classes (and at places like the [D-Lab](http://dlab.berkeley.edu/) you will learn the details about coding on your own. For now, just follow along and have fun! 
+
+### About R, RStudio, RStudio Cloud and DataHub 
+
+*R* is a programming language and free software environment for statistical computing and graphics. Many people opt to use **R Studio** to write and run R code because it provides a nice user environment from which to work with R. **R Studio Cloud** allows users to access R Studio online in a cloud-based environment without having to download RStudio or R onto their computers. 
+
+In this class, we will be using **Datahub** to access **R Studio Cloud**. Datahub makes it easy for us to share all of the code and data files you will need via a single URL without having to download them all. Datahub is maintained by UC Berkeley’s Data Science Division. There is no need to “create an account”; by default, all users with a berkeley.edu email have access to Datahub. 
+
+When you click a **Datahub link** for the first time, you will be redirected to sign in with CalCentral, then taken to a page to authorize Datahub for usage with bCourses. After you confirm this, your user account is automatically generated on Datahub and you are redirected to your online workspace. You are now ready to get started.
+
+
+### R Script vs. R Markdown files
+
+All *R* files allow us to write scripts or lines of code to be executed/run. You can create a new file for R code by going to File > New File > R Script. **R Markdown** notebooks are a special type of R file that allow us to easily define **code chunks** or lines of code that can be run all at once. **R Markdown** notebooks also allow us to easily create documents (Word, PDF, or HTML) that include code, output, and graphics all together. Such documents cannot be easily created using an R Script file type. In this class, we'll be using **R Markdown** files like this one to work through the problem sets. 
+
+### Working in R Markdown
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. In addition to plain text like this, we can write code in "chunks" that appear with a grey background. When you execute code within the notebook, the results appear beneath the code. 
+
+You can execute each chunk of code by clicking the green arrow located at the top right of the chunk - if you hover your cursor above this arrow, you will see "Run current chunk." You can also run code by placing your cursor inside a line of code and pressing  *Cmd+Enter* for Mac users or *Ctrl+Enter* for Windows users. 
+
+```{r}
+
+# Try executing this setup code by clicking the green 'Run' arrow or by placing your cursor inside the code chunk and pressing Cmd+Enter (Mac) or Ctrl+Enter (Windows) 
+
+paste("Hello, World!")
+
+```
+
+There's an interesting history of "Hello, World!" as the first line of code people write when learning a new programming language - you can read more about it ([here](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program)).
+
+Note that the green text after the '#' symbol within the code chunk didn't print out before "Hello, World!" - that's because R ignores any text after the # symbol. In this way, using the # symbol is a very useful way to write **comments** that won't be confused for code.
+
+R is very versatile! We can use R like a simple calculator, for data management and manipulation, for data analysis, and for generating graphics.
+
+```{r}
+
+# Execute this code to perform a simple calculation
+
+(5*10)/2
+
+```
+
+### Working with and submitting R Data Analysis Companions for PH250A
+
+In this class, four problem sets (3, 5, 7 and 11) will be **data-enabled**, meaning they have a data analysis companion in R Markdown. The best way to work with these companions is to start reading at the top and work through the document systematically, running each chunk of code one by one as you try to understand what the code is doing.
+
+To get **Extra Credit** for working through the data analysis companions, you will be asked to do the following:
+
+**Step 1:** Execute all the code chunks. 
+
+**Step 2:** Modify one or more line(s) of code per the prompts in the analysis companions. Prompts to modify code will be labeled "## ACTIVITY" and will look like this:
+
+## ACTIVITY
+
+```{r}
+
+# Modify the code below to divide the product by 5 instead of 2:
+
+(5*10)/5
+
+```
+
+You'll then change the code above as prompted - this is so we can ensure you worked through the data analysis companion. (*Did you get the answer of 10 above? Great job!*)
+
+Note that there will be many questions throughout the data analysis companions that are intended to encourage you to think about what the code is doing, but you don't need to change anything in the code to answer these - to obtain extra credit, you only need to modify the sections marked "ACTIVITY."
+
+**Step 3:** Create a Microsoft Word version of the assignment. To do so you'll have to *Knit* the RMarkdown to Word by pressing the down arrow next to 'Knit' (with the ball of yarn) on the tool bar above, and selecting *Knit to Word*. Before we do this, we need to run this setup code, which we'll include in every analysis file.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=T)
+```
+
+(Note that this code chunk above did not print because of the “include=FALSE” clause at the top.)
+
+**Step 4:** A pop-up prompt will appear that says: “R Markdown Render Completed.” Select "Download File" to download the Word document. This document will also appear in the "files" pane in the lower right of R Studio Cloud. You can click on it to download it.
+
+If you receive a message indicating that packages need to be installed, select the option to automatically install the packages and then try knitting again. You may need to disable pop-ups.
+
+**Step 5:** Save the resulting Word document as follows: PH250A_PS3_KN. Replace the ‘3’ with the number of the data analysis companion (3, 5, 7, or 11), and replace KN with your own initials. 
+
+**Step 6:** Upload your Word document to the appropriate assignment on bCourses before the deadline. (Late submissions will not receive credit - see bCourses for details.)
+
+That's it! We're excited to introduce you to R and hope these data analysis companions provide a glimpse into the real world of epidemiology.

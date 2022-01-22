@@ -1,0 +1,325 @@
+---
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+
+always_allow_html: yes  
+---
+
+## PH250A: PROBLEM SET #11: Confounding and EMM
+
+Congratulations on making it to the last of four **optional** data analysis companions to our weekly Problem Sets. Remember that these companions are intended to be a fun introduction to how epidemiologists perform the calculations you are learning in class. Of course, make sure that you understand how to do the problem sets manually (on paper) _first_ since that's what you'll be asked to do on exams.
+
+Before you get started on this companion, you should have already reviewed the **"Getting Started with R Companions.Rmd"** file within the "0_Start_Here" folder on the 250-Intro-to-Epidemiology RStudio Cloud workspace. This file will provide you with a brief orientation to RStudio Cloud as well as Datahhub. It also includes instructions about how to submit the assignment for extra credit, if you choose to do so. Don't forget, you only need to complete the **## ACTIVTY** sections to get extra credit. The additional questions are just for you to think about.
+
+Work through this data analysis companion by running each chunk or line of code one by one within this file. You can execute an entire chunk of code by clicking the green arrow located at the top right of the chunk - if you hover your cursor above this arrow, you will see "Run Current Chunk." You can also run individual lines of code by placing your cursor inside a line of code and pressing *Cmd+Enter* for Mac users or *Ctrl+Enter* for Windows users. For the chunks with multiple lines of code, it may be helpful to run each line of code separately to help you understand what every line is doing.
+
+### Overview
+
+This analysis companion will cover Problems #3 and #4 from Problem Set 11. These questions focus on the potential relationship between exposure to lead and high blood pressure using data from the National Health and Nutrition Examination Survey ([NHANES](https://www.cdc.gov/nchs/nhanes/index.htm)). 
+
+We've used NHANES a lot in this companions. Recall that NHANES is a program of studies designed to assess the health and nutritional status of adults and children in the United States. We will be using data from adults (>=20 years of age) in 2015-2016. As before, we'll be using *unweighted* data for this exercise.
+
+### NHANES methodology
+
+As you may remember from previous companions, the NHANES survey examines a nationally representative sample of about 5,000 persons each year. These persons are located in counties across the United States, 15 of which are visited each year. The study is unique in that it combines interviews and physical examinations. The NHANES interview includes demographic, socioeconomic, dietary, and health-related questions. The examination component consists of medical, dental, and physiological measurements, as well as laboratory tests administered by highly trained medical personnel. You can read more about the methodology [here](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2015).
+
+### Learning about the dataset
+
+As always, let's run this setup code chunk:
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+Now, let's set our working directory and load the packages that we'll be using for this problem set.
+
+```{r, echo=FALSE}
+
+# This code sets the working directory. It tells R where to find the data.
+setwd("~/250-Intro-to-Epidemiology/4_ProblemSet_11_RCompanion")
+
+# This package gives us access to tools to help us manipulate and manage the dataset
+install.packages("dplyr") 
+library(dplyr) 
+
+# This package enables us to easily conduct epidemiologic calculations. Note this one is different than the one we used in previous data analysis companions.
+install.packages("epitools")
+library(epitools)
+
+# This package includes tools to make prettier tables than in base R
+install.packages("kableExtra") 
+library(kableExtra) 
+
+# This package enables us to create better graphics with more options than in base R
+install.packages("ggplot2") 
+library(ggplot2) 
+
+# This package helps us with dynamic report generation
+install.packages("knitr") 
+library(knitr) 
+
+```
+
+Next, let's read in our data:
+
+```{r}
+
+nhanes_lead <- read.csv("nhanes_lead.csv",header=TRUE) 
+
+```
+
+Let's get oriented to our dataset by using the str() and head() commands:
+
+```{r}
+
+str(nhanes_lead)
+head(nhanes_lead)
+
+```
+
+In the first output, you can see we have data on 2,454 adults and the dataset has 11 variables. In the second output (click on the second box, labeled "data.frame 6x11," if you ran both lines of code at the same time), you get a peek at the first 6 records and the values of the 11 variables. For example, the person with the ID (seqn)=83741 is 22 years of age and has a mean systolic blood pressure of 111.33. 
+
+### Primary Outcome: Hypertension
+
+Let's take a look at the primary outcome of hypertension. To classify someone as having high blood pressure, we need both *systolic* and *diastolic* blood pressure. These inputs are then used to categorize individuals according to the following [classification system](https://www.ncbi.nlm.nih.gov/books/NBK9633/table/A32/).
+
+The blood pressure is measured in NHANES as follows: After resting quietly in a seated position for 5 minutes in the mobile examination center, three consecutive blood pressure readings are obtained from the participant. If a BP measurement is interrupted or incomplete, a fourth attempt may be made. 
+
+Let's take a look at the blood pressure related variables in this dataset:
+
+```{r}
+
+# This code will print rows 1-5 and columns 6-9 of our dataset, which correspond to the blood pressure variables for the first five adults in the dataset 
+
+nhanes_lead[1:5, 6:9]
+
+```
+
+You can see we have mean systolic blood pressure (meansys), the average of the three readings, and likewise mean diastolic blood presure (meandi), which is also the average of the three readings. Together these were used to classify people into whether or not they have hypertension (the variables labeled "bp" and "hbp").
+
+*Now, what do you think the 0s, 1s, and 2s mean in the variable "bp"?* We need to add a label to these data so we can understand what the values mean. Epidemiologists often code values of their variables as numbers but then add a label to describe what each code means. We can use the factor() command to add labels to this variable.
+
+```{r}
+
+# Tell R to assign labels to the values (levels) of 0, 1, and 2 for the bp variable
+nhanes_lead$bp <- factor(nhanes_lead$bp, 
+                         levels = c(0,1,2), 
+                         labels = c("normal", "prehypertension", "hypertension"))  
+
+```
+
+### ACTIVITY 
+
+What do you think R did with the code above? Re-print the data with rows 1-5 and columns 6-9. 
+
+```{r}
+
+# Write your code below this line
+
+```
+
+*Hint: You can use the exact same code as before*
+
+Wow! Now the "bp" column is a lot easier to understand. *Based on the following [classification system](https://www.ncbi.nlm.nih.gov/books/NBK9633/table/A32/), can you see why the first person, with a mean systolic blood pressure of 122.67 and a mean diastolic blood pressure of 65.33, is classified as being 'prehypertensive'?*
+
+So what does the "hbp" variable mean? If you look at the table above, you can see that hbp=1 whenever a person is classified as hypertensive, and hbp=0 if they are prehypertensive or normal. Let's confirm this hunch with a 2x2 table:
+
+```{r}
+
+bptable <- table(nhanes_lead$bp, nhanes_lead$hbp)
+bptable
+
+```
+
+On the left hand side of the output above we have the categories of "bp" (normal, prehypertension, and hypertension), and across the top we have the categories of "hbp" (0 and 1). The numbers in the cells are the numbers of people. So, you can see that all 501 people with hypertension are classified as hbp=1. All the people with normal blood pressure (n=978) or prehypertension (n=975) are classified as hbp=0. 
+
+Now that we understand the data, let's visualize mean systolic blood pressure data by age. As a side note, R is well known for its beautiful graphics. You can even download packages to make graphics similar to your favorite publications, like one of Sandi's favorites [FiveThirtyEight](https://fivethirtyeight.com/). 
+
+```{r, message=FALSE}
+
+attach(nhanes_lead)
+plot(age, meansys, 
+     main="Scatterplot of Mean Systolic Blood Pressure by Age", 
+     xlab="age ", 
+     ylab="Mean systolic BP ", 
+     pch=20)
+
+```
+
+*Do you see any trends?*
+
+## ACTIVITY
+
+Take a look at [this](http://www.sthda.com/english/wiki/r-plot-pch-symbols-the-different-point-shapes-available-in-r) cool R "codebook" for plotting symbols. Can you change the scatterplot code below to display x's instead of black dots?
+
+```{r}
+
+# Modify the code below to display asterisks(*) instead of black dots
+
+plot(age, meansys, 
+     main="Scatterplot of Mean Systolic Blood Pressure by Age", 
+     xlab="age ", 
+     ylab="Mean systolic BP ", 
+     pch=20)
+
+```
+
+*Hint: Change pch=4*
+
+Now let's consider our primary exposure, blood lead level. Here, we've classified "high" blood lead according to 2015 recommendations from the National Institute for Occupational Safety and Health (NIOSH), which designated 5 µg/dL (five micrograms per deciliter) of whole blood, in a venous blood sample, as the reference blood lead level for adults. So, pbhigh=1 for anyone with >=5 µg/dL of lead in their blood sample, and pbhigh=0 otherwise. 
+
+We can create a table summarizing our exposure-disease relationship as follows.
+
+```{r}
+
+table1 <- epitable(nhanes_lead$pbhigh, nhanes_lead$hbp, rev = "both")
+table1
+
+```
+
+*How does this table compare with the one from the Problem Set?*
+
+Let's see if we can make the table look better and easier to read:
+
+```{r}
+rownames(table1) <- c("Lead Exposure (≥5 µg/dL)", "No Lead Exposure")
+table1 %>% kable(row.names = T, col.names = c("Hypertension", "No Hypertension"))
+
+```
+
+Not too bad! Definitely easier to see what the values in the table correspond to.
+
+
+### Problem #3(A)
+
+Now let's take a look at the association between blood lead level and hypertension. We're going to use a different epi function than in previous R companions.
+
+```{r}
+
+epitab(table1)
+
+```
+
+Note that epitab gives us an odds ratio automatically. If appropriate to our study design we could have specified a risk ratio or rate ratio instead. Remember, it's up to us as researchers to determine what measures are valid. 
+
+*Did the odds ratio in this output match what you got in Problem #3A?*
+
+### Problems #3(B) and #3(C)
+
+We first stratify our exposure-disease relationship by our suspected confounder/effect measure modifier, high income:
+
+```{r}
+
+table2 <- table(nhanes_lead$hbp, nhanes_lead$pbhigh, nhanes_lead$highincome)
+table2
+
+```
+
+While the output may not look straightforward, we can see that the first table shows the exposure/outcome according to highincome = 0 (that is among those with low income). Likewise, the second table depicts the expose/outcome according to highincome = 1 (or among those with high income). *What else do you notice about these tables and the way the exposure and outcome are displayed? Do they match the tables in the problem set?*
+
+Now let's take a look at the association between blood lead level and hypertension, stratified by household income: 
+
+```{r}
+
+#First look at the odds ratio among those with low income
+epitab(table2[,,1]) 
+
+```
+
+```{r}
+
+#Now look at the odds ratio among those with high income
+epitab(table2[,,2]) 
+
+```
+
+Check the above output with the work that you did by hand. *Do you reach the same conclusion as in Problems #3(B) and #3(C) ?*
+
+
+For fun, let's create a boxplot of mean systolic blood pressure by lead exposure:
+
+```{r}
+
+# To create these boxplots by lead exposure, let's try ggplot. This package is more robust than base R for graphics and allows for greater formatting control.
+
+# First, we'll tell R to treat our lead exposure as a factor variable so we can add labels like we did with the bp variable above - this will enable us to show the labels more easily on the graph
+
+nhanes_lead$pbhighcat <- 2-pbhigh
+nhanes_lead$pbhighcat <- as.factor(nhanes_lead$pbhighcat)
+nhanes_lead$pbhighcat <- factor(nhanes_lead$pbhighcat, 
+                                levels = c(1,2), 
+                                labels = c("Low", "High"))  
+
+# Next, we'll create the boxplots
+
+plot <- ggplot(nhanes_lead, aes(x = pbhighcat, y = meansys, fill=pbhighcat)) +
+  geom_boxplot() +
+  scale_y_continuous(name = "Mean systolic BP (mmHg)", limits=c(0, 200)) +
+  scale_x_discrete(name = "Lead Exposure") +
+  ggtitle("Boxplot of Systolic Blood Pressure by Lead Exposure")
+ 
+plot
+
+```
+
+
+### ACTIVITY
+
+Problems #4(B) & #4(C): Let's repeat the process above but look at age as the potential confounder or effect measure modifier. In this dataset, age is classified into a binary variable describing whether someone is younger than 65 years of age (age65=0) or at least 65 years of age (age65=1). 
+
+First, create the stratified tables by completing the code below.
+
+```{r}
+
+# Complete table3 by filling in the blank where the 3rd argument should go. This corresponds to the variable we are stratifying by.
+
+table3 <- table(nhanes_lead$hbp, nhanes_lead$pbhigh,   )
+table3
+
+```
+
+*Hint: the column we want is called age65. We use the $ operator to identify a specific column in a dataset*
+
+Now, use epitab to examine the relationship between lead and high blood pressure within each strata of age
+
+```{r}
+
+# Write your code below this line for the below age 65 stratum
+
+
+# Write your code below this line for the age 65 and above stratum
+
+
+```
+
+*Hint: You can use the exact same code as before, but replace table2 with table3*
+
+Look at your output from these two lines of code. *Did you reach the same conclusion about the role of age as you did in Problem #4(B) and #4(C)? Is there effect measure modification?*
+
+
+**Congratulations! You've completed the last data analysis companion. We hope this is the start of many productive and fun data analysis experiences!**
+
+
+### Submitting your file for credit
+
+As a reminder, here's how create a file to submit for extra credit:
+
+1. Execute all of the code chunks in this companion. 
+
+2. Modify code as directed in the sections titled  “ACTIVITY”. This might mean modifying a calculation or changing the look of a graph. You do *not* have to answer the optional questions posed throughout. 
+
+*Note that when you access a project created by someone else, RStudio Cloud automatically creates a copy of the project for you. You can play with and make edits to it, but none of your changes will be reflected in the original. You can go ahead and save the project within your instance of RStudio Cloud*
+
+3. ‘Knit’ the RMarkdown file to create a Microsoft Word document by pressing the down arrow next to ‘Knit’ on the tool bar (with a ball of yarn) and selecting the option ‘Knit to Word’.
+
+4. A pop-up prompt will appear that says: “R Markdown Render Completed.” Select "Download File" to download the Word document. This document will also appear in the "files" pane in the lower right of R Studio Cloud. You can click on it to download it.
+
+*If you receive a message indicating that packages need to be installed, select the option to automatically install the packages and then try knitting again. You may need to disable pop-ups.*
+
+5. Save the resulting Word document as follows: PH250A_PS11_KN. Replace KN with your own initials. 
+
+6. Upload your Word document to the appropriate assignment on bCourses before the deadline. (Late submissions will not receive credit - see bCourses for details.)

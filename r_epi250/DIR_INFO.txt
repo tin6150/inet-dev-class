@@ -1,0 +1,8 @@
+Optional R assignments in Epidemiology 1 (PH250A)
+from datahub terminal, in 
+
+
+IP of datahub is... ??  ufw disable for a bit
+
+rstudio@jupyter-tin:~/250-Intro-to-Epidemiology$ scp -pr /home/rstudio/250-Intro-to-Epidemiology tin@bofh.lbl.gov:~/tin-gh/inet-dev-class/r_epi250
+
