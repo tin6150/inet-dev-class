@@ -3,6 +3,16 @@ title: "project1"
 output: pdf_document
 ---
 
+Data project 1, Due Feb 28.
+
+
+
+Instructions from part1-instructions-1.pdf
+
+* each answer in a new page
+* You must indicate on Gradescope which questions are on which pages.
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -24,8 +34,26 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Loading Ghana data 
 data access: https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.dr130 
 
-there is a docx explaining what each cols are
+the docx explaining what each cols are:
 
+id      participant's ID
+age     age
+sex     sex
+geo     urban or rural resident
+pai     plasminogen activator inhibitor-1
+tpa     tissue plasminogen activator
+bmi     body mass index
+sbp     systolic blood pressure
+dbp     diastolic blood pressure
+chol    total cholesterol
+hdl     high-density lipoprotein cholesterol
+trig    triglycerides
+ldl     low-density lipoprotein cholesterol
+tc_hdl  total cholesterol-high-density lipoprotein cholesterol ratio
+gluc    fasting glucose
+smo     1= smoker, 0=non-smoker
+sch     1= some formal education, 0 = none
+sch>ss  1= schooling being secondary school, 0= none
 
 ```{r ghana}
 
