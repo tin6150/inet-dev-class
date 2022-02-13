@@ -8,9 +8,12 @@ Data project 1, Due Feb 28.
 
 
 Instructions from part1-instructions-1.pdf
+https://bcourses.berkeley.edu/courses/1513233/pages/data-project
+
 
 * each answer in a new page
 * You must indicate on Gradescope which questions are on which pages.
+* questions are pasted below
 
 
 ```{r setup, include=FALSE}
@@ -59,8 +62,6 @@ sch>ss  1= schooling being secondary school, 0= none
 
 library(readxl)
 library(dplyr)
-
-
 ghana = read_xlsx("ghana/GHANA_PLoS_upload.xlsx")
 summary(ghana)
 str(ghana)
@@ -78,4 +79,172 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 ##plot(ghana)  ## this takes like 3-5 minutes... 
 plot(ghana_sample)
 ```
+
+
+
+
+\newpage
+
+
+
+Questions:
+1. [2 marks] What is the problem your are addressing with these data? State the question you are trying
+to answer and let us know what type of question this is in terms of the PPDAC framework.
+
+
+
+
+
+\newpage
+
+2. [2 marks] What is the target population for your project? Why was this target chosen i.e., what was
+your rationale for wanting to answer this question in this specific population?
+
+_we just found a data set... were we to have a question, then find the data for it??_
+
+
+\newpage
+
+
+3. [2 marks] What is the sampling frame used to collect the data you are using? Describe why you think
+this sampling strategy is appropriate for your question. To what group(s) would you feel comfortable
+generalizing the findings of your study and why.
+
+_can we just "rediscuss" what the paper did with this data?_
+
+\newpage
+
+4. [2 marks] Write a brief description (1-4 sentences) of the source and contents of your dataset. Provide a
+URL to the original data source if applicable. If not (e.g., the data came from your internship), provide
+1-2 sentences saying where the data came from. If you completed a web form to access the data and
+selected a subset, describe these steps (including any options you selected) and the date you accessed
+the data.
+
+
+\newpage
+
+
+5. [1 mark] Write code below to import your data into R. Assign your dataset to an object.
+
+
+data access: https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.dr130 
+
+```{r load_ghana}
+library(readxl)
+library(dplyr)
+ghana = read_xlsx("ghana/GHANA_PLoS_upload.xlsx")
+#summary(ghana)
+#str(ghana)
+#ghana_sample = ghana %>% sample_frac(0.1)
+#View(ghana_sample)
+```
+
+
+\newpage
+
+
+6. [3 marks] Use code in R to answer the following questions:
+i) What are the dimensions of the dataset?
+
+
+```{r ghana_dim}
+dim(ghana)
+```
+3331 rows, 18 columns (vars)
+
+
+ii) Provide a list of variable names.
+
+
+
+They variables are listed in the docx that came with the data:
+data access: https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.dr130 
+
+
+id      participant's ID
+age     age
+sex     sex
+geo     urban or rural resident
+pai     plasminogen activator inhibitor-1
+tpa     tissue plasminogen activator
+bmi     body mass index
+sbp     systolic blood pressure
+dbp     diastolic blood pressure
+chol    total cholesterol
+hdl     high-density lipoprotein cholesterol
+trig    triglycerides
+ldl     low-density lipoprotein cholesterol
+tc_hdl  total cholesterol-high-density lipoprotein cholesterol ratio
+gluc    fasting glucose
+smo     1= smoker, 0=non-smoker
+sch     1= some formal education, 0 = none
+sch>ss  1= schooling being secondary school, 0= none
+
+
+iii) Print the first six rows of the dataset.
+
+```{r ghana_first_six_rows}
+
+ghana %>% head(6)
+
+```
+
+\newpage
+
+7. [4 marks] Use the data to demonstrate a statistical concept from Part I of the course. Describe the
+concept that you are demonstrating and interpret the findings. This should be a combination of code
+and written explanation.
+
+
+what do we want to present?
+actually, the data should be to answer questions we want to ask with PPDAC...
+so once we finalize the theme, find a data set, then define these questions?
+
+* five numbers summary  for the bmi? and cholesterol?
+
+```{r ghana_fns}
+Min    = min(       ghana$chol)
+Q1     = quantile(  ghana$chol, probs = 0.25)
+Median = median(    ghana$chol)
+Q3     = quantile(  ghana$chol, probs = 0.75)
+Max    = max(       ghana$chol)
+
+
+####Outliers: any data point more than 1.5*IQR away from median.
+####IQR: InterQuartile Range: Q1-Median or Q3-Median
+
+five_num_summary = ghana %>% summarize( min = Min,
+                                          Q1 = Q1,
+                                          median = Median,
+                                          Q3 = Q3,
+                                          max = Max)
+five_num_summary
+
+```
+
+* mean vs median?
+*  ??
+
+
+* scatter plot of bmi vs cholesterol?
+
+```{r ghana_plot}
+
+
+#### tmp using a sampling of the data to develop answer before using the full set, quicker run time
+set.seed(123)
+ghana_sample5 = ghana %>% sample_frac(0.05)
+
+
+library(ggplot2)
+ggplot(data=ghana_sample5, aes(x=bmi, y=chol)) + 
+  geom_point(aes(col=age))
+
+
+#### not a great plot so far, but maybe remove outlier?
+
+#### maybe do a facet_wrap with sex
+
+```
+
 
