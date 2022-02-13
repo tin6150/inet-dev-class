@@ -3,6 +3,8 @@
 
 ====>> **consider moving this to my fork under phw142-sp22**  <<===
 if do, this and other annotabion may want to be in a "tin" branch
+	But adding class project here, under prj/
+	working from inside Rstudio, under tin@wombat:/mnt/c/Users/tin61/tin-gh/inet-dev-class/r_stat142 wsl bash
 
 
 R lab (required) and assignments (optional) for Stat 142 (Spring 2022)
