@@ -339,11 +339,19 @@ index of constructs
 * tags, for include/exclue.  mostly failed experiment so far, may work better when used inside role. ::
   wsl_localhost_playbook.yml
 
+* tags in playbook: gretaprod.yml
+
+* jinja2 if conditions, if VAR "is defined": postfix_client/template/...main.cf
+
 
 Jinja2 and Ansbile
 ******************
 
 * https://stackoverflow.com/questions/35407822/how-can-i-test-jinja2-templates-in-ansible
+
+* white space, and the minus or plus at the end of the template marker -#} and +#} see https://jinja.palletsprojects.com/en/3.1.x/templates/#whitespace-control
+
+* decent jinja2 for ansible, eg {# if  varnmae is defined #} ...  {# elif #} ... {# else #} ... {# endif #} https://stackoverflow.com/questions/19401106/dashes-in-jinja-templates
   
 .. code:: yaml
 

@@ -1,0 +1,5 @@
+---
+- name: no op for RHEL 7 at this time
+  meta: noop
+
+# example of noop, it is actually using the meta module and then telling it noop there...
