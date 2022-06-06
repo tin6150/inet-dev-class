@@ -57,12 +57,47 @@ open gisaid_aln.fasta with AliView... manually/viz trim out the UTR regions, rem
 # protocol 2 Step 1 -- BeauTi 1.10.5  (not v2!)  wombat wsl2 vcXsrv java gui
 
 cat 1654374390416.metadata.tsv | awk '{print $1 "\t" $5}' > 1654374390416.metadata.date.tsv
+		## for N in $(seq 1 22); do echo -n \$$N \"\\t\"  \  ; done
 cat 1654374390416.metadata.tsv | awk '{print $1 "\t"  $2 "\t"  $3 "\t"  $4 "\t"  $5 "\t"  $6 "\t"  $7 "\t"  $8 "\t"  $9 "\t"  $10 "\t"  $11 "\t"  $12 "\t"  $13 "\t"  $14 "\t"  $15 "\t"  $16 "\t"  $17 "\t"  $18 "\t"  $19 "\t"  $20 "\t"  $21 "\t"  $22 }' > 1654374390416.metadata.22col.tsv
 #### next time try fewer cols, didn't like date, a number of col has wrong data values... 
 #### actually, use files under Protocol2/ 
 
 for sites predition, import GLM is getting error of "Predictor data does not have the same number of rows as trait states" :-\
-LF vs CRLF issue?
-*sigh* maybe time to try on a mac...
 
+1.0.10-5 worked better, but 
+could not figure out a way to generate XML…
+just use their sample and move on.
  
+
+
+# protocol 3  -- Travel python
+
+# create python3 virt env with lxml BEAGLE v3...
+**^ tin domingo ~/tin-gh/inet-dev-class/epi_info/travHistProtocol/software ^**>  python3 -m venv ./venv
+**^ tin domingo ~/tin-gh/inet-dev-class/epi_info/travHistProtocol/software ^**>  source ./venv/bin/activate
+(venv) **^ tin domingo ~/tin-gh/inet-dev-class/epi_info/travHistProtocol/software ^**>  pip install lxml BEAGLE numpy
+(venv) **^ tin domingo ~/tin-gh/inet-dev-class/epi_info/travHistProtocol/software ^**>  pip install lxml BEAGLE
+
+**^ tin domingo ~/tin-gh/inet-dev-class/epi_info/travHistProtocol/software ^**>
+python3 add_travel_history.py --xml ../files/Protocol3/282_GISAID_sarscov2_masked.xml  --hist ../files/Protocol3/travel_metadata.csv   --covariate ../files/Protocol3/augmented_flight_matrix.csv  --covariate ../files/Protocol3/augmented_intra_cont_dist.csv  --out ./Sn50_travelHist.xml
+
+
+hmm... wc... lot of similarities, but new file has many more lines...
+  3959  12313 370108 Sn50_travelHist.xml
+  3346  11271 341148 ../files/Protocol3/282_GISAID_sarscov2_travelHist_masked.xml
+
+
+#XX sudo apt install beagle # but that's a different kind of bealge.  need to compile from source in linux, opt  CUDA
+	https://github.com/beagle-dev/beagle-lib/wiki/LinuxInstallInstructions
+	setup w/o GPU support, as nvidia-smi/CUDA not installed on domingo yet.
+
+export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH
+export PKG_CONFIG_PATH=$HOME/lib/pkgconfig:$PKG_CONFIG_PATH
+
+java -cp beast.jar dr.app.beast.BeastMain -seed 2020 -beagle_double -beagle_gpu -save_every 1000000 -save_state travelHist.checkpoint   \
+  ../files/Protcol3/282_GISAID_sarscov2_travelHist.xml   # cranking on domingo, no cuda.  no need for GUI...?
+  Sn50_travelHist.xml                     # didn't work, complain not sq matrix...
+    domingo started around 22:50  (out, output has date, logged?).  may need 12 hours?  but load avg is only 1.
+
+
+
