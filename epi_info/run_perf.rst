@@ -33,7 +33,11 @@ screen output for rough idea of performance:
 96341000        101.0038        525.7903        -424.7866       2019.94         0.13089         14.6711         1       1.2 hours/million states
 96342000        99.0277         526.3170        -427.2893       2019.94         0.13891         14.9664         1       1.2 hours/million states
   M  k
-Did I specify 100M run?  if so should finish soon.  nope, it is still going... day 5 ~5pm
+# apparently it was specified for chainLength=200M, so it will likely take ~12 days on the A40
+# it it took almost 6 days to get to 100M
+# 100k took 8.56 min on n0264
+# can manually change chainLength in XML to smaller number for quick test
+# the GUI also allow choosing FP32 so then it would be much faster, not sure if it needs the accuracy... 
 100709000       159.0779        597.6445        -438.5667       2019.97         2.48853E-4      16.0665         1       1.2 hours/million states
 100710000       161.2898        597.7857        -436.4959       2019.96         4.60863E-5      16.1708         1       1.2 hours/million states
    M  k

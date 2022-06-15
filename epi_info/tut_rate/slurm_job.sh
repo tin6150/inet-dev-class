@@ -46,7 +46,7 @@ run_SARS_CoV2() {
 	##++ may try to rerun below in V100 as slurm job with the orig 200M chainLegth
 	cd /global/home/users/tin/tin-gh/inet-dev-class/epi_info/travHistProtocol/files/Protocol3
     BEAST_XML=282_GISAID_sarscov2_travelHist_masked_Sn100k.xml
-	java -cp $BEAST_JAR dr.app.beast.BeastMain -seed 2020 -beagle_double -beagle_gpu -save_every 1000000 -save_state Beast.chkpt    $BEAST_XML
+	java -cp $BEAST_JAR dr.app.beast.BeastMain -seed 2020 -beagle_double -beagle_gpu -save_every 1000000 -save_state Beast.chkpt  -overwrite  $BEAST_XML
 ## ../files/Protocol3/282_GISAID_sarscov2_travelHist_masked.xml   # cranking on n0262.s4, cuda 11.2
 ##travelHist.checkpoint ../files/Protocol3/282_GISAID_sarscov2_travelHist_masked.xml
 
