@@ -864,8 +864,9 @@
 	</operators>
 	
 
+	<!-- Sn50 changed chainlength to 100k to see how long it takes  [was 10000, ie 10k]-->
 	<!-- Define MCMC                                                             -->
-	<mcmc id="mcmc" chainLength="10000" autoOptimize="true" operatorAnalysis="YFV.ops.txt">
+	<mcmc id="mcmc" chainLength="100000" autoOptimize="true" operatorAnalysis="YFV.ops.txt">
 		<joint id="joint">
 			<prior id="prior">
 				<logNormalPrior mu="1.0" sigma="1.25" offset="0.0">
