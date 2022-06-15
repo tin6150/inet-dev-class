@@ -4,8 +4,10 @@ oh hmm... need to be on a gpu node...
 beagle: https://github.com/beagle-dev/beagle-lib/wiki/LinuxInstallInstructions
 
 
-use n0262.savio3
-2x A40 nvidia
+  use n0262.savio3
+  2x A40 nvidia.  not great, the FP64 for this is low, TFlops of 1.169 (1:32)
+     K80  has 1.37 (1:3).
+     V100 has 7.06 (1:2)
 
 
 ####
