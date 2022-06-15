@@ -95,9 +95,12 @@ export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH
 export PKG_CONFIG_PATH=$HOME/lib/pkgconfig:$PKG_CONFIG_PATH
 
 java -cp beast.jar dr.app.beast.BeastMain -seed 2020 -beagle_double -beagle_gpu -save_every 1000000 -save_state travelHist.checkpoint   \
-  ../files/Protcol3/282_GISAID_sarscov2_travelHist.xml   # cranking on domingo, no cuda.  no need for GUI...?
+  ../files/Protocol3/282_GISAID_sarscov2_travelHist_masked.xml   # cranking on domingo, no cuda.    start: 2022.0605 ~22:48
+  ../files/Protocol3/282_GISAID_sarscov2_travelHist_masked.xml   # cranking on n0262.s4, cuda 11.2. start: 2022.0609  16:50
   Sn50_travelHist.xml                     # didn't work, complain not sq matrix...
     domingo started around 22:50  (out, output has date, logged?).  may need 12 hours?  but load avg is only 1.
 
 
+2022.0609 trying as
+**^ tin n0262.savio3 ~/tin-gh/inet-dev-class/epi_info/travHistProtocol/software ^**> 
 
