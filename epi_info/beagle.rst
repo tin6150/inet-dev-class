@@ -30,3 +30,11 @@ make install
 
 export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH
 export PKG_CONFIG_PATH=$HOME/lib/pkgconfig:$PKG_CONFIG_PATH
+
+
+#### ~~~~ for mac w/ homebrew  eg zyzyxia 
+
+brew install cmake  # 3.23.2
+brew install cuda   # after lot of stuff, nothing got installed.
+# java was already installed, prob thru brew, but complain no ENV and can't find JNI.
+# so never ran BEAST on zyzyxia.
