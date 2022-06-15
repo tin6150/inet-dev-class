@@ -3,3 +3,4 @@ a.out
 # these are added by npm install ... should not need to check thme in
 # inside subdirectory not  needed, so not placing that here.
 # node_modules/  
+.DS_Store

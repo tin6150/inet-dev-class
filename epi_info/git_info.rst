@@ -8,3 +8,6 @@ these are
 
 travHistProtocol/   -- see README.rst in this dir
 beagle-lib/         -- see beagle.rst, for building the libs, may need to replicate at other sites
+
+BEASTv1.10.5pre_thorney_0.1.2 -- downloaded tgz on zyzyxia
+
