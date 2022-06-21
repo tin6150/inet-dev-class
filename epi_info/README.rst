@@ -70,7 +70,7 @@ just use their sample and move on.
  
 
 
-# protocol 3  -- Travel python
+# protocol 3  -- Travel python, long number crunch by BEAST
 
 # create python3 virt env with lxml BEAGLE v3...
 **^ tin domingo ~/tin-gh/inet-dev-class/epi_info/travHistProtocol/software ^**>  python3 -m venv ./venv
@@ -103,4 +103,17 @@ java -cp beast.jar dr.app.beast.BeastMain -seed 2020 -beagle_double -beagle_gpu 
 
 2022.0609 trying as
 **^ tin n0262.savio3 ~/tin-gh/inet-dev-class/epi_info/travHistProtocol/software ^**> 
+
+
+2022.0619
+Protocol 4, viz data (result was provided
+my run is still going
+)
+
+
+
+wombat>
+BEAST_JAR=/home/tin/EPI_INFO/travHistProtocol/software/beast.jar
+java -cp $BEAST_JAR dr.app.tools.TaxaMarkovJumpHistoryAnalyzer -taxaToProcess "hCoV-19/Brazil/SP-02/2020/EPI_ISL_413016|2020-02-28" -stateAnnotation location -burnin 100 -mrsd 2020.174
+8633879781 282_GISAID_GLM.location.hisotry.trees EPI_ISL_412975_MJhist.csv
 
