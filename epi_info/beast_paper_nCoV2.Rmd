@@ -1,0 +1,68 @@
+the beast paper on SARS-nCoV-2
+
+<file:///G:/My%20Drive/mph_hw/mph_prj_bioinfo/Bayesian%20Phylogeographic%20Analysis%20BEAST.pdf>
+
+MarkovJumpR portion in R
+
+```{r install }
+
+install.packages('lubridate')
+
+# xref https://beast.community/travel_history
+```
+
+```{r runnable portion page 11}
+
+library(MarkovJumpR)
+library(lubridate)
+
+
+#setwd("c:")
+#setwd("/Users/tin61/tin-gh-inet-class-only/inet-dev-class/epi_info/travHistProtocol/files/Protocol4/")
+
+# Use the knitr root.dir option in the setup chunk to change the working directory for notebook chunks.
+knitr::opts_chunk$set(root.dir = normalizePath("/Users/tin61/tin-gh-inet-class-only/inet-dev-class/epi_info/travHistProtocol/files/Protocol4/"))  
+
+
+#spatial_paths <- loadPaths(fileName = "EPI_ISL_412975_MJhist.csv")
+
+spatial_paths = loadPaths(fileName = normalizePath("C:/Users/tin61/tin-gh-inet-class-only/inet-dev-class/epi_info/travHistProtocol/files/Protocol4/EPI_ISL_412975_MJhist.csv") )
+
+print(spatial_paths$minTime)
+
+loc_freq = table( spatial_paths$paths$location)
+loc_freq[order(loc_freq,decreasing=T)]
+
+#View(loc_freq)
+
+locations = c("ChinaHubei","Italy","Brazil","Switzerland")
+
+
+locationColors <-c("#E3272F","#31B186","#931ECF","#C695BD")
+locationMap <- data.frame(location = locations, position = c(1, 2, 3, 4))
+locationMap$color <- sapply(locationColors, as.character)
+
+
+dateLabels <- c("01-Dec-19", "15-Dec-19","01-Jan-20", "15-Jan-20","01-Feb-20", "15-Feb-20", "01-Mar-20")
+
+
+travelHistPaths <- loadPaths(fileName = "EPI_ISL_413597.travel_hist.csv")
+# not included in example files, get from my run result...
+# were they intending to be same file?  just cut-n-paste error in paper?
+travelHistPaths = spatial_paths
+
+##
+
+## View(spatial_paths)
+
+plotPaths(travelHistPaths$paths, 
+          locationMap = locationMap, 
+          yJitterSd = 0.1, 
+          alpha = 0.1, 
+          minTime = spatial_paths$minTime, 
+          addLocationLine = TRUE,
+          xAt = decimal_date(dmy(dateLabels)), 
+          xLabels = dateLabels, 
+          mustDisplayAllLocations = F )  # was TRUE
+
+```
