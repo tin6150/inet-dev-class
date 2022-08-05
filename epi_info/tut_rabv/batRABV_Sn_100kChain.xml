@@ -13,7 +13,7 @@
 	<!-- ntax=372                                                                -->
 	<taxa id="taxa">
 		<taxon id="AZ4030_2005.5">
-			<date value="4030.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ap
 			</attr>
@@ -22,7 +22,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ1968_2004.5">
-			<date value="1968.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -31,7 +31,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ7590_2005.5">
-			<date value="7590.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -40,7 +40,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA237_2002.5">
-			<date value="237.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -49,7 +49,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA29_2002.5">
-			<date value="29.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -58,7 +58,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA9242_2002.5">
-			<date value="9242.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -67,7 +67,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CAO120_2002.5">
-			<date value="120.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -76,7 +76,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA0253_2003.5">
-			<date value="253.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -85,7 +85,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA148_2004.5">
-			<date value="148.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -94,7 +94,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA6860_2004.5">
-			<date value="6860.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -103,7 +103,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA0100_2005.5">
-			<date value="100.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -112,7 +112,7 @@
 			</attr>
 		</taxon>
 		<taxon id="GA31940_2004.5">
-			<date value="31940.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -121,7 +121,7 @@
 			</attr>
 		</taxon>
 		<taxon id="GA36568_2004.5">
-			<date value="36568.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -130,7 +130,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IA042_2005.5">
-			<date value="42.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -139,7 +139,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IA381_2005.5">
-			<date value="381.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -148,7 +148,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IA543_2005.5">
-			<date value="543.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -157,7 +157,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI1251_2003.5">
-			<date value="1251.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -166,7 +166,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI1271_2003.5">
-			<date value="1271.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -175,7 +175,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI1406_2003.5">
-			<date value="1406.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -184,7 +184,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI1586_2003.5">
-			<date value="1586.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -193,7 +193,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI1672_2003.5">
-			<date value="1672.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -202,7 +202,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI1833_2003.5">
-			<date value="1833.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -211,7 +211,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI782_2003.5">
-			<date value="782.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -220,7 +220,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI784_2003.5">
-			<date value="784.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -229,7 +229,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI1209_2005.5">
-			<date value="1209.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -238,7 +238,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI1328_2005.5">
-			<date value="1328.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -247,7 +247,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI1865_2005.5">
-			<date value="1865.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -256,7 +256,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI1905_2005.5">
-			<date value="1905.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -265,7 +265,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI399_2005.5">
-			<date value="399.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -274,7 +274,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI596_2005.5">
-			<date value="596.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -283,7 +283,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ104_2005.5">
-			<date value="104.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -292,7 +292,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ1049_2005.5">
-			<date value="1049.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -301,7 +301,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ1212_2005.5">
-			<date value="1212.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -310,7 +310,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ511_2005.5">
-			<date value="511.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -319,7 +319,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ949_2005.5">
-			<date value="949.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -328,7 +328,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA1623_2004.5">
-			<date value="1623.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -337,7 +337,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA2057_2004.5">
-			<date value="2057.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -346,7 +346,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA0355_1999.5">
-			<date value="355.0" direction="forwards" units="years"/>
+			<date value="1999.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -355,7 +355,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA369_1999.5">
-			<date value="369.0" direction="forwards" units="years"/>
+			<date value="1999.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -364,7 +364,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA052_2000.5">
-			<date value="52.0" direction="forwards" units="years"/>
+			<date value="2000.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -373,7 +373,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA173_2000.5">
-			<date value="173.0" direction="forwards" units="years"/>
+			<date value="2000.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -382,7 +382,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA267_2000.5">
-			<date value="267.0" direction="forwards" units="years"/>
+			<date value="2000.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -391,7 +391,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1043_2003.5">
-			<date value="1043.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -400,7 +400,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1087_2003.5">
-			<date value="1087.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -409,7 +409,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1159_2003.5">
-			<date value="1159.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -418,7 +418,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA016_2004.5">
-			<date value="16.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -427,7 +427,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1455_2004.5">
-			<date value="1455.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -436,7 +436,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1586_2004.5">
-			<date value="1586.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -445,7 +445,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1596_2004.5">
-			<date value="1596.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -454,7 +454,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1625_2004.5">
-			<date value="1625.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -463,7 +463,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA50_2004.5">
-			<date value="50.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -472,7 +472,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1770_2005.5">
-			<date value="1770.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -481,7 +481,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1833_2005.5">
-			<date value="1833.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -490,7 +490,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1858_2005.5">
-			<date value="1858.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -499,7 +499,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA2017_2005.5">
-			<date value="2017.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -508,7 +508,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA16461_2002.5">
-			<date value="16461.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lbl
 			</attr>
@@ -517,7 +517,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA0077_2003.5">
-			<date value="77.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lbl
 			</attr>
@@ -526,7 +526,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL701_2003.5">
-			<date value="701.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -535,7 +535,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL854_2003.5">
-			<date value="854.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -544,7 +544,7 @@
 			</attr>
 		</taxon>
 		<taxon id="GA60243_2005.5">
-			<date value="60243.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -553,7 +553,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI1625_2005.5">
-			<date value="1625.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -562,7 +562,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ2262_2005.5">
-			<date value="2262.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -571,7 +571,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN132_2004.5">
-			<date value="132.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -580,7 +580,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN269_2004.5">
-			<date value="269.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -589,7 +589,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN33_2004.5">
-			<date value="33.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -598,7 +598,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX4843_2003.5">
-			<date value="4843.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -607,7 +607,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6070_2003.5">
-			<date value="6070.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -616,7 +616,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX2356_2004.5">
-			<date value="2356.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -625,7 +625,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5276_2004.5">
-			<date value="5276.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -634,7 +634,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5751_2004.5">
-			<date value="5751.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -643,7 +643,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5976_2004.5">
-			<date value="5976.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -652,7 +652,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ1838_2005.5">
-			<date value="1838.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -661,7 +661,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ5392_2005.5">
-			<date value="5392.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -670,7 +670,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ7771_2005.5">
-			<date value="7771.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -679,7 +679,7 @@
 			</attr>
 		</taxon>
 		<taxon id="ID7227_2005.5">
-			<date value="7227.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -688,7 +688,7 @@
 			</attr>
 		</taxon>
 		<taxon id="ID7232_2005.5">
-			<date value="7232.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -697,7 +697,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN183_2004.5">
-			<date value="183.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -706,7 +706,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN410_2004.5">
-			<date value="410.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -715,7 +715,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA0524_1998.5">
-			<date value="524.0" direction="forwards" units="years"/>
+			<date value="1998.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -724,7 +724,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1617_2004.5">
-			<date value="1617.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -733,7 +733,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA2085_2005.5">
-			<date value="2085.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -742,7 +742,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL1024_2001.5">
-			<date value="1024.0" direction="forwards" units="years"/>
+			<date value="2001.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -751,7 +751,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL845_2001.5">
-			<date value="845.0" direction="forwards" units="years"/>
+			<date value="2001.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -760,7 +760,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL905_2001.5">
-			<date value="905.0" direction="forwards" units="years"/>
+			<date value="2001.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -769,7 +769,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL978_2001.5">
-			<date value="978.0" direction="forwards" units="years"/>
+			<date value="2001.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -778,7 +778,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL1165_2004.5">
-			<date value="1165.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -787,7 +787,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX4904_2002.5">
-			<date value="4904.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -796,7 +796,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5433_2003.5">
-			<date value="5433.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -805,7 +805,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX4350_2004.5">
-			<date value="4350.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -814,7 +814,7 @@
 			</attr>
 		</taxon>
 		<taxon id="ID7376_2005.5">
-			<date value="7376.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -823,7 +823,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL769_2003.5">
-			<date value="769.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ls
 			</attr>
@@ -832,7 +832,7 @@
 			</attr>
 		</taxon>
 		<taxon id="GA7034_2003.5">
-			<date value="7034.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ls
 			</attr>
@@ -841,7 +841,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6197_1998.5">
-			<date value="6197.0" direction="forwards" units="years"/>
+			<date value="1998.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ls
 			</attr>
@@ -850,7 +850,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5565_2000.5">
-			<date value="5565.0" direction="forwards" units="years"/>
+			<date value="2000.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ls
 			</attr>
@@ -859,7 +859,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5512_2002.5">
-			<date value="5512.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ls
 			</attr>
@@ -868,7 +868,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5850_2002.5">
-			<date value="5850.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ls
 			</attr>
@@ -877,7 +877,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6127a_2003.5">
-			<date value="6127.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ls
 			</attr>
@@ -886,7 +886,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ2953_2004.5">
-			<date value="2953.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lx
 			</attr>
@@ -895,7 +895,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA2070_2003.5">
-			<date value="2070.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lx
 			</attr>
@@ -904,7 +904,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA06_2004.5">
-			<date value="6.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lx
 			</attr>
@@ -913,7 +913,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL1078_2001.5">
-			<date value="1078.0" direction="forwards" units="years"/>
+			<date value="2001.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ma
 			</attr>
@@ -922,7 +922,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL331_2001.5">
-			<date value="331.0" direction="forwards" units="years"/>
+			<date value="2001.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ma
 			</attr>
@@ -931,7 +931,7 @@
 			</attr>
 		</taxon>
 		<taxon id="ID7198_2005.5">
-			<date value="7198.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Mc
 			</attr>
@@ -940,7 +940,7 @@
 			</attr>
 		</taxon>
 		<taxon id="ID7261_2005.5">
-			<date value="7261.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Mc
 			</attr>
@@ -949,7 +949,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1502_2004.5">
-			<date value="1502.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Mc
 			</attr>
@@ -958,7 +958,7 @@
 			</attr>
 		</taxon>
 		<taxon id="ID7233_2005.5">
-			<date value="7233.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ml
 			</attr>
@@ -967,7 +967,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA2020_2005.5">
-			<date value="2020.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ml
 			</attr>
@@ -976,7 +976,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI1100_2005.5">
-			<date value="1100.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ml
 			</attr>
@@ -985,7 +985,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI1367_2005.5">
-			<date value="1367.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ml
 			</attr>
@@ -994,7 +994,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN39_2004.5">
-			<date value="39.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ml
 			</attr>
@@ -1003,7 +1003,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ2857_2004.5">
-			<date value="2857.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				My
 			</attr>
@@ -1012,7 +1012,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA828_2004.5">
-			<date value="828.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				My
 			</attr>
@@ -1021,7 +1021,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA957_2004.5">
-			<date value="957.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				My
 			</attr>
@@ -1030,7 +1030,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL1384_2001.5">
-			<date value="1384.0" direction="forwards" units="years"/>
+			<date value="2001.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Nh
 			</attr>
@@ -1039,7 +1039,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ1258_2004.5">
-			<date value="1258.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ph
 			</attr>
@@ -1048,7 +1048,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA2167_2003.5">
-			<date value="2167.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ph
 			</attr>
@@ -1057,7 +1057,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN1657_2004.5">
-			<date value="1657.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ps
 			</attr>
@@ -1066,7 +1066,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5168_2004.5">
-			<date value="5168.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ps
 			</attr>
@@ -1075,7 +1075,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA178_2003.5">
-			<date value="178.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				?
 			</attr>
@@ -1084,7 +1084,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ2405_2005.5">
-			<date value="2405.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1093,7 +1093,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ2579_2005.5">
-			<date value="2579.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1102,7 +1102,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ3086_2005.5">
-			<date value="3086.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1111,7 +1111,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ6914_2005.5">
-			<date value="6914.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1120,7 +1120,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ982_2005.5">
-			<date value="982.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1129,7 +1129,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA0408_2002.5">
-			<date value="408.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1138,7 +1138,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA0052_2003.5">
-			<date value="52.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1147,7 +1147,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA0299_2003.5">
-			<date value="299.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1156,7 +1156,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA15822_2003.5">
-			<date value="15822.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1165,7 +1165,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA15824_2003.5">
-			<date value="15824.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1174,7 +1174,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA1984_2003.5">
-			<date value="1984.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1183,7 +1183,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA2132_2003.5">
-			<date value="2132.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1192,7 +1192,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA268_2003.5">
-			<date value="268.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1201,7 +1201,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA3054_2003.5">
-			<date value="3054.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1210,7 +1210,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA46_2003.5">
-			<date value="46.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1219,7 +1219,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA1032_2004.5">
-			<date value="1032.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1228,7 +1228,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA96_2004.5">
-			<date value="96.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1237,7 +1237,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL148_2004.5">
-			<date value="148.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1246,7 +1246,7 @@
 			</attr>
 		</taxon>
 		<taxon id="GA093_2004.5">
-			<date value="93.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1255,7 +1255,7 @@
 			</attr>
 		</taxon>
 		<taxon id="GA112_2004.5">
-			<date value="112.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1264,7 +1264,7 @@
 			</attr>
 		</taxon>
 		<taxon id="GA135_2004.5">
-			<date value="135.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1273,7 +1273,7 @@
 			</attr>
 		</taxon>
 		<taxon id="GA187_2003.5">
-			<date value="187.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1282,7 +1282,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MS076_2004.5">
-			<date value="76.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1291,7 +1291,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MS079_2004.5">
-			<date value="79.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1300,7 +1300,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5775_2003.5">
-			<date value="5775.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1309,7 +1309,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5922_2003.5">
-			<date value="5922.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1318,7 +1318,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6344_2003.5">
-			<date value="6344.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1327,7 +1327,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX7244_2003.5">
-			<date value="7244.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1336,7 +1336,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5603_2004.5">
-			<date value="5603.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1345,7 +1345,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ2609_2004.5">
-			<date value="2609.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ap
 			</attr>
@@ -1354,7 +1354,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA141a_2003.5">
-			<date value="141.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -1363,7 +1363,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ2408_2005.5">
-			<date value="2408.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1372,7 +1372,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ2472_2005.5">
-			<date value="2472.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1381,7 +1381,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA09_2002.5">
-			<date value="9.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1390,7 +1390,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA0115_2003.5">
-			<date value="115.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1399,7 +1399,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA6795_2003.5">
-			<date value="6795.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1408,7 +1408,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA0515_2004.5">
-			<date value="515.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1417,7 +1417,7 @@
 			</attr>
 		</taxon>
 		<taxon id="GA31217_2004.5">
-			<date value="31217.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1426,7 +1426,7 @@
 			</attr>
 		</taxon>
 		<taxon id="GA31320_2004.5">
-			<date value="31320.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1435,7 +1435,7 @@
 			</attr>
 		</taxon>
 		<taxon id="GA31454_2004.5">
-			<date value="31454.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1444,7 +1444,7 @@
 			</attr>
 		</taxon>
 		<taxon id="GA32492_2005.5">
-			<date value="32492.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1453,7 +1453,7 @@
 			</attr>
 		</taxon>
 		<taxon id="ID7318_2005.5">
-			<date value="7318.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1462,7 +1462,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN1128_2004.5">
-			<date value="1128.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1471,7 +1471,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN141_2004.5">
-			<date value="141.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1480,7 +1480,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN144_2004.5">
-			<date value="144.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1489,7 +1489,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN1515_2004.5">
-			<date value="1515.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1498,7 +1498,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN833_2004.5">
-			<date value="833.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1507,7 +1507,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN845_2004.5">
-			<date value="845.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1516,7 +1516,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN121_2005.5">
-			<date value="121.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1525,7 +1525,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN133_2005.5">
-			<date value="133.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1534,7 +1534,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN1363_2005.5">
-			<date value="1363.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1543,7 +1543,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN272_2005.5">
-			<date value="272.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1552,7 +1552,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN313_2005.5">
-			<date value="313.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1561,7 +1561,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN646_2005.5">
-			<date value="646.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1570,7 +1570,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN902_2005.5">
-			<date value="902.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1579,7 +1579,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI1957_2003.5">
-			<date value="1957.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1588,7 +1588,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI1966_2003.5">
-			<date value="1966.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1597,7 +1597,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI2114_2003.5">
-			<date value="2114.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1606,7 +1606,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI2155_2003.5">
-			<date value="2155.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1615,7 +1615,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI738_2003.5">
-			<date value="738.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1624,7 +1624,7 @@
 			</attr>
 		</taxon>
 		<taxon id="MI639_2004.5">
-			<date value="639.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1633,7 +1633,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ1510_2005.5">
-			<date value="1510.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1642,7 +1642,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ1548_2005.5">
-			<date value="1548.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1651,7 +1651,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ1609_2005.5">
-			<date value="1609.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1660,7 +1660,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ1681_2005.5">
-			<date value="1681.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1669,7 +1669,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ1772_2005.5">
-			<date value="1772.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1678,7 +1678,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ1793_2005.5">
-			<date value="1793.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1687,7 +1687,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ1916_2005.5">
-			<date value="1916.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1696,7 +1696,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ2027_2005.5">
-			<date value="2027.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1705,7 +1705,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ2091_2005.5">
-			<date value="2091.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1714,7 +1714,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ2282_2005.5">
-			<date value="2282.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1723,7 +1723,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ2304_2005.5">
-			<date value="2304.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1732,7 +1732,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ2305_2005.5">
-			<date value="2305.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1741,7 +1741,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ2367_2005.5">
-			<date value="2367.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1750,7 +1750,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ2405_2005.5">
-			<date value="2405.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1759,7 +1759,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ2452_2005.5">
-			<date value="2452.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1768,7 +1768,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ2605_2005.5">
-			<date value="2605.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1777,7 +1777,7 @@
 			</attr>
 		</taxon>
 		<taxon id="NJ2938_2005.5">
-			<date value="2938.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1786,7 +1786,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN103_2005.5">
-			<date value="103.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1795,7 +1795,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN126_2005.5">
-			<date value="126.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1804,7 +1804,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN259_2005.5">
-			<date value="259.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1813,7 +1813,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN822_2005.5">
-			<date value="822.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1822,7 +1822,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA1716_2002.5">
-			<date value="1716.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1831,7 +1831,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA964_2002.5">
-			<date value="964.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1840,7 +1840,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA245_2003.5">
-			<date value="245.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1849,7 +1849,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA579_2003.5">
-			<date value="579.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1858,7 +1858,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA3448_2004.5">
-			<date value="3448.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1867,7 +1867,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA1548_2005.5">
-			<date value="1548.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1876,7 +1876,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA1597_2005.5">
-			<date value="1597.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1885,7 +1885,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA190_2005.5">
-			<date value="190.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1894,7 +1894,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA2275_2005.5">
-			<date value="2275.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1903,7 +1903,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1086_2003.5">
-			<date value="1086.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1912,7 +1912,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1459_2004.5">
-			<date value="1459.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1921,7 +1921,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA2028_2005.5">
-			<date value="2028.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1930,7 +1930,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA2102_2005.5">
-			<date value="2102.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ef
 			</attr>
@@ -1939,7 +1939,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA33_2004.5">
-			<date value="33.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lbl
 			</attr>
@@ -1948,7 +1948,7 @@
 			</attr>
 		</taxon>
 		<taxon id="GA32657_2005.5">
-			<date value="32657.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -1957,7 +1957,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN362_2005.5">
-			<date value="362.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -1966,7 +1966,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN427_2005.5">
-			<date value="427.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -1975,7 +1975,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN272_2004.5">
-			<date value="272.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -1984,7 +1984,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN209_2005.5">
-			<date value="209.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -1993,7 +1993,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN80_2005.5">
-			<date value="80.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2002,7 +2002,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5798_2003.5">
-			<date value="5798.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2011,7 +2011,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5943_2003.5">
-			<date value="5943.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2020,7 +2020,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5987_2003.5">
-			<date value="5987.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2029,7 +2029,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6151_2003.5">
-			<date value="6151.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2038,7 +2038,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX4881_2004.5">
-			<date value="4881.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2047,7 +2047,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5739_2004.5">
-			<date value="5739.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2056,7 +2056,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5742_2004.5">
-			<date value="5742.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2065,7 +2065,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5975_2004.5">
-			<date value="5975.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2074,7 +2074,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6083_2004.5">
-			<date value="6083.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2083,7 +2083,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5275_2002.5">
-			<date value="5275.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2092,7 +2092,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA1333_2000.5">
-			<date value="1333.0" direction="forwards" units="years"/>
+			<date value="2000.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2101,7 +2101,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA1340_2001.5">
-			<date value="1340.0" direction="forwards" units="years"/>
+			<date value="2001.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2110,7 +2110,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA399_2001.5">
-			<date value="399.0" direction="forwards" units="years"/>
+			<date value="2001.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2119,7 +2119,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA679_2001.5">
-			<date value="679.0" direction="forwards" units="years"/>
+			<date value="2001.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2128,7 +2128,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA1787_2002.5">
-			<date value="1787.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2137,7 +2137,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA1924_2002.5">
-			<date value="1924.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2146,7 +2146,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA200_2002.5">
-			<date value="200.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2155,7 +2155,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA1198_2004.5">
-			<date value="1198.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2164,7 +2164,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA1973_2005.5">
-			<date value="1973.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2173,7 +2173,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA2002_2005.5">
-			<date value="2002.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2182,7 +2182,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA546_2005.5">
-			<date value="546.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lb
 			</attr>
@@ -2191,7 +2191,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ2944_2005.5">
-			<date value="2944.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2200,7 +2200,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA32_2001.5">
-			<date value="32.0" direction="forwards" units="years"/>
+			<date value="2001.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2209,7 +2209,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA030_2002.5">
-			<date value="30.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2218,7 +2218,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA068_2002.5">
-			<date value="68.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2227,7 +2227,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA217_2002.5">
-			<date value="217.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2236,7 +2236,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA25_2002.5">
-			<date value="25.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2245,7 +2245,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA3872_2002.5">
-			<date value="3872.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2254,7 +2254,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA545_2002.5">
-			<date value="545.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2263,7 +2263,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA2586_2003.5">
-			<date value="2586.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2272,7 +2272,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA281_2003.5">
-			<date value="281.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2281,7 +2281,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA48_2003.5">
-			<date value="48.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2290,7 +2290,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA7979_2003.5">
-			<date value="7979.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2299,7 +2299,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA0579_2004.5">
-			<date value="579.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2308,7 +2308,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA335_2004.5">
-			<date value="335.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2317,7 +2317,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA47_2004.5">
-			<date value="47.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2326,7 +2326,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA4287_2005.5">
-			<date value="4287.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2335,7 +2335,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN520_2004.5">
-			<date value="520.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2344,7 +2344,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN669_2004.5">
-			<date value="669.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2353,7 +2353,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN310_2004.5">
-			<date value="310.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2362,7 +2362,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN59_2004.5">
-			<date value="59.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2371,7 +2371,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN898_2005.5">
-			<date value="898.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2380,7 +2380,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN977_2005.5">
-			<date value="977.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2389,7 +2389,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6362_2003.5">
-			<date value="6362.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2398,7 +2398,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6464_2003.5">
-			<date value="6464.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2407,7 +2407,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX2130_2004.5">
-			<date value="2130.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2416,7 +2416,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX4688_2004.5">
-			<date value="4688.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2425,7 +2425,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5370_2004.5">
-			<date value="5370.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2434,7 +2434,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5427_2004.5">
-			<date value="5427.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2443,7 +2443,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5695_2004.5">
-			<date value="5695.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2452,7 +2452,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6295_2004.5">
-			<date value="6295.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2461,7 +2461,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA484_2004.5">
-			<date value="484.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lc
 			</attr>
@@ -2470,7 +2470,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL1010_2002.5">
-			<date value="1010.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -2479,7 +2479,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL1191_2002.5">
-			<date value="1191.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -2488,7 +2488,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL527_2002.5">
-			<date value="527.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -2497,7 +2497,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL879_2002.5">
-			<date value="879.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -2506,7 +2506,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FLLi04_2004.5">
-			<date value="4.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -2515,7 +2515,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5960_2002.5">
-			<date value="5960.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -2524,7 +2524,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6706_2002.5">
-			<date value="6706.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -2533,7 +2533,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX4500_2003.5">
-			<date value="4500.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -2542,7 +2542,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX3054_2003.5">
-			<date value="3054.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Li
 			</attr>
@@ -2551,7 +2551,7 @@
 			</attr>
 		</taxon>
 		<taxon id="ID7275_2005.5">
-			<date value="7275.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2560,7 +2560,7 @@
 			</attr>
 		</taxon>
 		<taxon id="ID7282_2005.5">
-			<date value="7282.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2569,7 +2569,7 @@
 			</attr>
 		</taxon>
 		<taxon id="ID7285_2005.5">
-			<date value="7285.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2578,7 +2578,7 @@
 			</attr>
 		</taxon>
 		<taxon id="ID7360_2005.5">
-			<date value="7360.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2587,7 +2587,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA0323_1997.5">
-			<date value="323.0" direction="forwards" units="years"/>
+			<date value="1997.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2596,7 +2596,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA0410_1997.5">
-			<date value="410.0" direction="forwards" units="years"/>
+			<date value="1997.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2605,7 +2605,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA341_1997.5">
-			<date value="341.0" direction="forwards" units="years"/>
+			<date value="1997.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2614,7 +2614,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA580_1998.5">
-			<date value="580.0" direction="forwards" units="years"/>
+			<date value="1998.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2623,7 +2623,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA0353_1999.5">
-			<date value="353.0" direction="forwards" units="years"/>
+			<date value="1999.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2632,7 +2632,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA161_2000.5">
-			<date value="161.0" direction="forwards" units="years"/>
+			<date value="2000.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2641,7 +2641,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1066_2003.5">
-			<date value="1066.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2650,7 +2650,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1185_2003.5">
-			<date value="1185.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2659,7 +2659,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1347_2004.5">
-			<date value="1347.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2668,7 +2668,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1400_2004.5">
-			<date value="1400.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2677,7 +2677,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1955_2005.5">
-			<date value="1955.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2686,7 +2686,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1991_2005.5">
-			<date value="1991.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ln
 			</attr>
@@ -2695,7 +2695,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL732_2001.5">
-			<date value="732.0" direction="forwards" units="years"/>
+			<date value="2001.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ls
 			</attr>
@@ -2704,7 +2704,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL673_2003.5">
-			<date value="673.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ls
 			</attr>
@@ -2713,7 +2713,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL792_2004.5">
-			<date value="792.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ls
 			</attr>
@@ -2722,7 +2722,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL793_2004.5">
-			<date value="793.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ls
 			</attr>
@@ -2731,7 +2731,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL942_2004.5">
-			<date value="942.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ls
 			</attr>
@@ -2740,7 +2740,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5419_2003.5">
-			<date value="5419.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ls
 			</attr>
@@ -2749,7 +2749,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6265_2003.5">
-			<date value="6265.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ls
 			</attr>
@@ -2758,7 +2758,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ6954_2005.5">
-			<date value="6954.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lx
 			</attr>
@@ -2767,7 +2767,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA120_2005.5">
-			<date value="120.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Lx
 			</attr>
@@ -2776,7 +2776,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA6054_2000.5">
-			<date value="6054.0" direction="forwards" units="years"/>
+			<date value="2000.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Mc
 			</attr>
@@ -2785,7 +2785,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA3974_2001.5">
-			<date value="3974.0" direction="forwards" units="years"/>
+			<date value="2001.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Mc
 			</attr>
@@ -2794,7 +2794,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA2306_2004.5">
-			<date value="2306.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Mc
 			</attr>
@@ -2803,7 +2803,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA4262_2004.5">
-			<date value="4262.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Mc
 			</attr>
@@ -2812,7 +2812,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA6846_2004.5">
-			<date value="6846.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Mc
 			</attr>
@@ -2821,7 +2821,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA0044_2005.5">
-			<date value="44.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Mc
 			</attr>
@@ -2830,7 +2830,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1316_2004.5">
-			<date value="1316.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Mc
 			</attr>
@@ -2839,7 +2839,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA7629_2003.5">
-			<date value="7629.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ml
 			</attr>
@@ -2848,7 +2848,7 @@
 			</attr>
 		</taxon>
 		<taxon id="WA1890_2005.5">
-			<date value="1890.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ml
 			</attr>
@@ -2857,7 +2857,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN90_2005.5">
-			<date value="90.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ml
 			</attr>
@@ -2866,7 +2866,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ2991_2004.5">
-			<date value="2991.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				My
 			</attr>
@@ -2875,7 +2875,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA62_2002.5">
-			<date value="62.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ml
 			</attr>
@@ -2884,7 +2884,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ2407_2004.5">
-			<date value="2407.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				?
 			</attr>
@@ -2893,7 +2893,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ4490_2005.5">
-			<date value="4490.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				My
 			</attr>
@@ -2902,7 +2902,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA286_2002.5">
-			<date value="286.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				My
 			</attr>
@@ -2911,7 +2911,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA3481_2002.5">
-			<date value="3481.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				My
 			</attr>
@@ -2920,7 +2920,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA414_2002.5">
-			<date value="414.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				My
 			</attr>
@@ -2929,7 +2929,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA114_2003.5">
-			<date value="114.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				My
 			</attr>
@@ -2938,7 +2938,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA49_2004.5">
-			<date value="49.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				My
 			</attr>
@@ -2947,7 +2947,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA9999_2004.5">
-			<date value="9999.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				My
 			</attr>
@@ -2956,7 +2956,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA2446_2003.5">
-			<date value="2446.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ml
 			</attr>
@@ -2965,7 +2965,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL724_2003.5">
-			<date value="724.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Nh
 			</attr>
@@ -2974,7 +2974,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5929_2003.5">
-			<date value="5929.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Nh
 			</attr>
@@ -2983,7 +2983,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA2149_2003.5">
-			<date value="2149.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ph
 			</attr>
@@ -2992,7 +2992,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA2022_2004.5">
-			<date value="2022.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ph
 			</attr>
@@ -3001,7 +3001,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA164_2005.5">
-			<date value="164.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ph
 			</attr>
@@ -3010,7 +3010,7 @@
 			</attr>
 		</taxon>
 		<taxon id="GA31526_2004.5">
-			<date value="31526.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ps
 			</attr>
@@ -3019,7 +3019,7 @@
 			</attr>
 		</taxon>
 		<taxon id="GA5162_2005.5">
-			<date value="5162.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ps
 			</attr>
@@ -3028,7 +3028,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IA429_2005.5">
-			<date value="429.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ps
 			</attr>
@@ -3037,7 +3037,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN279_2004.5">
-			<date value="279.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ps
 			</attr>
@@ -3046,7 +3046,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN304_2004.5">
-			<date value="304.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ps
 			</attr>
@@ -3055,7 +3055,7 @@
 			</attr>
 		</taxon>
 		<taxon id="IN1487_2005.5">
-			<date value="1487.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ps
 			</attr>
@@ -3064,7 +3064,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN169_2004.5">
-			<date value="169.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ps
 			</attr>
@@ -3073,7 +3073,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN107_2005.5">
-			<date value="107.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ps
 			</attr>
@@ -3082,7 +3082,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TN186_2005.5">
-			<date value="186.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ps
 			</attr>
@@ -3091,7 +3091,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX3775_2002.5">
-			<date value="3775.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ps
 			</attr>
@@ -3100,7 +3100,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA1615_2005.5">
-			<date value="1615.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ps
 			</attr>
@@ -3109,7 +3109,7 @@
 			</attr>
 		</taxon>
 		<taxon id="VA1700_2005.5">
-			<date value="1700.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ps
 			</attr>
@@ -3118,7 +3118,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ360_2005.5">
-			<date value="360.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3127,7 +3127,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ468_2005.5">
-			<date value="468.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3136,7 +3136,7 @@
 			</attr>
 		</taxon>
 		<taxon id="AZ7773_2005.5">
-			<date value="7773.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3145,7 +3145,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA141_2002.5">
-			<date value="141.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Ap
 			</attr>
@@ -3154,7 +3154,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA0030_2004.5">
-			<date value="30.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3163,7 +3163,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CAO42_2004.5">
-			<date value="42.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3172,7 +3172,7 @@
 			</attr>
 		</taxon>
 		<taxon id="CA0057_2005.5">
-			<date value="57.0" direction="forwards" units="years"/>
+			<date value="2005.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3181,7 +3181,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL1079_2001.5">
-			<date value="1079.0" direction="forwards" units="years"/>
+			<date value="2001.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3190,7 +3190,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL1318_2002.5">
-			<date value="1318.0" direction="forwards" units="years"/>
+			<date value="2002.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3199,7 +3199,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL2369_2003.5">
-			<date value="2369.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3208,7 +3208,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL385_2003.5">
-			<date value="385.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3217,7 +3217,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL1002_2004.5">
-			<date value="1002.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3226,7 +3226,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL2835_2004.5">
-			<date value="2835.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3235,7 +3235,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL333_2004.5">
-			<date value="333.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3244,7 +3244,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL412_2004.5">
-			<date value="412.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3253,7 +3253,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL542_2004.5">
-			<date value="542.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3262,7 +3262,7 @@
 			</attr>
 		</taxon>
 		<taxon id="FL967_2004.5">
-			<date value="967.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3271,7 +3271,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5638_2003.5">
-			<date value="5638.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3280,7 +3280,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6224_2003.5">
-			<date value="6224.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3289,7 +3289,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6820_2003.5">
-			<date value="6820.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3298,7 +3298,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6989_2003.5">
-			<date value="6989.0" direction="forwards" units="years"/>
+			<date value="2003.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3307,7 +3307,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5218_2004.5">
-			<date value="5218.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3316,7 +3316,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX5573_2004.5">
-			<date value="5573.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3325,7 +3325,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6127b_2004.5">
-			<date value="6127.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3334,7 +3334,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX6604_2004.5">
-			<date value="6604.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3343,7 +3343,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX7040_2004.5">
-			<date value="7040.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
@@ -3352,7 +3352,7 @@
 			</attr>
 		</taxon>
 		<taxon id="TX3545_2004.5">
-			<date value="3545.0" direction="forwards" units="years"/>
+			<date value="2004.5" direction="forwards" units="years"/>
 			<attr name="host">
 				Tb
 			</attr>
