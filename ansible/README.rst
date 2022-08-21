@@ -629,6 +629,9 @@ If can find a good book, it should still make learning easier.  it is whether su
 	maybe a very beginner book.  talk about setup, test.  1 reviewer said spend too little time to reallhy teach ansible.
 
 
+- Ansible now has Collections are a distribution format for Ansible content that can include playbooks, roles, modules, and plugins. As modules move from the core Ansible repository into collections, the module documentation will move to the collections pages.
+
+
 TMP note
 ********
 
