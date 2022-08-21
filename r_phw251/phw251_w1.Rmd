@@ -1,0 +1,82 @@
+---
+title: "play_R_PHW251"
+output: html_document
+date: "2022-08-21"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+```{r play by Sn50}
+# ?class
+
+x = 5
+class(x)
+y = c( 1, 2, 3 )
+class(y)
+y
+
+y_list = list(2,4,6,8)
+class(y_list)
+y_list
+
+
+
+matrix_1 <- matrix(data = 1:12, nrow = 3, ncol = 4, byrow = TRUE, dimnames = NULL)
+
+
+matrix_1
+
+
+mat1=matrix( data = 1:6, ncol=3, nrow=2, byrow=FALSE, dimnames=NULL ) 
+mat1
+length(mat1)
+class(mat1)
+typeof(mat1)
+
+mat2 = mat1
+mat2 == mat1
+
+mat3 <- mat1
+mat3 == mat1
+
+matB=matrix( data = 1:9, ncol=3, byrow=FALSE, dimnames=NULL ) 
+matC=matrix( data = c(1,2,3,4,5,7), ncol=3, byrow=FALSE, dimnames=NULL ) 
+
+
+matB == mat1 
+matC == mat1 
+
+
+mat1
+5 == 5
+"cat" != "dog"
+```
+'''{r r4ds prereq}
+
+install.packages("tidyverse")
+install.packages(c("nycflights13", "gapminder", "Lahman"))
+
+```
