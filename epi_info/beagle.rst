@@ -1,3 +1,7 @@
+debiang baagle package is something else (phsing genotypes), not the gpu lib used by phylogeny tree sw.
+so for beast (and MrBayes), need to build from source., per URL below
+
+####
 
 compiling this package called beagle for use with GPU.
 oh hmm... need to be on a gpu node...
@@ -9,8 +13,8 @@ beagle: https://github.com/beagle-dev/beagle-lib/wiki/LinuxInstallInstructions
      K80  has 1.37 (1:3).
      V100 has 7.06 (1:2)
 
-
 ####
+
 
 
 module load cmake/3.22.0    # from consultsw

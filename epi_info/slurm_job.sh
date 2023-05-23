@@ -73,7 +73,8 @@ java -cp $BEAST_JAR dr.app.beast.BeastMain -beagle_info
 echo "====Starting the BEAST===="
 #run_tut_rate
 #run_SARS_CoV2  ## chainLegth=100k  for now , n0264.s3
-run_tut_flu
+#run_tut_flu
+# all commented out, dont want to rerun accidentally
 
 echo $?
 echo "====BEAST done===="
