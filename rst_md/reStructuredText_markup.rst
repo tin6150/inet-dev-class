@@ -24,6 +24,15 @@ RST header example probably breaks github rst parser/rendered...
 RST 
 ===
 
+RST quick reference that I like:
+https://docutils.sourceforge.io/docs/user/rst/quickref.html#tables
+
+Sphinx is the python doc generator, it is RST based, but also add extensions, so not all sphynx construct works
+for git* rendered web pages.
+
+
+
+
 Planning to swtich to reStructured Text and avoid MarkDown.
 
 .rst is adopted in python.  
@@ -36,6 +45,33 @@ However, stackoverflow is essentially markdown.
 Next should be a table of content.  the ``contents directive`` will read entries from the ``topic directive`` , as well as things that parsed are headers (those with underlines and stuff).  Thus, explicit ``topic`` or ``title`` directives are not really necessary.   (``sidebar directive`` not supported by github rendered)
 (the topic wasn't listed in contents:: , but the heading line was listed instead.  so, may have no use for ``topic``)
 
+
+dot_dot is command for rst parser.
+
+
+Inter-Document link
+see:
+https://stackoverflow.com/questions/37553750/how-can-i-link-reference-another-rest-file-in-the-documentation
+
+External URL is actually easy.  no markup is needed if just show whole link.
+There are other ways to add ref so whole ugly URL doesn't show up.  RTFM, but not hard.  
+
+But link to just another rst file within the same site, (so that say git backed doc can be rendered in multiple sites), seems rather difficult.
+at least i have not really figured out yet :-/ 
+
+Does this inter-document link work? 
+.. _sphynx_link: reStructuredText_sphynx.rst
+:ref:`phynx_link` 
+
+
+or this method:
+:doc:`./reStructuredText_sphynx.rst` : another rst, small, warning about sphynx extension
+
+or this 
+:doc:`sphynx rst <./reStructuredText_sphynx.rst>`
+
+
+==========================================================
 
 
 .. sidebar::
