@@ -70,20 +70,20 @@ References
 - reStructuredText quick ref: http://docutils.sourceforge.net/docs/user/rst/quickref.html
 - reStructuredText primer: http://docutils.sourceforge.net/docs/user/rst/quickstart.html
 - preformatting samples, but not necessarily code syntax highlight: http://docutils.sourceforge.net/docs/user/rst/quickstart.html#preformatting-code-samples 
+- pip install rstcheck ; rstcheck file.rst
 
 
 
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
 
 
 Lots of old notes below, TL; DR
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -549,7 +549,7 @@ back to normal text
 something about using two periods, code and two colons and language to start code block
 
 
-.. code:: bash
+.. code-block:: console
 	echo "hello world"
 	for F in $( ls -1 /etc ); do
 		echo $F
@@ -585,7 +585,7 @@ back to normal
 
 
 still here?
------------
+===========
 
 
 wow, apparently i wrote a lot before.  or pasted a lot... \
