@@ -586,6 +586,9 @@ back to normal
 
 still here?
 ===========
+.. # previous version of this file, with ---- as title marker, somehow generated a severe error from rstcheck, which might have been what broke the render engine
+.. # this at least render now.  see diff 4f698f8 vs 08057af for full list of changes (inet-dev-class), in case other things were the fix.  
+.. # reStructuredText_markup.rst:587: (SEVERE/4) Title level inconsistent:
 
 
 wow, apparently i wrote a lot before.  or pasted a lot... \
