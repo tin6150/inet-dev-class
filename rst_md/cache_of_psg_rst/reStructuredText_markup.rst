@@ -8,6 +8,8 @@ Any incorrect construct that paralize the .rst parser will stop the rendering an
 Thus, pay special attention to ``code block``  (really ``verbose text, or monospaced text``)
 (actually, tailing underline after word seems to be the culprit)
 
+If this page has no error, it renders in github web view (both under PSG and inet-dev-class, which is why consolidated as primary in psg
+as the README.md in psg is also useful)
 
 SUMMARY
 =======
@@ -34,8 +36,8 @@ Files location
 ==============
 
 location of .rst and .md files are in 2 places so that I can see how it got rendered
-  - psg/reStructuredText_markup.rst  [*master*]
-  - https://github.com/tin6150/inet-dev-class/rst_md [cache]
+  - psg/rst/reStructuredText_markup.rst  [*master*]
+  - https://github.com/tin6150/inet-dev-class/rst_md/cahce_of_psg_rst/ [cache]
 
 *PSG version will be master*.  inet-dev-class is a cache (and not really needed, as error in rst will cause github not to render in both places, so just need to fix the error!).  
 
@@ -135,6 +137,8 @@ dot_dot is command for rst parser.
 Inter-Document link
 see:
 https://stackoverflow.com/questions/37553750/how-can-i-link-reference-another-rest-file-in-the-documentation
+or
+https://www.sphinx-doc.org/en/master/usage/restructuredtext/roles.html#cross-referencing-arbitrary-locations
 
 External URL is actually easy.  no markup is needed if just show whole link.
 There are other ways to add ref so whole ugly URL doesn't show up.  RTFM, but not hard.  
@@ -143,15 +147,19 @@ But link to just another rst file within the same site, (so that say git backed 
 at least i have not really figured out yet :-/ 
 
 Does this inter-document link work? 
-.. _sphynx_link: reStructuredText_sphynx.rst
-:ref:`phynx_link` 
+.. sphynx_link: reStructuredText_sphynx.rst
+:ref:`sphynx_link` 
 
+(dash in front of sphynx_link may have broke the rst parser and github rendered this page as just plain code)
 
-or this method:
+or this method with just path:
 :doc:`./reStructuredText_sphynx.rst` : another rst, small, warning about sphynx extension
 
-or this 
+or this with name and angle bracket
 :doc:`sphynx rst <./reStructuredText_sphynx.rst>`
+
+or this  with angle bracket
+:doc:`<./reStructuredText_sphynx.rst>`
 
 
 ==========================================================
@@ -601,13 +609,19 @@ ones that I think has features I wondered how they would work out...
    - glossary term, really just to force indent block of text.  messy, no way to do hard line break, so easier to just use lots of nested bullet lists
    
 
+RST command marker
+==================
+
+dot_dot is command for rst parser.  eg marking code block, specifying language
+undercore before text was also command, for linking doc, and if not done correctly seems to break parser and don't render page anymore
+colon-word-colon  can be delimiter for doc, ref, download, etc.
 
 comments
 --------
 
-.. this is comment line in rst, ie, not displayed
+.. dot-dot is actually command to rst parser, but if it is not understood, it is just skipped, so coaxed as also marker for comment
+.. this can be used as comment line in rst, ie, not displayed
 .. so vim modeline is set as rst comment
 
 .. # use 8-space tab as that's how github render the rst
 .. # vim: shiftwidth=8 tabstop=8 noexpandtab paste 
-
