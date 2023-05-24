@@ -1,0 +1,147 @@
+---
+title: "play_R_PHW251"
+output:
+  html_document: default
+  pdf_document: default
+date: "2022-08-21"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+```{r play by Sn50}
+# ?class
+
+x = 5
+class(x)
+y = c( 1, 2, 3 )
+class(y)
+y
+
+y_list = list(2,4,6,8)
+class(y_list)
+y_list
+
+
+
+matrix_1 <- matrix(data = 1:12, nrow = 3, ncol = 4, byrow = TRUE, dimnames = NULL)
+
+
+matrix_1
+
+
+mat1=matrix( data = 1:6, ncol=3, nrow=2, byrow=FALSE, dimnames=NULL ) 
+mat1
+length(mat1)
+class(mat1)
+typeof(mat1)
+
+mat2 = mat1
+mat2 == mat1
+
+mat3 <- mat1
+mat3 == mat1
+
+matB=matrix( data = 1:9, ncol=3, byrow=FALSE, dimnames=NULL ) 
+matC=matrix( data = c(1,2,3,4,5,7), ncol=3, byrow=FALSE, dimnames=NULL ) 
+
+
+# matB == mat1   # error! non comparable!
+matC == mat1 
+
+
+mat1
+5 == 5
+"cat" != "dog"
+
+
+hello1 = 5
+
+(hello2 = 6)
+
+(a = abs(-5))
+```
+```{r r4ds prereq}
+
+install.packages("tidyverse")
+install.packages(c("nycflights13", "gapminder", "Lahman"))
+
+
+# https://r4ds.had.co.nz/r-markdown.html#caching
+
+comma = function(x) format(x, digits = 2, big.mark = ",")
+
+comma(3452345)
+#> [1] "3,452,345"
+comma(.12358124331)
+#> [1] "0.12"
+comma(1234567)
+comma(9234567)
+comma(12345678) # pff, 8 digit still print as 1.2e+07 WTH!
+
+```
+
+Rmd formatting
+
+From: <A HREF="http://rmarkdown.rstudio.com">R4DS ch 27.3</A>
+
+
+*italic* or _italic_
+**bold** __bold__
+`code`
+superscript^2^ and subscript~2
+
+
+# 1st Level Header
+
+## 2nd Level Header
+
+### 3rd Level Header
+
+Lists
+------------------------------------------------------------
+
+*   Bulleted list item 1
+*   Item 2
+    * Item 2a
+    * Item 2b.  I hope there is no need for empty lines between them, but that empty line can be used.  
+    * Item 2c.  Presense of a single blank line in here will create all of the sub-items to have blank lines between them.  Having a preview would still be nice, both .md and .rst always have cases that don't format the way i hoped them to :-X
+    * Item 2d
+    
+
+1.  Numbered list item 1
+1.  Item 2. The numbers are incremented automatically in the output.
+
+Links and images
+------------------------------------------------------------
+
+<http://example.com>
+
+[linked phrase](http://example.com)
+
+![optional caption text](path/to/img.png)
+
+
+

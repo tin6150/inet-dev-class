@@ -13,7 +13,12 @@ BEASTv1.10.5pre_thorney_0.1.2 -- downloaded tgz on zyzyxia: beast  beauti  logan
 
 tracer/ -- java gui from https://github.com/beast-dev/tracer/releases/
 
-figTree -- tree viewer, expect http://tree.bio.ed.ac.uk/software/figtree/ , but down
+figTree -- tree viewer, expect http://tree.bio.ed.ac.uk/software/figtree/ , finally up!
+	git clone https://github.com/rambaut/figtree.git # oops, source only here
+	wget https://github.com/rambaut/figtree/releases/download/v1.4.4/FigTree_v1.4.4.tgz	 # binaries, but it is java!?
 
 DensiTree - another tree viewer, .jar file from https://www.cs.auckland.ac.nz/~remco/DensiTree/
         java -jar DensiTree/DensiTree.v2.2.7.jar
+
+spreaD3 - map visualizer - https://rega.kuleuven.be/cev/ecv/software/SpreaD3_tutorial#sectionFourTwo
+	java -jar spreaD3_v0.9.7.1rc.jar

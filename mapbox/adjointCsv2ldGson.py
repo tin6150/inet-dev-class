@@ -15,9 +15,9 @@
 # - mantissa, exponent, just to try out color and be sure data is there.
 ## adjointCsv2Gson.py add "id" field needed by geojson.ld (but not before)
 
-# example run ++FIXME++ update needed.
 # don't run this python script, use the wrapper shell script: 
-# ./batchCsv2ldGson.sh   # updated to work with  adjoinCsv2gson.py script having 10-tuple, ie include an id field
+# see detail in ./batchCsv2ldGson.sh   , but essentially :
+# ./batchCsv2ldGson.sh 2>&1 | tee ./batchCsv2ldGson.log # updated to work with  adjoinCsv2gson.py script having 10-tuple, ie include an id field
 # it loop over many input file, and generate appropriate output filename
 
 
