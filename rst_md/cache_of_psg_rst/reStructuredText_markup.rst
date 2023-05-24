@@ -147,19 +147,21 @@ But link to just another rst file within the same site, (so that say git backed 
 at least i have not really figured out yet :-/ 
 
 Does this inter-document link work? 
-.. sphynx_link: reStructuredText_sphynx.rst
-:ref:`sphynx_link` 
+.. # sphynx_link: reStructuredText_sphynx.rst
+.. # :ref:`sphynx_link` 
 
 (dash in front of sphynx_link may have broke the rst parser and github rendered this page as just plain code)
 
 or this method with just path:
-:doc:`./reStructuredText_sphynx.rst` : another rst, small, warning about sphynx extension
+.. # :doc:`./reStructuredText_sphynx.rst` : another rst, small, warning about sphynx extension
 
 or this with name and angle bracket
-:doc:`sphynx rst <./reStructuredText_sphynx.rst>`
+.. # :doc:`sphynx rst <./reStructuredText_sphynx.rst>`
 
 or this  with angle bracket
-:doc:`<./reStructuredText_sphynx.rst>`
+.. # :doc:`<./reStructuredText_sphynx.rst>`
+
+.. # some of the above lines seems to have broken rst parser and causing page render to break, commenting them out using dot-dot hack
 
 
 ==========================================================
@@ -619,7 +621,7 @@ colon-word-colon  can be delimiter for doc, ref, download, etc.
 comments
 --------
 
-.. dot-dot is actually command to rst parser, but if it is not understood, it is just skipped, so coaxed as also marker for comment
+.. dot-dot is actually command to rst parser, but if it is not understood, it is just skipped, so coaxed as also marker for comment #dot-dot-hack
 .. this can be used as comment line in rst, ie, not displayed
 .. so vim modeline is set as rst comment
 
