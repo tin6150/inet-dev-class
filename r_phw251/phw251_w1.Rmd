@@ -144,4 +144,42 @@ Links and images
 ![optional caption text](path/to/img.png)
 
 
+```{r scratch pad for phylo birth-death simulation}
+theta  = 0.3
+lambda = theta
+mu     = 0.2
 
+t = 0.03
+
+
+
+
+mu_exp_thingy = mu * exp( -(lambda-mu)*t)
+P_0_numerator   = mu     - mu_exp_thingy
+P_0_denominator = lambda - mu_exp_thingy
+P_0 = P_0_numerator / P_0_denominator
+P_0
+
+( rnd = runif(1) )
+
+
+#u = .986
+u = .327
+t = -log(u, base=exp(1)) / theta
+t
+
+
+myList2 = c( 1,3,4,2,1,1,5 )
+factor(myList2,  ordered=T, levels=c( 2,1,3 ), labels=c( "D","U","T") )
+
+
+factor(myList2,  ordered=T, levels=c( 2,1,3 ), labels=c( "Dos","Uno","Tres") )
+
+
+bla = -1/0
+is.infinite(bla)
+x = NA
+x==NA
+is.na(x)
+
+```
