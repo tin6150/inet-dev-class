@@ -1,0 +1,26 @@
+```{r vfdb}
+
+# snipplet from guat_abricate_analy.Rmd
+# But much of the code is to join and find host org
+# Karly likely do filtering upstream, so won't be needing complex code here
+# JG mentioned dendogram (heatmap?)
+# maybe to show closeness of various isolate
+# ponder later
+
+
+DATADIR="result/"        # Niko proposed a dir structure recommending storing key output in result folder
+vfdb_sum_file = sprintf( "%s/%s", DATADIR, "vfdb_summary.csv" )
+vfdb_sum_tsv = read_tsv( vfdb_sum_file ) 
+
+
+
+vfdb_sum_df = sum_tsv %>% 
+  rename( file_name = '#FILE' ,
+          VF_NUM_FOUND = "NUM_FOUND"
+          )
+
+
+hist( vfdb_sum_df$VF_NUM_FOUND )
+
+
+```
