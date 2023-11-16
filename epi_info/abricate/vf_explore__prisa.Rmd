@@ -1,0 +1,136 @@
+Poking around the vf result from abricate 
+PRISA isolates
+
+
+
+first part is poking on vf (virulence factor) result 
+
+second part is poking on wgs prisa isolate id vs orgnism source, around line 80.
+
+Mint, had to manually add a repo from R-base to get R 4.x
+
+```{r load libs}
+
+#install.packages("pacman")
+library(pacman)
+p_load(dplyr)
+
+#install.packages("dplyr")
+#library(dplyr)
+
+#library( 'magrittr')
+
+
+
+```
+
+# combined tsv
+```{r combined tsv}
+
+
+#file_path_csv="/home/tin/winHome/tin-gh-in1drv/phylo_ic206/prisa"
+file_path_tsv="vf_read/xfer1/combined+head.csv"
+combined = read_tsv( file_path_tsv )
+
+
+
+
+
+
+#View(combined)
+
+summary(combined)
+str(combined)
+
+combined %>% select(DATABASE) %>% unique()
+
+combined %>% filter( is.na( RESISTANCE ) )  # RESISTANCE are all NA
+
+##read_tsv
+
+
+#### my run of abricate with ffn as input , animals, 354 isolates
+#PROKKA_ffn_vf_reads
+#combined.txt  summary.tab  vf.rabbit-K1.txt  vf.rabbit-R21.txt
+
+ffn_vf_combpined_path_tsv="PROKKA_ffn_vf_reads/combined.txt" 
+ffn_combined = read_tsv( ffn_vf_combpined_path_tsv  )
+
+# resistance is still all NA
+#View(ffn_combined)   
+
+
+```
+
+# summary.tab tsv
+```{r summary.tab tsv}
+
+
+summary_path_tsv="vf_read/xfer1/summary.tab"
+summary = read_tsv( summary_path_tsv )
+
+View(summary)
+
+summary(summary)
+str(summary)
+
+```
+
+
+
+```{r wgs}
+
+
+wgs_path="wgs_data_dict/wgs_db_05252022_hka_v2.csv"
+wgs_path="/home/tin/tin-gh/mission2022/prisa/wgs_data_dict/wgs_db_05252022_hka_v2.csv"
+wgs_df = read_csv( wgs_path )
+
+str(wgs_df)
+
+wgs_df %>% select( strain_type ) %>% distinct() %>% pull()
+# only cox as strain
+
+wgs_df %>% select( source ) %>% distinct() %>% pull()
+# watch out for "guinea pig", has space in it!!
+# kid"
+#OrgList="duck dog chicken cow goose guinea pig quail rabbit sheep" 
+
+wgs_df = wgs_df %>% mutate( hhid_num = as.numeric( hhid ))
+
+#XX wgs_df %>% sum( hhid_num, na.rm=T )
+
+summary( wgs_df$hhid_num, na.rm=T )
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+#  1.0   109.0   273.0   280.2   423.0   830.0     598 
+# hhid not likely NODE count in the fasta file.
+
+
+
+str(wgs_df)
+
+#View(wgs_df)
+
+
+
+# should exclude Lorena's since her seq were not part of PRISA
+# Lorena Montero
+wgs_df %>% pull( name) %>% unique()
+
+wgs_df %>% filter( name == "Lorena Montero" ) 
+# 96 rows, all have NA in source, so I never processed any of these.
+wgs_df %>% filter( name == "Lorena Montero" ) %>% pull( source ) %>% unique()
+
+```
+
+
+```{r teapot}
+
+# google drive/gsheet wasn't able to open this file
+# 275k row, is that why gsheet can't open?
+# oh this is the Abricate run I did with Scarlet and Niko helping them make this run on slurm
+file_path2="WGS_TMP/PRISA_vf_ssb_26SEP2022.xlsx"
+teapot = read_xlsx(file_path2)
+
+str(teapot)
+#View(teapot)
+```

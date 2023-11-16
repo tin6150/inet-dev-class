@@ -1,0 +1,3388 @@
+---
+title: "doing stat with Abricate and mlST result from the guatemala AMR data set"
+author: "Tin Ho"
+date: "2023-04-30, 2023-07-14"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+
+```{r setup}
+
+##~ 2023-0619 wombat, somehow not able to start local R
+##~ so using G-applet version (for now)
+##~ some warning on lib load for pacman?  graphics engine is not compatible and plot may not load?  but so far things seems fine.
+
+library(pacman)
+p_load(tidyverse)
+library(magrittr) # for fancy %$%
+
+
+p_load( dplyr )
+p_load( readr )
+p_load( stringr )
+
+
+# there is no built-in NOT in operator in R, so define one as (note the use of backtick around whole operator name):
+# https://stackoverflow.com/questions/38351820/negation-of-in-in-r
+`%nin%` = Negate(`%in%`)
+#-- `int` = as.integer   # shortcut to force an int, eg int(5)  # no longer needed
+
+```
+
+
+# Variable naming
+Gonna use cammel case for names
+and use _ as separator in indicate joined DF and data type (when it is not obvious, or when have _matrix and _df form of essentially the same thing, common in the GIS class)
+eg focusStat_tab
+focusStat_vfgCat_df
+
+
+
+
+
+```{r resultadosDeLasMuestras_xlsx}
+
+# ########################################################################################
+# this block look at ResultadosDeLasMuestras.xlsx to put host org type for each Isolate ID
+# code orig from grupGff.Rmd
+# ########################################################################################
+
+xls_path="../../guatemala_amr/meta-data/ResultosDeLasMuestras.xlsx"  # from Gaby
+#xls_path="TMP/ResultosDeLasMuestras.xlsx"  # from Gaby
+#xls_path="meta-data/ResultosDeLasMuestras.xlsx"  # from Gaby
+
+sourceInfo_df = readxl::read_xlsx( xls_path, sheet="Total Muestras", col_names=T ) %>%
+  rename( "Sample_type" = "Sample type") %>%
+  mutate( ID_root =  str_match( ID, "([:alnum:]+)"  )[,2] ) 
+  #mutate( organism_prefix = str_match( file_name, "([:alpha:]+)[\\-_]+([:graph:]+)\\.gff"  )[,2] ) %>%
+
+# ID have forms like these, the root is just the main ID number without the suffix:
+# SHM020 (1)  ## but not sequenced
+# SHM055
+
+# Isolate ID have forms like:
+# SVB021
+# LPC009-1
+# LPC009-2
+# SHH058-2
+
+fastaName_df = readxl::read_xlsx( xls_path, sheet="Isolates", col_names=T ) %>%
+  rename( "Isolate_ID"="Isolate ID" ) %>%  # tailing space in col name removed by R
+  rename( "DNA_Extraction_ID"="DNA Extraction ID" ) %>%
+  mutate( ID_root =  str_match( Isolate_ID, "([:alnum:]+)"  )[,2] ) 
+
+  
+
+#colnames(fastaName_df)
+
+
+joined_df = right_join( x=sourceInfo_df, y=fastaName_df, by="ID_root" )
+
+# right_join and inner_join both get 75 rows, 
+# left_join and full_join has 30 extra rows than the left table, probably cuz ID_root no longer unique and have 2-3 rows when there are L2, L3
+
+
+
+
+grouped_df = joined_df %>% 
+  mutate( host_org = 
+            case_when( 
+              Sample_type=="non-commercial yellow chicken"  ~ "nc" ,
+              Sample_type=="non-commercial white chicken"   ~ "nc" ,
+              Sample_type=="commercial yellow chicken"      ~ "cc" , 
+              Sample_type=="commercial white chicken"       ~ "cc" , 
+              Sample_type=="toilet paper from men's restroom"     ~ "tp" , 
+              Sample_type=="toilet paper from women's restroom"   ~ "tp" ,
+              Sample_type=="water from Chimaltenango"             ~ "h2" , 
+              Sample_type=="water from men's restroom"            ~ "h2" , 
+              Sample_type=="watercress"                           ~ "wc"
+              #TRUE                                               ~ "ot"
+            )
+          )
+
+
+
+# by here can readily get A## vs host org 
+# THe ## is in the DNA_Extraction_ID
+# DNA_Extraction_ID is the A## we refer to the Isolate as?
+
+# grouped_df %>% head(6)
+
+hostOrgType_Anum = grouped_df %>% 
+  select( host_org, DNA_Extraction_ID, `# of isolates extracted`, `Isolate 1`, `Isolate 2`)
+# above DF don't have "key" for easy joining
+# above DF may never be used, since virulence_vs_resistance DF below likely has all the necessary info
+
+hostOrgType_Anum %>% head(6)
+
+# range( hostOrgType_Anum$DNA_Extraction_ID)
+
+```
+
+
+###########################################
+# here analyze output from abricate and resfinder
+###########################################
+
+https://docs.google.com/document/d/1724rUW9-GlF4jhlUZQSUXDHrkBTsGN2C8Lec6T21qMM/edit#
+
+Research Ideas
+Correlation between number of resistance gene and number of virulence gene
+Correlation between number of classes that have resistance gene (group on higher level) and virulence genes (also group into classes) 
+Sequence types- rank high risk in terms of virulence genes
+ Role of plasmids in virulence genes
+
+
+reading Niko_01, maybe more relevant to create like Table 1, num of beta-lactamase resistance gene, found in X num of isolate, etc?
+
+Hey, ask Niko for code for Fig 1 :)
+
+
+FASTA                                       Num Found
+A26_CKDN220053896-1A_HK7H7DSX5_L2_vfdb.txt  55
+A26_CKDN220053896-1A_HK7KTDSX5_L1_vfdb.txt   0
+^^^                            ^^              Turn out the A26*L1 folder has no real data.
+
+
+# Pick VFDB vs ECVF for source of vfg
+
+```{r vfdb}
+
+#/home/tin/tin-git-Doc/mission2022/guatemala
+
+#DATADIR="MANUAL_DUP/"
+DATADIR="result/"        # 2023-07-08 reprocessed to add A30
+
+
+vfdb_sum_file = sprintf( "%s/%s", DATADIR, "vfdb_summary.csv" )
+vfdb_sum_tsv = read_tsv( vfdb_sum_file ) 
+
+
+# ecoli_vf said to be vfdb + gene from literatur, so more extensive https://github.com/phac-nml/ecoli_vf
+# trying it hoping as plug-in replacement to vfdb_sum_tsv
+
+ecvf_sum_file = sprintf( "%s/%s", DATADIR, "ecoli_vf_summary.csv" )
+ecvf_sum_tsv = read_tsv( ecvf_sum_file ) 
+
+# ++Choose++ Pick VFDB vs ECVF for source of vfg
+sum_tsv = vfdb_sum_tsv    # this results 155 rows
+#sum_tsv = ecvf_sum_tsv   # code support this now, but result list is ~441 rows
+
+# rest of code will be unchanged to use vfdb_sum_df 
+vfdb_sum_df = sum_tsv %>% 
+  rename( file_name = '#FILE' ,
+          VF_NUM_FOUND = "NUM_FOUND"
+          )
+
+
+#View(vfdb_sum_df)
+# str(vfdb_sum_df)
+# class(vfdb_sum_df)  # spec_tbl_df
+
+# range( vfdb_sum_df$VF_NUM_FOUND )
+
+hist( vfdb_sum_df$VF_NUM_FOUND )
+
+```
+
+
+
+```{r vf_explore, eval=F}
+
+# just poking at data early on the project, not useful 
+
+# vfdb_sum_df %>% summary()
+
+
+# vfdb_sum_df %>% group_by( fastaFile, entA ) %>% count(  )
+
+vfdb_sum_df %>% group_by(  entA ) %>% count(  )
+
+# NOTE: total 123 records, some prob duplicate cuz of L1, L2, L3
+
+
+```
+
+# create key for join: VFDB 
+
+```{r vf_key}
+
+# create key for join: VFDB
+# EC-A70_CKDN220053940-1A_HK7Y3DSX5_L1.gff        A70____L1.gff     # Gff file rename
+#    A13_CKDN220053883-1A_HK7KTDSX5_L1_vfdb.txt
+#    ^^^                  H^^^^DSX5 ^^
+#    A10_CKDN220053880-1A_HK7H7DSX5_L3_ecoli_vf.txt
+#                                      ^^^^^^^^       ecvf output filename is slightly changed, adjust #7
+#
+# old parser:
+# mutate( Hnum            = str_match( file_name, "(A[:alnum:]+)[\\-_](CKDN22[:digit:]+)[\\-]([:alnum:]+)[\\-_]H([:alnum:]+)DSX5[\\-_]L([:alnum:]+)\\_vfdb.txt"  )[,5] )%>%
+
+vfdb_sum_df = vfdb_sum_df %>%
+  #                                                2                  3                      4                  5                      6              7
+  mutate( fasta_basename  = str_match( file_name, "(A[:alnum:]+)[\\-_](CKDN22[:digit:]+)[\\-]([:alnum:]+)[\\-_]H([:alnum:]+)DSX5[\\-_]L([:alnum:]+)\\_(vfdb|ecoli_vf).txt"  )[,2] )%>%
+  mutate( Hnum            = str_match( file_name, "(A[:alnum:]+)[\\-_](CKDN22[:digit:]+)[\\-]([:alnum:]+)[\\-_]H([:alnum:]+)DSX5[\\-_]L([:alnum:]+)\\_(vfdb|ecoli_vf).txt"  )[,5] )%>%
+  mutate( Lnum            = str_match( file_name, "(A[:alnum:]+)[\\-_](CKDN22[:digit:]+)[\\-]([:alnum:]+)[\\-_]H([:alnum:]+)DSX5[\\-_]L([:alnum:]+)\\_(vfdb|ecoli_vf).txt"  )[,6] )%>%
+  mutate( key    = str_c( fasta_basename, "_", Hnum, "_L", Lnum,  sep="" ) ) 
+
+vfdb_sum_df  %>%   select( key, file_name, Hnum ) %>%   head(3)
+
+
+```
+
+
+####  
+####  resfinder join with Vfdb should be changed to use the filtered list vfdb_sum_df_filt     ++FIXME++
+####  (or filtered it later?)
+####  
+
+```{r resfinder}
+
+#/home/tin/tin-git-Doc/mission2022/guatemala
+
+#DATADIR="MANUAL_DUP/"
+DATADIR="result/"                # 2023.0708 reprocessed to add A30
+
+resfind_sum_file = sprintf( "%s/%s", DATADIR, "resfinder_summary.csv" )
+resfind_sum_tsv = read_tsv( resfind_sum_file ) 
+
+resfind_sum_df = resfind_sum_tsv %>% 
+  rename( file_name = '#FILE',
+          RES_NUM_FOUND = "NUM_FOUND"
+)
+
+range( resfind_sum_df$RES_NUM_FOUND )
+
+hist( resfind_sum_df$RES_NUM_FOUND )
+
+
+```
+
+
+
+```{r res_key}
+
+
+# A10_CKDN220053880-1A_HK7H7DSX5_L3_resfinder.txt
+
+
+resfind_sum_df = resfind_sum_df %>%
+  #                                                 ,2
+  mutate( fasta_basename  = str_match( file_name, "(A[:alnum:]+)[\\-_](CKDN22[:digit:]+)[\\-]([:alnum:]+)[\\-_]H([:alnum:]+)DSX5[\\-_]L([:alnum:]+)\\_resfinder.txt"  )[,2] )%>%
+  mutate( Hnum            = str_match( file_name, "(A[:alnum:]+)[\\-_](CKDN22[:digit:]+)[\\-]([:alnum:]+)[\\-_]H([:alnum:]+)DSX5[\\-_]L([:alnum:]+)\\_resfinder.txt"  )[,5] )%>%
+  mutate( Lnum            = str_match( file_name, "(A[:alnum:]+)[\\-_](CKDN22[:digit:]+)[\\-]([:alnum:]+)[\\-_]H([:alnum:]+)DSX5[\\-_]L([:alnum:]+)\\_resfinder.txt"  )[,6] )%>%
+  mutate( Extract_ID      = str_match( file_name, "A([:alnum:]+)[\\-_](CKDN22[:digit:]+)[\\-]([:alnum:]+)[\\-_]H([:alnum:]+)DSX5[\\-_]L([:alnum:]+)\\_resfinder.txt"  )[,2] )%>%   # aka DNA_Extract_ID
+  mutate( key    = str_c( fasta_basename, "_", Hnum, "_L", Lnum,  sep="" ) ) 
+  
+
+
+resfind_sum_df %>%
+    select( key, file_name, Hnum ) %>% head(3)
+
+
+```
+
+
+
+
+```{r vf_res}
+
+
+vf_and_res_df = full_join( x=vfdb_sum_df, y=resfind_sum_df, by="key" )
+
+vf_and_res_df %>% head(5)
+
+```
+
+
+# vf, abricate, resfinder
+# + host Org info (from groupGff.Rmd, naming3.sh)
+
+
+```{r vf_res_with_hostOrg}
+
+## grouped_df$DNA_Extraction_ID  ## 2 digits isolate_ID, it is integer
+## Anum ## 2 digits, as text, sans A prefix  , not in this grouped_df
+
+grouped_df = grouped_df %>% mutate(
+  Extract_ID = sprintf( "%d", DNA_Extraction_ID )
+)
+
+#vf_and_res_plus_hostOrg = full_join( x=vf_and_res_df, y=grouped_df, by=c("Extract_ID" = "DNA_Extraction_ID"))
+
+vf_and_res_plus_hostOrg = inner_join( x=vf_and_res_df, y=grouped_df, by="Extract_ID" )
+
+vf_and_res_plus_hostOrg %>% head(5)
+
+outfile="TMP/vf_and_res_plus_hostOrg.TSV"
+write_tsv( vf_and_res_plus_hostOrg, outfile, quote="none", col_names=T)
+
+
+```
+
+# heatmap of host vs RG
+
+
+ref: https://r-graph-gallery.com/215-the-heatmap-function.html
+
+alt heatmaps, see https://www.datanovia.com/en/lessons/heatmap-in-r-static-and-interactive-visualization/
+eg gene expression matrix, from bioconductor
+
+
+Non useful col for heatmap:
+
+str(resfind_sum_df)
+ $ file_name                : chr [1:123] "A10_CKDN220053880-1A_HK7H7DSX5_L3_resfinder.txt" "A10_CKDN220053880-1A_HK7KTDSX5_L2_resfinder.txt" "A11_CKDN220053881-1A_HK7H7DSX5_L3_resfinder.txt" "A11_CKDN220053881-1A_HK7KTDSX5_L2_resfinder.txt" ...
+ $ RES_NUM_FOUND            : num [1:123] 4 4 9 9 10 3 8 15 9 9 ...
+ 
+ $ fasta_basename           : chr [1:123] "A10" "A10" "A11" "A11" ...
+ $ Hnum                     : chr [1:123] "K7H7" "K7KT" "K7H7" "K7KT" ...
+ $ Lnum                     : chr [1:123] "3" "2" "3" "2" ...
+ $ Extract_ID               : chr [1:123] "10" "10" "11" "11" ...
+ $ key                      : chr [1:123] "A10_K7H7_L3" "A10_K7KT_L2" "A11_K7H7_L3" "A11_K7KT_L2" ...
+
+
+```{r heatmap_resfinder_trial, eval=F}
+library( gplots )
+
+# heatmap example
+#-str( mtcars )
+#- View(mtcars)
+# 11 vars, so car/model is not a col... thus matrix is all numeric.  used attributes to create row names?
+heatmap( as.matrix(mtcars) )
+# assign row names using a vector of same length
+# https://stackoverflow.com/questions/50311628/why-is-there-a-no-column-name-for-car-names-in-mtcars-dataset-in-r
+
+# heatmap of host vs RG
+```
+
+
+```{r heatmap_resfinder}
+
+# str(resfind_sum_df)
+#sapply( resfind_sum_df, class ) # also find class of each col. 
+# https://universeofdatascience.com/how-to-convert-all-columns-of-data-frame-to-numeric-in-r/ 
+
+
+hostOrg_df = grouped_df %>% select( Extract_ID, host_org )
+orgSet = c("cc", "nc", "tp")
+
+res_plus_hostOrg = inner_join( x=resfind_sum_df, y=hostOrg_df, by="Extract_ID" ) %>%  filter( host_org %in% orgSet )
+
+#resfind_sum_df.test = resfind_sum_df %>% select( -file_name, -RES_NUM_FOUND ) %>% mutate_at(1:80, as.numeric)
+#resfind_sum_df.test = resfind_sum_df %>% select( -file_name, -RES_NUM_FOUND, -fasta_basename, -Hnum, -Lnum, -Extract_ID, -key ) %>% mutate_at(1:75, as.numeric )
+
+resfind_sum_mat = res_plus_hostOrg %>% select( -file_name, -RES_NUM_FOUND, -fasta_basename, -Hnum, -Lnum, -Extract_ID, -key, -host_org ) %>% mutate_at(1:75, as.numeric ) %>% as.matrix()
+
+#resfind_sum_mat = as.matrix( res_plus_hostOrg_tmp )
+resfind_sum_mat[is.na(resfind_sum_mat)] = 0 # replace NA with 0
+
+#rownames( resfind_sum_mat ) = resfind_sum_df$key  # assign row names using a vector of same length
+#rownames( resfind_sum_mat ) = res_plus_hostOrg$key       # assign row names using a vector of same length
+rownames( resfind_sum_mat ) = res_plus_hostOrg$host_org  # assign row names using a vector of same length
+
+# str( resfind_sum_mat )
+
+#pdf("heatmap_out.PDF", height=20, width=20)  # no usable pdf, cuz can't close dev.off?
+heatmap( resfind_sum_mat, Rowv=NA, Colv=NA )
+# dev.off()
+gplots::heatmap.2( resfind_sum_mat )
+# need to convert the . dot place holder into 0 or NA  ++
+# dendograms are NOT phylo tree!!
+
+
+n.sample=106
+n.rg=75  #  num of registence gene from resfinder
+
+p_load(pheatmap)
+#pdf("pheatmap_out.PDF", height=20, width=20)  # no usable pdf, cuz can't close dev.off?
+pheatmap::pheatmap( resfind_sum_mat, height=22, width=16, fontsize_row=7, fontsize_col=7, gaps_row=seq(10,n.sample,10), gaps_col=seq(10,n.rg,10), cluster_cols=F, cluster_rows=F  )
+pheatmap::pheatmap( resfind_sum_mat, height=22, width=16, fontsize_row=9, fontsize_col=7, gaps_row=seq(10,n.sample,10), gaps_col=seq(10,n.rg,10), cluster_cols=F, cluster_rows=F, filename="FIG_pheatmap_rg.png" )  # file type automagic from ext, cannot be CAPS
+# height and width are in inches!
+#dev.off()  #?
+
+#xx pheatmap::pheatmap( resfind_sum_df.test )
+
+#vf_and_res_plus_hostOrg.mat = as.matrix(vf_and_res_plus_hostOrg)
+
+
+#// heatmap( vf_and_res_plus_hostOrg.mat )
+
+```
+
+
+
+# heatmap of host vs VF
+# heatmap of host vs VF and RG (too big?)
+```{r heatmap_virulence}
+
+#str(vfdb_sum_df)
+#colnames(vfdb_sum_df)
+#colnames(grouped_df)
+
+
+
+#vir_plus_hostOrg_df = inner_join( x=vfdb_sum_df, y=hostOrg_df, by="Extract_ID")  # Extract_ID not in vfdb
+# need to use $key to join with resfind_sum_df to get Extract_ID
+
+resfind_keyAndId = resfind_sum_df %>% select(key, Extract_ID)
+vfdb_wExtId = inner_join( x=vfdb_sum_df, y=resfind_sum_df, by="key")  
+vir_plus_hostOrg_df = inner_join( x=vfdb_wExtId, y=hostOrg_df, by="Extract_ID") %>% filter( host_org %in% orgSet )
+
+#colnames(vir_plus_hostOrg_df)
+#str(vir_plus_hostOrg_df)
+
+vir_plus_hostOrg_mat = vir_plus_hostOrg_df %>% 
+  select( -file_name.x, -VF_NUM_FOUND, -fasta_basename.y, -Hnum.y, -Lnum.y, -Extract_ID, -host_org ) %>% 
+  mutate_at(1:240, as.numeric ) %>% as.matrix()
+
+vir_plus_hostOrg_mat[is.na(vir_plus_hostOrg_mat)] = 0  # replace NA with 0
+
+#str(vir_plus_hostOrg_mat)
+#str(vir_plus_hostOrg_df$host_org)
+
+#colnames(vir_plus_hostOrg_filtered)
+
+
+#rownames(vir_plus_hostOrg_mat) = vir_plus_hostOrg_df$host_org
+
+#vir_plus_hostOrg_df$host_org
+#class( vir_plus_hostOrg_mat )
+
+#?? heatmap( vir_plus_hostOrg_mat,  Rowv=NA, Colv=NA )
+#?? pheatmap::pheatmap( vir_plus_hostOrg_mat )
+
+# View(vir_plus_hostOrg_mat)
+
+#n.sample=106
+n.vf=231  # vfdb
+n.vf=529  # ecvf  ## ++ oh well, borked for ecvf.... hard to interpret fig anyway
+
+#~heat map code broke after changing to from vfdb to ecvf, cuz too many col?
+#~pheatmap::pheatmap( vir_plus_hostOrg_mat, height=18, width=28, fontsize_row=9, fontsize_col=7, gaps_row=seq(10,n.sample,10), gaps_col=seq(10,n.vf,10), cluster_cols=F, cluster_rows=F  )
+#~pheatmap::pheatmap( vir_plus_hostOrg_mat, height=18, width=28, fontsize_row=9, fontsize_col=7, gaps_row=seq(10,n.sample,10), gaps_col=seq(10,n.vf,10), cluster_cols=F, cluster_rows=F, filename="FIG_pheatmap_vf.png" )  # file type automagic from ext
+
+# height and width are in inches!
+
+
+
+
+
+```
+
+
+
+
+# create simple table (pasted to gdoc), save to tsv
+
+eg output of TSV
+
+isolate VF_NUM_FOUND    RES_NUM_FOUND   host_org        Sample_type
+A10_K7H7_L3     56      4       nc      non-commercial yellow chicken
+A10_K7KT_L2     56      4       nc      non-commercial yellow chicken
+...
+A45_K7H7_L2     42      7       tp      toilet paper from men's restroom
+A45_KCC7_L4     42      4       tp      toilet paper from men's restroom
+A46_K7H7_L2     57      6       cc      commercial yellow chicken
+
+
+```{r create_summary_output_to_tsv}
+
+virulence_vs_resistance = vf_and_res_plus_hostOrg %>% select( key, VF_NUM_FOUND, RES_NUM_FOUND, host_org, Sample_type ) %>% 
+  rename(isolate=key)
+
+virulence_vs_resistance %>% head(5)
+
+outfile="TMP/virulence_vs_resistance.TSV"
+write_tsv( virulence_vs_resistance, outfile, quote="none", col_names=T)
+
+```
+# ~~~~~ code reorg_1 pasted here , long done
+
+# R studio will detect outside changes and ask if reload (assuming it would loose local edit)
+# VScode just load file without warning, erasing old edit for sure!
+
+
+```{r testing_ground, eval=F}
+
+test_str = "A30_CKDN220053900-1A_HK7HVDSX5_L1"
+test_str = str_replace_all( test_str, "[\\-_]", "")
+test_str
+
+
+```
+
+# filter for final_isolate_list only  (72 isolate, I narrow it to 64, actually 61)
+
+```{r vf_filter}
+
+# 2023-0708 
+# 
+# filtered list per "final_isolate_list.csv", eg
+#                 v                   # separators are not consistent :-/
+# A9_CKDN220053879-1A_HK7KTDSX5_L2
+# A9_CKDN220053879_1A_HK7KTDSX5_L2    # separators are not consistent :-/
+# A30_CKDN220053900-1A_HK7HVDSX5_L1  
+# A   C             N  H         L  ... these add up to form ACNHL :)
+# really just need to strip out "_vfdb.txt" from the filename
+# create a isolate ID thing that can be 
+
+#-- vfdb_sum_df %>% filter( fasta_ACNHL %in% "A13_CKDN220053883_1A_HK7H7DSX5_L3")
+
+
+vfdb_sum_df = vfdb_sum_df %>%
+  #                                                vA                C                    N               H                    L          v
+  #mutate( fasta_ACNHL_tmp  = str_match( file_name, "(A[:alnum:]+[\\-_]CKDN22[:digit:]+[\\-][:alnum:]+[\\-_]H[:alnum:]+DSX5[\\-_]L[:alnum:]+)\\_vfdb.txt"  )[,2] ) %>%
+  mutate( fasta_ACNHL_tmp  = str_match( file_name, "(A[:alnum:]+[\\-_]CKDN22[:digit:]+[\\-][:alnum:]+[\\-_]H[:alnum:]+DSX5[\\-_]L[:alnum:]+)\\_(vfdb|ecoli_vf).txt"  )[,2] ) %>%
+  mutate( fasta_ACNHL      = str_replace_all( fasta_ACNHL_tmp, "[\\-_]", ""))  # strip out the separators -_
+
+
+# vfdb_sum_df %>% head(5)
+# vfdb_sum_df  %>% select( fasta_ACNHL, fasta_basename, Lnum ) %>% head(2)
+
+
+#keep_list_csv = read_csv( "../../guatemala_amr/meta-data/meta-data/final_isolate_list.csv", col_names=F)
+keep_list_csv = read_csv( "meta-data/final_isolate_list.csv", col_names=F)
+#keep_list_csv = read_csv( "./final_isolate_list.csv", col_names=F)
+#class(keep_list_csv)
+#str(keep_list_csv)
+
+keep_list = keep_list_csv %>%
+  mutate( fasta_ACNHL      = str_replace_all( X1, "[\\-_]", "")) %>%  # strip out the separators -_
+  select( fasta_ACNHL )
+
+#str(keep_list)  
+#keep_list %>% head(7)
+#keep_list = c("A9_CKDN220053879_1A_HK7KTDSX5_L2", "A30_CKDN220053900-1A_HK7HVDSX5_L1", "A13_CKDN220053883_1A_HK7H7DSX5_L3")
+
+vfdb_sum_df_filt = vfdb_sum_df  %>%
+  filter( fasta_ACNHL %in% keep_list$fasta_ACNHL )
+
+vfdb_sum_df_filt %>% tail(2) # this is good df containing the 72 desired isolates from the final_isolate_list.csv 
+
+#str( vfdb_sum_df_filt ) # tibble [72 × 167] (S3: tbl_df/tbl/data.frame)
+
+#colnames(vfdb_sum_df_filt)  # no host org type here  72 rows, some are likely not org that I care... need to filter them out.  there is "key"
+
+
+
+
+```
+
+# merge vfdb_sum_df_filt   with hostOrgType info (from virulence_vs_resistance )
+
+
+```{r vfdb_filtered_JOIN_hostOrgType__b4PivotLonger}
+
+# some sort of join of above
+vfdbFilt72_hostOrg = left_join( 
+  x=vfdb_sum_df_filt,
+  y=virulence_vs_resistance,
+  by=c("key"="isolate")     ) 
+
+# str(vfdbFilt72_hostOrg )  # tibble [72 × 171] (S3: tbl_df/tbl/data.frame)
+
+
+human_chix = c( "nc", "cc", "tp" )
+
+vfdbFilt64_hostOrg = vfdbFilt72_hostOrg %>%
+  filter( host_org %in% human_chix )     # 22 cc, 31 nc, 18 tp , 61 total (was hoping for 64)
+  #filter( host_org %nin% human_chix )   # 10 h2o, 1 watercress
+
+
+
+# renaming, rest of code doesn't care too much which filtered version I use.
+# which also means renaming some column that got suffix by JOIN
+vfdbFilt_hostOrg = vfdbFilt64_hostOrg %>%
+  rename( VF_NUM_FOUND = VF_NUM_FOUND.x ) %>%
+  select( -VF_NUM_FOUND.y)
+
+# str(vfdbFilt_hostOrg )  # vfdb: tibble [61 × 171] (S3: tbl_df/tbl/data.frame)  ## why 61??  # lost 3 isolate...  
+#                           ecvf: tibble [61 × 459] (S3: tbl_df/tbl/data.frame)   # ecvf has 459 instead of 171 cols!
+
+
+isolate_counts_table = vfdbFilt_hostOrg %>% 
+  group_by( host_org ) %>% count()
+isolate_counts_table
+# this is important, cross check i have the samples I am expecting!
+# at this point have only 61 isolates... was expecting 64 :-\
+# lost: 1 from cc, 2 from nc, which ones?!
+# have: 22 cc, 31 nc, 18 tp
+# result used below, search for
+#cc_total = isolate_counts_table[isolate_counts_table$host_org=="cc", "n"]
+#nc_total = isolate_counts_table[isolate_counts_table$host_org=="nc", "n"]
+#tp_total = isolate_counts_table[isolate_counts_table$host_org=="tp", "n"]
+
+```
+
+# Niko final_isolate_list.csv has 72 entries
+the vfdb_sum_df has 124  (those are the number of fasta in assembled-sequences_sn, including A30)
+so 52 rows are dropped
+and I lost 3 records for human_chix
+trying to get details here
+
+```{r digging_what_isolates_got_dropped, eval=F}
+
+vfdb_sum_df_dropping = vfdb_sum_df  %>%
+  filter( fasta_ACNHL %nin% keep_list$fasta_ACNHL )
+
+count(vfdb_sum_df_dropping)
+# dropping 52 rows 
+
+vfdbDroped_hostOrg = left_join(
+  x=vfdb_sum_df_dropping,
+  y=virulence_vs_resistance,
+  by=c("key"="isolate")     ) 
+
+vfdbDroped_keyDetail = vfdbDroped_hostOrg %>%
+  select( fasta_basename, Lnum, Hnum, host_org, Sample_type, VF_NUM_FOUND.x )
+
+
+write_tsv( vfdbDroped_keyDetail, "TMP/vfdbDroped_keyDetail.TSV", quote="none", col_names=T)
+# annotated and saved to final_isolate_list.vfdbDroped_keyDetail.annotated.tsv
+# these are the isolates dropped after filtering with the final_isolate_list.   much of them cuz of multiple L1,L2.L3. a few, found 2, maybe 4 total, seems to be two version (Hnum) for same A15, A23, unless the Ann is assigned by mistake and they are indeed different sample.  but they didn't make it to Niko's final isolate list.
+
+
+```
+
+
+####
+#### TODO heatmap VFG vs isolate (with hostOrg), filtered by Niko keep list (and CC,NC,TP) 
+####
+
+2023-0812
+new try at heatmap, after JG 2023_Buberg paper Fig 4 page 7
+file:///H:/My%20Drive/BL4bDrv/mph_hw__inBL4bDrv/mph_prj_bioinfo/practicum/2023_Buberg_fmicb-14-1050143.pdf
+
+meant to be improvement of {r heatmap_virulence}
+but smaller plot
+also not dealing with resistance gene, but just listing the isolates
+
+higher in code,  found
+n.sample=106
+n.vf=231  # vfdb
+n.vf=529  # ecvf
+
+```{r heatmap_vfg_CcNcTp}
+
+
+#View(vfdbFilt_hostOrg)
+#str(vfdbFilt_hostOrg)  # tibble 61x170.  VFG col 3..
+
+
+
+# vfdb_wGrp_filtHostOrg
+#x vfdbFilt_hostOrg_mat 
+#x vfdb_wGrp_filtHostOrg = vfdbFilt_hostOrg %>%  filter( )
+
+#mlstFilt_hostOrg_wRisk$ST = fct_reorder( mlstFilt_hostOrg_wRisk$ST, mlstFilt_hostOrg_wRisk$RiskLevel, .fun = mean )  
+  
+vfdbFilt_hostOrg_reOrder = vfdbFilt_hostOrg %>% 
+  mutate( host_org_fct = factor(host_org))
+
+#??vfdbFilt_hostOrg_reOrder$fasta_basename = fct_reorder( vfdbFilt_hostOrg_reOrder$fasta_basename, factor(vfdbFilt_hostOrg_reOrder$host_org_fct), .desc=F, .fun=last )
+# synx above is ok, but doesn't sort... cuz host_org is not a factor?  shouldnt matter?   check str() see if it is some group tibble data struct issue?
+#vfdbFilt_hostOrg_reOrder$fasta_basename = fct_reorder( vfdbFilt_hostOrg_reOrder$fasta_basename, factor(vfdbFilt_hostOrg_reOrder$aslA) )
+
+vfdbFilt_hostOrg_reOrder = arrange(vfdbFilt_hostOrg_reOrder, host_org )
+# this sort rows to cc, nc, tp
+
+#View(vfdbFilt_hostOrg_reOrder)
+
+# 
+#n.col=159
+n.col=160  # if number of col in mutate_at below is wrong, not everything is converted to numeric, and eventually result in pheatmap error
+
+#vfdbFilt_hostOrg_mat =  vfdbFilt_hostOrg %>%
+vfdbFilt_hostOrg_mat = vfdbFilt_hostOrg_reOrder %>%
+    #select( -file_name, -VF_NUM_FOUND, -Hnum, -Lnum, -key, -fasta_ACNHL_tmp, -fasta_ACNHL, -RES_NUM_FOUND, -Sample_type ) %>%
+  select( -file_name, -VF_NUM_FOUND, -Hnum, -Lnum, -key, -fasta_ACNHL_tmp, -fasta_ACNHL, -RES_NUM_FOUND, -Sample_type, -host_org, -fasta_basename ) %>%
+  mutate_at(1:n.col, as.numeric ) %>% as.matrix()
+
+# add row names to matrix, likely end up as attributes
+#rownames(vfdbFilt_hostOrg_mat) = str_c( vfdbFilt_hostOrg$fasta_basename , vfdbFilt_hostOrg$host_org, sep="/" )
+#rownames(vfdbFilt_hostOrg_mat) = str_c( vfdbFilt_hostOrg_reOrder$fasta_basename , vfdbFilt_hostOrg_reOrder$host_org, sep=" / " ) 
+rownames(vfdbFilt_hostOrg_mat) = str_c( vfdbFilt_hostOrg_reOrder$host_org , vfdbFilt_hostOrg_reOrder$fasta_basename, sep=" / " ) 
+
+#str(vfdbFilt_hostOrg_mat)
+
+# col 161: host Org
+# col 160: fasta_basename (for the Anum, which is our isolate key)
+# col 1..159 = vfg
+vfdbFilt_hostOrg_mat[is.na(vfdbFilt_hostOrg_mat)] = 0  # replace NA with 0
+
+#num_vfg = 159
+#num_row = 61  # num of isolate I am displaying
+#show_rownames
+# likely need to set attributes for the row names ... ++FIXME
+#tmp> pheatmap::pheatmap( vfdbFilt_hostOrg_mat, label_col=159, show_colnames = T, label_row=1, show_rownames = T , cluster_cols=F, cluster_rows=F )
+#     ^^ too many vfg, need to narrow down
+
+
+# ++FIXME: vfg to highlite (ie filter, hopefully w/ category name)
+#vfg_hilite = read_tsv( "vfg_category.ExPEC_dogs_2020_Kidsley.csv" ) %>% select( GeneSymbol, Category )   # 71 entries here
+#vfg_hilite = read_tsv( "vfg_category.2018_Johnson.csv") %>% select( GeneSymbol, Category) # 24 entries here ... 7 matches
+#vfg_hilite = read_tsv( "vfg_category.2023_Buberg.csv" ) # 2023_Buberg paper from JG 2023-0811
+vfg_hilite = read_tsv( "helper/vfg_category.2019_Sarowska.csv" ) # 2019 paper i found about VFG in ExPEC
+
+#View(vfg_hilite)
+
+#--vfg_CcNcTp_list = colnames( vfdbFilt_hostOrg_mat ) %>% as.list()
+#--View(vfg_CcNcTp_list)
+#xx vfdbHilite_CcNcTp = vfdbFilt_hostOrg_mat[[*vfg_CcNcTp_list]]
+#vfdbHilite_CcNcTp = vfdbFilt_hostOrg_mat %>% select( where( . %in% vfg_hilite$GeneSymbol ) )
+
+# vfg_hilite$GeneSymbol 
+# vfg_category.2018_Johnson.csv, 24 genes:
+# [1] "papA"     "papH"     "papG II"  "sfa/focD" "sfa/focE" "sfaS"     "focG"     "afa/draB" "afa/draC" "iha"      "hra"      "yfcV"     "hlyD"
+# [14] "hlyF"     "cnf1"     "cdtB"     "sat"      "pic"      "vat"      "iroN"     "fyuA"     "ireA"     "iutA"     "chuA"
+
+
+#sn50chrArray = vfg_hilite$GeneSymbol
+#sn50re = paste( vfg_hilite$GeneSymbol, collapse="|" ) 
+#str(sn50re) #  chr "fim|afa|dra|pap|sfa|foc|iha|mat|crl|csg|agn43|ibe|iuc|aer|irp|iroN|chu|hma|sit|traT|KpsMI-neuA|KpsMI|KpsMII|omp"| __truncated__
+# https://stackoverflow.com/questions/2098368/concatenate-a-vector-of-strings-character
+
+####             colnames(vfdbFilt_hostOrg_mat) %in% vfg_hilite$GeneSymbol 
+#-col.idx = which(colnames(vfdbFilt_hostOrg_mat) %in% vfg_hilite$GeneSymbol )
+
+Vfg_hilite_RE = paste( vfg_hilite$GeneSymbol, collapse="|" ) 
+#col.num = which( grepl(vfg_hilite$GeneSymbol, colnames(vfdbFilt_hostOrg_mat), ignore.case=T  ) )
+col.idx = which( grepl(Vfg_hilite_RE, colnames(vfdbFilt_hostOrg_mat), ignore.case=T  ) )
+
+#col.idx
+#length((col.idx)) # 12 matches for vfg_category.2023_Buberg.csv
+#length((col.idx)) # 32 matches for vfg_category.ExPEC_dogs_2020_Kidsley.csv
+# 7 items (matches) for vfg_category.2018_Johnson.csv:
+# [1]   4  84 103 110 127 132 134
+
+vfdbHilite_CcNcTp = vfdbFilt_hostOrg_mat[,sort(c(col.idx))]
+# https://stackoverflow.com/questions/27556353/subset-columns-based-on-list-of-column-names-and-bring-the-column-before-it 
+# last solution, find column index number for col that match name in my list
+# then create new DF by selecting such col numbers
+
+#View(vfdbHilite_CcNcTp)
+#colnames(vfdbHilite_CcNcTp)
+# should be 7 items, now it is
+# [1] "cdtB" "fyuA" "iroN" "iutA" "papH" "pic"  "sat" 
+# note that "papH II" does not map to "papH"
+
+#heatmap(vfdbHilite_CcNcTp, scale = "none") #+ coord_flip()
+
+# cutree_rows=4 no effect?  only if doing clustering?
+#pheatmap::pheatmap( vfdbHilite_CcNcTp, cluster_cols=F, cluster_rows=F, fontsize_row=9, cutree_rows=4, main="VFG for 61 isolates", legend=T, legend_labels=c(50, 100, "gene match %\n") ) 
+
+# p_load(ComplexHeatmap) # not avail for R 4.3 
+#str(vfdbHilite_CcNcTp)
+
+pheatmap::pheatmap( vfdbHilite_CcNcTp, cluster_cols=F, cluster_rows=F, fontsize_row=9,  cutree_rows=4,
+                    #filename="TMP/FIG_pheatmap_hilited_vfg.png",
+                    #filename="TMP/FIG_pheatmap_hilited_vfg.2023_Buberg.png",
+                    filename="TMP/FIG_pheatmap_hilited_vfg.2019_Sarowska.png",
+                    legend=T, 
+                    legend_breaks=c( 25 ,  50 ,  75 ,  100 , max(vfdbHilite_CcNcTp)),
+                    legend_labels=c("25", "50", "75", "100", "gene match %\n"),
+                    main="VFG for 61 isolates" ) 
+
+# title for legend is tricky/painful.  maybe geom_tile() if need more tweaking
+# https://stackoverflow.com/questions/36852101/r-legend-title-or-units-when-using-pheatmap
+
+#pheatmap::pheatmap( vfdbHilite_CcNcTp, cluster_cols=F, cluster_rows=F, fontsize_row=9, filename="TMP/FIG_pheatmap_hilited_vfg.png" )
+#pheatmap::pheatmap( vfdbHilite_CcNcTp, cluster_cols=F, cluster_rows=F, fontsize_row=9  )
+
+#XX vfdbHilite_CcNcTp %>%   ggplot( ) +   geom_tile()  # geom_tile need to pivot_longer(), which may have helped with vfg name filtering, but got that done now.
+
+# pheatmap works when everythign are number.  but need label... 
+
+#pheatmap::pheatmap( vfdbFilt_hostOrg_mat )
+
+
+#pheatmap::pheatmap( vfdbFilt_hostOrg_mat, height=18, width=28, fontsize_row=9, fontsize_col=7, gaps_row=seq(10,num_row,10), gaps_col=seq(10,num_vfg,10), cluster_cols=F, cluster_rows=F  )
+
+#View(vfdbFilt_hostOrg_mat)
+
+```
+
+```{r pheatmap_example_again}
+# https://www.datanovia.com/en/lessons/heatmap-in-r-static-and-interactive-visualization/
+# may have done this before, but need it again hady here
+df <- scale(mtcars)
+pheatmap(df, cutree_rows = 4)
+
+str(df)   # row have attributes for the name
+head(df) 
+```
+
+####  
+####   for now, try to create the table needed for Practicum paper, here for the VFG
+####  
+
+
+pivot_longer...  for the VFG   ... can now use the version with hostOrgType vfdbFilt_hostOrg
+some group by host_org + count( VFG )
+pivot_wider      for the host_org ... 
+
+vfdb_sum_df_filt
+
+```{r vfdb_pivot_longer_method_1_not_using, eval=F}
+
+######################################################
+# Method 1 for picking VFG list, via shell and manual edit,
+# gene list need manual curation in this code
+# ONLY works for few genes, maybe up to 30, 
+# Problem was Rstudio bug, this method no longer needed... using Method 2 that is more automatic for newer data
+######################################################
+
+#See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
+#Error: negative length vectors are not allowed
+# seems like rstudio bug, close data preview window!
+
+colnames_vfdb = tibble( colnames( vfdb_sum_df_filt ) )
+write_tsv( colnames_vfdb, "TMP/colnames_vfdb.tsv", quote="all", col_names=F )
+# cat colnames_vfdb.edited.tsv | xargs -0 -d"\n" | sed 's/\ /,/g'
+# pasted below
+#vfg_list = c( "aslA", "astA" )
+vfg_list = c( "aslA","astA","cdtA","cdtB","cdtC","cesAB","cesD","cesD2","cesF","cesL","cesT","chuS","chuT","chuU","chuV","chuW","chuX","chuY","csgB","csgD","csgE","csgF","csgG","eae","entA","entB","entC","entD","entE","entF","entS","escC","escD","escE","escF","escG","escI","escJ","escL","escN","escO","escP","escR","escS","escT","escU","escV","espA","espB","espD","espF","espH","espJ","espL1","espL4","espR1","espR4","espX1","espX2","espX4","espX5","espY1","espY2","espY3","espY4","etgA","fdeC","fepA","fepB","fepC","fepD","fepG","fes","fimA","fimB","fimC","fimD","fimE","fimF","fimG","fimH","fimI","fliG","fyuA","gspC","gspD","gspE","gspF","gspG","gspH","gspI","gspJ","gspK","gspL","gspM","gtrA","gtrB","ibeA","iroB","iroC","iroD","iroE","iroN","irp1","irp2","iucA","iucB","iucC","iucD","iutA","kpsD","kpsM","kpsT","map","nleA/espI","nleC","nleD","nleH1","ompA","paa","papB","papC","papD","papE","papF","papG","papH","papI","papJ","papK","papX","pic","pscR","sat","sepD","sepL","sepQ/escQ","sfaX","shuA","shuS","shuT","shuX","shuY","sigA","sinH") #,"yagV/ecpE","yagW/ecpD","yagX/ecpC","yagY/ecpB","yagZ/ecpA","ybtA","ybtE","ybtP","ybtQ","ybtS","ybtT","ybtU","ybtX","ykgK/ecpR" )
+#
+vfdb_piv_lng = vfdb_sum_df_filt %>%
+  pivot_longer( all_of(vfg_list), names_to="vfg", values_to="pct_match" )     # 
+  #pivot_longer( vfg_list, names_to="vfg", values_to="pct_match" )            # works up to list of 50 genes
+  #pivot_longer( c("aslA", "astA"), names_to="vfg", values_to="pct_match" )   # works
+
+str(vfdb_piv_lng)  # tibble [144 × 167] (S3: tbl_df/tbl/data.frame)
+```
+
+
+
+
+```{r vfdb_pivot_longer_method_2_using_THIS, eval=T}
+######################################################
+# Method 2, try to keep everything in R
+# but maybe list is too big.  only work for up to 30 rows
+# Seems like Rstudio bug, closed data preview window and things works now!
+# Using this method now.
+######################################################
+
+#col_rm = c("file_name", "VF_NUM_FOUND")
+col_rm = c("#FILE", "NUM_FOUND")
+
+col_keep = c( "file_name", "VF_NUM_FOUND", "fasta_ACNHL", "vfg", "pct_match")
+col_keep = c( "file_name", "VF_NUM_FOUND", "fasta_ACNHL", "vfg", "pct_match", "fasta_basename", "Hnum", "Lnum", "key")
+#col_keep = c( "fasta_ACNHL", "vfg", "pct_match")
+
+
+colnames_vfdb = tibble( colnames( sum_tsv )  )   # now need to use sum_tsv so above can switch b/w vfdb vs ecvf
+
+colnames_vfdb = colnames_vfdb %>% 
+  filter( `colnames(sum_tsv)` %nin% col_rm ) #%>%
+  #head(155)  # works for small list, up to 50.  55 would lead to error in pivot_longer... but turn out to be RStudio BUG
+  #filter( `colnames(vfdb_sum_tsv)` %in%  vfg_list )      # tmp test only
+
+#colnames_vfdb
+
+
+str( colnames_vfdb[[1]] ) # char [1:159], as needed for arg of pivot_longer
+# colnames_vfdb[[1]]
+# get Error: negative length vectors are not allowed
+# which maybe memory error.  head()
+
+#vfdb_piv_lng = vfdb_sum_df_filt %>%
+vfdb_piv_lng =   vfdbFilt_hostOrg %>%    # this version has hostOrgType now 
+  #pivot_longer( aslA:eae, names_to="vfg", values_to="pct_match" )    # this syntax work
+  #pivot_longer( aslA:ybtX, names_to="vfg", values_to="pct_match" ) 
+  #pivot_longer( colnames_vfdb[[1]], names_to="vfg", values_to="pct_match" )  # works for small list, up to 50.  55 get error... seems Rstudio BUG
+  pivot_longer( colnames_vfdb[[1]], names_to="vfg", values_to="pct_match" )   %>%
+  select( col_keep ) %>%
+  filter( ! pct_match==".")
+
+
+str(vfdb_piv_lng)  # tibble [11,448 × 5] (S3: tbl_df/tbl/data.frame)  # before remove "empty" match (those with .)
+                   # tibble  [3,910 × 5] (S3: tbl_df/tbl/data.frame)  #  after remove "empty"
+                   # tibble  [3,464 × 9] (S3: tbl_df/tbl/data.frame)  #  after narrow to 61 human+chix host Org source
+                   # tibble [10,608 × 9] (S3: tbl_df/tbl/data.frame)  # ecvf
+
+
+
+vfdb_piv_lng %>% tail(3)
+
+# Error: negative length vectors are not allowed
+# is cuz the rows are not unique? as obtained when rbinding same table twice  
+# THIS>> it seems to be a rstudio bug that goes away when data preview window is closed??
+```
+
+
+####  next need to add host_org info into vfdb_piv_lng
+####  then can do group_by and count...
+
+use the "key" field, there should be code later that join with grouped_df
+(and now created a hostOrgType_Anum)
+
+see way later after creating virulence_vs_resistance df/TSV
+search for vfdb_piv_lng_with_hostOrg}
+
+
+
+
+#### 2023.0709
+####  next need to add host_org info into vfdb_piv_lng
+####  then can do group_by and count...
+
+use the "key" field, there should be code later that join with grouped_df
+(and now created a hostOrgType_Anum), but likely can just use above virulence_vs_resistance
+
+add vfdb_piv_lng
+
+add hostOrgType before pivot longer... ++
+
+```{r vfdb_piv_lng_with_hostOrg}
+
+# vfdb_piv_lng
+
+#vfdb_piv_lng %>% tail(3)  # can use key?
+#virulence_vs_resistance %>% tail(3)
+#virulence_vs_resistance %>% select( host_org ) %>% unique()
+
+human_chix = c( "nc", "cc", "tp" )
+
+# some sort of join of above
+vfdb_piv_lng_hostOrg = left_join( 
+  x=vfdb_piv_lng,
+  y=virulence_vs_resistance,
+  by=c("key"="isolate")     ) 
+
+# vfdb_piv_lng_hostOrg %>% tail(3)
+
+vfdb_bySrc = vfdb_piv_lng_hostOrg %>%
+  select( key, vfg, pct_match, host_org, Sample_type) %>% 
+  filter( host_org %in% human_chix )
+
+#vfdb_bySrc %>% tail(3)
+#View(vfdb_bySrc)
+
+## Practicum Guatemala AMR VFG paper... 
+## ok, group by above DF and count... 
+
+
+vfdb_bySrc_count = vfdb_bySrc %>% 
+  select( host_org, vfg ) %>%
+  group_by( vfg ) %>%
+  count( host_org )  %>% 
+  pivot_wider( names_from=host_org, values_from=n) %>% 
+  replace( is.na(.), 0 )   # replace na with 0 on all cells
+
+
+#vfdb_bySrc_count %>% tail(10)
+head(vfdb_bySrc_count)
+
+#xx vfdb_bySrc_count_piv_wide = vfdb_bySrc_count
+
+```
+
+
+
+# > vfg Venn diagram
+
+```{r vfgVenn}
+
+
+# text in figure is NOT readable :/ 
+# so going to have to extract the text for each section
+# and try to draw venn diagram manually
+
+vfgVenn_CcNcTp = vfdb_bySrc_count %>% filter( cc > 0, nc > 0, tp > 0); vfgVenn_CcNcTp
+
+vfgVenn_CcNc   = vfdb_bySrc_count %>% filter( cc > 0,  nc >  0, tp == 0); vfgVenn_CcNc
+vfgVenn_CcTp   = vfdb_bySrc_count %>% filter( cc > 0,  nc == 0, tp >  0); vfgVenn_CcTp
+vfgVenn_NcTp   = vfdb_bySrc_count %>% filter( cc == 0, nc >  0, tp >  0); vfgVenn_NcTp
+
+vfgVenn_Cc     = vfdb_bySrc_count %>% filter( cc >  0,  nc == 0, tp == 0); vfgVenn_Cc
+vfgVenn_Nc     = vfdb_bySrc_count %>% filter( cc == 0,  nc >  0, tp == 0); vfgVenn_Nc
+vfgVenn_Tp     = vfdb_bySrc_count %>% filter( cc == 0,  nc == 0, tp > 0 ); vfgVenn_Tp
+
+#str(vfgVenn_Tp)  # gropd_df
+
+
+CcNcTp_vfgList = list(vfgVenn_CcNcTp %>% pull(vfg)); noquote(CcNcTp_vfgList)
+
+CcNc_vfgList = list(vfgVenn_CcNc %>% pull(vfg)); noquote(CcNc_vfgList)
+CcTp_vfgList = list(vfgVenn_CcTp %>% pull(vfg)); noquote(CcTp_vfgList)
+NcTp_vfgList = list(vfgVenn_NcTp %>% pull(vfg)); noquote(NcTp_vfgList)
+
+Cc_vfgList = list(vfgVenn_Cc %>% pull(vfg)); noquote(Cc_vfgList)
+Nc_vfgList = list(vfgVenn_Nc %>% pull(vfg)); noquote(Nc_vfgList)
+Tp_vfgList = list(vfgVenn_Tp %>% pull(vfg)); noquote(Tp_vfgList)
+
+str(CcNcTp_vfgList)  # 91 vfg
+str(CcNc_vfgList)    # 12 vfg
+str(Nc_vfgList)      # 45 vfg
+
+# ~~~~ above manual calc is not used in ggVenn below
+
+
+# https://www.geeksforgeeks.org/how-to-create-a-venn-diagram-in-r/
+p_load(ggvenn)
+
+#View(vfdb_bySrc_count)
+# can just feed the element to ggVenn and ggvenn figures out where intersects are
+vfg_cc = vfdb_bySrc %>% filter( host_org == "cc" ) %>% pull( vfg )
+vfg_nc = vfdb_bySrc %>% filter( host_org == "nc" ) %>% pull( vfg )
+vfg_tp = vfdb_bySrc %>% filter( host_org == "tp" ) %>% pull( vfg )
+
+#str(vfg_cc)
+
+vfgVenn_list = list( `cc`=vfg_cc, 
+                     `nc`=vfg_nc, 
+                     `tp`=vfg_tp   )
+
+
+
+ggvenn(vfgVenn_list, show_elements=T, show_percentage=F, show_outside="always", text_size=1.1 ) +
+  labs( title="Venn Diagram of Virulenge Factor Genes")  #+
+  #geom_venn(  position="jitter" ) 
+  # auto_scale=T only supported for 2 sets 
+
+# stVenn_list not avail till Line 2035, so execute there
+#stVenn_list = list( `cc`=st_cc, `nc`=st_nc,  `tp`=st_tp   )  # orig defined ~ Line 2035
+#ggvenn(stVenn_list, show_elements=T, show_percentage=F, show_outside="always", text_size=2.5 ) +
+#  labs( title="Venn Diagram of Virulenge Factor Genes")
+# need to click on ZOOM to have large display canvas to read text
+
+
+
+```
+
+
+
+# Add VFG gene desc here    7/23 reorg_2
+
+```{r generate_gene_descriptive_info, eval=F}
+
+# one time generation of gene description data
+# result saved to TSV and re-read in later
+# so don't typically need to run this block
+
+# info collected from all the output from vfdb
+# ~/gs/guatemala_amr/assembled-sequences_sn/Abricate_OUT ^**>  cat A*vfdb.txt > ALL_vfdb.TXT
+# need lot of cleaning
+# ALL_vfdb.TXT .
+
+vfgDesc_raw_filename = "./MANUAL_DUP_3/ALL_vfdb.TXT"
+
+vfgDesc_raw = read_tsv( vfgDesc_raw_filename )
+
+vfgDesc = vfgDesc_raw %>%
+  select( GENE, ACCESSION, PRODUCT, RESISTANCE ) %>% 
+  unique() %>% 
+  filter( GENE != "GENE" ) %>%
+  mutate( SRC = "vfdb")
+
+# write this to file for future use
+# cuz could switch computer and won't have that largish ALL_vfdb.TXT file
+# it does mean generating a new file for each new dataset
+
+vfgDesc_resultFilename = "TMP/vfgDesc.tsv"  # manually move afterwards (to main dir, not even in results :D)
+write_tsv( vfgDesc, vfgDesc_resultFilename )
+
+```
+
+```{r generate_gene_descriptive_info_ecvf, eval=F}
+
+# one time generation of gene description data
+# result saved to TSV and re-read in later
+# so don't typically need to run this block
+
+
+## same step as gene description from vfdb, but using result from A*ecoli_vf.txt, which is more extensive
+## cat A*ecoli_vf.txt > ALL_ecvf.TSV
+
+## ecvf has more extensive output
+## here, could likely grab output list from both to compile list of gene description.
+## CONSIDER adding source col...  cuz i want to be able to tell if the vfg was found in vfdb or ecvf... 
+
+## ah, have two TSV, do a join by vfg , can likely have 2 PRODUCT col.  
+
+
+ECvfgDesc_raw_filename = "./MANUAL_DUP_3/ALL_ecvf.TSV"
+
+ECvfgDesc_raw = read_tsv( ECvfgDesc_raw_filename )
+
+ECvfgDesc = ECvfgDesc_raw %>%
+  select( GENE, ACCESSION, PRODUCT, RESISTANCE ) %>% 
+  unique() %>% 
+  filter( GENE != "GENE" ) %>%
+  mutate( SRC = "ecvf")
+
+# write this to file for future use
+# cuz could switch computer and won't have that largish ALL_vfdb.TXT file
+# it does mean generating a new file for each new dataset
+
+ECvfgDesc_resultFilename = "TMP/vfgEcDesc.tsv"  # manually move afterwards
+write_tsv( ECvfgDesc, ECvfgDesc_resultFilename )
+
+
+# checking the result
+# count( ECvfgDesc)  # 805 rows
+
+
+# ECvfgDesc %>%   group_by( GENE ) %>% count() %>% filter( n > 1 )
+# 104 duplicates...
+# try join by ACCESSION instead
+
+```
+
+
+## join but __SKIP__
+
+
+## Join the two gene description list 
+## BUT decided to NOT use this  (cuz of M:M relation, overlap hard to handle here)
+
+## and focus Stat table will just use either one vfgDesc.tsv or vfgEcDesc.tst
+## or it can have two columns for PRODUCT description.
+
+
+```{r join_vfdb_ecvf, eval=F}
+
+SKIP_vfgDesc2 = left_join(
+  x=vfgDesc,
+  y=ECvfgDesc,
+  #by="ACCESSION"
+  by="GENE"
+)
+
+#View( vfgDesc2 )
+# full join by ACCESSION has 958 rows, so no overlap in ACCESSION, cuz ECvf is not using REF Seq
+
+# right join by GENE has 818
+# full join by GENE has 847 rows, there were warning about M:M relationships
+# cuz ecvf had 104 rows where gene has multiple accession... 
+SKIP_vfgDesc2 %>%   group_by( GENE ) %>% count() %>% filter( n > 1 )
+
+
+
+```
+
+
+note that papB has no Accession (it still made it to the list, will be in result tsv)
+
+
+# sanity_check_resistance_info
+
+there are some dup, see text after code block
+
+```{r sanity_check_resistance_info}
+
+# TSV was saved in block above that was set to eval=F
+vfgDesc = read_tsv("./vfgDesc.tsv")
+
+# dim(vfgDesc)  # 163 rows
+
+CountingGene = vfgDesc %>% select( GENE ) %>% unique()
+CountingProd  = vfgDesc %>% select( PRODUCT ) %>% unique() 
+CountingAccession = vfgDesc %>% select( ACCESSION ) %>% unique() 
+
+dim(CountingGene)       # 159   so 4 gene are "dup", somehow matched to multiple accession, and have different PRODUCT (description)
+dim(CountingProd )      # 163, so maybe it is cuz accession is diff.
+dim(CountingAccession ) # 163 also .... 
+
+
+vfgDesc %>% 
+  group_by( GENE ) %>% count() %>% filter( n > 1 )
+
+# These are the gene that appeared twice
+# iucA	2			
+# iucB	2			
+# iucC	2			
+# iucD	2	
+# ^^ the dup maybe problem only with output from vfdb, but not ecvf
+
+DupGeneList = c( "iucA", "iucB", "iucC", "iucD")
+vfgDesc %>% filter( GENE %in% DupGeneList )
+
+
+
+```
+when NCBI accession db has duplicate with conflicting entries, what is one to do?
+Pick an arbitrary entry and just keep this in mind... 
+
+
+GENE   ACCESSION  PRODUCT
+
+iucA	NP_755502	(iucA) aerobactin siderophore biosynthesis protein IucD [Aerobactin (VF0229)] [Escherichia coli CFT073]	
+iucB	NP_755501	(iucB) aerobactin siderophore biosynthesis protein IucB [Aerobactin (VF0229)] [Escherichia coli CFT073]	
+iucC	NP_755500	(iucC) aerobactin siderophore biosynthesis protein IucC [Aerobactin (VF0229)] [Escherichia coli CFT073]	
+iucD	NP_755499	(iucD) L-lysine 6-monooxygenase IucD [Aerobactin (VF0229)] [Escherichia coli CFT073]	
+iucD	NP_709457	(iucD) aerobactin synthesis protein IucC lysine 6-monooxygenase [Aerobactin (VF0123)] [Shigella flexneri 2a str. 301]	
+iucC	NP_709456	(iucC) aerobactin synthesis protein IucC [Aerobactin (VF0123)] [Shigella flexneri 2a str. 301]	
+iucB	NP_709455	(iucB) aerobactin synthesis protein IucB [Aerobactin (VF0123)] [Shigella flexneri 2a str. 301]	
+iucA	NP_709454	(iucA) aerobactin synthesis protein IucA [Aerobactin (VF0123)] [Shigella flexneri 2a str. 301]
+
+
+```{r no_longer_needed_trying_to_do_diff_to_find_duplicate_gene_didnt_work, eval=F}
+
+AUniq = vfgDesc %>% unique( ) %>% select( ACCESSION )
+AFull = vfgDesc %>% select( ACCESSION ) 
+
+str(AFull)
+setdiff( AUniq, AFull )  # this is like diffing 2 files
+
+#x GUniq = array_branch( unique( vfgDesc$GENE ), margin=NULL )  
+#x GFull = array_branch( vfgDesc$GENE , margin=NULL)
+
+
+#x GUniq = list( ( vfgDesc %>% select( GENE ) %>% unique() )$GENE )
+#x GFull = list( ( vfgDesc %>% select( GENE )  )$GENE )   # list of 1 :\   created extra wrapper, not needed
+
+GUniq = ( vfgDesc %>% select( GENE ) %>% unique() )$GENE    # this generate character vector that can use setdiff() on
+GFull = ( vfgDesc %>% select( GENE )  )$GENE 
+  
+str(GUniq)
+str(GFull)
+#x dim(GUniq)
+#x dim(GFull)
+
+setdiff( GUniq, GFull )  # this isn't exactly like diffing 2 files
+setdiff( GFull, GUniq )
+intersect( GFull, GUniq )  # 159 uniq genes.  so didn't see which one was dup :(
+# duh, just do a group_by!
+
+
+# papB has no Accession
+
+
+# https://stackoverflow.com/questions/17598134/compare-two-character-vectors-in-r
+# they are character vector (not list)
+A = c("Dog", "Cat", "Mouse")
+B = c("Tiger","Lion","Cat")
+str(A)
+
+setdiff(A,B)
+setdiff(A,GUniq)
+union(A,GUniq)
+intersect(A,GUniq)  # character(0)   means nothing in common, probably also means no diff
+intersect(A,B)
+
+```
+
+
+
+
+```{r vfg_add_gene_category}
+
+#vfdb_stat_tab %>% head(10)
+
+
+#?? should no longer need this>>
+#// focusVfg_list = c("papA", "papH", "papG", "sfa", "afa/draB", "fim", "sepQ/escQ")
+
+#// focusStat_tab = vfdbStat_tab %>%  filter( vfg %in% focus_vfg_list )
+#// using vfg category file for filter instead
+
+#focusStat_tab %>% head(20)
+
+# ++FIXME++ CHECK   there are number of rows where FisherTest or ChiSqTest has result of 1.0, artifact/limitation of the algorithm used?
+#   blueberries... we did lot of tests... some will by accident fit in the 0.05 p.value?  not for Fisher Exact?
+#   well, many paper do the same large number of genes comparison... 
+# ++ Ask a statistician :)
+
+# read a vfg.tsv
+# geneName  category  Include Note
+# papA      adhesin   Y       source etc
+# hlyD      toxin     N
+
+# if no category, don't display
+# may need several version of such table.
+# the include is in case I decide to still exclude even if has category
+
+vfgCategory_filename = "./helper/vfg_category.2018_Johnson.csv"
+vfgCategory_tsv = read_tsv( vfgCategory_filename )
+
+#problems(vfgCategory_tsv)
+#many cells are optional and have no values, its fine
+
+## Diff Marker.  Reorg_2 up to here works fine.   TMP ERASEME ++
+
+#### table need to change vfdbStat_tab not avail this early NOW ++FIXME++
+# left_join if don't need to see what was in the list that we didn't hit
+# full join allow see what list in vfgCat that we don't have a match in this isolate list
+#vfgStat_vfgCat = left_join(
+# new name for vfg table, since don't currently have stat.  replaces vfgStat_vfgCat
+#vfg_byOrg_wCat = full_join(
+vfg_byOrg_wCat = left_join(
+  x = vfdb_bySrc_count,  #vfdbStat_tab,
+  y = vfgCategory_tsv,
+  by = c("vfg" = "GeneSymbol")
+) %>%
+  mutate_at(vars(cc, nc, tp), ~replace_na(., 0))
+## full join result in gene+cat that has no occurance in sample, resulting in NA
+## thus the extra mutate replace_na
+# but may really want to use inner_join left_join so that there isn't such artifact
+#    it is only useful for discussion, bad for publication
+
+# View(vfg_byOrg_wCat)
+#xx vfgStat3_vfgCat %>% head(20)
+
+#focus_vfgStat_CcNcTp = vfgStat3_vfgCat %>%  select( -Include, -Note ) %>% filter( !is.na(Category) )  # show only if gene is categorized, only 6 match for now
+#xx focus_vfgStat_CcNcTp = vfgStat3_vfgCat %>%  select( -Include, -Note ) 
+
+vfg_byOrg_wCat = vfg_byOrg_wCat %>%  select( -Include, -Note ) 
+# ^^^^ for now dropping the column that i never populated into the tsv:
+```
+
+```{r vfg_addGeneInfo}
+## cp from vfg_CcNcTp_addGeneInfo
+
+# gene "PRODUCT" descrition previously preocessed above and stored in
+# vfgDesc
+# here actually overwritting it
+# cuz block above has eval=F and don't expect to run it in future
+
+vfgDesc_resultFilename_IN_1 = "./vfgDesc.tsv"     # from vfdb
+vfgDesc_resultFilename_IN_2 = "./vfgEcDesc.tsv"   # from EColi_vf
+vfgDesc = read_tsv( vfgDesc_resultFilename_IN_1 )
+vfgDesc = read_tsv( vfgDesc_resultFilename_IN_2 )   # argg... this result in 1:M join and many dups genes with diff gi:ACCESSION  814 rows
+
+
+#focusStat_geneDesc = left_join(
+#focusStat_geneDesc = dplyr::inner_join(
+vfg_byOrg_wDesc = dplyr::inner_join(  
+  x = vfg_byOrg_wCat, #xx focus_vfgStat_CcNcTp,
+  y = vfgDesc,
+  by = c("vfg" = "GENE")
+) %>% group_by( vfg ) %>% slice(1)
+
+
+#View(vfg_byOrg_wDesc)
+
+```
+
+
+```{r nc_only_vfg_info}
+
+# to help write paper only
+# characterizing what vfg are present in the nc exclusive group, which is a very large set.
+
+# vfgVenn_Nc     = vfdb_bySrc_count %>% filter( cc == 0,  nc >  0, tp == 0); vfgVenn_Nc
+
+ncOnly_vfg_wDesc = left_join(
+  x = vfgVenn_Nc,
+  y = vfg_byOrg_wDesc,
+  by = "vfg"
+)
+
+
+## add a vfg category file, this one from 2020_Kidsley ExPEC in dogs, 
+## should do this higher up, maybe compined into single csv.
+## but only got 1 match, ibeA invasin
+
+#vfgCategory_2 = read_tsv( "vfg_category.ExPEC_dogs_2020_Kidsley.csv" )
+# dropped GeneDesc col, as won't be populating that manually
+
+# new combo table
+#vfgCategory = read_tsv( "TMP/vfg_category.combo.TSV" )
+vfgCategory = read_tsv( "helper/vfg_category.combo.TSV" )
+
+
+ncOnly_vfg_wDesc = left_join(
+  x = vfgVenn_Nc,
+  y = vfgCategory,
+  by = c( "vfg" = "GeneSymbol" )
+)
+
+#View( ncOnly_vfg_wDesc )
+head( ncOnly_vfg_wDesc )
+
+```
+
+
+
+# generate stat table of the VFG FisherTest
+
+oh, have 72 genes here... not 64?
+need better filtering in earlier process before pivot_longer  ++  think done by now
+
+```{r vfdb_stat_tab}
+
+#  2023.0709, 2023.0723 reorg_2
+
+# get count from isolate_counts_table above
+# rather than what I expect!
+
+
+# original expectation, 64 total
+#cc_total = 6+7
+#nc_total = 18+15
+#tp_total = 17+1
+#isolate_counts_table  # defined around Line 563
+cc_total = as.integer( isolate_counts_table[isolate_counts_table$host_org=="cc", "n"] )
+nc_total = as.integer( isolate_counts_table[isolate_counts_table$host_org=="nc", "n"] )
+tp_total = as.integer( isolate_counts_table[isolate_counts_table$host_org=="tp", "n"] )
+xc_total = cc_total + nc_total  # used when doing combined cc + nc
+
+
+#cc_total
+n.isolate = cc_total + nc_total + tp_total  # this and cc_total are also used later in {r group_prevalence_phylogrp_tab}
+#n.isolate
+
+# used below in stat table comparing tp vs cc / nc
+n.cctp = cc_total + tp_total  # number of sub samples, cc + tp only (dropped nc here)  # use below by PhyloGroup etc
+n.nctp = nc_total + tp_total  # number of sub samples, nc + tp only (dropped cc here)  # use below by PhyloGroup etc
+
+
+# new DF/table col should be: vfg, cc, cc_neg, nc, nc_neg, tp, tp_neg, stat
+# stat could be fisher_exact... fisher.test()...
+#xx vfdbStat_tab = vfdb_bySrc_count
+vfdbStat_tab = vfg_byOrg_wDesc #%>%  replace( is.na(cc), 0 )
+vfdbStat_tab$cc_neg = cc_total - vfdbStat_tab$cc
+vfdbStat_tab$nc_neg = nc_total - vfdbStat_tab$nc
+vfdbStat_tab$tp_neg = tp_total - vfdbStat_tab$tp
+
+#View(vfdbStat_tab)
+#str(vfdbStat_tab)   ## still good: gropd_df [131 × 13] (S3: grouped_df/tbl_df/tbl/data.frame)
+
+## >> for 3x2, when there are 3 variables to compare,  less, greater no longer make sense.  there is one answer, no matter what alternative is used. :D
+
+# fisher.test(rbind(c(1,9,5),c(11,3,5)), alternative="two.sided")$p.value  
+# alternative = "two.sided", "greater" or "less".  for 2 vars, two.sided is default, more conservative, safer.
+
+signif.p.val = 0.05
+
+vfdbStat_tab = vfdbStat_tab %>%
+  mutate( fisherTest = fisher.test( rbind( c( cc,     nc,     tp ), 
+                                           c( cc_neg, nc_neg, tp_neg) ) )$p.value
+  ) %>% mutate(
+          fisherSignif = case_when( fisherTest < signif.p.val  ~ "Y", 
+                                    TRUE ~ "" )
+  ) 
+
+
+vfdbStat_tab = vfdbStat_tab %>%
+  mutate( chiSqTest = chisq.test(   rbind( c( cc,     nc,     tp ), 
+                                           c( cc_neg, nc_neg, tp_neg) )
+                                    )$p.value 
+  ) %>% mutate(
+          chiSqSignif = case_when( chiSqTest < signif.p.val  ~ "Y", 
+                                    TRUE ~ "" )
+  )
+
+#vfdbStat_tab %>% tail(15)
+#View(vfdbStat_tab)
+```
+
+
+# using Prevalence to Normalize, after 7/20 group meeting, but result seems wrong
+actually, see chiSq_fiserhExact.Rmd testing agasint wikipedia examples where i have known results
+chiSq and FisherExact expect count, not proportions, as their formula already account for denominator
+
+```{r fisherTest_with_prevalence_DONT, eval=F}
+
+#### calc prevalence data and use that for FisherTest, result dont seems right
+
+# n.isolate defined earlier , expect 61
+#n.isolate = cc_total + nc_total + tp_total
+#n.isolate
+
+vfdbStat_tab__SAVE = vfdbStat_tab  # backup
+#vfdbStat_tab = vfdbStat_tab__SAVE  # restore
+
+
+# ++FIXME++
+# actually don't think either of these "normalization" with prevalence is the correct thing to do with fisherExact or chiSq
+# so likely should just go with original approach, which included "cc_neg, nc_neg, tp_neg"  and should act as correct denominator
+
+# Prevalece across whole sample size n...   once in %, can calculate Fisher Score, but don't think it is right thing to do
+# cuz Fisher/ChiSq tests always talk about count, not %
+#vfdbStat_tab$cc_prevalence = vfdbStat_tab$cc / n.isolate  
+#vfdbStat_tab$nc_prevalence = vfdbStat_tab$nc / n.isolate
+#vfdbStat_tab$tp_prevalence = vfdbStat_tab$tp / n.isolate
+
+vfdbStat_tab$cc_prevalence = vfdbStat_tab$cc / n.isolate * 100  # mult by 100, kinda like %, to avoid 0 underflow problem
+vfdbStat_tab$nc_prevalence = vfdbStat_tab$nc / n.isolate * 100
+vfdbStat_tab$tp_prevalence = vfdbStat_tab$tp / n.isolate * 100
+vfdbStat_tab$cc_neg_prevalence = vfdbStat_tab$cc_neg / n.isolate * 100
+vfdbStat_tab$nc_neg_prevalence = vfdbStat_tab$nc_neg / n.isolate * 100
+vfdbStat_tab$tp_neg_prevalence = vfdbStat_tab$tp_neg / n.isolate * 100
+
+# This is group stratum total but then all results are 1, so shouldn't be this
+#vfdbStat_tab$cc_prevalence = vfdbStat_tab$cc / cc_total 
+#vfdbStat_tab$nc_prevalence = vfdbStat_tab$nc / nc_total
+#vfdbStat_tab$tp_prevalence = vfdbStat_tab$tp / tp_total
+#vfdbStat_tab$cc_neg_prevalence = vfdbStat_tab$cc_neg / cc_total 
+#vfdbStat_tab$nc_neg_prevalence = vfdbStat_tab$nc_neg / nc_total
+#vfdbStat_tab$tp_neg_prevalence = vfdbStat_tab$tp_neg / tp_total
+
+vfdbStat_tab = vfdbStat_tab %>%
+  mutate( fisherTest_prevalence = fisher.test( rbind( c( cc_prevalence,     nc_prevalence,     tp_prevalence ), 
+                                                      c( cc_neg_prevalence, nc_neg_prevalence, tp_neg_prevalence) )#,
+                                               #simulate.p.value=TRUE
+                                                )$p.value
+  ) %>% mutate(
+          fisherSignif_prevalence = case_when( fisherTest_prevalence < signif.p.val  ~ "Y", 
+                                    TRUE ~ "" )
+  ) 
+
+vfdbStat_tab %>% tail(5)
+#hist( vfdbStat_tab$fisherTest_prevalence)
+
+
+
+normalizeChkVgf = vfdbStat_tab %>%
+  select( vfg, fisherTest, fisherTest_prevalence )  # yeah this is all '1' when use stratum total
+
+#View(normalizeChkVgf)
+
+```
+
+# x Fig 1: Histogram of p-value frequencies, VGF FisherTest 
+
+```{r histOfPval}
+
+# or box plot?
+
+hist( vfdbStat_tab$fisherTest)
+
+o.o5 = "red" # it is letter oh for the variable name, hack for histogram label 
+
+ggplot( data=vfdbStat_tab, aes(x=fisherTest)) + 
+  geom_histogram( color="black", binwidth=0.01) +
+  geom_vline(aes(xintercept=0.05, color=o.o5)) + 
+  labs( title="Histogram of p-value frequencies, at 0.01 increment ")
+
+```
+
+
+
+
+
+```{r join_no_longer_need_after_reorg_2, eval=F}
+
+# this chunk no longer need to run, and won't run
+# but kept here cuz want to keep the info on number of rows that result from various 
+# join methods, albeit that join is done much earlier in the code now
+# mostly reflect diff of vfdb vs ecvf
+
+# gene "PRODUCT" descrition previously preocessed above and stored in
+# vfgDesc
+# here actually overwritting it
+# cuz block above has eval=F and don't expect to run it in future
+
+
+#focusStat_geneDesc = left_join(
+focusStat_geneDesc = dplyr::inner_join(  
+  x = focus_vfgStat_CcNcTp,
+  y = vfgDesc,                      # defined earlier... but this may not be needed after reorg
+  by = c("vfg" = "GENE")
+) %>% group_by( vfg ) %>% slice(1)
+
+# inner_join  vfgDesc get 133 rows
+# left_join   vfgDesc get 461 rows, 56 stat sig entries
+
+# left_join   vfgEcDesc get 814 rows, 181 stat sig entries, cuz of dup
+# inner_join  vfgEcDesc get 800 rows, 181 stat sig entries, cuz of dup... so didn't get rid of dups
+
+# inner_join  vfgEcDesc +slide(1) get 443 rows, 56 stat sig entries, so back to prev vfdb result count.  use this!
+```
+
+
+#########
+#########  Possible output table: focus_vfgStatCcNcTp  3var cc nc tp
+#########
+
+# xx deprecated Table 1: VFG Fisher 3col (focusStat_geneDesc ie cleaned tab, w/ desc)
+++redo with 2col comparison 
+
+```{r vfg_focus_CcNcTp}
+#focusStat_geneDesc = focusStat_geneDesc %>%
+focus_vfgStat_CcNcTp = vfdbStat_tab %>%
+  select( -PRODUCT, -RESISTANCE, -cc_neg, -nc_neg, -tp_neg, -SRC )    
+  #select( -GeneDesc, -RESISTANCE, -cc_neg, -nc_neg, -tp_neg, -SRC )    
+  #select( -GeneDesc, -fisherTest1s, -RESISTANCE, -cc_neg, -nc_neg, -tp_neg, -SRC )
+  #select( -GeneDesc, -chiSqTest, -chiSqSignif, -cc_neg, -nc_neg, -tp_neg, -SRC )
+
+#write_tsv( focusStat_geneDesc, "TMP/focusStat_geneDesc_vfdb.TSV", quote="none", col_names=T)
+# write_tsv( focus_vfgStat_CcNcTp, "TMP/focus_vfgStat_CcNcTp.TSV", quote="none", col_names=T)   # not really useful anymore
+
+#View( focus_vfgStat_CcNcTp )
+
+## 
+## The 24 found from vfdb have Accession#.  Those without accession# are found by ecvf
+## (both input source vfdb and ecvf works, very minimal changes needed (filename suffice), already fixed)
+
+```
+
+
+# >>  Table VFG_1: VFG Fisher xc vs human : focus_vfgStat_xcTp
+```{r vfgStat_xcTp}
+
+vfgStat_xcTp = vfdbStat_tab  
+vfgStat_xcTp$xc = vfgStat_xcTp$cc + vfgStat_xcTp$nc
+vfgStat_xcTp$xc_neg = vfgStat_xcTp$cc_neg + vfgStat_xcTp$nc_neg
+
+vfgStat_xcTp = vfgStat_xcTp %>%
+  mutate( fisherTest_xcTp = fisher.test( rbind( c( xc,     tp ),
+                                                c( xc_neg, tp_neg) ) )$p.value
+  ) %>% mutate(
+          fisherSignif_xcTp = case_when( fisherTest_xcTp < signif.p.val  ~ "*",
+                                    TRUE ~ "" )
+  )
+
+vfgStat_xcTp$xc_prevalence = vfgStat_xcTp$xc / xc_total
+vfgStat_xcTp$tp_prevalence = vfgStat_xcTp$tp / tp_total
+
+#str(vfgStat_xcTp)
+#View(vfgStat_xcTp)
+
+focus_vfgStat_xcTp = vfgStat_xcTp %>%
+  rename( Desc = PRODUCT ) %>%
+  mutate( `A. Prevalence among chicken 3GCR E. coli (n=44)[%]`     = round(xc_prevalence,3)*100 ,
+          `B. Prevalence among human   3GCR E. coli (n=18)[%]`     = round(tp_prevalence,3)*100 ,
+          `Fisher Exact p-value A vs B` = round( fisherTest_xcTp, 2 ),
+          ) %>% select(  vfg,
+                        `A. Prevalence among chicken 3GCR E. coli (n=44)[%]`,
+                        `B. Prevalence among human   3GCR E. coli (n=18)[%]`,
+                        `Fisher Exact p-value A vs B`,
+                        fisherSignif_xcTp ,
+                        Desc # vgf description
+                      )  
+  
+  
+  
+#View(focus_vfgStat_xcTp)
+write_tsv( focus_vfgStat_xcTp, "TMP/focus_vfgStat_xcTp.csv", quote="needed", col_names=T)
+```
+
+# deprecate Table VFG_1: VFG Fisher cc vs human : focus_vfgStat_CcTp
+
+```{r vfgStat_CcTp}
+# stat table of vfg for cc vs tp
+
+vfgStat_CcTp = vfdbStat_tab  %>%   select( -nc, -nc_neg )
+
+vfgStat_CcTp = vfgStat_CcTp %>%
+  mutate( fisherTest = fisher.test( rbind( c( cc,     tp ),
+                                           c( cc_neg, tp_neg) ) )$p.value
+  ) %>% mutate(
+          fisherSignif = case_when( fisherTest < signif.p.val  ~ "Y",
+                                    TRUE ~ "" )
+  )
+
+
+vfgStat_CcTp = vfgStat_CcTp %>%
+  mutate( chiSqTest = chisq.test(   rbind( c( cc,     tp ),
+                                           c( cc_neg, tp_neg) )
+                                    )$p.value
+  ) %>% mutate(
+          chiSqSignif = case_when( chiSqTest < signif.p.val  ~ "Y",
+                                    TRUE ~ "" )
+  )
+
+
+focus_vfgStat_CcTp = vfgStat_CcTp %>%
+  mutate_at(vars(Category), ~replace_na(., "")) %>%
+  select( Category, vfg, cc, tp,  fisherTest, fisherSignif, PRODUCT )
+  #select( -GeneDesc, -RESISTANCE, -cc_neg, -tp_neg, -SRC, -chiSqTest, -chiSqSignif, -ACCESSION ) %>%
+
+#View(vfgStat_CcTp)
+#View(focus_vfgStat_CcTp)
+
+write_tsv( focus_vfgStat_CcTp, "TMP/focus_vfgStat_CcTp.TSV", quote="needed", col_names=T)   # 
+
+```
+
+
+# deprecate Table VFG_2: VFG Fisher Nc vs human : focus_vfgStat_NcTp
+
+```{r vfgStat_NcTp}
+# stat table of vfg for nc vs tp
+
+vfgStat_NcTp = vfdbStat_tab  %>%   select( -cc, -cc_neg )
+
+vfgStat_NcTp = vfgStat_NcTp %>%
+  mutate( fisherTest = fisher.test( rbind( c( nc,     tp ),
+                                           c( nc_neg, tp_neg) ) )$p.value
+  ) %>% mutate(
+          fisherSignif = case_when( fisherTest < signif.p.val  ~ "Y",
+                                    TRUE ~ "" )
+  )
+
+
+vfgStat_NcTp = vfgStat_NcTp %>%
+  mutate( chiSqTest = chisq.test(   rbind( c( nc,     tp ),
+                                           c( nc_neg, tp_neg) )
+                                    )$p.value
+  ) %>% mutate(
+          chiSqSignif = case_when( chiSqTest < signif.p.val  ~ "Y",
+                                    TRUE ~ "" )
+  )
+
+
+focus_vfgStat_NcTp = vfgStat_NcTp %>%
+  mutate_at(vars(Category), ~replace_na(., "")) %>%
+  select( Category, vfg, nc, tp,  fisherTest, fisherSignif, PRODUCT )
+
+#View(vfgStat_NcTp)
+#View(focus_vfgStat_NcTp)
+
+write_tsv( focus_vfgStat_NcTp, "TMP/focus_vfgStat_NcTp.TSV", quote="needed", col_names=T)   # 
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#######################################################
+#######################################################
+This section process mlst output
+#######################################################
+#######################################################
+
+there was a separate guat_mlst_analy.Rmd, 
+file reading and parsing code is from there
+and stat computation is modeled after the vfdb stat calc above
+
+
+
+```{r load_mlst_abricate_output}
+# from guat_mlst_analy.Rmd
+
+#/home/tin/tin-git-Doc/mission2022/guatemala
+#DATADIR="result/"
+mlst_result_file = "result/mlst.all.tsv"  # mlst did insert tab as separator, just need to name it as such
+#mlst_result_file = "result/mlst.EC.all.tsv"  # now using --legacy --schme ecoli which has slightly diff colnames  # not good, need to find non e.coli and filter out, rather than for it
+mlst_tsv = read_tsv( mlst_result_file )
+#View(mlst_tsv)
+
+mlst_df = mlst_tsv  %>%
+  mutate( STnum = replace_na( as.numeric(SeqType), 0 ) ) %>% rename( FILE=Filename)    # mlst.all.tsv ie current output format
+  #mutate( STnum = replace_na( as.numeric(ST), 0 ) )    # mlst.EC.all.tsv  ie legacy format
+# SeqType is chr
+# ST is num
+
+# !! change mlst input from legacy ecoli only output to current output with seqType of other bacterium, about 4 isolate would be filtered out of the 61 CcNcTp, 8 from the 72 final isolate list
+
+
+# sanity check/surveying data
+# hist( mlst_df$ST )   ## no point to treat ST as numeric.  it is really a name.
+# ggplot( data=mlst_df, mapping=aes( x=SeqType )) + geom_bar()
+
+
+# filter for final_isolate_list only  (72 isolate, I might narrow to 64 or 61)
+# modeled after {r vf_filter}
+
+# example input file, tsv, mlst v2.0 format
+# Filename                                PubMLST_scheme_name     SeqType Allele_ID_1     Allele_ID_2     Allele_ID_3     Allele_ID_4 ... 
+# A10_CKDN220053880-1A_HK7H7DSX5_L3.fasta ecoli                   -       adk(6)          fumC(23)        gyrB(3)         icd(18) mdh(9)  purA(8) recA(14)
+# A   C             N  H         L
+# step 1  strip out "_vfdb.txt" from the filename
+# step 1a strip out the - and _ separators so that it is alphanumeric only
+
+# example input file, tsv, mlst --legacy --scheme ecoli 
+# FILE                                    SCHEME  ST      adk     fumC    gyrB    icd     mdh     purA    recA
+# A10_CKDN220053880-1A_HK7KTDSX5_L2.fasta ecoli   -       6       23      3       18      9       8       14
+# A11_CKDN220053881-1A_HK7H7DSX5_L3.fasta ecoli   6448    6       4       32      1       9       8       6
+
+
+mlst_df = mlst_df %>%
+  #                                                vA                C                    N               H                    L          v
+  mutate( fasta_ACNHL_tmp  = str_match( FILE,     "(A[:alnum:]+[\\-_]CKDN22[:digit:]+[\\-][:alnum:]+[\\-_]H[:alnum:]+DSX5[\\-_]L[:alnum:]+).fasta"  )[,2] ) %>%
+  mutate( fasta_ACNHL      = str_replace_all( fasta_ACNHL_tmp, "[\\-_]", ""))  # strip out the separators -_
+
+
+# add key for join use, modeled after {r vf_key}
+mlst_df = mlst_df %>%
+  #                                                2                  3                      4                  5                      6            
+  mutate( fasta_basename   = str_match( FILE,     "(A[:alnum:]+)[\\-_](CKDN22[:digit:]+)[\\-]([:alnum:]+)[\\-_]H([:alnum:]+)DSX5[\\-_]L([:alnum:]+).fasta"  )[,2] )%>%
+  mutate( Hnum             = str_match( FILE,     "(A[:alnum:]+)[\\-_](CKDN22[:digit:]+)[\\-]([:alnum:]+)[\\-_]H([:alnum:]+)DSX5[\\-_]L([:alnum:]+).fasta"  )[,5] )%>%
+  mutate( Lnum             = str_match( FILE,     "(A[:alnum:]+)[\\-_](CKDN22[:digit:]+)[\\-]([:alnum:]+)[\\-_]H([:alnum:]+)DSX5[\\-_]L([:alnum:]+).fasta"  )[,6] )%>%
+  mutate( key    = str_c( fasta_basename, "_", Hnum, "_L", Lnum,  sep="" ) )
+
+#mlst_df  %>%   select( key, Filename, Hnum ) %>%   head(3)
+
+
+
+####
+####
+#### >>> Filter by Niko's keep_list <<<< ####
+####
+####
+
+# keep_list  # this DF was created earlier in {r vf_filter}
+# now really filter for only isolates in keep_list
+
+mlst_df_filt = mlst_df  %>%
+  filter( fasta_ACNHL %in% keep_list$fasta_ACNHL )
+
+
+#str( mlst_df_filt )  
+# tibble [72 × 18] (S3: tbl_df/tbl/data.frame)  # mlst.EC.all.tsv
+# tibble [72 × 22] (S3: tbl_df/tbl/data.frame)  # mlst.all.tsv
+```
+
+
+# merge mlst_df_filt   with hostOrgType info (from virulence_vs_resistance )
+
+
+```{r mlst_filtered_JOIN_hostOrgType__b4PivotLonger}
+
+# mlst equiv of  vfdbFilt_hostOrg DF was created
+# modeled after {r vfdb_filtered_JOIN_hostOrgType__b4PivotLonger} 
+# 
+mlstFilt72_hostOrg = left_join(
+  x=mlst_df_filt,
+  y=virulence_vs_resistance,
+  by=c("key"="isolate")     )
+
+
+# further filter by org type, down to 61 rows
+# human_chix = c( "nc", "cc", "tp" )   ## this was defined earlier
+mlstFilt61_hostOrg = mlstFilt72_hostOrg %>%
+  filter( host_org %in% human_chix )     # 22 cc, 31 nc, 18 tp , 61 total (was hoping for 64)
+  #filter( host_org %nin% human_chix )   # 10 h2o, 1 watercress
+
+
+mlstFilt_hostOrg = mlstFilt61_hostOrg  # vs mlstFilt72_hostOrg which include h2o, watercres
+
+#mlstFilt_hostOrg %>% head(5)
+#str( mlstFilt_hostOrg )  ## tibble [61 × 26] (S3: tbl_df/tbl/data.frame)
+
+#View(mlstFilt_hostOrg)
+head(mlstFilt_hostOrg)
+
+
+mlstFilt_hostOrg %>% 
+  filter( PubMLST_scheme_name != "ecoli" )
+
+
+```
+
+
+# ST w/ vfg box&whisker plot 
+
+
+```{r st_barchart_vfg}
+
+#View(st_bySrc)
+#head(st_bySrc)
+
+# no, need st w/ key info to merge
+#View(mlstFilt_hostOrg)  # has st, fasta_ACNHL VF_NUM_FOUND RES_NUM_FOUND
+head(mlstFilt_hostOrg)  # has st, fasta_ACNHL VF_NUM_FOUND RES_NUM_FOUND
+
+# 2023.0927 kludge, maybe code was moved, there is no ST, so just dup from SeqType... 
+mlstFilt_hostOrg$ST = mlstFilt_hostOrg$SeqType
+
+#so this table has all the info...
+#but ST has multiple fasta, so num_vfg varies... need box-plot...
+
+# calc the group means so that it can be used as labels
+means   <- aggregate(VF_NUM_FOUND ~  ST, mlstFilt_hostOrg, mean)
+medians <- aggregate(VF_NUM_FOUND ~  ST, mlstFilt_hostOrg, FUN=median )
+
+ggplot( mlstFilt_hostOrg, aes( x=ST, y=VF_NUM_FOUND ) ) +
+  geom_boxplot() +
+  #stat_summary(fun=median, colour="darkred", geom="point", shape=18, size=3, show.legend=FALSE) +  
+  geom_text(data = medians, aes(label = round(VF_NUM_FOUND,0), y = 110, angle=90, color="blue", show.legend=F ))  +  # cant change color :\
+  annotate("text", x=0, y=120, label = "Mean Num of VFG:", hjust=-0.1, col="red")  +
+  #geom_text(data = means,   aes(label = round(VF_NUM_FOUND,0), y = 100, angle=90 ))  +
+  #geom_text (aes (label=round(VF_NUM_FOUND),1), y=0, vjust=-0.2, angle=90) +
+  #geom_text (aes (label=round(mean(VF_NUM_FOUND),1)), position=position_stack(), vjust=-0.2) +
+  labs( title="Box and Whisker plot for number of VFG per Sequence Type") +
+  theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1)) 
+  #points( x = 10, y=10 )
+
+# spend a lot of time creating the average values at top...
+# too bad not using this whisker plot, cuz it is so ugly
+
+
+```
+
+
+# Fig ST vs vfg tile plot
+
+```{r geom_tile_st_vfg}
+# somewhat similar to {r st_barchart_vfg} 
+# but using Niko_01 geom_tile() method hm1 (CRE_ecoli_Alameda_plas_res_analysis Alameda_CRE_2022)
+
+
+mlstFilt_hostOrg_wRisk = left_join(
+  x = mlstFilt_hostOrg, 
+  y = stRisk,                      # stRisk loaded earlier by st_bySrc_wRisk
+  by = "ST" )  %>% mutate ( RiskLevel = case_when(
+    grepl( "1|high", Risk, ignore.case=TRUE)    ~  1,
+    grepl( "2|emerging", Risk, ignore.case=TRUE)    ~  2,
+    TRUE ~ 3
+  ) )
+
+mlstFilt_hostOrg_wRisk = mlstFilt_hostOrg_wRisk %>%
+  group_by (ST ) %>% mutate( avgVfgNum = mean(VF_NUM_FOUND ) ) 
+# https://stackoverflow.com/questions/7976001/adding-a-column-of-means-by-group-to-original-data
+# this method of group by and calc the group's average and adding it (repeatedly) as a new column
+# better than using aggregate() 
+
+
+mlstFilt_hostOrg_wRisk$ST = fct_reorder( mlstFilt_hostOrg_wRisk$ST, mlstFilt_hostOrg_wRisk$RiskLevel, .fun = mean )
+#str(mlstFilt_hostOrg_wRisk)
+
+#View(mlstFilt_hostOrg_wRisk)
+
+mlstFilt_hostOrg_wRisk %>%
+  #ggplot( aes(x=ST, y=VF_NUM_FOUND, fill=host_org, alpha=RES_NUM_FOUND)) +   # this setup is hard to parse
+  ggplot( aes(x=ST, y=host_org, fill=(-1)*avgVfgNum)) +    # fill * -1 so that low VFG num is lighter.  
+  #ggplot( aes(x=ST, y=RES_NUM_FOUND, fill=VF_NUM_FOUND)) +  # dont use use VF_NUM_FOUND, randomly pick (the first?) value.  need to calc avg
+  geom_tile(width=0.8, height=0.8) +
+  theme_minimal() + 
+  #theme( axis.title=element_blank())
+  #coord_equal()  + 
+  labs( title="Fig 4. Relative abundance of Virulence Factor Gene per Sequence Type",
+        subtitle="Source: CC: Commercial Chicken; NC: Non-commercial chicken; TP: Toilet Paper (Human)", 
+        fill="Mean Num of VFG"
+        ) +   
+  scale_x_discrete(limits = rev(levels(mlstFilt_hostOrg_wRisk$ST))) +   # REVerse order
+  scale_y_discrete(position = "right") +
+  ylab( "Source") +
+  coord_flip() +
+  theme(axis.text.x = element_text(angle=0, vjust=0.5, hjust=1),
+        axis.text.y = element_text(angle=0, vjust=0.5, hjust=1) ) 
+
+# ST UDIST (-) has 0 or 1 VFG, which is why so light blue near 0
+# there is another one with ~50 vfg... thus need to calc mean (or median?)
+
+```
+
+
+
+# OLD Fig  bar chart ST by host org type
+
+```{r group_count_MLST}
+# Group & Count SeqType (from MLST) by org type
+
+
+st_bySrc = mlstFilt_hostOrg  %>%
+  select( host_org, ST ) %>%   
+  group_by( host_org )   %>% 
+  count( ST ) 
+
+#str(st_bySrc)
+# gropd_df [37 × 3] (S3: grouped_df/tbl_df/tbl/data.frame)
+#st_bySrc %>% head(5)
+
+#str(vfdb_bySrc)  # tibble [3,464 × 5] (S3: tbl_df/tbl/data.frame)   ## before group_by()
+#vfdb_bySrc %>% head(5)
+
+#str(vfdb_bySrc_count)  # gropd_df [155 × 4] (S3: grouped_df/tbl_df/tbl/data.frame)  ## aft  group_by()
+#vfdb_bySrc_count %>% head(5)
+#str(vfdbStat_tab)      # gropd_df [155 × 11] (S3: grouped_df/tbl_df/tbl/data.frame)
+
+# info for writting paper: 30 unique ST + 1 group for unknown 
+#st_Unique_list = st_bySrc %>% pull(ST) %>% unique()
+#str(st_Unique_list) # 31  
+
+```
+
+
+# OLD Fig  bar chart ST by host org type by count
+
+```{r OLD Fig  bar chart ST by host org type by count, eval=F}
+# the pivot_wider() step here changed obj from gropd_df to tibble :-\
+# lost the attr, thus no longer gropd_df 
+# eventually did another group_by to make it gropd_df and fisher.test( rbind(...)) worked better.  it was the rbind not pulling right items for the fisher.test.
+st_bySrc_count <- st_bySrc %>%
+  pivot_wider( names_from=host_org, values_from=n) %>%
+  replace( is.na(.), 0 )   # replace na with 0 on all cells
+
+
+st_bySrc_count %>% head(10)
+str(st_bySrc_count)
+# tibble [31 × 4] (S3: tbl_df/tbl/data.frame)
+# $ ST: chr [1:31] "-" "10" "117" "1485" ...
+# $ cc: int [1:31] 2 1 1 1 1 2 1 2 1 0 ...        # still int... 
+# $ nc: int [1:31] 4 1 0 0 0 0 2 0 1 2 ...
+# $ tp: int [1:31] 0 2 0 0 0 0 0 0 0 0 ...
+
+  
+st_bySrc_count_hack = st_bySrc_count %>%  group_by( ST )  
+# the group_by operation does nothing to the table, but 
+# restore obj to gropd_df [31 × 4] (S3: grouped_df/tbl_df/tbl/data.frame)
+# will fisher.test( rbind(...) ) works correctly now?
+st_bySrc_count = st_bySrc_count_hack
+
+#st_bySrc_count %>% head(10)
+#str(st_bySrc_count)
+#str(st_bySrc_count_hack)
+
+ggplot( data=st_bySrc, mapping=aes(x=ST, y=n, fill=host_org) ) +
+  geom_bar( position="stack",
+            #position="dodge",
+            stat="identity") +
+  geom_text (aes (label=n), position=position_stack(), vjust=-0.2) +
+  labs( title="Sequence Type frequency by host org type") +
+  theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1))
+
+# did not see ST131, there is 1x ST69
+# ST648 has n=9...
+
+```
+# adding prevalence data for ST 
+modeled after "# XX Table 2: phylogroup prevalence by org type
+
+```{r st_prevalence}
+
+#xx st_bySrc_prevalence = st_bySrc       
+st_bySrc_prevalence = st_bySrc_count  # need this pivot_wider version for the prevalence count
+st_bySrc_prevalence$ccPrevalence = st_bySrc_prevalence$cc / n.isolate
+st_bySrc_prevalence$ncPrevalence = st_bySrc_prevalence$nc / n.isolate
+st_bySrc_prevalence$tpPrevalence = st_bySrc_prevalence$tp / n.isolate
+#st_bySrc_prevalence
+
+```
+# parallel to OLD Fig  bar chart ST by host org type but by prevalence instead of by count
+modeled after {r group_count_phylogrp_prevalence}
+
+```{r st_prevalence_bar_graph}
+# need to pivot_longer from the prevalence computation before plot
+st_bySrc_prevalence4plot = st_bySrc_prevalence %>%
+  select( -cc, -nc, -tp ) %>%
+  pivot_longer( c(ccPrevalence,ncPrevalence,tpPrevalence), names_to='OrgType', values_to='Prevalence' ) %>%
+  mutate( host_org = str_match( OrgType, "([:alpha:][:alpha:])Prevalence")[,2])  # rename content inside col since they have been pivoted_wider (used in grouped ST bra graph)
+
+st_bySrc_prevalence4plot = st_bySrc_prevalence4plot %>%
+  mutate( count = Prevalence*n.isolate ) %>%  # reverse eng back, to plot this 
+  mutate( msg = sprintf( "(%d)", count ))
+
+# st_bySrc_prevalence4plot %>% head(10)
+#st_bySrc_prevalence4plot %>% head(5)
+ 
+
+
+ggplot( data=st_bySrc_prevalence4plot, mapping=aes(x=ST, y=Prevalence, fill=OrgType) ) +
+  geom_bar( position="stack",
+            #position="dodge",
+            stat="identity") +
+  #geom_text (aes (label=round(Prevalence,2)), position=position_dodge(width=.7)) +
+  #geom_text (aes (label=msg), position=position_dodge(width=.75), binwidth=25, vjust=-.2, hjust=.5, angle=0 ) +
+  geom_text (aes (label=msg), position=position_stack(), binwidth=25, vjust=-.2, hjust=.5, angle=0 ) +
+  geom_text (aes (label=msg), position=position_stack(), vjust=-.2, angle=0 ) +
+  #geom_text (aes (label=n), position=position_stack(), vjust=-0.2) +
+
+  labs( title="ST Prevalence by host org type",
+        subtitle="Count values in parenthesis, total isolate=61") +
+  theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1))
+
+
+```
+
+# > Fig  bar chart ST grouped by Clinical relevancy
+
+
+```{r bar_plot_st_by_risk_reorder}
+p_load(forcats)
+
+
+#stRisk_raw = read_tsv( './stDesc.Niko.tsv' )
+stRisk_raw = read_tsv( './stDesc.phylogrp.tsv')
+
+stRisk = stRisk_raw %>% mutate(
+  ST = str_match( SequenceType, "ST([:digit:]+)")[,2]
+) 
+
+head(stRisk)
+
+
+st_bySrc_wRisk = left_join(
+  #x = st_bySrc,                 # has host_org that is needed 
+  #x = st_bySrc_prevalence,       # prevalence lost host_org...
+  x = st_bySrc_prevalence4plot,  # OrgType, now have host_org 
+  y = stRisk,
+  by = c( "ST" ) 
+  )  %>% mutate ( RiskLevel = case_when(
+    grepl( "1|high", Risk, ignore.case=TRUE)    ~  1,
+    grepl( "2|emerging", Risk, ignore.case=TRUE)    ~  2,
+    TRUE ~ 3
+  ) ) 
+
+st_bySrc_wRisk = st_bySrc_wRisk %>% mutate(
+  n = Prevalence # lazy kludge so don't have to change the ggplot below when changed from count to prevalence
+)
+
+#st_bySrc_wRisk_TMP_SAVE = st_bySrc_wRisk
+
+head(st_bySrc_wRisk)
+
+#str( st_bySrc_wRisk )
+#count( st_bySrc_wRisk$ST ) # 31 ST
+# 1 in high
+# 3 in emerging
+# rest are in low
+
+# this works!  R cookbook for data visualization 
+# trying https://r-graphics.org/recipe-dataprep-factor-reorder-value#RECIPE-DATAPREP-FACTOR-REORDER-VALUE
+# git log 11f537e has facet_wrap and factor with labels, non worked well, so cleaned out those codes
+
+st_bySrc_wRisk$ST = fct_reorder(st_bySrc_wRisk$ST, st_bySrc_wRisk$RiskLevel, .fun = mean)
+
+#rects <- data.frame(xstart = seq(0.5, 9.5, 1), xend = seq(1.5, 10.5, 1), col = letters[1:10])
+
+# https://stackoverflow.com/questions/9968975/make-the-background-of-a-graph-different-colours-in-different-regions
+# geom_rect as background to plot, could just use multiple geom_rect and code coordinate in each...  
+# this method a tad easier to change positions, and seems to need a data=... clause in geom_rect(), or else the rectangle covers the bars :-\
+# color_hack, didn't work with fill, need more work
+#High_Clinical_Relevance="red"
+# factor labelS show, but color not heeded
+High_Clinical_Relevance=factor("red", labels="High-Risk STs")
+Emerging_Clinical_Relevance=factor("orange", labels="Emerging ExPEC STs" )
+Low_Clinical_Relevance=factor("gold", labels="Less Clinically Relevant STs" )
+
+# bg color for bar plot, coordinate for count (ie n=0..9)
+# bg color for bar plot, coordinate for prevalence (range 0 .. 0.15)  BUT y lower,upper is 0,Inf, so no need to change here
+background <- data.frame(y.lower = 0, 
+                         y.upper = Inf,
+                         x.lower = c(30.5, 27.5, 0),
+                         x.upper = c(31.5, 30.5, 27.5),
+                         col     = c(High_Clinical_Relevance, Emerging_Clinical_Relevance, Low_Clinical_Relevance ) )
+
+
+
+st_bySrc_wRisk  %>%
+  ggplot() +
+  geom_bar( data=st_bySrc_wRisk, stat="identity", aes( x=ST,  y=n, fill=host_org ), show.legend=T ) +  
+  #geom_col() +  #    geom_col()  == geom_bar( stat="identity") 
+  #geom_text( data=st_bySrc_wRisk, aes ( x=ST, y=n, label=n), position=position_stack(), vjust=-0.2) +  # bug in ST'-' 4,2 flipped, why?
+  #guides( fill=F ) + # remove all legend https://r-graphics.org/recipe-legend-remove 
+  #scale_fill_discrete( guide="none" ) +
+  #xlim(-.5,31) +
+  #ylim(0, 10) +
+  geom_rect( data=background, show.legend=F, inherit.aes=F, mapping=aes( ymin=y.lower, ymax=y.upper, xmin=x.lower, xmax=x.upper, fill=col), alpha=0.2 ) +   # legend still show, wonder if it is bug... get newer version?  ++FIXME
+  # below mostly work, but if need data=... clause so that it doesn't cover the bar, then may as well code the coordinates in it.
+  #geom_rect( data=background, mapping=aes( ymin=-.3, ymax=Inf, xmin=30.5, xmax=31.5, fill=High_Clinical_Relevance), alpha=0.1, show.legend=F, inherit.aes=F ) +
+  #geom_rect( data=background, mapping=aes( ymin=-.3, ymax=Inf, xmin=27.5, xmax=30.5, fill=Emerging_Clinical_Relevance ),  alpha=0.1 ) +
+  #geom_rect( data=background, mapping=aes( ymin=-.3, ymax=Inf, xmin=27.5, xmax=30.5), alpha=0.1 ) +
+  coord_flip() + # horizontal bar chart (can also just change the x,y in aes()) 
+  scale_x_discrete(limits = rev(levels(st_bySrc_wRisk$ST))) +   # REVerse order
+  #coord_cartesian(xlim = c(0,32) ) +
+  geom_text( x=31.0, y=.1, label="High-Risk ST") +                        # y=7 when it was count, prevalence max out at 0.15
+  geom_text( x=29.5, y=.1, label="Emerging ExPEC STs") +
+  geom_text( x=14.5, y=.1, label="Less Clinically Relevant STs") +
+  #theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1)) +
+  #labs( title="Sequence Type frequency grouped by Clinical Relevance" )
+  labs( title="Sequence Type Prevalence Grouped by Clinical Relevance",
+        y="Prevalence") # was count (n)
+
+# the saved png text is sharper
+#+ggsave( "./TMP/st_riskLevel.horizontal+Labelled+prevalence.png" )
+
+
+```
+# TMP ST vs phylogroup
+
+Not useful!
+a given ST could falls into 2 different phylogroup.
+eg ST48 in https://www.mdpi.com/2079-6382/10/10/1165
+so neither Bing nor Brad know this, and maybe just giving most frequent phylogroup it read about
+
+
+```{r st_by_phylogrp, eval=F}
+
+# model after {r bar_plot_st_by_risk_reorder}  (which was Niko clinical relevance for each ST)
+# the phylogroup can quickly tell if the ST is likely low clinical relevance...
+# but what source to tell thiese phylogroup is ++FIXME++
+# here from a pig + worker in Vietname
+# prev (abricate?) had no B2... Brad.Google says lots of B2... 
+
+
+
+stPhylo_raw = read_tsv( './stDesc.pig_human.tsv' )
+
+stPhylo_raw = stPhylo_raw %>% mutate(
+  ST = str_match( SequenceType, "ST([:digit:]+)")[,2]
+) 
+
+head(stPhylo_raw)
+
+
+st_byPhyloGrp = left_join(
+  #x = st_bySrc,                 # has host_org that is needed 
+  #x = st_bySrc_prevalence,       # prevalence lost host_org...
+  x = st_bySrc_prevalence4plot,  # OrgType, now have host_org 
+  y = stPhylo_raw,
+  by = c( "ST" ) 
+  ) 
+
+
+head(st_byPhyloGrp)
+
+st_byPhyloGrp %>% 
+  #select(    Phylogroup, ST ) %>% 
+  group_by( ST, Phylogroup ) %>% count()
+
+```
+
+# > Venn diagram for st
+
+the bar chart in {r group_count_MLST} is enough for the info for venn diagram
+https://docs.google.com/presentation/d/1UXr5YqKuFyhqcmURPIUT-AQlvjm79TVL49Gxo4xoeo4/edit#slide=id.g25d2ae703bf_0_5
+but maybe easier still to have R do all the grouping / filtering via tmp code
+
+```{r venn_st}
+
+#View(st_bySrc_count)
+headw(st_bySrc)
+
+# these calculations are for me
+# may need to use this result to create venn diagram manually
+# ggvenn below kinda works, but hard to read, not pretty
+
+stVenn_CcNcTp = st_bySrc_count %>% filter( cc > 0, nc > 0, tp > 0)
+stVenn_CcNcTp
+
+stVenn_CcNc   = st_bySrc_count %>% filter( cc > 0, nc > 0, tp == 0)
+stVenn_CcNc   # ST2973, ST93, - (ie unclassified)
+stVenn_CcTp   = st_bySrc_count %>% filter( cc > 0, nc == 0, tp > 0)
+stVenn_CcTp   #  NIL
+stVenn_NcTp   = st_bySrc_count %>% filter( cc == 0, nc > 0, tp > 0)
+stVenn_NcTp   
+
+
+stVenn_Cc = st_bySrc_count %>% filter( cc > 0, nc == 0, tp == 0)
+stVenn_Cc
+stVenn_Nc = st_bySrc_count %>% filter( cc == 0, nc > 0, tp == 0) 
+stVenn_Nc
+stVenn_Tp = st_bySrc_count %>% filter( cc == 0, nc == 0, tp > 0)
+stVenn_Tp
+str(stVenn_Tp)  # gropd_df
+
+
+CcNc_list = list(stVenn_CcNc %>% pull(ST))
+CcNc_list
+str(CcNc_list)
+CcTp_list = list(stVenn_CcTp %>% pull(ST)) ; CcTp_list # NIL
+
+
+Cc_list = list(stVenn_Cc %>% pull(ST)); noquote(Cc_list)
+Nc_list = list(stVenn_Nc %>% pull(ST)); noquote(Nc_list)
+Tp_list = list(stVenn_Tp %>% pull(ST)); noquote(Tp_list)
+
+stVenn_Cc
+
+# create venn diagram
+# https://www.geeksforgeeks.org/how-to-create-a-venn-diagram-in-r/
+p_load(ggvenn)
+
+#View(st_bySrc)
+# can just feed the element to ggVenn and ggvenn figures out where intersects are
+# so this does not need the calc above, but result not very readable
+st_cc = st_bySrc %>% filter( host_org == "cc" ) %>% pull( ST )
+st_nc = st_bySrc %>% filter( host_org == "nc" ) %>% pull( ST )
+st_tp = st_bySrc %>% filter( host_org == "tp" ) %>% pull( ST )
+
+str(st_cc)
+
+
+stVenn_list = list( `cc`=st_cc, `nc`=st_nc,  `tp`=st_tp   )  
+
+ggvenn(stVenn_list, show_elements=T, show_percentage=F, show_outside="always", text_size=1.1 ) +
+  labs( title="Venn Diagram of Sequence Types")  #+
+  #geom_venn(  position="jitter" ) 
+  # auto_scale=T only supported for 2 sets 
+
+ggvenn(stVenn_list, show_elements=T, show_percentage=F, show_outside="always", text_size=8 ) +
+  labs( title="Venn Diagram of Sequence Types")
+# need to click on ^^ to have large display canvas to read text
+# alt text_size=2.5
+
+
+
+# library("VennDiagram")   has more manual control of overlapping size, but don't know if can display elements
+# the problem is that it treat the list as single long string 
+# may just have to concatenate them manually
+
+```
+
+add info from Top 20 ExPEC
+
+This table is from
+2019 Manges et al
+Global Extraintestinal Pathogenic Escherichia coli (ExPEC) Lineages
+aka Top 20 ExPEC metanalysis
+
+
+
+```{r stStat_xc_tp_prevalence_withDesc}
+
+stDesc_Top20ExPEC_raw_filename = "helper/stDesc.top20.tsv"
+#stDesc_Top20ExPEC_raw_filename = "stDesc.top20.tsv"
+stDesc_raw = read_tsv( stDesc_Top20ExPEC_raw_filename )
+
+# view(stDesc_raw)
+
+# the 95% CI in parenthesis would need more string parsing to make usable
+# but don't currently need it, so just skip over them
+
+
+stDesc = stDesc_raw %>%
+  mutate( ST = str_match( SequenceType, "ST([:digit:]+)" )[,2]  ) %>%
+  select( ST, No.PositiveStudies, SummaryProportion ) %>%
+  group_by( ST )  # ensure resulting obj is group_df and not just tibble.  see hack notes above.
+
+#str(stDesc)       # ensure resulting obj is group_df and not just tibble.  see hack notes above.
+#View(stDesc)
+
+
+
+```
+
+```{r st_bySrc_count__addDesc}
+
+st_bySrc_count_wDesc = left_join(
+  x = st_bySrc_count,
+  y = stDesc,
+  by = "ST"
+)
+
+```
+
+```{r st_stat_table_prep}
+
+# modeled after {r vfdb_stat_tab}
+# the cc_total values were previously calculated in {r vfdb_stat_tab}
+# this is older stat table that maybe deprecated, as it is direct 3 var comparison, cc, nc, tp
+# below will do 2 tables that are pairwise comparison
+
+#stStat_tab = st_bySrc_count
+stStat_tab = st_bySrc_count_wDesc
+stStat_tab$cc_neg = cc_total - stStat_tab$cc
+stStat_tab$nc_neg = nc_total - stStat_tab$nc
+stStat_tab$tp_neg = tp_total - stStat_tab$tp
+# ^^^ above will be re used later in the CcTp NcTp pairwise comp tables below 
+
+# sanity check, do get 61.  so code is fine.  but  not sure if *_neg is really meaningful in this context... ++TODO++
+# sum( stStat_tab$cc, stStat_tab$nc, stStat_tab$tp   )
+
+## >> for 3x2, when there are 3 variables to compare,  less, greater no longer make sense.  there is one answer, no matter what alternative is used. :D
+
+# signif.p.val = 0.05  ## prev defined
+
+#View(stStat_tab)
+#stStat_tab %>% head(5)
+```
+
+
+# deprecated stat table st_stat_table_CcNcTp
+```{r st_stat_table_CcNcTp}
+stStat_CcNcTp = stStat_tab %>%
+  mutate( fisherTest = fisher.test( rbind( c( cc,     nc,     tp ),
+                                           c( cc_neg, nc_neg, tp_neg) ),  
+                                    simulate.p.value=TRUE, 
+                                    alternative="two.sided" )$p.value
+  ) %>% mutate(
+          fisherSignif = case_when( fisherTest < signif.p.val  ~ "Y",
+                                    TRUE ~ "" )
+  )
+# seems to be underflow error, 
+# https://stackoverflow.com/questions/17052639/fisher-test-error-ldstp-is-too-small says to use
+# simulate.p.value=TRUE B=1e7  
+
+
+stStat_CcNcTp = stStat_CcNcTp %>%
+  mutate( chiSqTest = chisq.test(   rbind( c( cc,     nc,     tp ),
+                                           c( cc_neg, nc_neg, tp_neg) ) )$p.value
+  ) %>% mutate(
+          chiSqSignif = case_when( chiSqTest < signif.p.val  ~ "Y",
+                                    TRUE ~ "" )
+  )
+
+
+#View(stStat_tab)
+#str(stStat_tab)
+
+#View(stStat_CcNcTp)
+#str(stStat_CcNcTp)
+```
+
+
+
+```{r histOfPval_st}
+# modeled after {r histOfPval}
+
+
+# o.o5 = "red" # it is letter oh for the variable name, hack for histogram label
+# ^^^^ prev defined in {r histOfPval}
+
+ggplot( data=stStat_CcNcTp, aes(x=fisherTest)) +
+  geom_histogram( color="black", binwidth=0.01) +
+  geom_vline(aes(xintercept=0.05, color=o.o5)) +
+  labs( title="Histogram of p-value frequencies for ST, at 0.01 increment ")
+
+
+```
+
+
+
+```{r stStat_ABBC_prevalence_prep, eval=F}
+
+# similar to {r fisherTest_with_prevalence...}
+# this has prevalence of cc, nc, tp as 3 columns
+
+stStat_ABBC = stStat_tab 
+
+stStat_ABBC$cc_prevalence = stStat_ABBC$cc / cc_total
+stStat_ABBC$nc_prevalence = stStat_ABBC$nc / nc_total
+stStat_ABBC$tp_prevalence = stStat_ABBC$tp / tp_total
+
+#str(stStat_ABBC)
+
+
+```
+
+
+# Deprecate Tab ST_ABBC focus_stStat_CcTp : Stat table for CC vs Human
+
+
+JG wanted chiSq A vs B then B vs C
+A=CC
+B=NC
+C=TP
+
+don't seems to want this anymore, ... new changes, hopefully doesn't affect this, but double check details of column selection if use again
+
+```{r focus_stStat_ABBC_fisher, eval=F}
+## calc statistics, chisq
+## may not use this anymore
+
+stStat_ABBC = stStat_ABBC %>%
+  mutate( chiSqTestAB = chisq.test(   rbind( c( cc,     nc     ),
+                                             c( cc_neg, nc_neg ) ) )$p.value
+  ) %>% mutate(
+          chiSqSignifAB = case_when( chiSqTestAB < signif.p.val  ~ "Y",
+                                      TRUE ~ "" )
+  )
+
+
+stStat_ABBC = stStat_ABBC %>%
+  mutate( chiSqTestBC = chisq.test(   rbind( c( nc,     tp     ),
+                                             c( nc_neg, tp_neg ) ) )$p.value
+  ) %>% mutate(
+          chiSqSignifBC = case_when( chiSqTestBC < signif.p.val  ~ "Y",
+                                      TRUE ~ "" )
+  )
+
+
+## calc statistics, fisher exact
+
+stStat_ABBC = stStat_ABBC %>%
+  mutate( fisherTestAB = fisher.test( rbind( c( cc,     nc     ),
+                                             c( cc_neg, nc_neg ) ),  
+                                    simulate.p.value=TRUE, 
+                                    alternative="two.sided" )$p.value
+  ) %>% mutate(
+          fisherSignifAB = case_when( fisherTestAB < signif.p.val  ~ "Y",
+                                      TRUE ~ "" )
+  )
+
+stStat_ABBC = stStat_ABBC %>%
+  mutate( fisherTestBC = fisher.test( rbind( c( nc,     tp     ),
+                                             c( nc_neg, tp_neg ) ),  
+                                    simulate.p.value=TRUE, 
+                                    alternative="two.sided" )$p.value
+  ) %>% mutate(
+          fisherSignifBC = case_when( fisherTestBC < signif.p.val  ~ "Y",
+                                      TRUE ~ "" )
+  )
+
+# fisher exact A vs C, added 2023.0725
+stStat_ABBC = stStat_ABBC %>%
+  mutate( fisherTestAC = fisher.test( rbind( c( cc,     tp     ),
+                                             c( cc_neg, tp_neg ) ),  
+                                    simulate.p.value=TRUE, 
+                                    alternative="two.sided" )$p.value
+  ) %>% mutate(
+          fisherSignifAC = case_when( fisherTestAC < signif.p.val  ~ "Y",
+                                      TRUE ~ "" )
+  )
+
+
+# fisher exact A vs C, added 2023.0725
+stStat_ABBC = stStat_ABBC %>%
+  mutate( fisherTestAB.C = fisher.test( rbind( c( cc+nc,     tp     ),
+                                             c( cc_neg+nc_neg, tp_neg ) ),  
+                                    simulate.p.value=TRUE, 
+                                    alternative="two.sided" )$p.value
+  ) %>% mutate(
+          fisherSignifAB.C = case_when( fisherTestAB.C < signif.p.val  ~ "Y",
+                                      TRUE ~ "" )
+  )
+
+
+#stStat_ABBC %>% head(6)
+#View(stStat_ABBC)
+
+
+## format table with desired col, rename - chiSq version
+
+focus_stStat_ABBC_chi = stStat_ABBC %>%
+  mutate( `A. Prevalence among commercial chicken 3GCR E. coli (n=12)[%]`     = round(cc_prevalence,3)*100 , 
+          `B. Prevalence among non-commercial chicken 3GCR E. coli (n=31)[%]` = round(nc_prevalence,3)*100 , 
+          `C. Prevalence among human 3GCR E. coli (n=18)[%]`                  = round(tp_prevalence,3)*100 , 
+          `Chi-square p-value A vs B` = round( chiSqTestAB, 2 ), 
+          `Chi-square p-value B vs C` = round( chiSqTestBC, 2 )
+          ) %>% select(1,19:23)  # select can use column index.  1-indexed.
+# don't seems to want this anymore, ... new changes, hopefully doesn't affect this, but double check details of column selection if use again
+
+write_tsv( focus_stStat_ABBC_chi, "TMP/focus_stStat_ABBC_chi.TSV.csv", quote="needed", col_names=T)
+
+
+## format table with desired col, rename - Fisher Exact version
+
+focus_stStat_ABBC_fisher = stStat_ABBC %>%
+  mutate( `A. Prevalence among commercial chicken 3GCR E. coli (n=12)[%]`     = round(cc_prevalence,3)*100 , 
+          `B. Prevalence among non-commercial chicken 3GCR E. coli (n=31)[%]` = round(nc_prevalence,3)*100 , 
+          `C. Prevalence among human 3GCR E. coli (n=18)[%]`                  = round(tp_prevalence,3)*100 , 
+          `Fisher Exact p-value A vs B` = round( fisherTestAB, 2 ), 
+          `Fisher Exact p-value B vs C` = round( fisherTestBC, 2 ),
+          `Fisher Exact p-value A vs C` = round( fisherTestAC, 2 )
+          ) %>% select(1,21:26)  # select can use column index.  1-indexed.
+# don't seems to want this anymore, ... new changes, hopefully doesn't affect this, but double check details of column selection if use again
+
+write_tsv( focus_stStat_ABBC_fisher, "TMP/focus_stStat_ABC_fisher.TSV.csv", quote="needed", col_names=T)
+
+#View(focus_stStat_ABBC_fisher)
+#str(stStat_ABBC)
+
+
+```
+
+
+# >> Tab ST_1 combinted chix vs human  xc vs tp
+2023.0726 
+
+```{r stStat_xc_tp_prevalence}
+
+# similar to above, but now has ( cc + nc) vs  tp, ie as 2 columns
+# ie xc = cc + nc
+
+# xc_total = cc_total + nc_total  #  defined earlier
+# stStat_tab = st_bySrc_count_wDesc  # defined above, now with st Description , as 
+
+stStat_xcTp = stStat_tab   
+stStat_xcTp$xc = stStat_xcTp$cc + stStat_xcTp$nc
+stStat_xcTp$xc_neg = stStat_xcTp$cc_neg + stStat_xcTp$nc_neg
+
+stStat_xcTp$xc_prevalence = stStat_xcTp$xc / xc_total 
+stStat_xcTp$tp_prevalence = stStat_xcTp$tp / tp_total
+
+#str(stStat_xcTp)
+#View(stStat_xcTp)
+
+stStat_xcTp = stStat_xcTp %>%
+  mutate( fisherTest_xcTp = fisher.test( rbind( c( xc,      tp     ),
+                                                c( xc_neg,  tp_neg )  ),  
+                                    simulate.p.value=TRUE, 
+                                    alternative="two.sided" )$p.value
+  ) %>% mutate(
+          fisherSignif_xcTp = case_when( fisherTest_xcTp < signif.p.val  ~ "*",
+                                      TRUE ~ "" )
+  )
+
+
+focus_stStat_xcTp = stStat_xcTp %>%
+  mutate( `A. Prevalence among chicken 3GCR E. coli (n=44)[%]`     = round(xc_prevalence,3)*100 , 
+          `B. Prevalence among human   3GCR E. coli (n=18)[%]`     = round(tp_prevalence,3)*100 , 
+          `Fisher Exact p-value A vs B` = round( fisherTest_xcTp, 2 ), 
+          ) %>% select(  ST, 
+                        `A. Prevalence among chicken 3GCR E. coli (n=44)[%]`,
+                        `B. Prevalence among human   3GCR E. coli (n=18)[%]`,
+                        `Fisher Exact p-value A vs B`,
+                        fisherSignif_xcTp, 
+                        No.PositiveStudies, SummaryProportion   # add description/annotation
+                      )  
+
+write_tsv( focus_stStat_xcTp, "TMP/focus_stStat_xcTp.csv", quote="needed", col_names=T)
+
+
+#View(focus_stStat_xcTp)
+#str(stStat_ABBC)
+```
+
+# ++?? Tab ST_1_a  combinted chix vs human  xc vs tp + ST Description
+
+
+
+# deprecate Tab ST_1 focus_stStat_CcTp : Stat table for CC vs Human
+
+will have a diff  Stat table for NC vs Human later
+
+```{r st_stat_table_CcTp}
+# modeled after {r st_stat_table_CcNcTp} and {r pg_stat_table_cc}
+
+# n.cctp = cc_total + tp_total  # number of sub samples, cc + tp only (dropped nc here)  # reuse later 
+# ^^^^ defined earlier
+
+stStat_CcTp = stStat_tab  %>%   select( -nc, -nc_neg )  
+
+
+#dbgRow = c("dbg", 55,5, 2,3, .1, "D", .1, "D" ) # numbers are parsed as char :-/
+#dbgRow = c(9999, 55,5, 20,30 )
+#str(dbgRow)
+#stStat_CcTp = stStat_CcTp %>% rbind( dbgRow )
+
+# why are all the fisherTest result the same??!!
+# st_bySrc_count_hack above where grouped_df info was lost and had to be restored
+# eventually did another group_by to make it gropd_df and fisher.test( rbind(...)) worked better.  
+# it was the rbind not pulling right items for the fisher.test.
+
+
+stStat_CcTp = stStat_CcTp %>%
+  mutate( fisherTest = fisher.test( rbind( c( cc,     tp ),
+                                           c( cc_neg, tp_neg) ),  
+                                    simulate.p.value=TRUE, 
+                                    alternative="two.sided" )$p.value
+  ) %>% mutate(
+          fisherSignif = case_when( fisherTest < signif.p.val  ~ "Y",
+                                    TRUE ~ "" )
+  )
+
+stStat_CcTp = stStat_CcTp %>%
+  mutate( chiSqTest = chisq.test(   rbind( c( cc,     tp ),
+                                           c( cc_neg, tp_neg) )
+                                   )$p.value )
+
+#pgStat_cctp
+#View(stStat_CcTp)
+#stStat_CcTp %>% head(31)
+
+#str(stStat_tab)
+#str(stStat_CcTp)   # tibble [33 × 9] (S3: tbl_df/tbl/data.frame)   chr[], num[]   (NUM instead of INT, is that a problem for fisher.test?)
+#str(vfdbStat_tab)  # gropd_df [155 × 11] (S3: grouped_df/tbl_df/tbl/data.frame),   chr[], int[]
+#str(vfdb_bySrc_count)
+#str(pgStat_cctp)   # gropd_df [8 × 9] (S3: grouped_df/tbl_df/tbl/data.frame)
+
+
+# add col for   Number and % col(s) that 2018 Johnson ExPEC in Mice reported also
+stStat_CcTp = stStat_CcTp %>%
+  mutate( stCount = cc + tp ) %>%
+  mutate( stPct   = round( stCount / n.cctp *100, 0) )
+
+#sum( pgStat_nctp$phyloGrpPct) # sanity check, it is 100% :)
+
+
+focus_stStat_CcTp = stStat_CcTp %>%
+  mutate( `Num (%)` = sprintf( "%d (%d%%)", stCount, stPct ) ) %>%
+  select( ST, `Num (%)`, cc, tp, fisherTest )
+
+#focus_stStat_CcTp %>% head(31)
+#View(focus_stStat_CcTp)
+
+```
+
+
+
+
+# deprecate Tab ST_2 focus_stStat_NcTp : Stat table for NC vs Human
+
+essentially same as Tab ST_1 above, replace CC with NC
+
+
+```{r st_stat_table_NcTp}
+
+# n.nctp = nc_total + tp_total  # number of sub samples, nc + tp only (dropped cc here)  # reuse below by PhyloGroup
+# ^^^^ defined earlier
+
+stStat_NcTp = stStat_tab %>%
+  select( -cc, -cc_neg )
+
+stStat_NcTp <- stStat_NcTp %>%
+  mutate( fisherTest = fisher.test( rbind( c( nc,     tp ),
+                                           c( nc_neg, tp_neg) ),  
+                                    simulate.p.value=TRUE, 
+                                    alternative="two.sided" )$p.value
+  ) %>% mutate(
+          fisherSignif = case_when( fisherTest < signif.p.val  ~ "Y",
+                                    TRUE ~ "" )
+  )
+
+stStat_NcTp = stStat_NcTp %>%
+  mutate( chiSqTest = chisq.test(   rbind( c( nc,     tp ),
+                                           c( nc_neg, tp_neg) )
+                                   )$p.value )
+
+#View(stStat_NcTp)
+
+
+# add col for   Number and % col(s) that 2018 Johnson ExPEC in Mice reported also
+stStat_NcTp = stStat_NcTp %>%
+  mutate( stCount = nc + tp ) %>%
+  mutate( stPct   = round( stCount / n.nctp *100, 0) )
+
+focus_stStat_NcTp = stStat_NcTp %>%
+  mutate( `Num (%)` = sprintf( "%d (%d%%)", stCount, stPct ) ) %>%
+  select( ST, `Num (%)`, nc, tp, fisherTest )
+
+#View(focus_stStat_NcTp)
+
+
+```
+
+
+
+# ++ maybe a ST table with vgf in them, a count, or list prominent one... 
+
+
+
+
+
+#######################################################################
+#######################################################################
+# phylogroup info, from EzClermont
+#######################################################################
+#######################################################################
+
+```{r ezClermontTsv}
+# DATADIR="result/"  # prev defined
+
+
+ezc_sum_file = sprintf( "%s/%s", DATADIR, "ezclermont.results.tsv" )
+ezc_sum_tsv  = read_tsv( ezc_sum_file )
+
+# prase fasta filename, create key for join, modeled after {r load_mlst_abricate_output}
+
+
+phyloGrp_df = ezc_sum_tsv %>%
+  #                                                vA                C                    N               H                    L          v
+  mutate( fasta_ACNHL_tmp  = str_match( FILE,     "(A[:alnum:]+[\\-_]CKDN22[:digit:]+[\\-][:alnum:]+[\\-_]H[:alnum:]+DSX5[\\-_]L[:alnum:]+)"  )[,2] ) %>%
+  mutate( fasta_ACNHL      = str_replace_all( fasta_ACNHL_tmp, "[\\-_]", ""))  # strip out the separators -_
+
+
+
+# add key for join use, modeled after {r vf_key}
+phyloGrp_df = phyloGrp_df %>%
+  #                                                2                  3                      4                  5                      6
+  mutate( fasta_basename   = str_match( FILE,     "(A[:alnum:]+)[\\-_](CKDN22[:digit:]+)[\\-]([:alnum:]+)[\\-_]H([:alnum:]+)DSX5[\\-_]L([:alnum:]+)"  )[,2] )%>%
+  mutate( Hnum             = str_match( FILE,     "(A[:alnum:]+)[\\-_](CKDN22[:digit:]+)[\\-]([:alnum:]+)[\\-_]H([:alnum:]+)DSX5[\\-_]L([:alnum:]+)"  )[,5] )%>%
+  mutate( Lnum             = str_match( FILE,     "(A[:alnum:]+)[\\-_](CKDN22[:digit:]+)[\\-]([:alnum:]+)[\\-_]H([:alnum:]+)DSX5[\\-_]L([:alnum:]+)"  )[,6] )%>%
+  mutate( key    = str_c( fasta_basename, "_", Hnum, "_L", Lnum,  sep="" ) )
+
+#phyloGrp_df %>% head(3)
+#phyloGrp_df  %>%   select( FILE, PhyloGrp, key, Hnum ) %>%   head(3)
+
+# keep_list  # this DF was created earlier in {r vf_filter}
+# now really filter for only isolates in keep_list
+phyloGrp_df_filt = phyloGrp_df  %>%
+  filter( fasta_ACNHL %in% keep_list$fasta_ACNHL )
+#str( phyloGrp_df_filt )  # tibble [72 × 8] (S3: tbl_df/tbl/data.frame)
+
+
+#### Next, add host org col
+
+
+phyloGrpFilt72_hostOrg = left_join(
+  x=phyloGrp_df_filt,
+  y=virulence_vs_resistance,
+  by=c("key"="isolate")     )
+
+
+# further filter by org type, down to 61 rows
+# human_chix = c( "nc", "cc", "tp" )   ## this was defined earlier
+phyloGrpFilt61_hostOrg = phyloGrpFilt72_hostOrg %>%
+  filter( host_org %in% human_chix )     # 22 cc, 31 nc, 18 tp , 61 total (was hoping for 64)
+  #filter( host_org %nin% human_chix )   # 10 h2o, 1 watercress
+
+
+phyloGrpFilt_hostOrg = phyloGrpFilt61_hostOrg  # vs mlstFilt72_hostOrg which include h2o, watercres
+
+#phyloGrpFilt_hostOrg %>% head(5)
+#str( phyloGrpFilt_hostOrg )  ## tibble [61 × 12] (S3: tbl_df/tbl/data.frame)
+
+
+```
+
+
+# > Table TMP_2:  Phylogroup  count host org type
+
+```{r group_count_phylogrp_tab}
+# Group & Count phylo group  (from EzClermont) by org type
+# essentially same as {r group_count_MLST} 
+
+#pg_vs__4real 
+pg_bySrc = phyloGrpFilt_hostOrg  %>%
+  select( PhyloGrp, host_org ) %>%
+  group_by( PhyloGrp )   %>%
+  count( host_org )
+
+#pg_bySrc %>% head(10)
+
+pg_bySrc_count = pg_bySrc %>%
+  pivot_wider( names_from=host_org, values_from=n) %>%
+  replace( is.na(.), 0 )   # replace na with 0 on all cells
+
+# pg_bySrc_count 
+# table for sanity check, easier to use than plot , but have one with prevalence rate later
+
+```
+
+# XX Table 2: phylogroup prevalence by org type
+7/23: prevalence isn't likely useful here, but still run code cuz one of plot below depend on prevalence (and show it doesn't matter)
+      reran VFDB with prevalence, results looks wrong.  
+      double checked FisherExact, ChiSq wikipedia, stat142 notes, they all use count, not prevalence.
+
+```{r group_prevalence_phylogrp_tab, eval=T}
+
+
+# mostly same as above, but calc prevalence, ie div by 61, num of sample
+# the cc_total and n.isolate values were previously calculated in {r vfdb_stat_tab}
+#n.isolate = cc_total + nc_total + tp_total
+#n.isolate
+
+pg_bySrc_prevalence = pg_bySrc_count
+pg_bySrc_prevalence$ccPrevalence = pg_bySrc_prevalence$cc / n.isolate
+pg_bySrc_prevalence$ncPrevalence = pg_bySrc_prevalence$nc / n.isolate
+pg_bySrc_prevalence$tpPrevalence = pg_bySrc_prevalence$tp / n.isolate
+
+#pg_bySrc_prevalence
+
+```
+
+
+# > Fig TMP_2: bar chart Phylogroup  by host org type
+
+
+```{r group_count_phylogrp_fig}
+
+# this plot does NOT need the pivot_wider data
+
+ggplot( data=pg_bySrc, mapping=aes(x=PhyloGrp, y=n, fill=host_org) ) +
+  geom_bar( position="stack",
+            #position="dodge",
+            stat="identity") +
+  geom_text (aes (label=n), position=position_stack(), vjust=-0.2) +
+  labs( title="Phylogroup frequency by host org type") #+
+  #theme(axis.text.x = element_text(angle=0, vjust=0.5, hjust=1))
+
+# no phylogroup B2!
+
+```
+
+
+# > Fig TMP_2b: bar chart Phylogroup *Prevalence* by host org type
+
+```{r group_count_phylogrp_prevalence}
+# this is the normalized version of above bar graph, ie using prevalence
+
+str(pg_bySrc_prevalence)
+
+# need to pivot_longer from the prevalence computation before plot
+pg_bySrc_prevalence4plot = pg_bySrc_prevalence %>%
+  select( -cc, -nc, -tp ) %>%
+  pivot_longer( c(ccPrevalence,ncPrevalence,tpPrevalence), names_to='OrgType', values_to='Prevalence' )
+# ++ consider rename col
+
+pg_bySrc_prevalence4plot = pg_bySrc_prevalence4plot %>%
+  mutate( count = Prevalence*n.isolate ) %>%  # reverse eng back, to plot this 
+  mutate( msg = sprintf( "(%d)", count ))
+
+# pg_bySrc_prevalence4plot %>% head(10)
+
+ 
+
+
+ggplot( data=pg_bySrc_prevalence4plot, mapping=aes(x=PhyloGrp, y=Prevalence, fill=OrgType) ) +
+  geom_bar( #position="stack",
+            position="dodge",
+            stat="identity") +
+  #geom_text (aes (label=round(Prevalence,2)), position=position_dodge(width=.7)) +
+  geom_text (aes (label=msg), position=position_dodge(width=.75), binwidth=25, vjust=-.2, hjust=.5, angle=0 ) +
+  labs( title="Phylogroup Prevalence by host org type",
+        subtitle="Count values in parenthesis, total isolate=61") #+
+  
+  #theme(axis.text.x = element_text(angle=0, vjust=0.5, hjust=1))
+
+
+# there is a geom_col that can be repeated to create layers  https://stackoverflow.com/questions/31687397/ggplot2-geom-bar-with-group-position-dodge-and-fill
+```
+
+# Add stat table for phylogroup ++FIXME++
+
+Try to use pg_bySrc
+and avoid prevalence, cuz that isn't likely needed
+but have that data already, could swap DF if needed
+
+```{r phyloGrp_pos&neg}
+
+# get cc_neg etc , modeled aft {r st_stat_table}
+# 2018 Johnson ExPEC in mice did this.  PhyloGrp A trait present vs absent.   There is Number and %
+
+
+# cc_total etc defined way up
+  
+#-- pgStat_tab = pg_bySrc  # unpivoted, not 
+pgStat_tab = pg_bySrc_count  # pivot_wider of pg_bySrc
+pgStat_tab$cc_neg = cc_total - pgStat_tab$cc
+pgStat_tab$nc_neg = nc_total - pgStat_tab$nc
+pgStat_tab$tp_neg = tp_total - pgStat_tab$tp  
+
+
+# pgStat_tab %>% head(10)
+
+# modeled after focusStat_geneDesc
+
+```
+
+
+# >> Tab PG_1 focus_pgStat_xcTp : Stat table for CC+NC vs Human
+
+```{r pgStat_xcTp}
+
+pgStat_xcTp = pgStat_tab 
+pgStat_xcTp$xc     = pgStat_xcTp$cc     + pgStat_xcTp$nc
+pgStat_xcTp$xc_neg = pgStat_xcTp$cc_neg + pgStat_xcTp$nc_neg
+
+
+pgStat_xcTp = pgStat_xcTp %>%
+  mutate( fisherTest_xcTp = fisher.test( rbind( c( xc,     tp ),
+                                                c( xc_neg, tp_neg) ) )$p.value
+  ) %>% mutate(
+          fisherSignif_xcTp = case_when( fisherTest_xcTp < signif.p.val  ~ "*",
+                                    TRUE ~ "" )
+  )
+
+pgStat_xcTp$xc_prevalence = pgStat_xcTp$xc / xc_total
+pgStat_xcTp$tp_prevalence = pgStat_xcTp$tp / tp_total
+
+#str(pgStat_xcTp)
+#View( pgStat_xcTp )
+
+focus_pgStat_xcTp = pgStat_xcTp %>%
+  mutate( `A. Prevalence among chicken 3GCR E. coli (n=44)[%]`     = round(xc_prevalence,3)*100 ,
+          `B. Prevalence among human   3GCR E. coli (n=18)[%]`     = round(tp_prevalence,3)*100 ,
+          `Fisher Exact p-value A vs B` = round( fisherTest_xcTp, 2 ),
+          ) %>% select(  PhyloGrp,
+                        `A. Prevalence among chicken 3GCR E. coli (n=44)[%]`,
+                        `B. Prevalence among human   3GCR E. coli (n=18)[%]`,
+                        `Fisher Exact p-value A vs B`,
+                        fisherSignif_xcTp
+                      ) 
+
+# no Desc for PhyloGroup, if table concat don't work, may have to add a dummy column
+
+#View(focus_pgStat_xcTp)
+write_tsv( focus_pgStat_xcTp, "TMP/focus_pgStat_xcTp.csv", quote="needed", col_names=T)
+
+
+```
+
+
+
+create xlsx using 3 csv above, so that number of decimals can be tweaked.  write_tsv may be buggy in how many digits it writes. 
+need to make tables somewhat normalized.  Seems like getting Name (and col 2-4) same name is enough
+can have varynig num of columns and it would just get NA filled for rows that don't have that data.
+rbind is doing exactly what I want! :D
+
+
+```{r writeExcel}
+
+str(focus_pgStat_xcTp)
+str(focus_stStat_xcTp)
+
+
+pgExport = focus_pgStat_xcTp %>%
+  rename( Name = PhyloGrp )
+
+stExport = focus_stStat_xcTp %>%
+  rename( Name = ST )
+
+vfgExport = focus_vfgStat_xcTp %>%
+  rename( Name = vfg )
+
+exportTable = rbind( pgExport , stExport , vfgExport )
+
+head(exportTable)
+
+
+write_tsv( exportTable, "result/fisherExactStats.tsv" )
+
+# export to excel doesn't improve the significant figure.  eg ST648 is 0.05 still, albeit R shows it is 0.04749734
+#p_load(openxlsx)
+#openxlsx::write.xlsx(exportTable,"TMP/fisherExactStats.xslx")   # save to excel
+
+
+```
+
+# deprecate Tab PG_1 focus_pgStat_cctp : Stat table for CC vs Human
+
+will have a diff  Stat table for NC vs Human later
+
+```{r pg_stat_table_cc}
+
+pgStat_cctp = pgStat_tab %>% 
+  select( -nc, -nc_neg )
+
+
+
+pgStat_cctp <- pgStat_cctp %>% 
+  mutate( fisherTest = fisher.test( rbind( c( cc,     tp ),
+                                           c( cc_neg, tp_neg) ),
+                                    simulate.p.value=TRUE,
+                                    alternative="two.sided" )$p.value )  %>%
+  mutate( fisherSignif = case_when( fisherTest < signif.p.val  ~ "Y",
+                                    TRUE ~ "" ) )
+
+#View(pgStat_cctp)
+
+##n.cctp = cc_total + tp_total  # number of sub samples, cc + tp only (dropped nc here)
+## defined earlier now
+# cc_total + tp_total
+# n.cctp = sum( pgStat_cctp$cc + pgStat_cctp$tp )
+# n.cctp  # 30 ## same as cc_total + tp_total
+
+
+# add the col for  Number and % col(s) that 2018 Johnson ExPEC in Mice reported also
+pgStat_cctp = pgStat_cctp %>%
+  mutate( phyloGrpCount = cc + tp ) %>%
+  mutate( phyloGrpPct   = round( phyloGrpCount / n.cctp *100, 0) )
+  
+#sum( pgStat_cctp$phyloGrpPct) # sanity check, it is 100% :)
+
+
+focus_pgStat_cctp = pgStat_cctp %>%
+  mutate( `Num (%)` = sprintf( "%d (%d)", phyloGrpCount, phyloGrpPct ) ) %>%
+  select( PhyloGrp, `Num (%)`, cc, tp, fisherTest )
+  #select( PhyloGrp, phyloGrpCount, phyloGrpPct, cc, tp, fisherTest )
+
+focus_pgStat_cctp %>% head(10)
+
+```
+
+
+# deprecate Tab PG_2 focus_pgStat_nctp : Stat table for NC vs Human
+
+```{r pg_stat_table_nc}
+# equiv of {r pg_stat_table_cc} but with nc instead of cc
+
+pgStat_nctp = pgStat_tab %>% 
+  select( -cc, -cc_neg )
+
+#n.nctp = nc_total + tp_total  # number of sub samples, nc + tp only (dropped cc here)
+##^^^^ defined ealier now
+#n.nctp = sum( pgStat_nctp$nc + pgStat_nctp$tp )
+
+pgStat_nctp <- pgStat_nctp %>% 
+  mutate( fisherTest = fisher.test( rbind( c( nc,     tp ),
+                                           c( nc_neg, tp_neg) ),
+                                    simulate.p.value=TRUE,
+                                    alternative="two.sided" )$p.value )  %>%
+  mutate( fisherSignif = case_when( fisherTest < signif.p.val  ~ "Y",
+                                    TRUE ~ "" ) )
+
+# add col for   Number and % col(s) that 2018 Johnson ExPEC in Mice reported also
+pgStat_nctp = pgStat_nctp %>%
+  mutate( phyloGrpCount = nc + tp ) %>%
+  mutate( phyloGrpPct   = round( phyloGrpCount / n.nctp *100, 0) )
+  
+#sum( pgStat_nctp$phyloGrpPct) # sanity check, it is 100% :)
+
+
+focus_pgStat_nctp = pgStat_nctp %>%
+  mutate( `Num (%)` = sprintf( "%d (%d)", phyloGrpCount, phyloGrpPct ) ) %>%
+  select( PhyloGrp, `Num (%)`, nc, tp, fisherTest )
+
+focus_pgStat_nctp %>% head(10)
+
+
+```
+
+
+#######################################################################
+#######################################################################
+# below are very old code that did various plots to survey the data
+ they were about vfg vs resistance genes
+ may not be useful/relevant anymore
+#######################################################################
+#######################################################################
+
+
+
+# scatter plot res vs vf count, color by approx org type
+
+```{r scatterPlot1}
+# scatter plot, color by Sample_type 
+
+virulence_vs_resistance %>%
+  ggplot() +
+  geom_point( aes( VF_NUM_FOUND, RES_NUM_FOUND, color=Sample_type ))
+# h2 is H2O, wc is watercress.  
+```
+
+
+```{r scatterPlot2}
+# scatter plot, color by host_org (fewer classes than Sample_type)
+
+virulence_vs_resistance %>%
+  ggplot() +
+  geom_point( aes( VF_NUM_FOUND, RES_NUM_FOUND, color=Sample_type )) +
+  facet_wrap( ~host_org, ncol=2 ) + 
+  labs( title="Count of Virulence Factor vs Resistence Gene")
+
+```
+
+```{r scatterPlot3}
+# scatter plot, color by host_org (fewer classes than Sample_type)
+
+virulence_vs_resistance %>%
+  filter( host_org %in% c("cc","nc")) %>%
+  ggplot() +
+  geom_point( aes( VF_NUM_FOUND, RES_NUM_FOUND, color=Sample_type )) +
+  labs( title="Commercial vs Non-Comm, white & yellow")
+
+
+```
+
+```{r scatterPlot4}
+# scatter plot, color by host_org (fewer classes than Sample_type)
+
+virulence_vs_resistance %>%
+  filter( host_org %in% c("cc","nc")) %>%
+  ggplot() +
+  geom_point( aes( VF_NUM_FOUND, RES_NUM_FOUND, color=host_org ))
+
+```
+
+
+```{r ggpairs, eval=F}
+
+p_load( GGally ) # stat241 wk 5 reader p53
+
+# okay too crazy, it won't let me run it :D
+# Error in stop_if_high_cardinality(data, columns, cardinality_threshold) : Column 'isolate' has more levels (70) than the threshold (15) allowed. Please remove the column or increase the 'cardinality_threshold' parameter. Increasing the cardinality_threshold may produce long processing times
+
+#-- virulence_vs_resistance %>%  filter( host_org %in% c("cc","nc")) %>%
+#--  ggpairs 
+  
+
+
+```
+
+
+
+
+
+
+# OLD get gene names from *combined.csv (abricate output concatenated)
+
+// these have gene names in last column
+resfinder_combined.csv  
+vfdb_combined.csv
+ecoli_vf_combined.csv  
+
+
+// these don't have gene names
+resfinder_summary.csv  
+vfdb_summary.csv
+ecoli_vf_summary.csv  
+
+
+
+```{r res_gene_name}
+
+
+##DATADIR="MANUAL_DUP/"
+
+
+res_comb_file = sprintf( "%s/%s", DATADIR, "resfinder_combined.csv" )
+res_comb_tsv = read_tsv( res_comb_file )
+
+res_comb_tsv %>% head(5)
+
+res_gene_list = res_comb_tsv %>% select( PRODUCT, RESISTANCE ) %>% unique
+
+#View( res_gene_list )
+
+
+```
+
+Example resistance genes (from Guatemala AMR dataset)
+
+PRODUCT RESISTANCE
+======  ==============
+qnrB19  Ciprofloxacin
+sul1    Sulfamethoxazole
+tet(A)  Doxycycline;Tetracycline
+
+mdf(A)     # this was present in almost all isolates
+mef(C)
+
+
+
+blaCTX-M-55    Amoxicillin;Ampicillin;Aztreonam;Cefepime;Cefotaxime;Ceftazidime;Ceftriaxone;Piperacillin;Ticarcillin
+
+
+blaCMY-129
+Amoxicillin;Amoxicillin+Clavulanic_acid;Ampicillin;Ampicillin+Clavulanic_acid;Cefotaxime;Cefoxitin;Ceftazidime;Piperacillin;Piperacillin+Tazobactam;Ticarcillin;Ticarcillin+Clavulanic_acid
+
+blaCMY-150
+Amoxicillin;Amoxicillin+Clavulanic_acid;Ampicillin;Ampicillin+Clavulanic_acid;Cefotaxime;Cefoxitin;Ceftazidime;Piperacillin;Piperacillin+Tazobactam;Ticarcillin;Ticarcillin+Clavulanic_acid
+
+blaCTX-M-14
+Amoxicillin;Ampicillin;Aztreonam;Cefepime;Cefotaxime;Ceftazidime;Ceftriaxone;Piperacillin;Ticarcillin
+
+blaCTX-M-15
+Amoxicillin;Ampicillin;Aztreonam;Cefepime;Cefotaxime;Ceftazidime;Ceftriaxone;Piperacillin;Ticarcillin
+
+blaCTX-M-27
+Amoxicillin;Ampicillin;Aztreonam;Cefepime;Cefotaxime;Ceftazidime;Ceftriaxone;Piperacillin;Ticarcillin
+
+blaCTX-M-3
+Amoxicillin;Ampicillin;Aztreonam;Cefepime;Cefotaxime;Ceftazidime;Ceftriaxone;Piperacillin;Ticarcillin
+
+
+blaCTX-M-65
+Amoxicillin;Ampicillin;Aztreonam;Cefepime;Cefotaxime
+
+
+```{r vf_gene_name}
+
+
+
+vfdb_comb_file = sprintf( "%s/%s", DATADIR, "vfdb_combined.csv" )
+vfdb_comb_tsv = read_tsv( vfdb_comb_file )
+
+# View(vfdb_comb_tsv)
+
+head(vfdb_comb_tsv)
+
+# vf_gene_list = vfdb_comb_tsv %>% select( GENE, PRODUCT ) %>% unique   # gene is repeated in PRODUCT, so no need for GENE col
+vf_gene_list = vfdb_comb_tsv %>% select( PRODUCT ) %>% unique
+
+#View( vf_gene_list )
+
+```
+
+
+
+#++ Q:
+
+# Weird stuff? Yersiniabactin in VF 
+(irp1) yersiniabactin biosynthetic protein Irp1 [Yersiniabactin (VF0136)] [Yersinia pestis CO92]			synthetic plague gene??!!
+(irp2) yersiniabactin biosynthetic protein Irp2 [Yersiniabactin (VF0136)] [Yersinia pestis CO92]			
+
+ybt* genes were in the KPC dataset as well.
+
+
+## ++ compare results... 
+vfdb_combined.csv
+ecoli_vf_combined.csv     # said to be vfdb + additional gene from literature.  https://github.com/phac-nml/ecoli_vf
+
+
+
+```{r ecvf_gene_name}
+
+ecvf_comb_file = sprintf( "%s/%s", DATADIR, "ecoli_vf_combined.csv" )
+ecvf_comb_tsv = read_tsv( ecvf_comb_file )
+
+ecvf_comb_tsv %>% head(5)
+
+ecvf_gene_list = ecvf_comb_tsv %>% select( GENE, PRODUCT, ACCESSION, RESISTANCE ) %>% unique
+
+#View( ecvf_gene_list )
+
+```
+
+
+
+
+// categorizing and counting VF
+
+// may need to repeat for resistance gene
+
+
+
+```{r count_vf, eval=F}
+
+## abandoning, at least for now.  use heatmap matrix, categories won't be immediately usable.
+
+# create extra column of categories
+# then use group_by to do the counting
+
+# nested group by to have categories and genes?
+
+# >>> need to clean up sequence list first ... 
+
+
+#  hmm... may want to pivot the vfdb_sum_df first...
+# so that get a long table of 
+# genes vs number of hits 
+# then maybe add the categorization at that same time... ?
+
+# tidyverse pivot_longer maybe the right thing to do...
+
+# want to create DF that similar to Table 1 of Australia dog paper
+# Category | Gene | Total | ST12 | ST73 ... would have to find out about ST first...
+
+
+
+vfdb_categorized = vfdb_sum_df  %>%
+  mutate( vf_grp = 
+            case_when(
+              
+            )
+          
+    
+  )
+
+
+```
+
+
+# categorizing and counting  resistance gene
+
+
+```{r count_res}
+
+```
+
+
+
+## heatmap example, there is a tree, but maybe a cluster thing?
+## https://r-graph-gallery.com/215-the-heatmap-function.html
+
+
+```{r heatmap_eg}
+
+# The mtcars dataset:
+data <- as.matrix(mtcars)
+
+# Default Heatmap
+heatmap(data)
+
+
+
+
+# heatmap example
+str( mtcars )
+#View(mtcars)
+# 11 vars, so car/model is not a col... thus matrix is all numeric.  used attributes to create row names?
+heatmap( as.matrix(mtcars) )
+# assign row names using a vector of same length
+# https://stackoverflow.com/questions/50311628/why-is-there-a-no-column-name-for-car-names-in-mtcars-dataset-in-r
+
+
+```
+
+
+```{r tbd}
+hi=1
+```
