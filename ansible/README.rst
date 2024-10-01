@@ -284,6 +284,16 @@ https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html#yam
 * Each module need a list of declarations, and those are NOT prefixed with dash
 
 
+Variables
+*********
+
+variables are overwritten.  think of nested shell script, the latest definition of a variable win out.
+eg: group_vars define "packages" for list of things to install.
+then if there is a host_vars that also have variable "packages", this latest version win, overwritting previous definition.
+so, do NOT declare variables in various yaml hoping that ansible will create a merge of their content, or hope that somehow various pass at various level will run each of them in the corresponding time.
+All variables defintion are compiled/determined at the beginning, then the role is played with whatever content wont out during that parse.
+
+
 Ansible constructs/keywords
 ************************
 
