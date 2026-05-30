@@ -1,0 +1,44 @@
+
+
+---
+title: "sismid prep"
+date: "2026-05-29"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+https://sismid.sph.emory.edu/modules/intro-machine-learning/index.html
+
+Introduction to Machine Learning for Infectious Disease Modeling
+Meeting Times:
+
+Monday, July 13, 9:00 AM – 5:00 PM
+Tuesday July 14, 9:00 AM – 5:00 PM
+Wednesday July 15, 9:00 AM – 12:30 PM
+
+
+Matrix Algebra
+R
+python
+
+
+Required Software:
+
+R and Python.  Toolkit: EpiLearn (https://epilearn-doc.readthedocs.io/en/latest/), the first open-source package designed to support machine learning for epidemic data modeling and analysis.
+Recommended Reading:
+
+● An introduction to statistical learning with Applications in R (Gareth James et al, Springer)
+
+● The elements of statistical learning (Trevor Hastie et al, Springer)
+
+● Deep Learning on Graphs (Yao Ma and Jiliang Tang, Cambridge University Press) (Chapters 2, 3, 5)
+
+
+```{r setup}
+
+library(pacman)
+p_load(epilearn)
+
+```
+
