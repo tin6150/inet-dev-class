@@ -34,6 +34,11 @@ Recommended Reading:
 
 ● Deep Learning on Graphs (Yao Ma and Jiliang Tang, Cambridge University Press) (Chapters 2, 3, 5)
 
+(downloaded PDF Of these books from UCB Lib, saved to gDrv sn126
+J:\My Drive\sn126_t6_phd_hw\stat\cambridge-core_deep-learning-on-graphs_30May2026
+)
+
+
 
 ```{r setup}
 
