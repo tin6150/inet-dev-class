@@ -2,3 +2,4 @@
 
 Also see script in https://github.com/tin6150/psg/tree/master/script
 
+Also see biolearn.git epiinfo.git 
