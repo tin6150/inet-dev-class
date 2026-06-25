@@ -1,5 +1,5 @@
 pandas==0.22.0
-numpy==1.14.1
+numpy==1.22.0
 netCDF
 # https://anaconda.org/conda-forge/matplotlib
 # conda install -c conda-forge matplotlib
